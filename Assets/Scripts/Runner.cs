@@ -6,11 +6,13 @@ using UnityEngine;
 [Serializable]
 public class Runner
 {
-    public string name { get; private set; }
+    [SerializeField] private string name;
+    public string Name => name;
 
     #region Stats
 
-    public float vo2Max { get; private set; }
+    [SerializeField] private float vo2Max;
+    public float VO2Max => vo2Max;
     public int endurance { get; private set; }
     public int hills { get; private set; }
     public int discipline { get; private set; }
@@ -19,28 +21,20 @@ public class Runner
     public int spirit { get; private set; }
     public int smarts { get; private set; }
 
-    public float musclesHealth;
-    public float skeletalHealth;
-    public float respiratoryHealth;
-    public float cardioHealth;
-    public float experience;
-    public float emotion;
-    public float intuition;
-    public float sleep;
-    public float nutrition;
-    public float hydration;
+    private float musclesHealth;
+    private float skeletalHealth;
+    private float respiratoryHealth;
+    private float cardioHealth;
+    private float experience;
+    private float emotion;
+    private float intuition;
+    private float sleep;
+    private float nutrition;
+    private float hydration;
 
     #endregion
 
     public Runner()
     {
-        vo2Max = 0;
-        endurance = 0;
-        hills = 0;
-        discipline = 0;
-        grit = 0;
-        wit = 0;
-        spirit = 0;
-        smarts = 0;
     }
 }

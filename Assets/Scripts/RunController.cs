@@ -1,24 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class RunController : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve energyCostVSpeedCurve;
-    [SerializeField] private AnimationCurve energyCostVGradientCurve;
-
     private const float METERS_PER_MILE = 1609.34f;
-   private void SimulateRun(List<Runner> runners, RunRoute route, RunConditions conditions)
-   {
+    private void SimulateRun(List<Runner> runners, RunRoute route, RunConditions conditions)
+    {
         
-   }
+    }
 
-   private IEnumerator SimulateRunRoutine(List<Runner> runners, RunRoute route, RunConditions conditions)
-   {
+    private IEnumerator SimulateRunRoutine(List<Runner> runners, RunRoute route, RunConditions conditions)
+    {
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach(Runner runner in runners)
         {
@@ -34,7 +28,7 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.desiredSpeed = CaclulateSpeedFromOxygenCost(runner.vo2Max * .7f);
+                state.desiredSpeed = CaclulateSpeedFromOxygenCost(runner.VO2Max * .7f);
             }
 
             //TODO: then group people
@@ -52,7 +46,7 @@ public class RunController : MonoBehaviour
 
             yield return new WaitForSeconds(1);
         }
-   }
+    }
 
     /// <summary>
     /// 
