@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Assertions.Must;
 
 public class RunnerCard : MonoBehaviour
 {
-    private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI nameText;
 
-    private TextMeshProUGUI vo2MaxText;
+    [SerializeField] private RunnerCardStat vo2MaxStat;
 
     public void Setup(Runner runner)
     {
         nameText.text = runner.Name;
-        vo2MaxText.text = runner.VO2Max.ToString();
+        vo2MaxStat.SetValueText(runner.VO2Max.ToString());
     }
 }

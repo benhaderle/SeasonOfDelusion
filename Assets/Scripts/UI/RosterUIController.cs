@@ -17,7 +17,8 @@ public class RosterUIController : MonoBehaviour
     {
         for(int i = 0; i < TeamModel.Instance.Runners.Count; i++)
         {
-            runnerCardPool.GetPooledObject<RunnerCard>();
+            RunnerCard card = runnerCardPool.GetPooledObject<RunnerCard>();
+            card.Setup(TeamModel.Instance.Runners[i]);
         }
     }
 }
