@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4204352919728801534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6499589692096095720}
+  - component: {fileID: 8533836044446591374}
+  m_Layer: 0
+  m_Name: RouteModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6499589692096095720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204352919728801534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8533836044446591374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204352919728801534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2246a264cd04f4460b9dc3e8b0798c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldDestroyOnLoad: 0
+  routes:
+  - name: LGBVD-Winchester
+    length: 6.21
+  - name: Sierra Azul
+    length: 13.11
+  - name: Night Run Loop
+    length: 5.05
+  - name: Kennedy-Shannon
+    length: 7.79
+  - name: St. Joe's
+    length: 6.78
+  - name: Vasona to Campbell
+    length: 16.71
+  - name: Greenwood-Daves
+    length: 5.91
+  - name: Montevina
+    length: 11.25
+  - name: Saratoga
+    length: 9.31
+  - name: Overlook
+    length: 6.67
+  - name: Reservoir
+    length: 12.07
+  - name: Monte Sereno Wastewater
+    length: 8.67
+  - name: Almaden-Blossom Hill
+    length: 8.65
+  - name: El Sombroso
+    length: 17.3
+  - name: Mt. Umunhum
+    length: 31.27
+  - name: Twin Creeks
+    length: 5.99
+  - name: Overlook-Hwy 9
+    length: 7.98
+  - name: Limekiln-Priest Rock
+    length: 10.62
+  - name: Priest Rock-Limekiln
+    length: 16.62
+  - name: Vasona Red Bridge
+    length: 4.12
+  - name: Bottom of the Dam
+    length: 3.29
+  - name: Top of the Dam
+    length: 4.35
+  - name: Dam Loop
+    length: 4.72
+  - name: Daves
+    length: 5.07
+  - name: Daves-Ridgecrest
+    length: 5.58
+  - name: Ridgecrest-Daves
+    length: 5.58
+  - name: Twin Creeks
+    length: 5.99
+  - name: Vasona Dam
+    length: 5.36
+  - name: University
+    length: 5.67
+  - name: Single Track
+    length: 6.82
