@@ -51,6 +51,7 @@ public class RosterUIController : MonoBehaviour
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, ToggleOffRoutine());
         }
     }
+    
     private IEnumerator ToggleOffRoutine()
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
