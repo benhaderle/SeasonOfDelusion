@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices.WindowsRuntime;
 using CreateNeptune;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class RouteModel : Singleton<RouteModel>
     public ReadOnlyCollection<Route> Routes => routes.AsReadOnly();
 
     private List<Route> todaysRoutes;
-    public ReadOnlyCollection<Route> TodaysRoutes => routes.AsReadOnly();
+    public ReadOnlyCollection<Route> TodaysRoutes => todaysRoutes.AsReadOnly();
 
     protected override void OnSuccessfulAwake()
     {
