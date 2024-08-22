@@ -26,6 +26,7 @@ public class Runner
     private float respiratoryHealth;
     private float cardioHealth;
     private float experience;
+    public float Experience => experience;
     private float emotion;
     private float intuition;
     private float sleep;

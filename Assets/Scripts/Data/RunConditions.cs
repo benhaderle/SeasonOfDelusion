@@ -12,4 +12,5 @@ public class RunConditions
     public float uvIndex;
     public float precipitation;
     public float airQuality;
+    public float coachVO2Guidance;
 }

@@ -1,74 +1,112 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CreateNeptune;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RunController : MonoBehaviour
 {
-//     private const float METERS_PER_MILE = 1609.34f;
-//     private void SimulateRun(List<Runner> runners, Route route, RunConditions conditions)
-//     {
-        
-//     }
+    private const float METERS_PER_MILE = 1609.34f;
 
-//     private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions)
-//     {
-//         Dictionary<Runner, RunnerState> runnerStates = new();
-//         foreach(Runner runner in runners)
-//         {
-//             runnerStates.Add(runner, new RunnerState { currentSpeed = 0, desiredSpeed = 0, distance = 0 });
-//         }
+    #region Events
+    public class StartRunEvent : UnityEvent<StartRunEvent.Context> 
+    { 
+        public class Context
+        {
+            public List<Runner> runners;
+            public Route route;
+            public RunConditions runConditions;
+        }
+    };
+    public static StartRunEvent startRunEvent = new ();
+    #endregion
 
-//         //while all runners have not finished
-//         while(runnerStates.Values.All(state => state.distance < route.length))
-//         {
-//             //first figure out every runner's preferred speed
-//             foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-//             {
-//                 Runner runner = kvp.Key;
-//                 RunnerState state = kvp.Value;
+    private void OnEnable()
+    {
+        startRunEvent.AddListener(OnStartRun);
+    }
 
-//                 state.desiredSpeed = CaclulateSpeedFromOxygenCost(runner.VO2Max * .7f);
-//             }
+    private void OnDisable()
+    {
+        startRunEvent.RemoveListener(OnStartRun);
+    }
 
-//             //TODO: then group people
+    private void OnStartRun(StartRunEvent.Context context)
+    {
+        StartCoroutine(SimulateRunRoutine(context.runners, context.route, context.runConditions));
+    }
 
-//             //TODO: then use group's preferred speeds to calculated each group's actual speed
-//             foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-//             {
-//                 Runner runner = kvp.Key;
-//                 RunnerState state = kvp.Value;
+    private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions)
+    {
+        Dictionary<Runner, RunnerState> runnerStates = new();
+        foreach(Runner runner in runners)
+        {
+            runnerStates.Add(runner, new RunnerState 
+            { 
+                //this calculates what the vo2 should be for the run for this runner
+                //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
+                //amount of experience is based off of how many miles a runner has run
+                //right now we just have a linear relationship between number of miles run and variance in runVO2
+                //TODO: adjust for exhaustion
+                runVO2 = runner.VO2Max * conditions.coachVO2Guidance + CNExtensions.RandGaussian(0, runner.Experience / 1000000f + .1f),
+                currentSpeed = 0, 
+                desiredSpeed = 0, 
+                distance = 0 
+            });
+        }
 
-//                 state.currentSpeed = state.desiredSpeed;
-//             }
+        //while all runners have not finished
+        while(runnerStates.Values.All(state => state.distance < route.Length))
+        {
+            //first figure out every runner's preferred speed
+            foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+            {
+                Runner runner = kvp.Key;
+                RunnerState state = kvp.Value;
 
-//             //then spend a second simulating before moving on to the next iteration
+                state.desiredSpeed = CaclulateSpeedFromOxygenCost(state.runVO2);
+            }
 
-//             yield return new WaitForSeconds(1);
-//         }
-//     }
+            //TODO: then group people
 
-//     /// <summary>
-//     /// 
-//     /// </summary>
-//     /// <param name="o2Cost"></param>
-//     /// <returns>Speed in meters per minute</returns>
-//     private float CaclulateSpeedFromOxygenCost(float o2Cost)
-//     {
-//         const float a = -0.000104f;
-//         const float b = 0.182258f;
-//         float c = -4.60f - o2Cost;
-//         const float b_squared = b * b;
-//         float four_a_c = 4 * a * c;
-//         const float two_a = 2 * a;
+            //TODO: then use group's preferred speeds to calculated each group's actual speed
+            foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+            {
+                Runner runner = kvp.Key;
+                RunnerState state = kvp.Value;
 
-//         return (-b + Mathf.Sqrt(b_squared - four_a_c)) / two_a;
-//     }
+                state.currentSpeed = state.desiredSpeed;
+            }
 
-//    private struct RunnerState
-//    {
-//         public float currentSpeed;
-//         public float desiredSpeed;
-//         public float distance;
-//    }
+            //then spend a second simulating before moving on to the next iteration
+
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o2Cost"></param>
+    /// <returns>Speed in meters per minute</returns>
+    private float CaclulateSpeedFromOxygenCost(float o2Cost)
+    {
+        const float a = -0.000104f;
+        const float b = 0.182258f;
+        float c = -4.60f - o2Cost;
+        const float b_squared = b * b;
+        float four_a_c = 4 * a * c;
+        const float two_a = 2 * a;
+
+        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / two_a;
+    }
+
+   private struct RunnerState
+   {
+        public float runVO2;
+        public float currentSpeed;
+        public float desiredSpeed;
+        public float distance;
+   }
 }
