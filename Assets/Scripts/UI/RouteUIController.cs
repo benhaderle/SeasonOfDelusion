@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CreateNeptune;
 using UnityEngine.Events;
+using System.Linq;
 
 public class RouteUIController : MonoBehaviour
 {
@@ -38,12 +39,6 @@ public class RouteUIController : MonoBehaviour
     {
         toggleEvent.AddListener(OnToggle);
     }
-
-    public void OnRosterButton()
-    {
-        OnToggle(false);
-        RosterUIController.toggleEvent.Invoke(true);
-    }    
 
     private void OnToggle(bool active)
     {
@@ -84,6 +79,21 @@ public class RouteUIController : MonoBehaviour
                 break;
         }
     }
+
+    public void OnEaseButton(float easeGuidance)
+    {
+        RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
+        {
+            runners = TeamModel.Instance.Runners.ToList(),
+            route = selectedRoute,
+            runConditions = new RunConditions
+            {
+                coachVO2Guidance = easeGuidance
+            }
+        });
+
+        OnToggle(false);
+    }    
 
     private void SetupRouteSelection()
     {
