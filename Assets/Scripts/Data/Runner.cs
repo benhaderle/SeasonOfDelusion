@@ -6,8 +6,11 @@ using UnityEngine;
 [Serializable]
 public class Runner
 {
-    [SerializeField] private string name;
-    public string Name => name;
+    [SerializeField] private string firstName;
+    public string FirstName => firstName;
+    [SerializeField] private string lastName;
+    public string LastName => lastName;
+    public string Name => $"{firstName} {lastName}";
 
     #region Stats
 

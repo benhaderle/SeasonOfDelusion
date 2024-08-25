@@ -46,17 +46,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
   runners:
-  - name: Ben Haderle
-    vo2Max: 60
-  - name: Eric Gelphman
-    vo2Max: 54
-  - name: Chris Foster
+  - firstName: Chris
+    lastName: Foster
     vo2Max: 65
-  - name: Sanay Mohan
-    vo2Max: 60
-  - name: Jack Sexton
+  - firstName: Jack
+    lastName: Sexton
     vo2Max: 61
-  - name: Stephen Crowe
+  - firstName: Ben
+    lastName: Haderle
+    vo2Max: 61
+  - firstName: Sanjay
+    lastName: Mohan
+    vo2Max: 60
+  - firstName: Stephen
+    lastName: Crowe
     vo2Max: 58
-  - name: Taisei Nishiki
+  - firstName: Taisei
+    lastName: Nishiki
     vo2Max: 56
+  - firstName: Eric
+    lastName: Gelphman
+    vo2Max: 54

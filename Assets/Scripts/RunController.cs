@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,6 +22,15 @@ public class RunController : MonoBehaviour
         }
     };
     public static StartRunEvent startRunEvent = new ();
+    
+    public class RunSimulationUpdatedEvent : UnityEvent<RunSimulationUpdatedEvent.Context>
+    {
+        public class Context
+        {
+            public ReadOnlyDictionary<Runner, RunnerState> runnerStateDictionary;
+        }
+    }
+    public static RunSimulationUpdatedEvent runSimulationUpdatedEvent = new ();
     #endregion
 
     private void OnEnable()
@@ -39,6 +50,9 @@ public class RunController : MonoBehaviour
 
     private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions)
     {
+        //wait a frame for the other starts to get going
+        yield return null;
+
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach(Runner runner in runners)
         {
@@ -86,7 +100,6 @@ public class RunController : MonoBehaviour
             while(simulationTime > 0)
             {
                 string stateString = "";
-                //TODO: then use group's preferred speeds to calculated each group's actual speed
                 foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
                 {
                     Runner runner = kvp.Key;
@@ -96,11 +109,16 @@ public class RunController : MonoBehaviour
                     {
                         state.distance += state.currentSpeed * simulationSecondsPerRealSeconds * Time.deltaTime;
                         state.distance = Mathf.Min(state.distance, route.Length);
+                        state.percentDone = state.distance / route.Length;
                     }
 
-                    stateString += $"Name:{runner.Name}\tDistance:{state.distance}\tSpeed:{SpeedToMilePaceString(state.currentSpeed)}\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {SpeedToMilePaceString(state.currentSpeed)}\n";
                 }
                 Debug.Log(stateString);
+                runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
+                {
+                    runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates)
+                });
 
                 yield return null;
                 simulationTime -= Time.deltaTime;
@@ -140,11 +158,12 @@ public class RunController : MonoBehaviour
         }
     }
 
-   private class RunnerState
-   {
-        public float runVO2;
-        public float currentSpeed;
-        public float desiredSpeed;
-        public float distance;
-   }
+}
+public class RunnerState
+{
+    public float runVO2;
+    public float currentSpeed;
+    public float desiredSpeed;
+    public float distance;
+    public float percentDone;
 }

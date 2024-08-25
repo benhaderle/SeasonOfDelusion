@@ -27,7 +27,6 @@ public class RouteUIController : MonoBehaviour
     {
         currentState = State.RouteSelection;
         routeCardPool.Initialize();
-        OnToggle(true);
     }
 
     private void OnEnable()
@@ -38,6 +37,11 @@ public class RouteUIController : MonoBehaviour
     private void OnDisable()
     {
         toggleEvent.AddListener(OnToggle);
+    }
+
+    private void Start()
+    {
+        OnToggle(true);
     }
 
     private void OnToggle(bool active)
@@ -62,6 +66,12 @@ public class RouteUIController : MonoBehaviour
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
         routeCardPool.ReturnAllToPool();
     }
+
+    public void OnRosterButton()
+    {
+        OnToggle(false);
+        RosterUIController.toggleEvent.Invoke(true);
+    }    
 
     private void OnRouteSelectionButton(Route route)
     {
