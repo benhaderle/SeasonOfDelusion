@@ -79,7 +79,6 @@ public class RunController : MonoBehaviour
                 //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
                 //amount of experience is based off of how many miles a runner has run
                 //right now we just have a linear relationship between number of miles run and variance in runVO2
-                //TODO: adjust for exhaustion
                 runVO2 = runner.VO2Max * conditions.coachVO2Guidance + roll,
                 currentSpeed = 0, 
                 desiredSpeed = 0, 
@@ -158,7 +157,7 @@ public class RunController : MonoBehaviour
             // TODO: when we have a day simulation, this should decrement each night
             float milesPerSecond = route.Length / state.timeInSeconds;
             float runVO2 = SpeedToOxygenCost(milesPerSecond);
-            float exhaustionGap = (runVO2 - (runner.VO2Max * .6f)) / runner.VO2Max;
+            float exhaustionGap = (runVO2 / (runner.VO2Max * .6f)) - 1f;
             float timeInMinutes = state.timeInSeconds / 60f;
             runner.UpdateExhaustion((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) + (linearExhaustionSlope * timeInMinutes * (exhaustionGap + linearExhaustionOffset)) + constantExhaustionOffset);
 
@@ -194,7 +193,7 @@ public class RunController : MonoBehaviour
         const float b = 0.182258f;
         const float c = -4.6f;
 
-        speed = speed * METERS_PER_MILE / 60f;
+        speed = speed * METERS_PER_MILE * 60f;
         return a * Mathf.Pow(speed, 2) + b * speed + c;
     }
 
