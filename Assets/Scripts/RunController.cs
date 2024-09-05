@@ -10,6 +10,19 @@ public class RunController : MonoBehaviour
 {
     private const float METERS_PER_MILE = 1609.34f;
 
+    [SerializeField] private float simulationSecondsPerRealSeconds = 30;
+
+    [Header("Run VO2 Calculation Variables")]
+    [SerializeField] private float experienceCap = 1000000f;
+    [SerializeField] private float maxExhaustion = 500f;
+    [SerializeField] private float exhaustionEffect = .25f;
+
+    [Header("Exhaustion Calculation Variables")]
+    [SerializeField] private float cubicExhaustionSlope = 3.5f;
+    [SerializeField] private float linearExhaustionSlope = 3f;
+    [SerializeField] private float linearExhaustionOffset = .15f;
+    [SerializeField] private float constantExhaustionOffset = 20f;
+
     #region Events
     public class StartRunEvent : UnityEvent<StartRunEvent.Context> 
     { 
@@ -55,6 +68,11 @@ public class RunController : MonoBehaviour
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach(Runner runner in runners)
         {
+            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxExhaustion, runner.Exhaustion)) * exhaustionEffect;
+            float statusDeviation = Mathf.Max(-runner.Experience / experienceCap + .1f, 0);
+            float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
+
+            Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
             runnerStates.Add(runner, new RunnerState 
             { 
                 //this calculates what the vo2 should be for the run for this runner
@@ -62,14 +80,14 @@ public class RunController : MonoBehaviour
                 //amount of experience is based off of how many miles a runner has run
                 //right now we just have a linear relationship between number of miles run and variance in runVO2
                 //TODO: adjust for exhaustion
-                runVO2 = runner.VO2Max * conditions.coachVO2Guidance + CNExtensions.RandGaussian(0, Mathf.Max(-runner.Experience / 1000000f + .1f, 0)),
+                runVO2 = runner.VO2Max * conditions.coachVO2Guidance + roll,
                 currentSpeed = 0, 
                 desiredSpeed = 0, 
                 distance = 0 
             });
         }
 
-        //while all runners have not finished
+        //while all runners have not finished, simulate the run
         while(runnerStates.Values.Any(state => state.distance < route.Length))
         {
             //first figure out every runner's preferred speed
@@ -95,7 +113,6 @@ public class RunController : MonoBehaviour
 
             //then spend a second simulating before moving on to the next iteration
             float simulationTime = 1f;
-            float simulationSecondsPerRealSeconds = 30;
             while(simulationTime > 0)
             {
                 string stateString = "";
@@ -137,19 +154,22 @@ public class RunController : MonoBehaviour
             // experience is a function of cumulative miles run
             runner.IncreaseExperience(route.Length);
 
-            // exhaustion always increases from a run
+            // exhaustion changes based off of how far away you were from your recovery VO2
             // TODO: when we have a day simulation, this should decrement each night
+            float milesPerSecond = route.Length / state.timeInSeconds;
+            float runVO2 = SpeedToOxygenCost(milesPerSecond);
+            float exhaustionGap = (runVO2 - (runner.VO2Max * .6f)) / runner.VO2Max;
             float timeInMinutes = state.timeInSeconds / 60f;
-            float milesPerMinute = route.Length / timeInMinutes;
-            runner.UpdateExhaustion(timeInMinutes * Mathf.Pow(milesPerMinute, 3));
-            
+            runner.UpdateExhaustion((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) + (linearExhaustionSlope * timeInMinutes * (exhaustionGap + linearExhaustionOffset)) + constantExhaustionOffset);
+
+            Debug.Log($"Name: {runner.Name}\tGap: {exhaustionGap}\tExhaustion: {runner.Exhaustion}");
         }
     }
 
     /// <summary>
-    /// 
+    /// http://www.simpsonassociatesinc.com/runningmath2.htm
     /// </summary>
-    /// <param name="o2Cost"></param>
+    /// <param name="o2Cost">in mL/kg/min</param>
     /// <returns>Speed in miles per sec</returns>
     private float CaclulateSpeedFromOxygenCost(float o2Cost)
     {
@@ -161,6 +181,21 @@ public class RunController : MonoBehaviour
         const float two_a = 2 * a;
 
         return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f);
+    }
+
+    /// <summary>
+    /// http://www.simpsonassociatesinc.com/runningmath2.htm
+    /// </summary>
+    /// <param name="speed">in miles per sec</param>
+    /// <returns>in mL/kg/min</returns>
+    private float SpeedToOxygenCost(float speed)
+    {
+        const float a = 0.000104f;
+        const float b = 0.182258f;
+        const float c = -4.6f;
+
+        speed = speed * METERS_PER_MILE / 60f;
+        return a * Mathf.Pow(speed, 2) + b * speed + c;
     }
 
     private string SpeedToMilePaceString(float milesPerSec)
