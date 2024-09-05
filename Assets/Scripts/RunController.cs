@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -100,6 +99,7 @@ public class RunController : MonoBehaviour
             while(simulationTime > 0)
             {
                 string stateString = "";
+                float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
                 foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
                 {
                     Runner runner = kvp.Key;
@@ -107,8 +107,11 @@ public class RunController : MonoBehaviour
 
                     if (state.distance < route.Length)
                     {
-                        state.distance += state.currentSpeed * simulationSecondsPerRealSeconds * Time.deltaTime;
+                        state.distance += state.currentSpeed * timePassed;
                         state.distance = Mathf.Min(state.distance, route.Length);
+
+                        state.timeInSeconds += timePassed;
+
                         state.percentDone = state.distance / route.Length;
                     }
 
@@ -123,6 +126,23 @@ public class RunController : MonoBehaviour
                 yield return null;
                 simulationTime -= Time.deltaTime;
             }
+        }
+
+        //post run update
+        foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+        {
+            Runner runner = kvp.Key;
+            RunnerState state = kvp.Value;
+
+            // experience is a function of cumulative miles run
+            runner.IncreaseExperience(route.Length);
+
+            // exhaustion always increases from a run
+            // TODO: when we have a day simulation, this should decrement each night
+            float timeInMinutes = state.timeInSeconds / 60f;
+            float milesPerMinute = route.Length / timeInMinutes;
+            runner.UpdateExhaustion(timeInMinutes * Mathf.Pow(milesPerMinute, 3));
+            
         }
     }
 
@@ -166,4 +186,5 @@ public class RunnerState
     public float desiredSpeed;
     public float distance;
     public float percentDone;
+    public float timeInSeconds;
 }

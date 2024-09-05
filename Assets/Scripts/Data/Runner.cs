@@ -30,6 +30,8 @@ public class Runner
     private float cardioHealth;
     private float experience;
     public float Experience => experience;
+    private float exhaustion;
+    public float Exhaustion => exhaustion;
     private float emotion;
     private float intuition;
     private float sleep;
@@ -40,5 +42,15 @@ public class Runner
 
     public Runner()
     {
+    }
+
+    public void IncreaseExperience(float exp)
+    {
+        experience += exp;
+    }
+
+    public void UpdateExhaustion(float exhaustion)
+    {
+       this.exhaustion += exhaustion;
     }
 }
