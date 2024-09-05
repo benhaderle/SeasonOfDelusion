@@ -48,7 +48,7 @@ MonoBehaviour:
   experienceCap: 1000000
   maxExhaustion: 500
   exhaustionEffect: 0.25
-  cubicExhaustionSlope: 3.5
-  linearExhaustionSlope: 3
-  linearExhaustionOffset: 0.15
+  cubicExhaustionSlope: 5
+  linearExhaustionSlope: 1.5
+  linearExhaustionOffset: 0.3
   constantExhaustionOffset: 15

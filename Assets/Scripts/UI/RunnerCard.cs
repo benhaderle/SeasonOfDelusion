@@ -12,6 +12,6 @@ public class RunnerCard : MonoBehaviour
     public void Setup(Runner runner)
     {
         nameText.text = runner.Name;
-        vo2MaxStat.SetValueText(runner.VO2Max.ToString());
+        vo2MaxStat.SetValueText(runner.CurrentVO2Max.ToString());
     }
 }
