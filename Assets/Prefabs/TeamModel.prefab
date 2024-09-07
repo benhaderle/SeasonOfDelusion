@@ -48,22 +48,36 @@ MonoBehaviour:
   runners:
   - firstName: Chris
     lastName: Foster
-    vo2Max: 65
+    minVO2Max: 35
+    maxVO2Max: 75
+    currentVO2Max: 0
   - firstName: Jack
     lastName: Sexton
-    vo2Max: 61
+    minVO2Max: 35
+    maxVO2Max: 67
+    currentVO2Max: 0
   - firstName: Ben
     lastName: Haderle
-    vo2Max: 61
+    minVO2Max: 35
+    maxVO2Max: 67
+    currentVO2Max: 0
   - firstName: Sanjay
     lastName: Mohan
-    vo2Max: 60
+    minVO2Max: 35
+    maxVO2Max: 65
+    currentVO2Max: 0
   - firstName: Stephen
     lastName: Crowe
-    vo2Max: 58
+    minVO2Max: 35
+    maxVO2Max: 64
+    currentVO2Max: 0
   - firstName: Taisei
     lastName: Nishiki
-    vo2Max: 56
+    minVO2Max: 35
+    maxVO2Max: 62
+    currentVO2Max: 0
   - firstName: Eric
     lastName: Gelphman
-    vo2Max: 54
+    minVO2Max: 35
+    maxVO2Max: 62
+    currentVO2Max: 0

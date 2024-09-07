@@ -164,6 +164,7 @@ public class RunController : MonoBehaviour
             // experience is a function of cumulative miles run
             runner.IncreaseExperience(route.Length);
 
+            float oldVO2 = runner.CurrentVO2Max;
             float vo2ImprovementGap = (runVO2 / (runner.CurrentVO2Max * .9f)) - 1f;
             runner.UpdateVO2((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3)) + (linearExhaustionSlope * timeInMinutes * (vo2ImprovementGap + linearExhaustionOffset)) + constantExhaustionOffset);
 
@@ -172,7 +173,7 @@ public class RunController : MonoBehaviour
             float exhaustionGap = (runVO2 / (runner.CurrentVO2Max * .6f)) - 1f;
             runner.UpdateExhaustion((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) + (linearExhaustionSlope * timeInMinutes * (exhaustionGap + linearExhaustionOffset)) + constantExhaustionOffset);
 
-            Debug.Log($"Name: {runner.Name}\tGap: {exhaustionGap}\tExhaustion: {runner.Exhaustion}");
+            Debug.Log($"Name: {runner.Name}\tExhaustion: {runner.Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {runner.CurrentVO2Max}");
         }
     }
 

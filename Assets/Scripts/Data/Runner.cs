@@ -15,7 +15,7 @@ public class Runner
     #region Stats
     [SerializeField] private float minVO2Max;
     [SerializeField] private float maxVO2Max;
-    [SerializeField] private float currentVO2Max;
+    private float currentVO2Max;
     public float CurrentVO2Max => currentVO2Max;
     public int endurance { get; private set; }
     public int hills { get; private set; }
@@ -45,6 +45,11 @@ public class Runner
     {
     }
 
+    public void Initialize()
+    {
+        currentVO2Max = minVO2Max;
+    }
+
     public void IncreaseExperience(float exp)
     {
         experience += exp;
@@ -53,6 +58,9 @@ public class Runner
     public void UpdateVO2(float vo2Update)
     {
         vo2Update /= 1000f;
+        float normalizedVO2 = Mathf.InverseLerp(minVO2Max, maxVO2Max, currentVO2Max);
+        float slope = -10f * Mathf.Pow(normalizedVO2 - 1, 9);
+        currentVO2Max += vo2Update * slope;
     }
 
     public void UpdateExhaustion(float exhaustion)
