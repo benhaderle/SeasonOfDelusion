@@ -45,39 +45,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
+  variables: {fileID: 11400000, guid: 09eb7807c1f0346588187fe975d00147, type: 2}
   runners:
   - firstName: Chris
     lastName: Foster
     minVO2Max: 35
     maxVO2Max: 75
-    currentVO2Max: 0
   - firstName: Jack
     lastName: Sexton
     minVO2Max: 35
     maxVO2Max: 67
-    currentVO2Max: 0
   - firstName: Ben
     lastName: Haderle
     minVO2Max: 35
     maxVO2Max: 67
-    currentVO2Max: 0
   - firstName: Sanjay
     lastName: Mohan
     minVO2Max: 35
     maxVO2Max: 65
-    currentVO2Max: 0
   - firstName: Stephen
     lastName: Crowe
     minVO2Max: 35
     maxVO2Max: 64
-    currentVO2Max: 0
   - firstName: Taisei
     lastName: Nishiki
     minVO2Max: 35
     maxVO2Max: 62
-    currentVO2Max: 0
   - firstName: Eric
     lastName: Gelphman
     minVO2Max: 35
     maxVO2Max: 62
-    currentVO2Max: 0

@@ -31,12 +31,14 @@ public class RunView : MonoBehaviour
     {
         RunController.startRunEvent.AddListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
+        RunController.runSimulationEndedEvent.AddListener(OnRunSimulationEnded);
     }
 
     private void OnDisable()
     {
         RunController.startRunEvent.RemoveListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
+        RunController.runSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
     }
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
@@ -88,7 +90,11 @@ public class RunView : MonoBehaviour
         {
             bubbles[i].transform.SetSiblingIndex(i);
         }
+    }
 
+    private void OnRunSimulationEnded(RunController.RunSimulationEndedEvent.Context context)
+    {
+        Toggle(false);
     }
 
     private void Toggle(bool active)

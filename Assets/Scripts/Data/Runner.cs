@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Runner
 {
+    private RunnerCalculationVariables variables;
     [SerializeField] private string firstName;
     public string FirstName => firstName;
     [SerializeField] private string lastName;
@@ -45,26 +46,64 @@ public class Runner
     {
     }
 
-    public void Initialize()
+    public void Initialize(RunnerCalculationVariables variables)
     {
         currentVO2Max = minVO2Max;
+        this.variables = variables;
     }
 
-    public void IncreaseExperience(float exp)
+    public void PostRunUpdate(RunnerState runState)
+    {
+        float oldVO2 = currentVO2Max;
+        float milesPerSecond = runState.distance / runState.timeInSeconds;
+        float runVO2 = RunController.SpeedToOxygenCost(milesPerSecond);
+        float timeInMinutes = runState.timeInSeconds / 60f;
+
+        // experience is a function of cumulative miles run
+        IncreaseExperience(runState.distance);
+
+        UpdateVO2(runVO2, timeInMinutes);
+
+        // exhaustion changes based off of how far away you were from your recovery VO2
+        UpdateExhaustion(runVO2, timeInMinutes);
+       
+        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}");
+    }
+
+    public void OnEndDay()
+    {
+        exhaustion = Mathf.Max(0, exhaustion - variables.DayEndExhaustionRecovery);
+    }
+
+    private void IncreaseExperience(float exp)
     {
         experience += exp;
     }
 
-    public void UpdateVO2(float vo2Update)
+    private void UpdateVO2(float runVO2, float timeInMinutes)
     {
-        vo2Update /= 1000f;
+        float vo2ImprovementGap = (runVO2 / (CurrentVO2Max * variables.VO2ImprovementThreshold)) - 1f;
+
+        float vo2Update = (variables.CubicVO2Slope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3)) 
+            + (variables.LinearVO2Slope * timeInMinutes * (vo2ImprovementGap + variables.LinearVO2Offset)) 
+            + variables.ConstantVO2Offset;
+
+        vo2Update *= variables.VO2UpdateFactor;
+
         float normalizedVO2 = Mathf.InverseLerp(minVO2Max, maxVO2Max, currentVO2Max);
         float slope = -10f * Mathf.Pow(normalizedVO2 - 1, 9);
+
         currentVO2Max += vo2Update * slope;
+        currentVO2Max = Mathf.Clamp(currentVO2Max, minVO2Max, maxVO2Max);
     }
 
-    public void UpdateExhaustion(float exhaustion)
+    private void UpdateExhaustion(float runVO2, float timeInMinutes)
     {
-       this.exhaustion += exhaustion;
+        float exhaustionGap = (runVO2 / (currentVO2Max * variables.ExhaustionVO2Threshold)) - 1f;
+        float exhaustionUpdate = (variables.CubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) 
+            + (variables.LinearExhaustionSlope * timeInMinutes * (exhaustionGap + variables.LinearExhaustionOffset)) 
+            + variables.ConstantExhaustionOffset;
+        
+        exhaustion += exhaustionUpdate;
     }
 }

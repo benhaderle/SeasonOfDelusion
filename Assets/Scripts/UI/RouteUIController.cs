@@ -115,7 +115,7 @@ public class RouteUIController : MonoBehaviour
         {
             Route r = RouteModel.Instance.TodaysRoutes[i];
             RouteCard card = routeCardPool.GetPooledObject<RouteCard>();
-            card.transform.parent = routeSelectionContainer;
+            card.transform.SetParent(routeSelectionContainer);
             card.Setup(r);
             card.Button.onClick.RemoveAllListeners();
             card.Button.onClick.AddListener(() => OnRouteSelectionButton(r));
@@ -129,7 +129,7 @@ public class RouteUIController : MonoBehaviour
 
         routeCardPool.ReturnAllToPool();
         RouteCard card = routeCardPool.GetPooledObject<RouteCard>();
-        card.transform.parent = easeSelectionContainer;
+        card.transform.SetParent(easeSelectionContainer);
         card.Setup(selectedRoute);
         card.Button.onClick.RemoveAllListeners();
         card.Button.onClick.AddListener(() => OnRouteSelectionButton(selectedRoute));

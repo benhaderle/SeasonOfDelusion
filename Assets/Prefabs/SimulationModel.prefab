@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4187901102282138325
+--- !u!1 &3371925479781865536
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4958002837467146942}
-  - component: {fileID: 3099153507436609742}
+  - component: {fileID: 7459231290483808745}
+  - component: {fileID: 8293524735586577525}
   m_Layer: 0
-  m_Name: RunController
+  m_Name: SimulationModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4958002837467146942
+--- !u!4 &7459231290483808745
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4187901102282138325}
+  m_GameObject: {fileID: 3371925479781865536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,28 +32,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3099153507436609742
+--- !u!114 &8293524735586577525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4187901102282138325}
+  m_GameObject: {fileID: 3371925479781865536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2aa3e3ee6874fa3a540981f1750f07, type: 3}
+  m_Script: {fileID: 11500000, guid: 42b29a56fe5864588a4f551985a1a8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulationSecondsPerRealSeconds: 3000
-  maxDeviation: 0.1
-  experienceCap: 1000000
-  maxExhaustion: 1000
-  exhaustionEffect: 0.1
-  cubicVO2Slope: 3.5
-  linearVO2Slope: 3
-  linearVO2Offset: 0.15
-  constantVO2Offset: 20
-  cubicExhaustionSlope: 25
-  linearExhaustionSlope: 1.5
-  linearExhaustionOffset: 0.3
-  constantExhaustionOffset: 10
+  shouldDestroyOnLoad: 0

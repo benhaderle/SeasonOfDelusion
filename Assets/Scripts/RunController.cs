@@ -13,22 +13,10 @@ public class RunController : MonoBehaviour
     [SerializeField] private float simulationSecondsPerRealSeconds = 30;
 
     [Header("Run VO2 Calculation Variables")]
+    [SerializeField] private float maxDeviation = .1f;
     [SerializeField] private float experienceCap = 1000000f;
     [SerializeField] private float maxExhaustion = 500f;
-    [SerializeField] private float exhaustionEffect = .25f;
-
-    [Header("Exhaustion Calculation Variables")]
-    [SerializeField] private float cubicVO2Slope = 2f;
-    [SerializeField] private float linearVO2Slope = 1f;
-    [SerializeField] private float linearVO2Offset = .5f;
-    [SerializeField] private float constantVO2Offset = -10f;
-
-    [Header("Exhaustion Calculation Variables")]
-    [SerializeField] private float cubicExhaustionSlope = 3.5f;
-    [SerializeField] private float linearExhaustionSlope = 3f;
-    [SerializeField] private float linearExhaustionOffset = .15f;
-    [SerializeField] private float constantExhaustionOffset = -15f;
-
+    [SerializeField] private float exhaustionEffect = .1f;
 
     #region Events
     public class StartRunEvent : UnityEvent<StartRunEvent.Context> 
@@ -50,6 +38,15 @@ public class RunController : MonoBehaviour
         }
     }
     public static RunSimulationUpdatedEvent runSimulationUpdatedEvent = new ();
+
+
+    public class RunSimulationEndedEvent : UnityEvent<RunSimulationEndedEvent.Context>
+    {
+        public class Context
+        {
+        }
+    }
+    public static RunSimulationEndedEvent runSimulationEndedEvent = new ();
     #endregion
 
     private void OnEnable()
@@ -76,7 +73,7 @@ public class RunController : MonoBehaviour
         foreach(Runner runner in runners)
         {
             float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxExhaustion, runner.Exhaustion)) * exhaustionEffect;
-            float statusDeviation = Mathf.Max(-runner.Experience / experienceCap + .1f, 0);
+            float statusDeviation = Mathf.Clamp((1 - (runner.Experience / experienceCap)) * maxDeviation, 0, maxDeviation);
             float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
 
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
@@ -86,7 +83,7 @@ public class RunController : MonoBehaviour
                 //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
                 //amount of experience is based off of how many miles a runner has run
                 //right now we just have a linear relationship between number of miles run and variance in runVO2
-                runVO2 = runner.CurrentVO2Max * conditions.coachVO2Guidance + roll,
+                runVO2 = runner.CurrentVO2Max * Mathf.Max(.5f, conditions.coachVO2Guidance + roll),
                 currentSpeed = 0, 
                 desiredSpeed = 0, 
                 distance = 0 
@@ -114,7 +111,6 @@ public class RunController : MonoBehaviour
                 RunnerState state = kvp.Value;
 
                 state.currentSpeed = state.desiredSpeed;
-                Debug.Log(state.currentSpeed);
             }
 
             //then spend a second simulating before moving on to the next iteration
@@ -157,24 +153,11 @@ public class RunController : MonoBehaviour
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            float milesPerSecond = route.Length / state.timeInSeconds;
-            float runVO2 = SpeedToOxygenCost(milesPerSecond);
-            float timeInMinutes = state.timeInSeconds / 60f;
-
-            // experience is a function of cumulative miles run
-            runner.IncreaseExperience(route.Length);
-
-            float oldVO2 = runner.CurrentVO2Max;
-            float vo2ImprovementGap = (runVO2 / (runner.CurrentVO2Max * .9f)) - 1f;
-            runner.UpdateVO2((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3)) + (linearExhaustionSlope * timeInMinutes * (vo2ImprovementGap + linearExhaustionOffset)) + constantExhaustionOffset);
-
-            // exhaustion changes based off of how far away you were from your recovery VO2
-            // TODO: when we have a day simulation, exhaustion should decrement each night
-            float exhaustionGap = (runVO2 / (runner.CurrentVO2Max * .6f)) - 1f;
-            runner.UpdateExhaustion((cubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) + (linearExhaustionSlope * timeInMinutes * (exhaustionGap + linearExhaustionOffset)) + constantExhaustionOffset);
-
-            Debug.Log($"Name: {runner.Name}\tExhaustion: {runner.Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {runner.CurrentVO2Max}");
+            runner.PostRunUpdate(state);
         }
+
+        runSimulationEndedEvent.Invoke(new RunSimulationEndedEvent.Context());
+        SimulationModel.Instance.AdvanceDay();
     }
 
     /// <summary>
@@ -182,7 +165,7 @@ public class RunController : MonoBehaviour
     /// </summary>
     /// <param name="o2Cost">in mL/kg/min</param>
     /// <returns>Speed in miles per sec</returns>
-    private float CaclulateSpeedFromOxygenCost(float o2Cost)
+    public static float CaclulateSpeedFromOxygenCost(float o2Cost)
     {
         const float a = 0.000104f;
         const float b = 0.182258f;
@@ -199,7 +182,7 @@ public class RunController : MonoBehaviour
     /// </summary>
     /// <param name="speed">in miles per sec</param>
     /// <returns>in mL/kg/min</returns>
-    private float SpeedToOxygenCost(float speed)
+    public static float SpeedToOxygenCost(float speed)
     {
         const float a = 0.000104f;
         const float b = 0.182258f;
