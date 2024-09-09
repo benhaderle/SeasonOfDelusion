@@ -4,6 +4,9 @@ using UnityEngine;
 using CreateNeptune;
 using UnityEngine.Events;
 
+/// <summary>
+/// Controls the roster screen.
+/// </summary> 
 public class RosterUIController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;

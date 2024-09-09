@@ -5,6 +5,9 @@ using UnityEngine.Events;
 using CreateNeptune;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Model for the day to day simulation. (Not the run simulation)
+/// </summary>
 public class SimulationModel : Singleton<SimulationModel>
 {
     private int day;

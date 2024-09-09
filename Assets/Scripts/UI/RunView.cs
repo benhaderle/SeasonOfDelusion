@@ -4,10 +4,10 @@ using UnityEngine;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using System.Runtime.InteropServices.WindowsRuntime;
 
+/// <summary>
+/// The view for the run simulation
+/// </summary> 
 public class RunView : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;

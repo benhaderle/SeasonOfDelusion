@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using CreateNeptune;
 using UnityEngine;
 
+/// <summary>
+/// Model for the list of runners
+/// </summary>
 public class TeamModel : Singleton<TeamModel>
 {
     [SerializeField] private RunnerCalculationVariables variables;

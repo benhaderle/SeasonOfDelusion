@@ -5,6 +5,9 @@ using TMPro;
 using System;
 using UnityEngine.UI;
 
+/// <summary>
+/// One of the route buttons on the Routes screen
+/// </summary>
 public class RouteCard : MonoBehaviour
 {
     [SerializeField] private Button button;

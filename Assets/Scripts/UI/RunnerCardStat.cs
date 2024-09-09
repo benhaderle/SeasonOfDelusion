@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+/// <summary>
+/// One of the stats on a Runner card
+/// </summary>
 public class RunnerCardStat : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI labelText;

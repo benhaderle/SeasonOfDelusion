@@ -3,14 +3,20 @@ using UnityEngine;
 
 public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
 
+/// <summary>
+/// Represents a route that runners can run
+/// </summary>
 [Serializable]
 public class Route
-{
+{   
+    /// <summary>
+    /// The name of this route. Can be used for player display.
+    /// </summary>
     [SerializeField] private string name;
     public string Name => name;
 
     /// <summary>
-    /// Length of route in miles
+    /// Length of route in miles.
     /// </summary>
     [SerializeField] private float length;
     public float Length => length;

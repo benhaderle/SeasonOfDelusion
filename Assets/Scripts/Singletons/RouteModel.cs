@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using CreateNeptune;
 using UnityEngine;
 
+/// <summary>
+/// Holds all info pertaining the routes avaialble 
+/// </summary>
 public class RouteModel : Singleton<RouteModel>
 {
     [SerializeField] private List<Route> routes;

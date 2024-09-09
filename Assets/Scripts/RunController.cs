@@ -6,10 +6,14 @@ using CreateNeptune;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Responsible for the guts of the run simulation
+/// </summary>
 public class RunController : MonoBehaviour
 {
-    private const float METERS_PER_MILE = 1609.34f;
-
+    /// <summary>
+    /// How fast the simulation should run at
+    /// </summary>
     [SerializeField] private float simulationSecondsPerRealSeconds = 30;
 
     [Header("Run VO2 Calculation Variables")]
@@ -99,7 +103,7 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.desiredSpeed = CaclulateSpeedFromOxygenCost(state.runVO2);
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2);
             }
 
             //TODO: then group people
@@ -134,7 +138,7 @@ public class RunController : MonoBehaviour
                         state.percentDone = state.distance / route.Length;
                     }
 
-                    stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {SpeedToMilePaceString(state.currentSpeed)}\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\n";
                 }
                 Debug.Log(stateString);
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
@@ -147,7 +151,7 @@ public class RunController : MonoBehaviour
             }
         }
 
-        //post run update
+        // post run update
         foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
@@ -159,54 +163,6 @@ public class RunController : MonoBehaviour
         runSimulationEndedEvent.Invoke(new RunSimulationEndedEvent.Context());
         SimulationModel.Instance.AdvanceDay();
     }
-
-    /// <summary>
-    /// http://www.simpsonassociatesinc.com/runningmath2.htm
-    /// </summary>
-    /// <param name="o2Cost">in mL/kg/min</param>
-    /// <returns>Speed in miles per sec</returns>
-    public static float CaclulateSpeedFromOxygenCost(float o2Cost)
-    {
-        const float a = 0.000104f;
-        const float b = 0.182258f;
-        float c = -4.6f - o2Cost;
-        const float b_squared = b * b;
-        float four_a_c = 4 * a * c;
-        const float two_a = 2 * a;
-
-        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f);
-    }
-
-    /// <summary>
-    /// http://www.simpsonassociatesinc.com/runningmath2.htm
-    /// </summary>
-    /// <param name="speed">in miles per sec</param>
-    /// <returns>in mL/kg/min</returns>
-    public static float SpeedToOxygenCost(float speed)
-    {
-        const float a = 0.000104f;
-        const float b = 0.182258f;
-        const float c = -4.6f;
-
-        speed = speed * METERS_PER_MILE * 60f;
-        return a * Mathf.Pow(speed, 2) + b * speed + c;
-    }
-
-    private string SpeedToMilePaceString(float milesPerSec)
-    {
-        float minPerMile = 1f / (milesPerSec * 60f);
-        int minutes = (int)minPerMile;
-        int seconds = (int)((minPerMile - minutes) * 60);
-        if (seconds < 10)
-        {
-            return $"{minutes}:0{seconds}";
-        }
-        else
-        {
-            return $"{minutes}:{seconds}";
-        }
-    }
-
 }
 public class RunnerState
 {

@@ -5,6 +5,10 @@ using CreateNeptune;
 using UnityEngine.Events;
 using System.Linq;
 
+/// <summary>
+/// Controls both the Route selection and also the coach guidance selection.
+/// TODO move coach guidance to its own script
+/// </summary>
 public class RouteUIController : MonoBehaviour
 {
     private enum State { RouteSelection = 0, EaseSelection = 1 };
