@@ -16,6 +16,11 @@ public class RunController : MonoBehaviour
     /// </summary>
     [SerializeField] private float simulationSecondsPerRealSeconds = 30;
 
+    /// <summary>
+    /// How many simulation-seconds should pass before we update people's speeds and such
+    /// </summary>
+    [SerializeField] private float simulationStep = 60f;
+
     [Header("Run VO2 Calculation Variables")]
     [SerializeField] private float maxDeviation = .1f;
     [SerializeField] private float experienceCap = 1000000f;
@@ -103,10 +108,25 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
+                // calculating some stuff to be used below
+                float milesPerSecond = state.distance / Mathf.Max(1, state.timeInSeconds);
+                float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond);
+                float timeInMinutes = state.timeInSeconds / 60f;
+
+                // figure out the exhaustion for this runner during this run
+                state.exhaustion = runner.CalculateExhaustion(runVO2, timeInMinutes);
+                float currentTotalExhaustion = state.exhaustion;
+
+                // use the current run exhaustion to get a random roll to see if pace should go up or down
+                // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
+                float roll = CNExtensions.RandGaussian(-Mathf.Pow(Mathf.InverseLerp(0, maxExhaustion, runner.Exhaustion - 200), 2) * 0.01f, .005f);
+                state.runVO2 += roll * runner.CurrentVO2Max;
+
+                // clamp the vo2 between some reasonable values
+                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
+
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2);
             }
-
-            //TODO: then group people
 
             //TODO: then use group's preferred speeds to calculated each group's actual speed
             foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
@@ -114,11 +134,26 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.currentSpeed = state.desiredSpeed;
+                float runningAverage = 0f;
+                float weightTotal = 0f;
+                foreach (KeyValuePair<Runner, RunnerState> otherKvp in runnerStates)
+                {
+                    if(kvp.Key == otherKvp.Key)
+                    {
+                        continue;
+                    }
+
+                    float difference = otherKvp.Value.desiredSpeed - state.desiredSpeed;
+                    float weight = 1f / Mathf.Pow(difference, 2);
+                    runningAverage += weight * otherKvp.Value.desiredSpeed;
+                    weightTotal += weight;                    
+                }
+
+                state.currentSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, .5f);
             }
 
             //then spend a second simulating before moving on to the next iteration
-            float simulationTime = 1f;
+            float simulationTime = simulationStep;
             while(simulationTime > 0)
             {
                 string stateString = "";
@@ -147,7 +182,7 @@ public class RunController : MonoBehaviour
                 });
 
                 yield return null;
-                simulationTime -= Time.deltaTime;
+                simulationTime -= timePassed;
             }
         }
 
@@ -172,4 +207,5 @@ public class RunnerState
     public float distance;
     public float percentDone;
     public float timeInSeconds;
+    public float exhaustion;
 }

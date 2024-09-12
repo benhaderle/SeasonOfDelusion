@@ -155,14 +155,19 @@ public class Runner
     /// <param name="timeInMinutes">The length of the run in minutes</param> 
     private void UpdateExhaustion(float runVO2, float timeInMinutes)
     {
+        // add it up
+        exhaustion += CalculateExhaustion(runVO2, timeInMinutes);
+    }
+
+    public float CalculateExhaustion(float runVO2, float timeInMinutes)
+    {
         // go look at desmos if you want to see the shape of this graph
         // basic idea is that exhaustion goes up if you ran harder or longer, goes down if you ran slower or shorter
         float exhaustionGap = (runVO2 / (currentVO2Max * variables.ExhaustionVO2Threshold)) - 1f;
-        float exhaustionUpdate = (variables.CubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3)) 
-            + (variables.LinearExhaustionSlope * timeInMinutes * (exhaustionGap + variables.LinearExhaustionOffset)) 
+        float exhaustionUpdate = (variables.CubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3))
+            + (variables.LinearExhaustionSlope * timeInMinutes * (exhaustionGap + variables.LinearExhaustionOffset))
             + variables.ConstantExhaustionOffset;
-        
-        // add it up
-        exhaustion += exhaustionUpdate;
+
+        return exhaustionUpdate;
     }
 }
