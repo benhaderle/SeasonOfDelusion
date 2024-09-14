@@ -195,8 +195,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ben Haderle
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b8f45d3e0035c46eeb7ba8b88fa92065, type: 2}
+  m_sharedMaterial: {fileID: 6165229921797436413, guid: b8f45d3e0035c46eeb7ba8b88fa92065, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -304,7 +304,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1400, y: 0}
+  m_SizeDelta: {x: 1300, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1331683858214431636
 MonoBehaviour:
@@ -321,12 +321,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 10
     m_Bottom: 0
-  m_ChildAlignment: 1
+  m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 250, y: 80}
+  m_CellSize: {x: 350, y: 80}
   m_Spacing: {x: 125, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -364,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 512.5
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -694,7 +694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -730,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 887.5
+      value: 1125
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -861,6 +861,10 @@ PrefabInstance:
     - target: {fileID: 5653410229204723894, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_Name
       value: VO2MaxStat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383788435393124107, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
+      propertyPath: m_text
+      value: Aero
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1137,7 +1141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1173,11 +1177,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1262.5
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: -130
       objectReference: {fileID: 0}
     - target: {fileID: 523830548512462044, guid: f03d1341c6b5046aa9cd2020563a2ddd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
