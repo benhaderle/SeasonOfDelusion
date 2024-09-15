@@ -44,16 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2aa3e3ee6874fa3a540981f1750f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulationSecondsPerRealSeconds: 3000
+  simulationSecondsPerRealSeconds: 300
+  simulationStep: 60
   maxDeviation: 0.1
   experienceCap: 1000000
   maxExhaustion: 1000
   exhaustionEffect: 0.1
-  cubicVO2Slope: 3.5
-  linearVO2Slope: 3
-  linearVO2Offset: 0.15
-  constantVO2Offset: 20
-  cubicExhaustionSlope: 25
-  linearExhaustionSlope: 1.5
-  linearExhaustionOffset: 0.3
-  constantExhaustionOffset: 10
