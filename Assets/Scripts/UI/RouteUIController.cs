@@ -17,7 +17,9 @@ public class RouteUIController : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private PoolContext routeCardPool;
     [SerializeField] private RectTransform routeSelectionContainer;
+    [SerializeField] private RectTransform routeSelectionButtonParent;
     [SerializeField] private RectTransform easeSelectionContainer;
+    [SerializeField] private RectTransform easeSelectionContentParent;
     private Route selectedRoute;
 
     private IEnumerator toggleRoutine;
@@ -119,7 +121,7 @@ public class RouteUIController : MonoBehaviour
         {
             Route r = RouteModel.Instance.TodaysRoutes[i];
             RouteCard card = routeCardPool.GetPooledObject<RouteCard>();
-            card.transform.SetParent(routeSelectionContainer);
+            card.transform.SetParent(routeSelectionButtonParent);
             card.Setup(r);
             card.Button.onClick.RemoveAllListeners();
             card.Button.onClick.AddListener(() => OnRouteSelectionButton(r));
@@ -133,7 +135,7 @@ public class RouteUIController : MonoBehaviour
 
         routeCardPool.ReturnAllToPool();
         RouteCard card = routeCardPool.GetPooledObject<RouteCard>();
-        card.transform.SetParent(easeSelectionContainer);
+        card.transform.SetParent(easeSelectionContentParent);
         card.Setup(selectedRoute);
         card.Button.onClick.RemoveAllListeners();
         card.Button.onClick.AddListener(() => OnRouteSelectionButton(selectedRoute));
