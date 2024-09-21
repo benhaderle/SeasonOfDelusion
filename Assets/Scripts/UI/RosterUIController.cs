@@ -12,6 +12,8 @@ public class RosterUIController : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private PoolContext runnerCardPool;
+    [SerializeField] private Color lightCardColor;
+    [SerializeField] private Color darkCardColor;
 
     private IEnumerator toggleRoutine;
 
@@ -45,7 +47,7 @@ public class RosterUIController : MonoBehaviour
             for(int i = 0; i < TeamModel.Instance.Runners.Count; i++)
             {
                 RunnerCard card = runnerCardPool.GetPooledObject<RunnerCard>();
-                card.Setup(TeamModel.Instance.Runners[i]);
+                card.Setup(TeamModel.Instance.Runners[i], i % 2 == 0 ? lightCardColor : darkCardColor);
             }
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }

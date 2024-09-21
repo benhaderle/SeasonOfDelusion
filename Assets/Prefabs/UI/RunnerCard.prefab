@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1623884792220758410}
   vo2MaxStat: {fileID: 215926707499480491}
+  backgroundImage: {fileID: 8735290255270410446}
 --- !u!1 &3408754444579411780
 GameObject:
   m_ObjectHideFlags: 0
