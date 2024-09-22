@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 523830548512462044}
   - component: {fileID: 3602332283421782028}
   m_Layer: 5
-  m_Name: RunnerCardStat
+  m_Name: RunnerRosterCardStat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -46,7 +46,7 @@ public class RosterUIController : MonoBehaviour
             runnerCardPool.ReturnAllToPool();
             for(int i = 0; i < TeamModel.Instance.Runners.Count; i++)
             {
-                RunnerCard card = runnerCardPool.GetPooledObject<RunnerCard>();
+                RunnerRosterCard card = runnerCardPool.GetPooledObject<RunnerRosterCard>();
                 card.Setup(TeamModel.Instance.Runners[i], i % 2 == 0 ? lightCardColor : darkCardColor);
             }
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));

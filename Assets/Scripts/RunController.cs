@@ -53,6 +53,7 @@ public class RunController : MonoBehaviour
     {
         public class Context
         {
+            public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
         }
     }
     public static RunSimulationEndedEvent runSimulationEndedEvent = new ();
@@ -138,18 +139,25 @@ public class RunController : MonoBehaviour
                 float weightTotal = 0f;
                 foreach (KeyValuePair<Runner, RunnerState> otherKvp in runnerStates)
                 {
-                    if(kvp.Key == otherKvp.Key)
+                    if(kvp.Key == otherKvp.Key || otherKvp.Value.distance >= route.Length)
                     {
                         continue;
                     }
 
-                    float difference = otherKvp.Value.desiredSpeed - state.desiredSpeed;
+                    float difference = Mathf.Abs(otherKvp.Value.desiredSpeed - state.desiredSpeed) + Mathf.Max(Mathf.Abs(otherKvp.Value.distance - state.distance), Mathf.Epsilon);
                     float weight = 1f / Mathf.Pow(difference, 2);
                     runningAverage += weight * otherKvp.Value.desiredSpeed;
                     weightTotal += weight;                    
                 }
 
-                state.currentSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, .5f);
+                if (weightTotal > 0)
+                {
+                    state.currentSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * conditions.coachVO2Guidance));
+                }
+                else
+                {
+                    state.currentSpeed = state.desiredSpeed;
+                }
             }
 
             //then spend a second simulating before moving on to the next iteration
@@ -187,16 +195,20 @@ public class RunController : MonoBehaviour
         }
 
         // post run update
+        Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
         foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            runner.PostRunUpdate(state);
+            RunnerUpdateRecord record = runner.PostRunUpdate(state);
+            runnerUpdateDictionary.Add(runner, record);
         }
 
-        runSimulationEndedEvent.Invoke(new RunSimulationEndedEvent.Context());
-        SimulationModel.Instance.AdvanceDay();
+        runSimulationEndedEvent.Invoke(new RunSimulationEndedEvent.Context()
+        {
+            runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
+        });
     }
 }
 public class RunnerState

@@ -7,10 +7,10 @@ using UnityEngine.UI;
 /// <summary>
 /// One of the UI cards representing one Runner on the Roster screen
 /// </summary> 
-public class RunnerCard : MonoBehaviour
+public class RunnerRosterCard : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private RunnerCardStat vo2MaxStat;
+    [SerializeField] private RunnerRosterCardStat vo2MaxStat;
     [SerializeField] private Image backgroundImage;
 
     public void Setup(Runner runner, Color backgroundColor)

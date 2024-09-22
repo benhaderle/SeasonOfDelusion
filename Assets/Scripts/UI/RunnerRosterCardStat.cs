@@ -6,7 +6,7 @@ using TMPro;
 /// <summary>
 /// One of the stats on a Runner card
 /// </summary>
-public class RunnerCardStat : MonoBehaviour
+public class RunnerRosterCardStat : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI labelText;
     [SerializeField] private TextMeshProUGUI valueText;

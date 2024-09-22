@@ -82,7 +82,7 @@ public class Runner
     /// Updates this Runner's stats given the information in runState. Assumes the run is done.
     /// </summary>
     /// <param name="runState">The state of this Runner after a run is finished.</param>
-    public void PostRunUpdate(RunnerState runState)
+    public RunnerUpdateRecord PostRunUpdate(RunnerState runState)
     {
         float oldVO2 = currentVO2Max;
         float milesPerSecond = runState.distance / runState.timeInSeconds;
@@ -99,6 +99,11 @@ public class Runner
         UpdateExhaustion(runVO2, timeInMinutes);
        
         Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}");
+
+        return new RunnerUpdateRecord
+        {
+            vo2Change = currentVO2Max - oldVO2
+        };
     }
 
     /// <summary>
@@ -170,4 +175,9 @@ public class Runner
 
         return exhaustionUpdate;
     }
+}
+
+public struct RunnerUpdateRecord
+{
+    public float vo2Change;
 }
