@@ -11,12 +11,14 @@ public class RunnerRosterCard : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private RunnerRosterCardStat vo2MaxStat;
+    [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Image backgroundImage;
 
     public void Setup(Runner runner, Color backgroundColor)
     {
         nameText.text = runner.Name;
         vo2MaxStat.SetValueText(Mathf.FloorToInt(runner.CurrentVO2Max * 10).ToString());
+        statusText.text = RunUtility.ExhaustionToStatusString(runner.Exhaustion);
         backgroundImage.color = backgroundColor;
     }
 }

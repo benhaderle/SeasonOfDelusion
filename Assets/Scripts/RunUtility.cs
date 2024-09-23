@@ -58,4 +58,32 @@ public class RunUtility
             return $"{minutes}:{seconds}";
         }
     }
+
+    public static string ExhaustionToStatusString(float exhaustion)
+    {
+        
+        string status;
+        if(exhaustion < 200)
+        {
+            status = "Well Rested";
+        }
+        else if(exhaustion < 400)
+        {
+            status = "Lightly Fatigued";
+        }
+        else if(exhaustion < 600)
+        {
+            status = "Worked Over";
+        }
+        else if(exhaustion < 800)
+        {
+            status = "Tired";
+        }
+        else
+        {
+            status = "Exhausted";
+        }
+
+        return status;
+    }
 }

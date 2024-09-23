@@ -52,27 +52,6 @@ public class RunnerSimulationCard : MonoBehaviour
         aeroStat.Setup(Mathf.FloorToInt(runner.CurrentVO2Max * 10).ToString(), $"<color=#{colorString}>{prefix}{Mathf.FloorToInt(record.vo2Change * 10)}</color>");
         
         statusContainer.gameObject.SetActive(true);
-        string status;
-        if(runner.Exhaustion < 200)
-        {
-            status = "Well Rested";
-        }
-        else if(runner.Exhaustion < 400)
-        {
-            status = "Lightly Fatigued";
-        }
-        else if(runner.Exhaustion < 600)
-        {
-            status = "Worked Over";
-        }
-        else if(runner.Exhaustion < 800)
-        {
-            status = "Tired";
-        }
-        else
-        {
-            status = "Exhausted";
-        }
-        statusText.text = status;
+        statusText.text = RunUtility.ExhaustionToStatusString(runner.Exhaustion);
     }
 }
