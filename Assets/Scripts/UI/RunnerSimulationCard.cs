@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Resources;
 
 /// <summary>
 /// One of the UI cards representing one Runner on the Roster screen
@@ -13,7 +14,9 @@ public class RunnerSimulationCard : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI paceText;
-    [SerializeField] private TextMeshProUGUI aeroText;
+    [SerializeField] private RunnerSimulationCardStat aeroStat;
+    [SerializeField] private RectTransform statusContainer;
+    [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Color improvementColor;
     [SerializeField] private Color regressionColor;
 
@@ -37,9 +40,33 @@ public class RunnerSimulationCard : MonoBehaviour
     public void ShowPostRunUpdate(Runner runner, RunnerUpdateRecord record)
     {
         paceText.gameObject.SetActive(false);
-        aeroText.gameObject.SetActive(true);
 
+        aeroStat.gameObject.SetActive(true);
         string colorString = record.vo2Change >= 0 ? improvementColor.ToHexString() : regressionColor.ToHexString();
-        aeroText.text = $"AERO: {Mathf.FloorToInt(runner.CurrentVO2Max * 10)} <color=#{colorString}>{Mathf.FloorToInt(record.vo2Change * 10)}</color>";
+        aeroStat.Setup(Mathf.FloorToInt(runner.CurrentVO2Max * 10).ToString(), $"<color=#{colorString}>{Mathf.FloorToInt(record.vo2Change * 10)}</color>");
+        
+        statusContainer.gameObject.SetActive(true);
+        string status;
+        if(runner.Exhaustion < 200)
+        {
+            status = "Well Rested";
+        }
+        else if(runner.Exhaustion < 400)
+        {
+            status = "Lightly Fatigued";
+        }
+        else if(runner.Exhaustion < 600)
+        {
+            status = "Worked Over";
+        }
+        else if(runner.Exhaustion < 800)
+        {
+            status = "Tired";
+        }
+        else
+        {
+            status = "Exhausted";
+        }
+        statusText.text = status;
     }
 }
