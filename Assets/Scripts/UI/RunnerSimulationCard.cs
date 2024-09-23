@@ -42,8 +42,14 @@ public class RunnerSimulationCard : MonoBehaviour
         paceText.gameObject.SetActive(false);
 
         aeroStat.gameObject.SetActive(true);
-        string colorString = record.vo2Change >= 0 ? improvementColor.ToHexString() : regressionColor.ToHexString();
-        aeroStat.Setup(Mathf.FloorToInt(runner.CurrentVO2Max * 10).ToString(), $"<color=#{colorString}>{Mathf.FloorToInt(record.vo2Change * 10)}</color>");
+        string colorString = regressionColor.ToHexString();
+        string prefix = "";
+        if(record.vo2Change >= 0)
+        {
+            colorString = improvementColor.ToHexString();
+            prefix = "+";
+        } 
+        aeroStat.Setup(Mathf.FloorToInt(runner.CurrentVO2Max * 10).ToString(), $"<color=#{colorString}>{prefix}{Mathf.FloorToInt(record.vo2Change * 10)}</color>");
         
         statusContainer.gameObject.SetActive(true);
         string status;
