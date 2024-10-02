@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CreateNeptune;
 using UnityEngine;
+
+public enum Scene { StartScene, MainScene}
 
 /// <summary>
 /// Kinda random class. Don't put things here unless they don't make sense absolutely anywhere else.

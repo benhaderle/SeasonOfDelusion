@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-using System.Resources;
 
 /// <summary>
 /// One of the UI cards representing one Runner on the Roster screen
