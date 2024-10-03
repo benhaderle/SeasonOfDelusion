@@ -34,6 +34,19 @@ public class Runner
     /// </summary>    
     private float currentVO2Max;
     public float CurrentVO2Max => currentVO2Max;
+
+    /// <summary>
+    /// A number >= 0 that roughly represents cumulative lifetime miles for this runner
+    /// </summary>
+    private float experience;
+    public float Experience => experience;
+    /// <summary>
+    /// A number >= 0 that represents how tired a player at the moment
+    /// </summary>
+    private float exhaustion;
+    public float Exhaustion => exhaustion;
+
+    // TODO: impromptu list of stats that might get implemented at some point
     // public int endurance { get; private set; }
     // public int hills { get; private set; }
     // public int discipline { get; private set; }
@@ -46,16 +59,7 @@ public class Runner
     // private float skeletalHealth;
     // private float respiratoryHealth;
     // private float cardioHealth;
-    /// <summary>
-    /// A number >= 0 that roughly represents cumulative lifetime miles for this runner
-    /// </summary>
-    private float experience;
-    public float Experience => experience;
-    /// <summary>
-    /// A number >= 0 that represents how tired a player at the moment
-    /// </summary>
-    private float exhaustion;
-    public float Exhaustion => exhaustion;
+
     // private float emotion;
     // private float intuition;
     // private float sleep;

@@ -7,7 +7,8 @@ using UnityEngine;
 public enum Scene { StartScene, MainScene}
 
 /// <summary>
-/// Kinda random class. Don't put things here unless they don't make sense absolutely anywhere else.
+/// Kinda random class. Don't put things here unless they don't make sense anywhere else.
+/// Most things will get moved out to a more specific class at a point at which that makes sense. 
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
