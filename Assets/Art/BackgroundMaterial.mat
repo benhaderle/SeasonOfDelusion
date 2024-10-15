@@ -67,11 +67,12 @@ Material:
     - _Tiling: 40
     m_Colors:
     - _BackgroundColor: {r: 0.49019608, g: 0.08627451, b: 0.18946908, a: 1}
-    - _Color: {r: 0.128, g: 0.128, b: 0.128, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShoeColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tiling: {r: 40, g: 25, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7792566536381968955
 MonoBehaviour:

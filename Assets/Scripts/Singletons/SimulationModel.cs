@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public class SimulationModel : Singleton<SimulationModel>
 {
     private int day;
+    public int Day => day;
 
     #region Events
     public class StartDayEvent : UnityEvent<StartDayEvent.Context> 

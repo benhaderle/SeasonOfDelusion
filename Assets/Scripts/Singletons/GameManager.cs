@@ -4,7 +4,10 @@ using System.Runtime.CompilerServices;
 using CreateNeptune;
 using UnityEngine;
 
-public enum Scene { StartScene, MainScene}
+public enum Scene { 
+    StartScene = 0,
+     MainScene = 1, 
+     IntroCutscene = 2}
 
 /// <summary>
 /// Kinda random class. Don't put things here unless they don't make sense anywhere else.

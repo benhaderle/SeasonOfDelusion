@@ -33,6 +33,7 @@ public class RouteUIController : MonoBehaviour
     {
         currentState = State.RouteSelection;
         routeCardPool.Initialize();
+        OnToggle(false);
     }
 
     private void OnEnable()
@@ -42,12 +43,7 @@ public class RouteUIController : MonoBehaviour
 
     private void OnDisable()
     {
-        toggleEvent.AddListener(OnToggle);
-    }
-
-    private void Start()
-    {
-        OnToggle(true);
+        toggleEvent.RemoveListener(OnToggle);
     }
 
     private void OnToggle(bool active)
