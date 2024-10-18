@@ -14,13 +14,6 @@ public class SimulationModel : Singleton<SimulationModel>
     public int Day => day;
 
     #region Events
-    public class StartDayEvent : UnityEvent<StartDayEvent.Context> 
-    { 
-        public class Context
-        {
-        }
-    };
-    public static StartDayEvent startDayEvent = new ();
     public class EndDayEvent : UnityEvent<EndDayEvent.Context> 
     { 
         public class Context
@@ -32,15 +25,73 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void OnEnable()
     {
+        CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
+        DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
     }
 
     private void OnDisable()
     {
+        CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
+        DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
     }
 
     private void Start()
     {
-        startDayEvent.Invoke(new StartDayEvent.Context());
+        StartDay();
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
+    {
+        StartDay();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnCutsceneEnded(CutsceneController.CutsceneEndedEvent.Context context)
+    {
+        BackgroundController.toggleEvent.Invoke(true);
+        HeaderController.toggleEvent.Invoke(true);
+        
+        switch(context.cutsceneID)
+        {
+            case CutsceneID.Intro:
+                DialogueUIController.toggleEvent.Invoke(true);
+                DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = DialogueID.Intro });
+                break;
+            case CutsceneID.Preday:
+                StartPractice();
+                break;
+        }
+    }
+
+    private void OnDialogueEnded(DialogueUIController.DialogueEndedEvent.Context context)
+    {
+        switch(context.dialogueID)
+        {
+            case DialogueID.Intro:
+                StartPractice();
+                break;
+        }
+    }
+
+    private void StartDay()
+    {
+        CutsceneID cutsceneID;
+        if (Day == 0)
+        {
+            cutsceneID = CutsceneID.Intro;
+        }
+        else
+        {           
+            cutsceneID = CutsceneID.Preday;
+        }
+
+        CutsceneUIController.startCutsceneEvent.Invoke( new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
+    }
+
+    private void StartPractice()
+    {
+        RouteUIController.toggleEvent.Invoke(true);
+        BackgroundController.toggleEvent.Invoke(true);
     }
 
     public void AdvanceDay()
@@ -49,6 +100,7 @@ public class SimulationModel : Singleton<SimulationModel>
 
         day++;
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

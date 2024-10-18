@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 
-public enum CutsceneID { Intro }
+public enum CutsceneID { Intro = 0, Preday = 1 }
 
 public class CutsceneController : MonoBehaviour
 {

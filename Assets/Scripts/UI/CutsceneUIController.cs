@@ -3,12 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class CutsceneUIController : MonoBehaviour
 {
     [SerializeField] private Cutscene[] cutscenes;
     private Dictionary<CutsceneID, Cutscene> cutsceneDictionary;
-    
+    #region Events
+    public class StartCutsceneEvent : UnityEvent<StartCutsceneEvent.Context> 
+    {
+        public class Context
+        {
+            public CutsceneID cutsceneID;
+        }
+    };
+    public static StartCutsceneEvent startCutsceneEvent = new StartCutsceneEvent();
+    #endregion
     private void Awake()
     {
         cutsceneDictionary = new Dictionary<CutsceneID, Cutscene>();
@@ -20,39 +30,17 @@ public class CutsceneUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
+        startCutsceneEvent.AddListener(OnStartCutscene);
     }
 
     private void OnDisable()
     {
-        CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
+        startCutsceneEvent.RemoveListener(OnStartCutscene);
     }
 
-    private void Start()
+    private void OnStartCutscene(StartCutsceneEvent.Context context)
     {
-        if (SimulationModel.Instance.Day == 0)
-        {
-            LoadCutscene(CutsceneID.Intro);
-        }
-    }
-
-    private void OnCutsceneEnded(CutsceneController.CutsceneEndedEvent.Context context)
-    {
-        BackgroundController.toggleEvent.Invoke(true);
-        HeaderController.toggleEvent.Invoke(true);
-        
-        switch(context.cutsceneID)
-        {
-            case CutsceneID.Intro:
-                DialogueUIController.toggleEvent.Invoke(true);
-                DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialgoueEvent.Context { dialogueID = DialogueID.Intro });
-                break;
-        }
-    }
-
-    private void LoadCutscene(CutsceneID cutsceneID)
-    {
-        if(cutsceneDictionary.TryGetValue(cutsceneID, out Cutscene cutscene))
+        if(cutsceneDictionary.TryGetValue(context.cutsceneID, out Cutscene cutscene))
         {
             SceneManager.LoadSceneAsync((int)cutscene.scene, LoadSceneMode.Additive);
         }
