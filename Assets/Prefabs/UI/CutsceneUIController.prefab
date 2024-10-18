@@ -205,6 +205,8 @@ MonoBehaviour:
     scene: 2
   - id: 1
     scene: 3
+  canvas: {fileID: 3636843849772695893}
+  canvasGroup: {fileID: 2880003840394180770}
 --- !u!1 &5247502045758978892
 GameObject:
   m_ObjectHideFlags: 0
