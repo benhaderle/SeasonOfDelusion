@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1751274852359225162, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -12395742
+      value: -13603767
       objectReference: {fileID: 0}
     - target: {fileID: 6512532813464802310, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1131,6 +1131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2077191245468079271, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2114380279852624502, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
       propertyPath: m_Name
       value: CutsceneUIController
