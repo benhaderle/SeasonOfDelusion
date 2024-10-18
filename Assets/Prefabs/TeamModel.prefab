@@ -51,27 +51,15 @@ MonoBehaviour:
     lastName: Foster
     minVO2Max: 35
     maxVO2Max: 75
-  - firstName: Jack
-    lastName: Sexton
-    minVO2Max: 35
-    maxVO2Max: 67
   - firstName: Ben
     lastName: Haderle
     minVO2Max: 35
     maxVO2Max: 67
-  - firstName: Sanjay
-    lastName: Mohan
+  - firstName: Ari
+    lastName: Rubin
+    minVO2Max: 35
+    maxVO2Max: 63
+  - firstName: Aaron
+    lastName: Walker
     minVO2Max: 35
     maxVO2Max: 65
-  - firstName: Stephen
-    lastName: Crowe
-    minVO2Max: 35
-    maxVO2Max: 64
-  - firstName: Taisei
-    lastName: Nishiki
-    minVO2Max: 35
-    maxVO2Max: 62
-  - firstName: Eric
-    lastName: Gelphman
-    minVO2Max: 35
-    maxVO2Max: 62

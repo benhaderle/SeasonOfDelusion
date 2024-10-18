@@ -71,6 +71,7 @@ public class RosterUIController : MonoBehaviour
     {
         OnToggle(false);
         RouteUIController.toggleEvent.Invoke(true);
+        CutsceneUIController.toggleEvent.Invoke(true);
     }
 
     #endregion

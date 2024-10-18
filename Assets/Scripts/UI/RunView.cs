@@ -12,7 +12,6 @@ public class RunView : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private TextMeshProUGUI titleText;
     [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI routeText;
     [SerializeField] private TextMeshProUGUI easeText;

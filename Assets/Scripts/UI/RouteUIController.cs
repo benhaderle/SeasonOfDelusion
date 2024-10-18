@@ -72,6 +72,7 @@ public class RouteUIController : MonoBehaviour
     public void OnRosterButton()
     {
         OnToggle(false);
+        CutsceneUIController.toggleEvent.Invoke(false);
         RosterUIController.toggleEvent.Invoke(true);
     }    
 
@@ -105,6 +106,7 @@ public class RouteUIController : MonoBehaviour
         });
 
         OnToggle(false);
+        CutsceneUIController.toggleEvent.Invoke(false);
     }    
 
     private void SetupRouteSelection()
