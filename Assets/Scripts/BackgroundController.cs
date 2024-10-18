@@ -15,11 +15,6 @@ public class BackgroundController : MonoBehaviour
     public static ToggleEvent toggleEvent = new ToggleEvent();
     #endregion
 
-    private void Awake()
-    {
-        OnToggle(false);
-    }
-
     private void OnEnable()
     {
         toggleEvent.AddListener(OnToggle);

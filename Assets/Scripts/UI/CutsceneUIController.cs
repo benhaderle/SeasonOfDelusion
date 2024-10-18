@@ -27,6 +27,7 @@ public class CutsceneUIController : MonoBehaviour
     };
     public static StartCutsceneEvent startCutsceneEvent = new StartCutsceneEvent();
     #endregion
+
     private void Awake()
     {
         cutsceneDictionary = new Dictionary<CutsceneID, Cutscene>();

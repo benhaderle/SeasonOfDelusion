@@ -85,6 +85,7 @@ public class SimulationModel : Singleton<SimulationModel>
             cutsceneID = CutsceneID.Preday;
         }
 
+        BackgroundController.toggleEvent.Invoke(false);
         CutsceneUIController.startCutsceneEvent.Invoke( new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
     }
 
