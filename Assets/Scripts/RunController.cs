@@ -130,38 +130,48 @@ public class RunController : MonoBehaviour
             }
 
             //now that we have everyone's desired speed, we use a gravity model to group people
-            foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+            int numGravityIterations = 2;
+            for (int i = 0; i < numGravityIterations; i++)
             {
-                Runner runner = kvp.Key;
-                RunnerState state = kvp.Value;
-
-                float runningAverage = 0f;
-                float weightTotal = 0f;
-                //go through each runner and add to the running average + total
-                foreach (KeyValuePair<Runner, RunnerState> otherKvp in runnerStates)
+                foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
                 {
-                    //skip if current==other or if this runner is already done running
-                    if(kvp.Key == otherKvp.Key || otherKvp.Value.distance >= route.Length)
+                    Runner runner = kvp.Key;
+                    RunnerState state = kvp.Value;
+
+                    if (state.distance >= route.Length)
                     {
                         continue;
                     }
 
-                    //use a gravity model so runners closer together effect each other more than runners far away
-                    float difference = Mathf.Abs(otherKvp.Value.desiredSpeed - state.desiredSpeed) + Mathf.Max(Mathf.Abs(otherKvp.Value.distance - state.distance), Mathf.Epsilon);
-                    float weight = 1f / Mathf.Pow(difference, 2);
-                    runningAverage += weight * otherKvp.Value.desiredSpeed;
-                    weightTotal += weight;                    
-                }
+                    float runningAverage = 0f;
+                    float weightTotal = 0f;
+                    //go through each runner and add to the running average + total
+                    foreach (KeyValuePair<Runner, RunnerState> otherKvp in runnerStates)
+                    {
+                        //skip if current==other or if this runner is already done running
+                        if (kvp.Key == otherKvp.Key || otherKvp.Value.distance >= route.Length)
+                        {
+                            continue;
+                        }
 
-                //if we are effected by any runners, figure out how they effect our current speed
-                //the last runner left on the route will not be effected by anyone so they just run at their desired speed
-                if (weightTotal > 0)
-                {
-                    state.currentSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * conditions.coachVO2Guidance));
-                }
-                else
-                {
-                    state.currentSpeed = state.desiredSpeed;
+                        //use a gravity model so runners closer together effect each other more than runners far away
+                        float difference = Mathf.Abs(otherKvp.Value.desiredSpeed - state.desiredSpeed) + Mathf.Max(Mathf.Abs(otherKvp.Value.distance - state.distance), Mathf.Epsilon);
+                        float weight = 1f / Mathf.Pow(difference, 2);
+                        runningAverage += weight * otherKvp.Value.desiredSpeed;
+                        weightTotal += weight;
+                    }
+
+                    //if we are effected by any runners, figure out how they effect our current speed
+                    //the last runner left on the route will not be effected by anyone so they just run at their desired speed
+                    if (weightTotal > 0)
+                    {
+                        state.desiredSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * conditions.coachVO2Guidance));
+                    }
+
+                    if(i == numGravityIterations - 1)
+                    {
+                        state.currentSpeed = state.desiredSpeed;
+                    }
                 }
             }
 
