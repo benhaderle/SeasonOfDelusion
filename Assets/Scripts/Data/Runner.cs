@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CreateNeptune;
 using UnityEngine;
 
 /// <summary>
@@ -66,8 +67,10 @@ public class Runner
     private float exhaustion;
     public float Exhaustion => exhaustion;
 
-    private float nutrition;
-    public float Nutrition => nutrition;
+    [SerializeField] private float minNutrition;
+    [SerializeField] private float maxNutrition;
+    private float currentNutrition;
+    public float CurrentNutrition => currentNutrition;
     private float recovery;
     public float Recovery => recovery;
     private float grit;
@@ -112,6 +115,8 @@ public class Runner
         currentVO2Max = minVO2Max;
         currentForm = minForm + 10;
         currentStrength = minStrength + 10;
+        currentNutrition = minNutrition + 10;
+        hydrationStatus = 4f;
         this.variables = variables;
     }
 
@@ -124,6 +129,7 @@ public class Runner
         float oldVO2 = currentVO2Max;
         float oldStrength = currentStrength;
 
+        hydrationStatus -= runState.hydrationCost;
         float milesPerSecond = runState.distance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
@@ -156,6 +162,9 @@ public class Runner
         exhaustion = Mathf.Max(0, exhaustion - variables.DayEndExhaustionRecovery);
 
         UpdateFormEOD();
+
+        float nutritionRoll = Mathf.Clamp(CNExtensions.RandGaussian(currentNutrition, 10), 0, 100);
+        hydrationStatus += 2f * (nutritionRoll / 50f);
     }
 
     /// <summary>
@@ -251,13 +260,31 @@ public class Runner
         currentStrength = Mathf.Clamp(currentStrength, minStrength, maxStrength);
     }
 
-    public float CalculateRunEconomy()
+    private float CalculateRunEconomy(float hydration)
     {
-        float formWeight = .25f;
-        float strengthWeight = .25f;
-        return .5f +
+        float formWeight = .2f;
+        float strengthWeight = .2f;
+        float hydrationWeight = .2f;
+        return .4f +
          formWeight * Mathf.Sqrt(currentForm / MAX_FORM) + 
-         strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH);
+         strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH) +
+         hydrationWeight * Mathf.Clamp01(hydration);
+    }
+
+    private float CalculateRunEconomy()
+    {
+        return CalculateRunEconomy(hydrationStatus);
+    }
+
+    public float CalculateRunEconomy(RunnerState state)
+    {
+       return CalculateRunEconomy(hydrationStatus - state.hydrationCost);
+    }
+
+    public float CalculateHydrationCost(float runVO2, float timeInMinutes)
+    {
+        // .02 is .02L per minute of water used per minute of running on average
+        return runVO2 / (currentVO2Max * .7f) * timeInMinutes * .02f;
     }
 }
 
