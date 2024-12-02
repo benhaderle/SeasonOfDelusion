@@ -32,6 +32,17 @@ public class CutsceneController : MonoBehaviour
         director.stopped -= OnDirectorStopped;
     }
 
+    #if UNITY_EDITOR
+    private void Update()
+    {
+        if(director.state == PlayState.Playing && Input.GetKeyDown(KeyCode.Space))
+        {
+            director.time = director.duration;
+            cutsceneEndedEvent.Invoke(new CutsceneEndedEvent.Context { cutsceneID = cutsceneID });
+        }
+    }
+    #endif
+
     private void OnDirectorStopped(PlayableDirector director)
     {
         cutsceneEndedEvent.Invoke(new CutsceneEndedEvent.Context { cutsceneID = cutsceneID });

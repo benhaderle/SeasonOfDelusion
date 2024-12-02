@@ -65,6 +65,16 @@ public class DialogueUIController : MonoBehaviour
         startDialgoueEvent.RemoveListener(OnStartDialogue);
     }
 
+    #if UNITY_EDITOR
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && canvas.isActiveAndEnabled)
+        {
+            EndDialogue();    
+        }
+    }
+    #endif
+
      private void OnToggle(bool active)
     {
         if(active)
@@ -111,8 +121,7 @@ public class DialogueUIController : MonoBehaviour
     {
         if(currentNodeIndex == currentDialogue.dialogueNodes.Length - 1 && currentPositionInNode >= currentDialogue.dialogueNodes[currentNodeIndex].text.Length)
         {
-            OnToggle(false);
-            dialogueEndedEvent.Invoke(new DialogueEndedEvent.Context { dialogueID = currentDialogue.dialogueID });
+            EndDialogue();
         }
         else if (currentPositionInNode < currentDialogue.dialogueNodes[currentNodeIndex].text.Length)
         {
@@ -127,6 +136,12 @@ public class DialogueUIController : MonoBehaviour
     }
 
     #region Utility Functions
+
+    private void EndDialogue()
+    {
+        OnToggle(false);
+        dialogueEndedEvent.Invoke(new DialogueEndedEvent.Context { dialogueID = currentDialogue.dialogueID });
+    }
 
     private int SecondToLastIndexOfAny(string s, char[] chars)
     {
