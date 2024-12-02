@@ -11,6 +11,7 @@ using UnityEngine.Events;
 /// </summary>
 public class RunController : MonoBehaviour
 {
+
     /// <summary>
     /// How fast the simulation should run at
     /// </summary>
@@ -87,6 +88,7 @@ public class RunController : MonoBehaviour
             float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
 
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
+
             runnerStates.Add(runner, new RunnerState 
             { 
                 //this calculates what the vo2 should be for the run for this runner
@@ -126,10 +128,10 @@ public class RunController : MonoBehaviour
                 // clamp the vo2 between some reasonable values
                 state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
 
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2);
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy());
             }
 
-            //now that we have everyone's desired speed, we use a gravity model to group people
+            // now that we have everyone's desired speed, we use a gravity model to group people
             int numGravityIterations = 2;
             for (int i = 0; i < numGravityIterations; i++)
             {

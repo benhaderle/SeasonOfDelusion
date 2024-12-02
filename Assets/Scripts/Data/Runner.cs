@@ -10,6 +10,10 @@ using UnityEngine;
 public class Runner
 {
     /// <summary>
+    /// Putting this here bc i don't know where else to put it
+    /// </summary> 
+    private const float MAX_FORM = 100;
+    /// <summary>
     /// An SO with shared variables between all runners
     /// </summary>
     private RunnerCalculationVariables variables;
@@ -17,10 +21,13 @@ public class Runner
     public string FirstName => firstName;
     [SerializeField] private string lastName;
     public string LastName => lastName;
-    /// <value>FirstName LastName</value>
+    /// <value>User facing string formatted as "FirstName LastName"</value>
     public string Name => $"{firstName} {lastName}";
 
     #region Stats
+
+    [SerializeField] private float weight;
+
     /// <summary>
     /// This runner's minVO2Max. currentVO2Max will never go below this.
     /// </summary>
@@ -35,6 +42,15 @@ public class Runner
     private float currentVO2Max;
     public float CurrentVO2Max => currentVO2Max;
 
+    private float strength;
+    public float Strength => strength;
+
+    [SerializeField] private float minForm;
+    [SerializeField] private float maxForm;
+    private float currentForm;
+    public float CurrentForm => currentForm;
+    private int daysSinceFormPractice;
+
     /// <summary>
     /// A number >= 0 that roughly represents cumulative lifetime miles for this runner
     /// </summary>
@@ -46,25 +62,36 @@ public class Runner
     private float exhaustion;
     public float Exhaustion => exhaustion;
 
+    private float nutrition;
+    public float Nutrition => nutrition;
+    private float recovery;
+    public float Recovery => recovery;
+    private float grit;
+    public float Grit => grit;
+    private float school;
+    public float School => school;
+    private float discipline;
+    public float Discipline => discipline;
+
     // TODO: impromptu list of stats that might get implemented at some point
-    // public int endurance { get; private set; }
-    // public int hills { get; private set; }
-    // public int discipline { get; private set; }
-    // public int grit { get; private set; }
     // public int wit { get; private set; }
     // public int spirit { get; private set; }
     // public int smarts { get; private set; }
 
-    // private float musclesHealth;
-    // private float skeletalHealth;
-    // private float respiratoryHealth;
-    // private float cardioHealth;
-
     // private float emotion;
     // private float intuition;
-    // private float sleep;
-    // private float nutrition;
-    // private float hydration;
+    private float sleepStatus;
+    public float SleepStatus => sleepStatus;
+    private float shortTermCalories;
+    public float ShortTermCalories => shortTermCalories;
+    private float longTermCalories;
+    public float LongTermCalories => longTermCalories;
+    private float hydrationStatus;
+    public float HydrationStatus => hydrationStatus;
+    private float shortTermSoreness;
+    public float ShortTermSoreness => shortTermCalories;
+    private float longTermSoreness;
+    public float LongTermSoreness => longTermCalories;
 
     #endregion
 
@@ -79,6 +106,7 @@ public class Runner
     public void Initialize(RunnerCalculationVariables variables)
     {
         currentVO2Max = minVO2Max;
+        currentForm = minForm + 10;
         this.variables = variables;
     }
 
@@ -90,7 +118,7 @@ public class Runner
     {
         float oldVO2 = currentVO2Max;
         float milesPerSecond = runState.distance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond);
+        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
 
         // experience is a function of cumulative miles run
@@ -179,6 +207,33 @@ public class Runner
 
         return exhaustionUpdate;
     }
+
+    /// <summary>
+    /// Updates form and form related stats at the end of the day
+    /// </summary> 
+    private void UpdateFormEOD()
+    {
+        // decrement form based on how long it's been since we practiced
+        currentForm -= daysSinceFormPractice;
+        currentForm = MathF.Max(currentForm, minForm);
+        
+        // increment the counter for how long it's been since we practiced
+        daysSinceFormPractice++; 
+        
+        // if we're 90% of our maxForm, we get to raise the floor of our form potential
+        if(currentForm - minForm >= (maxForm - minForm) * .9f)
+        {
+            minForm++;
+            minForm = Mathf.Min(minForm, maxForm - 1);
+        }
+    }
+
+    public float CalculateRunEconomy()
+    {
+        float formWeight = .5f;
+        return .5f + formWeight * Mathf.Sqrt(currentForm / MAX_FORM);
+    }
+
 }
 
 public struct RunnerUpdateRecord

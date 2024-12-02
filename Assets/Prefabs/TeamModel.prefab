@@ -49,17 +49,29 @@ MonoBehaviour:
   runners:
   - firstName: Chris
     lastName: Foster
-    minVO2Max: 35
+    weight: 0
+    minVO2Max: 50
     maxVO2Max: 75
+    minForm: 50
+    maxForm: 100
   - firstName: Ben
     lastName: Haderle
-    minVO2Max: 35
+    weight: 0
+    minVO2Max: 50
     maxVO2Max: 67
+    minForm: 30
+    maxForm: 90
   - firstName: Ari
     lastName: Rubin
-    minVO2Max: 35
+    weight: 0
+    minVO2Max: 50
     maxVO2Max: 63
+    minForm: 30
+    maxForm: 80
   - firstName: Aaron
     lastName: Walker
-    minVO2Max: 35
+    weight: 0
+    minVO2Max: 50
     maxVO2Max: 65
+    minForm: 40
+    maxForm: 100
