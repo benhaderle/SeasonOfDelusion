@@ -52,6 +52,8 @@ MonoBehaviour:
     weight: 0
     minVO2Max: 50
     maxVO2Max: 75
+    minStrength: 30
+    maxStrength: 100
     minForm: 50
     maxForm: 100
   - firstName: Ben
@@ -59,6 +61,8 @@ MonoBehaviour:
     weight: 0
     minVO2Max: 50
     maxVO2Max: 67
+    minStrength: 20
+    maxStrength: 100
     minForm: 30
     maxForm: 90
   - firstName: Ari
@@ -66,6 +70,8 @@ MonoBehaviour:
     weight: 0
     minVO2Max: 50
     maxVO2Max: 63
+    minStrength: 20
+    maxStrength: 100
     minForm: 30
     maxForm: 80
   - firstName: Aaron
@@ -73,5 +79,7 @@ MonoBehaviour:
     weight: 0
     minVO2Max: 50
     maxVO2Max: 65
+    minStrength: 30
+    maxStrength: 100
     minForm: 40
     maxForm: 100

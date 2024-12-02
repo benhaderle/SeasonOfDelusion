@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1751274852359225162, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -13695113
+      value: -13773634
       objectReference: {fileID: 0}
     - target: {fileID: 6512532813464802310, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -497,6 +497,38 @@ PrefabInstance:
     - target: {fileID: 5484208720676863048, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
       propertyPath: m_Name
       value: TeamModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[0].maxStrength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[0].minStrength
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[1].maxStrength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[1].minStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[2].maxStrength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[2].minStrength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[3].maxStrength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[3].minStrength
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1222,6 +1254,10 @@ PrefabInstance:
     - target: {fileID: 5156069335332107046, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7842593603528456940, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

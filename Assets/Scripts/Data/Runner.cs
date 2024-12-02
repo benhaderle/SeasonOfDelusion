@@ -13,6 +13,7 @@ public class Runner
     /// Putting this here bc i don't know where else to put it
     /// </summary> 
     private const float MAX_FORM = 100;
+    private const float MAX_STRENGTH = 100;
     /// <summary>
     /// An SO with shared variables between all runners
     /// </summary>
@@ -42,8 +43,11 @@ public class Runner
     private float currentVO2Max;
     public float CurrentVO2Max => currentVO2Max;
 
-    private float strength;
-    public float Strength => strength;
+    [SerializeField] private float minStrength;
+    [SerializeField] private float maxStrength;
+    private float currentStrength;
+    public float CurrentStrength => currentStrength;
+    private float strengthMomentum;
 
     [SerializeField] private float minForm;
     [SerializeField] private float maxForm;
@@ -107,6 +111,7 @@ public class Runner
     {
         currentVO2Max = minVO2Max;
         currentForm = minForm + 10;
+        currentStrength = minStrength + 10;
         this.variables = variables;
     }
 
@@ -117,6 +122,8 @@ public class Runner
     public RunnerUpdateRecord PostRunUpdate(RunnerState runState)
     {
         float oldVO2 = currentVO2Max;
+        float oldStrength = currentStrength;
+
         float milesPerSecond = runState.distance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
@@ -129,8 +136,10 @@ public class Runner
 
         // exhaustion changes based off of how far away you were from your recovery VO2
         UpdateExhaustion(runVO2, timeInMinutes);
+
+        UpdateStrength(runState.distance, runVO2);
        
-        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}");
+        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}  ");
 
         return new RunnerUpdateRecord
         {
@@ -145,6 +154,8 @@ public class Runner
     {
         // recover a bit over night
         exhaustion = Mathf.Max(0, exhaustion - variables.DayEndExhaustionRecovery);
+
+        UpdateFormEOD();
     }
 
     /// <summary>
@@ -215,7 +226,7 @@ public class Runner
     {
         // decrement form based on how long it's been since we practiced
         currentForm -= daysSinceFormPractice;
-        currentForm = MathF.Max(currentForm, minForm);
+        currentForm = Mathf.Max(currentForm, minForm);
         
         // increment the counter for how long it's been since we practiced
         daysSinceFormPractice++; 
@@ -228,12 +239,26 @@ public class Runner
         }
     }
 
-    public float CalculateRunEconomy()
+    /// <summary>
+    /// Updates strength and strength related stats at the end of the day
+    /// </summary> 
+    private void UpdateStrength(float distanceRun, float runVO2)
     {
-        float formWeight = .5f;
-        return .5f + formWeight * Mathf.Sqrt(currentForm / MAX_FORM);
+        float strengthCostToday = distanceRun * 10 * runVO2 / (maxVO2Max  * .8f);
+        float strengthDelta = strengthCostToday - currentStrength;
+        strengthMomentum = Mathf.Lerp(strengthMomentum, strengthDelta, .15f);
+        currentStrength += strengthMomentum;
+        currentStrength = Mathf.Clamp(currentStrength, minStrength, maxStrength);
     }
 
+    public float CalculateRunEconomy()
+    {
+        float formWeight = .25f;
+        float strengthWeight = .25f;
+        return .5f +
+         formWeight * Mathf.Sqrt(currentForm / MAX_FORM) + 
+         strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH);
+    }
 }
 
 public struct RunnerUpdateRecord
