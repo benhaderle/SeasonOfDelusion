@@ -120,6 +120,7 @@ public class RunController : MonoBehaviour
                 state.exhaustion = runner.CalculateExhaustion(runVO2, timeInMinutes);
 
                 state.hydrationCost = runner.CalculateHydrationCost(runVO2, timeInMinutes);
+                state.calorieCost = runner.CalculateCalorieCost(runVO2, timeInMinutes);
 
                 // use the current run exhaustion to get a random roll to see if pace should go up or down
                 // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
@@ -240,4 +241,5 @@ public class RunnerState
     public float timeInSeconds;
     public float exhaustion;
     public float hydrationCost;
+    public float calorieCost;
 }

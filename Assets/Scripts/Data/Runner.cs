@@ -117,6 +117,8 @@ public class Runner
         currentStrength = minStrength + 10;
         currentNutrition = minNutrition + 10;
         hydrationStatus = 4f;
+        longTermCalories = 100000;
+        shortTermCalories = 3000;
         this.variables = variables;
     }
 
@@ -130,6 +132,10 @@ public class Runner
         float oldStrength = currentStrength;
 
         hydrationStatus -= runState.hydrationCost;
+        float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
+        shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
+        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
+
         float milesPerSecond = runState.distance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
@@ -145,7 +151,7 @@ public class Runner
 
         UpdateStrength(runState.distance, runVO2);
        
-        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}  ");
+        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
         return new RunnerUpdateRecord
         {
@@ -163,8 +169,18 @@ public class Runner
 
         UpdateFormEOD();
 
-        float nutritionRoll = Mathf.Clamp(CNExtensions.RandGaussian(currentNutrition, 10), 0, 100);
-        hydrationStatus += 2f * (nutritionRoll / 50f);
+        float nutritionRoll = CNExtensions.RandGaussian(currentNutrition, 10);
+        hydrationStatus += 2f * Mathf.Clamp(nutritionRoll / 50f, 0, 2);
+
+        float caloriesToAdd = (shortTermCalories - 3000) * (nutritionRoll / 80f);
+        float longTermCaloriesToAdd = (caloriesToAdd - (shortTermCalories - 3000)) * .5f;
+
+        shortTermCalories += caloriesToAdd;
+        if(longTermCaloriesToAdd > 0)
+        {
+            shortTermCalories = 3000;
+            longTermCalories += longTermCaloriesToAdd;
+        }
     }
 
     /// <summary>
@@ -260,31 +276,39 @@ public class Runner
         currentStrength = Mathf.Clamp(currentStrength, minStrength, maxStrength);
     }
 
-    private float CalculateRunEconomy(float hydration)
+    private float CalculateRunEconomy(float hydration, float calories)
     {
-        float formWeight = .2f;
-        float strengthWeight = .2f;
-        float hydrationWeight = .2f;
-        return .4f +
-         formWeight * Mathf.Sqrt(currentForm / MAX_FORM) + 
+        float formWeight = .25f;
+        float strengthWeight = .25f;
+        float hydrationWeight = .25f;
+        float calorieWeight = .25f;
+        
+        return formWeight * Mathf.Sqrt(currentForm / MAX_FORM) + 
          strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH) +
-         hydrationWeight * Mathf.Clamp01(hydration);
+         hydrationWeight * Mathf.Clamp01(hydration) +
+         calorieWeight * Mathf.Min(1, calories);
     }
 
     private float CalculateRunEconomy()
     {
-        return CalculateRunEconomy(hydrationStatus);
+        return CalculateRunEconomy(hydrationStatus, shortTermCalories + longTermCalories);
     }
 
     public float CalculateRunEconomy(RunnerState state)
     {
-       return CalculateRunEconomy(hydrationStatus - state.hydrationCost);
+       return CalculateRunEconomy(hydrationStatus - state.hydrationCost, shortTermCalories + longTermCalories - state.calorieCost);
     }
 
     public float CalculateHydrationCost(float runVO2, float timeInMinutes)
     {
         // .02 is .02L per minute of water used per minute of running on average
         return runVO2 / (currentVO2Max * .7f) * timeInMinutes * .02f;
+    }
+
+    public float CalculateCalorieCost(float runVO2, float timeInMinutes)
+    {
+        // 10 is the amount of calories burned per minute at 70% of VO2Max
+        return runVO2 / (currentVO2Max * .7f) * timeInMinutes * 10f;
     }
 }
 
