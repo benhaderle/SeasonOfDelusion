@@ -58,6 +58,7 @@ MonoBehaviour:
     maxForm: 100
     minNutrition: 30
     maxNutrition: 100
+    recovery: 60
   - firstName: Ben
     lastName: Haderle
     weight: 0
@@ -69,6 +70,7 @@ MonoBehaviour:
     maxForm: 90
     minNutrition: 50
     maxNutrition: 100
+    recovery: 65
   - firstName: Ari
     lastName: Rubin
     weight: 0
@@ -80,6 +82,7 @@ MonoBehaviour:
     maxForm: 80
     minNutrition: 20
     maxNutrition: 100
+    recovery: 60
   - firstName: Aaron
     lastName: Walker
     weight: 0
@@ -91,3 +94,4 @@ MonoBehaviour:
     maxForm: 100
     minNutrition: 30
     maxNutrition: 100
+    recovery: 60

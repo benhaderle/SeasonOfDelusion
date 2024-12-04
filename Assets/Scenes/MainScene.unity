@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1751274852359225162, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -13861878
+      value: -13897778
       objectReference: {fileID: 0}
     - target: {fileID: 6512532813464802310, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -498,6 +498,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeamModel
       objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[0].recovery
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[1].recovery
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[2].recovery
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403819593192521554, guid: 7ac6e543f1bd946569d5319afa7a62fd, type: 3}
+      propertyPath: runners.Array.data[3].recovery
+      value: 55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -748,6 +764,10 @@ PrefabInstance:
     - target: {fileID: 7377846192015393789, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8245467774433078290, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 9074907689163008048, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
       propertyPath: m_Name
@@ -1131,6 +1151,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2077191245468079271, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2114380279852624502, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
       propertyPath: m_Name
       value: CutsceneUIController
@@ -1214,6 +1238,10 @@ PrefabInstance:
     - target: {fileID: 5156069335332107046, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7842593603528456940, guid: 133f028d8364a4697ab399f2c500857e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -15,6 +15,8 @@ public class Runner
     /// </summary> 
     private const float MAX_FORM = 100;
     private const float MAX_STRENGTH = 100;
+    private const float MAX_SLEEP = 10;
+    private const float MIN_SLEEP = 0;
     /// <summary>
     /// An SO with shared variables between all runners
     /// </summary>
@@ -71,14 +73,12 @@ public class Runner
     [SerializeField] private float maxNutrition;
     private float currentNutrition;
     public float CurrentNutrition => currentNutrition;
-    private float recovery;
+    [SerializeField] private float recovery;
     public float Recovery => recovery;
     private float grit;
     public float Grit => grit;
     private float school;
     public float School => school;
-    private float discipline;
-    public float Discipline => discipline;
 
     // TODO: impromptu list of stats that might get implemented at some point
     // public int wit { get; private set; }
@@ -119,6 +119,7 @@ public class Runner
         hydrationStatus = 4f;
         longTermCalories = 100000;
         shortTermCalories = 3000;
+        sleepStatus = 10;
         this.variables = variables;
     }
 
@@ -181,6 +182,11 @@ public class Runner
             shortTermCalories = 3000;
             longTermCalories += longTermCaloriesToAdd;
         }
+
+        float recoveryRoll = CNExtensions.RandGaussian(recovery, 10);
+        float hoursOfSleep = recoveryRoll * .1f - 6;
+        sleepStatus += hoursOfSleep;
+        sleepStatus = Mathf.Clamp(sleepStatus, MIN_SLEEP, MAX_SLEEP);
     }
 
     /// <summary>
@@ -283,7 +289,7 @@ public class Runner
         float hydrationWeight = .25f;
         float calorieWeight = .25f;
         
-        return formWeight * Mathf.Sqrt(currentForm / MAX_FORM) + 
+        return formWeight * Mathf.Sqrt(currentForm * Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus)/ MAX_FORM) + 
          strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH) +
          hydrationWeight * Mathf.Clamp01(hydration) +
          calorieWeight * Mathf.Min(1, calories);
