@@ -25,8 +25,8 @@ public class RunController : MonoBehaviour
     [Header("Run VO2 Calculation Variables")]
     [SerializeField] private float maxDeviation = .1f;
     [SerializeField] private float experienceCap = 1000000f;
-    [SerializeField] private float maxExhaustion = 500f;
-    [SerializeField] private float exhaustionEffect = .1f;
+    [SerializeField] private float maxSoreness = 500f;
+    [SerializeField] private float sorenessEffect = .1f;
 
     #region Events
     public class StartRunEvent : UnityEvent<StartRunEvent.Context> 
@@ -80,10 +80,13 @@ public class RunController : MonoBehaviour
         //wait a frame for the other starts to get going
         yield return null;
 
+        // go through each runner and initialize their state for this run
+        // most of the work here is setting up what the vo2 for this run should be to begin the run with
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach(Runner runner in runners)
         {
-            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxExhaustion, runner.Exhaustion)) * exhaustionEffect;
+            // TODO: if the coach guidance is slow already, should heavy soreness make you go slower?
+            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, runner.LongTermSoreness)) * sorenessEffect;
             float statusDeviation = Mathf.Clamp((1 - (runner.Experience / experienceCap)) * maxDeviation, 0, maxDeviation);
             float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
 
@@ -117,15 +120,16 @@ public class RunController : MonoBehaviour
                 float timeInMinutes = state.timeInSeconds / 60f;
 
                 // figure out the exhaustion for this runner during this run
-                state.exhaustion = runner.CalculateExhaustion(runVO2, timeInMinutes);
+                state.shortTermSoreness = runner.CalculateShortTermSoreness(runVO2, timeInMinutes);
 
                 state.hydrationCost = runner.CalculateHydrationCost(runVO2, timeInMinutes);
                 state.calorieCost = runner.CalculateCalorieCost(runVO2, timeInMinutes);
 
+                //TODO: use a better heuristic for feel to change pace
                 // use the current run exhaustion to get a random roll to see if pace should go up or down
                 // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
-                float roll = CNExtensions.RandGaussian(-Mathf.Pow(Mathf.InverseLerp(0, maxExhaustion, runner.Exhaustion - 200), 2) * 0.01f, .005f);
-                state.runVO2 += roll * runner.CurrentVO2Max;
+                 float roll = CNExtensions.RandGaussian(-Mathf.Pow(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness - 200), 2) * 0.01f, .005f);
+                 state.runVO2 += roll * runner.CurrentVO2Max;
 
                 // clamp the vo2 between some reasonable values
                 state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
@@ -239,7 +243,7 @@ public class RunnerState
     public float distance;
     public float percentDone;
     public float timeInSeconds;
-    public float exhaustion;
+    public float shortTermSoreness;
     public float hydrationCost;
     public float calorieCost;
 }

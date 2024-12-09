@@ -63,12 +63,6 @@ public class Runner
     /// </summary>
     private float experience;
     public float Experience => experience;
-    /// <summary>
-    /// A number >= 0 that represents how tired a player at the moment
-    /// </summary>
-    private float exhaustion;
-    public float Exhaustion => exhaustion;
-
     [SerializeField] private float minNutrition;
     [SerializeField] private float maxNutrition;
     private float currentNutrition;
@@ -95,10 +89,8 @@ public class Runner
     public float LongTermCalories => longTermCalories;
     private float hydrationStatus;
     public float HydrationStatus => hydrationStatus;
-    private float shortTermSoreness;
-    public float ShortTermSoreness => shortTermCalories;
     private float longTermSoreness;
-    public float LongTermSoreness => longTermCalories;
+    public float LongTermSoreness => longTermSoreness;
 
     #endregion
 
@@ -148,11 +140,11 @@ public class Runner
         UpdateVO2(runVO2, timeInMinutes);
 
         // exhaustion changes based off of how far away you were from your recovery VO2
-        UpdateExhaustion(runVO2, timeInMinutes);
+        UpdateLongTermSoreness(runVO2, timeInMinutes);
 
         UpdateStrength(runState.distance, runVO2);
        
-        Debug.Log($"Name: {Name}\tExhaustion: {Exhaustion}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
         return new RunnerUpdateRecord
         {
@@ -166,7 +158,7 @@ public class Runner
     public void OnEndDay()
     {
         // recover a bit over night
-        exhaustion = Mathf.Max(0, exhaustion - variables.DayEndExhaustionRecovery);
+        longTermSoreness = Mathf.Max(0, longTermSoreness - variables.DayEndLongTermSorenessRecovery);
 
         UpdateFormEOD();
 
@@ -232,20 +224,25 @@ public class Runner
     /// </summary>
     /// <param name="runVO2">The VO2 in mL/kg/min for the last run</param>
     /// <param name="timeInMinutes">The length of the run in minutes</param> 
-    private void UpdateExhaustion(float runVO2, float timeInMinutes)
+    private void UpdateLongTermSoreness(float runVO2, float timeInMinutes)
     {
         // add it up
-        exhaustion += CalculateExhaustion(runVO2, timeInMinutes);
+        longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
+    }
+    
+    public float CalculateShortTermSoreness(float runVO2, float timeInMinutes)
+    {
+        return .001f * Mathf.Pow(runVO2, 2) * timeInMinutes;
     }
 
-    public float CalculateExhaustion(float runVO2, float timeInMinutes)
+    public float CalculateLongTermSoreness(float runVO2, float timeInMinutes)
     {
         // go look at desmos if you want to see the shape of this graph
         // basic idea is that exhaustion goes up if you ran harder or longer, goes down if you ran slower or shorter
-        float exhaustionGap = (runVO2 / (currentVO2Max * variables.ExhaustionVO2Threshold)) - 1f;
-        float exhaustionUpdate = (variables.CubicExhaustionSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3))
-            + (variables.LinearExhaustionSlope * timeInMinutes * (exhaustionGap + variables.LinearExhaustionOffset))
-            + variables.ConstantExhaustionOffset;
+        float exhaustionGap = (runVO2 / (currentVO2Max * variables.LongTermSorenessVO2Threshold)) - 1f;
+        float exhaustionUpdate = (variables.CubicLongTermSorenessSlope * timeInMinutes * Mathf.Pow(exhaustionGap, 3))
+            + (variables.LinearLongTermSorenessSlope * timeInMinutes * (exhaustionGap + variables.LinearLongTermSorenessOffset))
+            + (variables.LinearLongTermSorenessTimeSlope * (timeInMinutes + variables.LinearLongTermSorenessTimeOffset));
 
         return exhaustionUpdate;
     }

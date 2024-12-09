@@ -28,25 +28,27 @@ public class RunnerCalculationVariables : ScriptableObject
     [SerializeField] private float vo2UpdateFactor = .001f;
     public float VO2UpdateFactor => vo2UpdateFactor;
 
-    [Header("Post-Run Exhaustion Update Variables")]
+    [Header("Long Term Soreness Update Variables")]
     /// <summary>
     /// The percent of VO2 at which point a runner will begin to accumulate exhuastion
     /// </summary>
-    [SerializeField] private float exhaustionVO2Threshold = .6f;
-    public float ExhaustionVO2Threshold => exhaustionVO2Threshold;
-    [SerializeField] private float cubicExhaustionSlope = 3.5f;
-    public float CubicExhaustionSlope => cubicExhaustionSlope;
-    [SerializeField] private float linearExhaustionSlope = 3f;
-    public float LinearExhaustionSlope => linearExhaustionSlope;
-    [SerializeField] private float linearExhaustionOffset = .15f;
-    public float LinearExhaustionOffset => linearExhaustionOffset;
-    [SerializeField] private float constantExhaustionOffset = -15f;
-    public float ConstantExhaustionOffset => constantExhaustionOffset;
+    [SerializeField] private float longTermSorenessVO2Threshold = .6f;
+    public float LongTermSorenessVO2Threshold => longTermSorenessVO2Threshold;
+    [SerializeField] private float cubicLongTermSorenessSlope = 3.5f;
+    public float CubicLongTermSorenessSlope => cubicLongTermSorenessSlope;
+    [SerializeField] private float linearLongTermSorenessSlope = 3f;
+    public float LinearLongTermSorenessSlope => linearLongTermSorenessSlope;
+    [SerializeField] private float linearLongTermSorenessOffset = .15f;
+    public float LinearLongTermSorenessOffset => linearLongTermSorenessOffset;
+    [SerializeField] private float linearLongTermSorenessTimeSlope = 3f;
+    public float LinearLongTermSorenessTimeSlope => linearLongTermSorenessTimeSlope;
+    [SerializeField] private float linearLongTermSorenessTimeOffset = -40;
+    public float LinearLongTermSorenessTimeOffset => linearLongTermSorenessTimeOffset;
 
     [Header("Day End Variables")]
     /// <summary>
     /// How much exhaustion is subtracted at the end of each day
     /// </summary>
-    [SerializeField] private float dayEndExhaustionRecovery = 100;
-    public float DayEndExhaustionRecovery => dayEndExhaustionRecovery;
+    [SerializeField] private float dayEndLongTermSorenessRecovery = 100;
+    public float DayEndLongTermSorenessRecovery => dayEndLongTermSorenessRecovery;
 }
