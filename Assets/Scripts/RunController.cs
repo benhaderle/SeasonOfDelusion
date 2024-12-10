@@ -92,40 +92,30 @@ public class RunController : MonoBehaviour
 
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
-            runnerStates.Add(runner, new RunnerState 
-            { 
+            runnerStates.Add(runner, new RunnerState
+            {
                 //this calculates what the vo2 should be for the run for this runner
                 //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
                 //amount of experience is based off of how many miles a runner has run
                 //right now we just have a linear relationship between number of miles run and variance in runVO2
                 runVO2 = runner.CurrentVO2Max * Mathf.Max(.5f, conditions.coachVO2Guidance + roll),
-                currentSpeed = 0, 
-                desiredSpeed = 0, 
-                distance = 0 
+                currentSpeed = 0,
+                desiredSpeed = 0,
+                distance = 0,
+                distanceTimeIntervalList = new List<(float, float)> {(0,0)}
             });
         }
 
-        //while all runners have not finished, simulate the run
+        // while all runners have not finished, simulate the run
         while(runnerStates.Values.Any(state => state.distance < route.Length))
         {
-            //first figure out every runner's preferred speed
+            // first figure out every runner's preferred speed
             foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
             {
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                // calculating some stuff to be used below
-                float milesPerSecond = state.distance / Mathf.Max(1, state.timeInSeconds);
-                float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond);
-                float timeInMinutes = state.timeInSeconds / 60f;
-
-                // figure out the exhaustion for this runner during this run
-                state.shortTermSoreness = runner.CalculateShortTermSoreness(runVO2, timeInMinutes);
-
-                state.hydrationCost = runner.CalculateHydrationCost(runVO2, timeInMinutes);
-                state.calorieCost = runner.CalculateCalorieCost(runVO2, timeInMinutes);
-
-                //TODO: use a better heuristic for feel to change pace
+                // TODO: use a better heuristic for feel to change pace
                 // use the current run exhaustion to get a random roll to see if pace should go up or down
                 // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
                  float roll = CNExtensions.RandGaussian(-Mathf.Pow(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness - 200), 2) * 0.01f, .005f);
@@ -203,6 +193,22 @@ public class RunController : MonoBehaviour
                         state.timeInSeconds += timePassed;
 
                         state.percentDone = state.distance / route.Length;
+
+                        state.distanceTimeIntervalList.Add((state.distance, state.timeInSeconds));
+                        
+                        // calculating simulation interval data so we can update soreness, hydration, and calories
+                        int latestIntervalIndex = state.distanceTimeIntervalList.Count - 1;
+                        float intervalDistance = state.distanceTimeIntervalList[latestIntervalIndex].Item1 - state.distanceTimeIntervalList[latestIntervalIndex - 1].Item1;
+                        float intervalTimeInSeconds = state.distanceTimeIntervalList[latestIntervalIndex].Item2 - state.distanceTimeIntervalList[latestIntervalIndex - 1].Item2;
+
+                        float intervalMilesPerSecond = intervalDistance / Mathf.Max(1, intervalTimeInSeconds);
+                        float intervalVO2 = 0; RunUtility.SpeedToOxygenCost(intervalMilesPerSecond);
+                        float intervalTimeInMinutes = intervalTimeInSeconds / 60f;
+                        
+                        state.shortTermSoreness += runner.CalculateShortTermSoreness(intervalVO2, intervalTimeInMinutes);
+
+                        state.hydrationCost += runner.CalculateHydrationCost(intervalVO2, intervalTimeInMinutes);
+                        state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
                     }
 
                     stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\n";
@@ -237,6 +243,7 @@ public class RunController : MonoBehaviour
 }
 public class RunnerState
 {
+    public List<(float, float)> distanceTimeIntervalList;
     public float runVO2;
     public float currentSpeed;
     public float desiredSpeed;
