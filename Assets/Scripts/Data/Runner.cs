@@ -157,8 +157,6 @@ public class Runner
     /// </summary>
     public void OnEndDay()
     {
-        // recover a bit over night
-        longTermSoreness = Mathf.Max(0, longTermSoreness - variables.DayEndLongTermSorenessRecovery);
 
         UpdateFormEOD();
 
@@ -179,6 +177,10 @@ public class Runner
         float hoursOfSleep = recoveryRoll * .1f - 6;
         sleepStatus += hoursOfSleep;
         sleepStatus = Mathf.Clamp(sleepStatus, MIN_SLEEP, MAX_SLEEP);
+
+        // recover a bit over night
+        //TODO: this should be effected by the recovery roll and should maybe be proportional to the amount of longterm soreness we already have
+        longTermSoreness = Mathf.Max(0, longTermSoreness - variables.DayEndLongTermSorenessRecovery);
     }
 
     /// <summary>

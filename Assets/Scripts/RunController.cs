@@ -118,8 +118,27 @@ public class RunController : MonoBehaviour
                 // TODO: use a better heuristic for feel to change pace
                 // use the current run exhaustion to get a random roll to see if pace should go up or down
                 // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
-                 float roll = CNExtensions.RandGaussian(-Mathf.Pow(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness - 200), 2) * 0.01f, .005f);
-                 state.runVO2 += roll * runner.CurrentVO2Max;
+                float paceChangeStdDev = .03f;
+                float paceChangeMeanMagnitude = .02f;
+
+                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness));
+                float sorenessPaceChangeFactor = Mathf.Pow(2 * normalizedSorenessFeel - 1, 5);
+
+                float normalizedIntervalVO2 = Mathf.Clamp01(Mathf.InverseLerp(runner.CurrentVO2Max, runner.CurrentVO2Max, state.lastIntervalVO2));
+                float vo2PaceChangeFactor = normalizedIntervalVO2 - conditions.coachVO2Guidance;
+
+                float paceChangeMean = 0;
+                if(sorenessPaceChangeFactor > .1f && vo2PaceChangeFactor > -.05f)
+                {
+                    paceChangeMean = sorenessPaceChangeFactor * -paceChangeMeanMagnitude;
+                }
+                else if(sorenessPaceChangeFactor < -.1f && vo2PaceChangeFactor < .05f)
+                {
+                    paceChangeMean = (-vo2PaceChangeFactor + .05f) * paceChangeMeanMagnitude;
+                }
+
+                float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
+                state.runVO2 += roll * runner.CurrentVO2Max;
 
                 // clamp the vo2 between some reasonable values
                 state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
@@ -202,16 +221,17 @@ public class RunController : MonoBehaviour
                         float intervalTimeInSeconds = state.distanceTimeIntervalList[latestIntervalIndex].Item2 - state.distanceTimeIntervalList[latestIntervalIndex - 1].Item2;
 
                         float intervalMilesPerSecond = intervalDistance / Mathf.Max(1, intervalTimeInSeconds);
-                        float intervalVO2 = 0; RunUtility.SpeedToOxygenCost(intervalMilesPerSecond);
+                        float intervalVO2 = RunUtility.SpeedToOxygenCost(intervalMilesPerSecond);
                         float intervalTimeInMinutes = intervalTimeInSeconds / 60f;
                         
                         state.shortTermSoreness += runner.CalculateShortTermSoreness(intervalVO2, intervalTimeInMinutes);
 
                         state.hydrationCost += runner.CalculateHydrationCost(intervalVO2, intervalTimeInMinutes);
                         state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
+                        state.lastIntervalVO2 = intervalVO2;
                     }
 
-                    stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.distance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness+runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
                 }
                 Debug.Log(stateString);
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
@@ -245,6 +265,7 @@ public class RunnerState
 {
     public List<(float, float)> distanceTimeIntervalList;
     public float runVO2;
+    public float lastIntervalVO2;
     public float currentSpeed;
     public float desiredSpeed;
     public float distance;
