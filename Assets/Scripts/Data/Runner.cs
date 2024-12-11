@@ -180,7 +180,8 @@ public class Runner
 
         // recover a bit over night
         //TODO: this should be effected by the recovery roll and should maybe be proportional to the amount of longterm soreness we already have
-        longTermSoreness = Mathf.Max(0, longTermSoreness - variables.DayEndLongTermSorenessRecovery);
+        float linearRecoverySlope = 1f - (recoveryRoll * .002f);
+        longTermSoreness = Mathf.Max(0, (linearRecoverySlope * longTermSoreness) - variables.DayEndLongTermSorenessRecovery);
     }
 
     /// <summary>

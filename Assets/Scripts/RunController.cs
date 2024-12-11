@@ -115,9 +115,6 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                // TODO: use a better heuristic for feel to change pace
-                // use the current run exhaustion to get a random roll to see if pace should go up or down
-                // below a threshold of exhaustion, it's more likely to speed up, over the threshold, it's more likely to slow down
                 float paceChangeStdDev = .03f;
                 float paceChangeMeanMagnitude = .02f;
 

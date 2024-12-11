@@ -18,9 +18,10 @@ MonoBehaviour:
   linearVO2Offset: 0.15
   constantVO2Offset: 20
   vo2UpdateFactor: 0.001
-  exhaustionVO2Threshold: 0.6
-  cubicExhaustionSlope: 25
-  linearExhaustionSlope: 1.5
-  linearExhaustionOffset: 0.3
-  constantExhaustionOffset: 10
-  dayEndExhaustionRecovery: 200
+  longTermSorenessVO2Threshold: 0.6
+  cubicLongTermSorenessSlope: 3.5
+  linearLongTermSorenessSlope: 3
+  linearLongTermSorenessOffset: 0.15
+  linearLongTermSorenessTimeSlope: 3
+  linearLongTermSorenessTimeOffset: -40
+  dayEndLongTermSorenessRecovery: 75
