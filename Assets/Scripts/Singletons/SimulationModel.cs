@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,13 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SimulationModel : Singleton<SimulationModel>
 {
-    private int day;
-    public int Day => day;
+    [SerializeField] private TextAsset daysAsset;
+    private Day[] days;
+
+    private int dayIndex;
+    public int DayIndex => dayIndex;
+
+    private int eventIndex;
 
     #region Events
     public class EndDayEvent : UnityEvent<EndDayEvent.Context> 
@@ -23,26 +29,33 @@ public class SimulationModel : Singleton<SimulationModel>
     public static EndDayEvent endDayEvent = new ();
     #endregion
 
+    private void Awake()
+    {
+        days = JsonUtility.FromJson<DaySerializationContainer>(daysAsset.text).days;
+    }
+
     private void OnEnable()
     {
         CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
+        RunController.practiceEndedEvent.AddListener(OnPracticeEnded);
     }
 
     private void OnDisable()
     {
         CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
+        RunController.practiceEndedEvent.RemoveListener(OnPracticeEnded);
     }
 
     private void Start()
     {
-        StartDay();
+        StartDay(dayIndex);
     }
 
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
     {
-        StartDay();
+        StartDay(dayIndex);
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -50,46 +63,75 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         BackgroundController.toggleEvent.Invoke(true);
         HeaderController.toggleEvent.Invoke(true);
-        
-        switch(context.cutsceneID)
-        {
-            case CutsceneID.Intro:
-                DialogueUIController.toggleEvent.Invoke(true);
-                DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = DialogueID.Intro });
-                break;
-            case CutsceneID.Preday:
-                StartPractice();
-                break;
-        }
+
+        LoadNextEventOrAdvanceDay();
     }
 
     private void OnDialogueEnded(DialogueUIController.DialogueEndedEvent.Context context)
     {
-        switch(context.dialogueID)
+        LoadNextEventOrAdvanceDay();
+    }
+
+    private void OnPracticeEnded(RunController.PracticeEndedEvent.Context context)
+    {
+        LoadNextEventOrAdvanceDay();
+    }
+
+    private void StartDay(int index)
+    {
+        dayIndex = index;
+        eventIndex = 0;
+
+        LoadEvent(days[dayIndex], eventIndex);
+    }
+
+    private void LoadNextEventOrAdvanceDay()
+    {
+        eventIndex++;
+
+        if(eventIndex < days[dayIndex].events.Count)
         {
-            case DialogueID.Intro:
-                StartPractice();
-                break;
+            LoadEvent(days[dayIndex], eventIndex);
+        }
+        else
+        {
+            AdvanceDay();
         }
     }
 
-    private void StartDay()
+    private void LoadEvent(Day day, int eventIndex)
     {
-        CutsceneID cutsceneID;
-        if (Day == 0)
+        DayEvent dayEvent = day.events[eventIndex];
+
+        switch(dayEvent.type)
         {
-            cutsceneID = CutsceneID.Intro;
+            default:
+                Debug.LogError($"UNrecognized event type \"{dayEvent.type}\". Skipping to the next event.");
+                LoadNextEventOrAdvanceDay();
+                break;
+            case "Cutscene": LoadCutsceneEvent(dayEvent); break;
+            case "Dialogue": LoadDialogueEvent(dayEvent); break;
+            case "Practice": LoadPracticeEvent(dayEvent); break;
         }
-        else
-        {           
-            cutsceneID = CutsceneID.Preday;
-        }
+    }
+
+    private void LoadCutsceneEvent(DayEvent cutsceneEvent)
+    {
+        Enum.TryParse(cutsceneEvent.cutsceneID, out CutsceneID cutsceneID);
 
         BackgroundController.toggleEvent.Invoke(false);
         CutsceneUIController.startCutsceneEvent.Invoke( new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
     }
 
-    private void StartPractice()
+    private void LoadDialogueEvent(DayEvent dialogueEvent)
+    {
+        Enum.TryParse(dialogueEvent.dialogueID, out DialogueID dialogueID);
+
+        DialogueUIController.toggleEvent.Invoke(true);
+        DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = dialogueID });
+    }
+
+    private void LoadPracticeEvent(DayEvent practiceEvent)
     {
         RouteUIController.toggleEvent.Invoke(true);
         BackgroundController.toggleEvent.Invoke(true);
@@ -99,9 +141,22 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         endDayEvent.Invoke(new EndDayEvent.Context());
 
-        day++;
+        dayIndex++;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+}
+
+[Serializable]
+public class Day
+{
+    public string date;
+    public List<DayEvent> events;
+}
+
+[Serializable]
+public class DaySerializationContainer
+{
+    public Day[] days;
 }

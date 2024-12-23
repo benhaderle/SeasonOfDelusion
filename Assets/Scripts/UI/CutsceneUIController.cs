@@ -12,8 +12,8 @@ public class CutsceneUIController : MonoBehaviour
     private Dictionary<CutsceneID, Cutscene> cutsceneDictionary;
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
-
     private IEnumerator toggleRoutine;
+    private int activeSceneIndex = -1;
 
     #region Events
     public class ToggleEvent : UnityEvent<bool> { };
@@ -41,12 +41,14 @@ public class CutsceneUIController : MonoBehaviour
     {
         toggleEvent.AddListener(OnToggle);
         startCutsceneEvent.AddListener(OnStartCutscene);
+        SimulationModel.endDayEvent.AddListener(OnEndDay);
     }
 
     private void OnDisable()
     {
         toggleEvent.RemoveListener(OnToggle);
         startCutsceneEvent.RemoveListener(OnStartCutscene);
+        SimulationModel.endDayEvent.RemoveListener(OnEndDay);
     }
 
     private void OnToggle(bool active)
@@ -68,9 +70,23 @@ public class CutsceneUIController : MonoBehaviour
 
     private void OnStartCutscene(StartCutsceneEvent.Context context)
     {
+        if (activeSceneIndex != -1)
+        {
+            SceneManager.UnloadSceneAsync(activeSceneIndex);
+        }
+
         if(cutsceneDictionary.TryGetValue(context.cutsceneID, out Cutscene cutscene))
         {
-            SceneManager.LoadSceneAsync((int)cutscene.scene, LoadSceneMode.Additive);
+            activeSceneIndex = (int)cutscene.scene;
+            SceneManager.LoadSceneAsync(activeSceneIndex, LoadSceneMode.Additive);
+        }
+    }
+
+    private void OnEndDay(SimulationModel.EndDayEvent.Context context)
+    {
+        if (activeSceneIndex != -1)
+        {
+            SceneManager.UnloadSceneAsync(activeSceneIndex);
         }
     }
 

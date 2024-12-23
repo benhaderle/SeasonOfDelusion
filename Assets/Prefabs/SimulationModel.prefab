@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
+  daysAsset: {fileID: 4900000, guid: 40beca4a3b6ea4cc392ad14b0a3131d8, type: 3}

@@ -68,7 +68,7 @@ public class DialogueUIController : MonoBehaviour
     #if UNITY_EDITOR
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && canvas.isActiveAndEnabled)
+        if(Input.GetKeyDown(KeyCode.Space) && canvasGroup.alpha == 1)
         {
             EndDialogue();    
         }
@@ -115,7 +115,6 @@ public class DialogueUIController : MonoBehaviour
 
         return positionInNode;
     }
-
 
     public void OnContinueButton()
     {

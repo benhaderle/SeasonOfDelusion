@@ -1,0 +1,49 @@
+
+{
+    "days": 
+    [
+        {
+            "date": "8/25/11",
+            "events":[
+                {
+                    "name": "FIRSTDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Intro"
+                },
+                {
+                    "name": "FIRSTDAYDIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "dialogueID": "Intro"
+                },
+                {
+                    "name": "FIRSTDAYPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/26/11",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        }
+    ]
+}

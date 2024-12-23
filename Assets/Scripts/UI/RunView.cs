@@ -54,7 +54,7 @@ public class RunView : MonoBehaviour
 
     public void OnContinueButton()
     {
-        SimulationModel.Instance.AdvanceDay();
+        RunController.practiceEndedEvent.Invoke(new RunController.PracticeEndedEvent.Context { });
     }
 
     private void OnStartRun(RunController.StartRunEvent.Context context)

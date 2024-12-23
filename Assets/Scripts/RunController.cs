@@ -49,7 +49,6 @@ public class RunController : MonoBehaviour
     }
     public static RunSimulationUpdatedEvent runSimulationUpdatedEvent = new ();
 
-
     public class RunSimulationEndedEvent : UnityEvent<RunSimulationEndedEvent.Context>
     {
         public class Context
@@ -58,6 +57,14 @@ public class RunController : MonoBehaviour
         }
     }
     public static RunSimulationEndedEvent runSimulationEndedEvent = new ();
+
+    public class PracticeEndedEvent : UnityEvent<PracticeEndedEvent.Context>
+    {
+        public class Context
+        {
+        }
+    }
+    public static PracticeEndedEvent practiceEndedEvent = new ();
     #endregion
 
     private void OnEnable()

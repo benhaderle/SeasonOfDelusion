@@ -38,7 +38,6 @@ public class CutsceneController : MonoBehaviour
         if(director.state == PlayState.Playing && Input.GetKeyDown(KeyCode.Space))
         {
             director.time = director.duration;
-            cutsceneEndedEvent.Invoke(new CutsceneEndedEvent.Context { cutsceneID = cutsceneID });
         }
     }
     #endif
