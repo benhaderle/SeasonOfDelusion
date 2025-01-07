@@ -112,6 +112,7 @@ public class SimulationModel : Singleton<SimulationModel>
             case "Cutscene": LoadCutsceneEvent(dayEvent); break;
             case "Dialogue": LoadDialogueEvent(dayEvent); break;
             case "Practice": LoadPracticeEvent(dayEvent); break;
+            case "Workout": LoadWorkoutEvent(dayEvent); break;
         }
     }
 
@@ -134,6 +135,12 @@ public class SimulationModel : Singleton<SimulationModel>
     private void LoadPracticeEvent(DayEvent practiceEvent)
     {
         RouteUIController.toggleEvent.Invoke(true);
+        BackgroundController.toggleEvent.Invoke(true);
+    }
+
+    private void LoadWorkoutEvent(DayEvent workoutEvent)
+    {
+        WorkoutSelectionUIController.toggleEvent.Invoke(true);
         BackgroundController.toggleEvent.Invoke(true);
     }
 

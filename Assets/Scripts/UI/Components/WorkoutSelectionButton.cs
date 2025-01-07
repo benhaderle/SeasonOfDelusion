@@ -8,16 +8,14 @@ using UnityEngine.UI;
 /// <summary>
 /// One of the route buttons on the Routes screen
 /// </summary>
-public class RouteCard : MonoBehaviour
+public class WorkoutSelectionButton : MonoBehaviour
 {
     [SerializeField] private Button button;
     public Button Button => button;
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI lengthText;
-    
-    public void Setup(Route route)
+
+    public void Setup(Workout workout)
     {
-        nameText.text = route.Name;
-        lengthText.text = $"{route.Length} mi";
+        nameText.text = workout.Name;
     }
 }
