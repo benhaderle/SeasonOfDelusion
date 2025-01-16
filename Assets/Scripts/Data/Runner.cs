@@ -295,7 +295,7 @@ public class Runner
          calorieWeight * Mathf.Min(1, calories);
     }
 
-    private float CalculateRunEconomy()
+    public float CalculateRunEconomy()
     {
         return CalculateRunEconomy(hydrationStatus, shortTermCalories + longTermCalories);
     }

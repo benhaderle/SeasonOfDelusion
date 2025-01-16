@@ -8,6 +8,7 @@ public class WorkoutRunnerCard : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI runnerInitialText;
     private Runner runner;
+    public Runner Runner => runner;
 
     public void Setup(Runner runner)
     {

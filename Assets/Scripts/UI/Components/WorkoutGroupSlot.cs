@@ -27,19 +27,53 @@ public class WorkoutGroupSlot : MonoBehaviour
         card.transform.SetParent(cardParent);
         card.GetComponent<RectTransform>().offsetMax = new Vector2(-10, -10);
         card.GetComponent<RectTransform>().offsetMin = new Vector2(10, 10);
-
-        //set intensity text to something
     }
 
-    public void OnCardRemovedFromSlot()
+    public Runner RemoveCardFromSlot()
     {
+        Runner runner = runnerCard?.Runner;
+        runnerCard = null;
         selectionOutline.enabled = false;
+        intensityText.text = EMPTY_INTENSITY_STRING;
 
-        if (cardParent.GetComponentInChildren<WorkoutRunnerCard>() == null)
+        return runner;
+    }
+
+    public void UpdateIntensityText(float groupVO2)
+    {
+        if (runnerCard == null)
+            return;
+
+        float thresholdVO2 = runnerCard.Runner.CurrentVO2Max * runnerCard.Runner.CalculateRunEconomy() * .85f;
+
+        float percentOff = (thresholdVO2 - groupVO2) / thresholdVO2;
+
+        if(percentOff >= .1f)
         {
-            runnerCard = null;
-            intensityText.text = EMPTY_INTENSITY_STRING;
+            intensityText.text = "Comfortable";
         }
+        else if(percentOff >= .05f)
+        {
+            intensityText.text = "Confident";
+        }
+        else if(percentOff >= -.1f)
+        {
+            intensityText.text = "Determined";
+        }
+        else if(percentOff >= -.15f)
+        {
+            intensityText.text = "Nervous";
+        }
+        else if(percentOff >= -.2f)
+        {
+            intensityText.text = "Fearful";
+        }
+        else
+        {
+            intensityText.text = "Upset";
+        }
+
+        Debug.Log($"Group VO2: {groupVO2}, ThresholdV02: {thresholdVO2}, Intensity: {intensityText.text}");
     }
 
     public void OnSlotClicked()

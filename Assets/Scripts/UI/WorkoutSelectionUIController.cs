@@ -110,10 +110,10 @@ public class WorkoutSelectionUIController : MonoBehaviour
         {
             if(selectedCard != context.card)
             {
+                workoutGroupRows[selectedGroupIndex].RemoveCardFromSlot(selectedSlotIndex);
+                workoutGroupRows[context.groupIndex].RemoveCardFromSlot(context.slotIndex);
                 AddRunnerToSlot(selectedCard, context.groupIndex, context.slotIndex);
                 AddRunnerToSlot(context.card, selectedGroupIndex, selectedSlotIndex);
-                workoutGroupRows[selectedGroupIndex].OnCardRemovedFromSlot(selectedSlotIndex);
-                workoutGroupRows[context.groupIndex].OnCardRemovedFromSlot(context.slotIndex);
             }
 
             selectedCard = null;
@@ -124,8 +124,8 @@ public class WorkoutSelectionUIController : MonoBehaviour
     {
         if(selectedCard != null)
         {
+            workoutGroupRows[selectedGroupIndex].RemoveCardFromSlot(selectedSlotIndex);
             AddRunnerToSlot(selectedCard, context.groupIndex, context.slotIndex);
-            workoutGroupRows[selectedGroupIndex].OnCardRemovedFromSlot(selectedSlotIndex);
             
             selectedCard = null;
         }
