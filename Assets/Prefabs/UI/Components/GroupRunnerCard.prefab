@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 6653561978744278170}
   - component: {fileID: 5012506648942437745}
   - component: {fileID: 923892385639579324}
+  - component: {fileID: 8034996552436199096}
   m_Layer: 5
   m_Name: GroupRunnerCard
   m_TagString: Untagged
@@ -210,3 +211,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8034996552436199096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300999704076196245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3988be7dbfaf43b7b67bcfa7cf5ccdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runnerInitialText: {fileID: 8724258233881138636}
