@@ -18,4 +18,9 @@ public class WorkoutGroupRow : MonoBehaviour
     {
         slots[slotIndex].SetRunnerCardToSlot(card);
     }
+
+    public void OnCardRemovedFromSlot(int slotIndex)
+    {
+        slots[slotIndex].OnCardRemovedFromSlot();
+    }
 }

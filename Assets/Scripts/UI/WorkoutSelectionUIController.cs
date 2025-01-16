@@ -100,11 +100,23 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
     private void OnRunnerCardSelected(RunnerCardSelectedEvent.Context context)
     {
-        if(selectedCard == null)
+        if (selectedCard == null)
         {
             selectedCard = context.card;
             selectedGroupIndex = context.groupIndex;
             selectedSlotIndex = context.slotIndex;
+        }
+        else
+        {
+            if(selectedCard != context.card)
+            {
+                AddRunnerToSlot(selectedCard, context.groupIndex, context.slotIndex);
+                AddRunnerToSlot(context.card, selectedGroupIndex, selectedSlotIndex);
+                workoutGroupRows[selectedGroupIndex].OnCardRemovedFromSlot(selectedSlotIndex);
+                workoutGroupRows[context.groupIndex].OnCardRemovedFromSlot(context.slotIndex);
+            }
+
+            selectedCard = null;
         }
     }
 
@@ -113,6 +125,8 @@ public class WorkoutSelectionUIController : MonoBehaviour
         if(selectedCard != null)
         {
             AddRunnerToSlot(selectedCard, context.groupIndex, context.slotIndex);
+            workoutGroupRows[selectedGroupIndex].OnCardRemovedFromSlot(selectedSlotIndex);
+            
             selectedCard = null;
         }
     }
