@@ -56,7 +56,7 @@ public class WorkoutGroupSlot : MonoBehaviour
         {
             intensityText.text = "Confident";
         }
-        else if(percentOff >= -.1f)
+        else if(percentOff >= -.05f)
         {
             intensityText.text = "Determined";
         }

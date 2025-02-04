@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorkoutGroupRow : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class WorkoutGroupRow : MonoBehaviour
     private float vo2MaxSum;
     private float numSlotsFilled;
 
+    [SerializeField] private Slider intensitySlider;
+    [SerializeField] private TextMeshProUGUI intensityText;
     private float groupIntensity = .9f;
 
     public void Initialize(int groupIndex)
@@ -17,6 +21,7 @@ public class WorkoutGroupRow : MonoBehaviour
         {
             slots[i].Initialize(groupIndex, i);
         }
+        intensitySlider.value = 2;
     }
 
     public void AddRunnerToSlot(WorkoutRunnerCard card, int slotIndex)
@@ -37,6 +42,35 @@ public class WorkoutGroupRow : MonoBehaviour
             numSlotsFilled--;
             UpdateRunnerIntensities();
         }
+    }
+
+    public void OnEaseSliderValueChanged(float value)
+    {
+        groupIntensity = value / 4f;
+        if(groupIntensity < .2f)
+        {
+            intensityText.text = "Very Easy";
+        }
+        else if(groupIntensity < .4f)
+        {
+            intensityText.text = "Easy";
+        }
+        else if(groupIntensity < .6f)
+        {
+            intensityText.text = "Medium";
+        }
+        else if(groupIntensity < .8f)
+        {
+            intensityText.text = "Hard";
+        }
+        else
+        {
+            intensityText.text = "Very Hard";
+        }
+
+        groupIntensity = .85f + (groupIntensity - .35f) * .4f;
+
+        UpdateRunnerIntensities();
     }
 
     private void UpdateRunnerIntensities()
