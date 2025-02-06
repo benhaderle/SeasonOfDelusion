@@ -98,4 +98,9 @@ public class WorkoutGroupSlot : MonoBehaviour
             });
         }
     }
+
+    public Runner GetRunner()
+    {
+        return runnerCard?.Runner;
+    }
 }

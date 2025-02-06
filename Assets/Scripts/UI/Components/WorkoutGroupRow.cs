@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class WorkoutGroupRow : MonoBehaviour
@@ -9,7 +10,7 @@ public class WorkoutGroupRow : MonoBehaviour
     [SerializeField] private WorkoutGroupSlot[] slots;
 
     private float vo2MaxSum;
-    private float numSlotsFilled;
+    private int numSlotsFilled;
 
     [SerializeField] private Slider intensitySlider;
     [SerializeField] private TextMeshProUGUI intensityText;
@@ -68,7 +69,7 @@ public class WorkoutGroupRow : MonoBehaviour
             intensityText.text = "Very Hard";
         }
 
-        groupIntensity = .85f + (groupIntensity - .35f) * .4f;
+        groupIntensity = Mathf.Lerp(.7f, 1.1f, groupIntensity);
 
         UpdateRunnerIntensities();
     }
@@ -81,4 +82,37 @@ public class WorkoutGroupRow : MonoBehaviour
             slots[i].UpdateIntensityText(workoutIntensity);
         }
     }
+
+    public WorkoutGroup GetWorkoutGroup()
+    {
+        WorkoutGroup group = new WorkoutGroup
+        {
+            runners = new Runner[numSlotsFilled],
+            intensity = groupIntensity,
+            targetVO2 = vo2MaxSum / numSlotsFilled * groupIntensity
+        };
+
+        int slotIndex = 0;
+        int runnerIndex = 0;
+        while(slotIndex < slots.Length && runnerIndex < group.runners.Length)
+        {
+            Runner runner = slots[slotIndex].GetRunner();
+            if (runner != null)
+            {
+                group.runners[runnerIndex] = runner;
+                runnerIndex++;
+            }
+            slotIndex++;
+        }
+
+        return group;
+    }
+}
+
+public class WorkoutGroup
+{
+    public Runner[] runners;
+
+    public float intensity;
+    public float targetVO2;
 }
