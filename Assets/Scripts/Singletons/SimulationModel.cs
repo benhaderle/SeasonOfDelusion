@@ -38,14 +38,14 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
-        RunController.practiceEndedEvent.AddListener(OnPracticeEnded);
+        RunView.practiceEndedEvent.AddListener(OnPracticeEnded);
     }
 
     private void OnDisable()
     {
         CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
-        RunController.practiceEndedEvent.RemoveListener(OnPracticeEnded);
+        RunView.practiceEndedEvent.RemoveListener(OnPracticeEnded);
     }
 
     private void Start()
@@ -72,7 +72,7 @@ public class SimulationModel : Singleton<SimulationModel>
         LoadNextEventOrAdvanceDay();
     }
 
-    private void OnPracticeEnded(RunController.PracticeEndedEvent.Context context)
+    private void OnPracticeEnded(RunView.PracticeEndedEvent.Context context)
     {
         LoadNextEventOrAdvanceDay();
     }

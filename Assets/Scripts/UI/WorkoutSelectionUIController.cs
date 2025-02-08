@@ -14,15 +14,15 @@ public class WorkoutSelectionUIController : MonoBehaviour
     private Workout[] todaysWorkouts;
     private Workout selectedWorkout;
 
-    [Header("UI")]   
-     [SerializeField] private Canvas canvas;
+    [Header("UI")]
+    [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform workoutSelectionContainer;
     [SerializeField] private RectTransform groupingContainer;
     [SerializeField] private WorkoutSelectionButton[] workoutSelectionButtons;
     [SerializeField] private WorkoutGroupRow[] workoutGroupRows;
     [SerializeField] private PoolContext workoutRunnerCardPoolContext;
-    
+
     private enum State { WorkoutSelection = 0, Grouping = 1 };
     private State currentState;
 
@@ -35,8 +35,8 @@ public class WorkoutSelectionUIController : MonoBehaviour
     #region Events
     public class ToggleEvent : UnityEvent<bool> { };
     public static ToggleEvent toggleEvent = new ToggleEvent();
-    public class RunnerCardSelectedEvent : UnityEvent<RunnerCardSelectedEvent.Context> 
-    { 
+    public class RunnerCardSelectedEvent : UnityEvent<RunnerCardSelectedEvent.Context>
+    {
         public class Context
         {
             public WorkoutRunnerCard card;
@@ -45,8 +45,8 @@ public class WorkoutSelectionUIController : MonoBehaviour
         }
     };
     public static RunnerCardSelectedEvent runnerCardSelectedEvent = new RunnerCardSelectedEvent();
-    public class EmptySlotSelectedEvent : UnityEvent<EmptySlotSelectedEvent.Context> 
-    { 
+    public class EmptySlotSelectedEvent : UnityEvent<EmptySlotSelectedEvent.Context>
+    {
         public class Context
         {
             public int groupIndex;
@@ -77,10 +77,13 @@ public class WorkoutSelectionUIController : MonoBehaviour
         emptySlotSelectedEvent.RemoveListener(OnEmptySlotSelected);
     }
 
+    #region Event Listeners
+
     private void OnToggle(bool active)
     {
-        if(active)
-        {switch (currentState)
+        if (active)
+        {
+            switch (currentState)
             {
                 case State.WorkoutSelection: SetUpWorkoutSelection(); break;
                 case State.Grouping: SetUpGrouping(); break;
@@ -108,7 +111,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
         }
         else
         {
-            if(selectedCard != context.card)
+            if (selectedCard != context.card)
             {
                 workoutGroupRows[selectedGroupIndex].RemoveCardFromSlot(selectedSlotIndex);
                 workoutGroupRows[context.groupIndex].RemoveCardFromSlot(context.slotIndex);
@@ -122,35 +125,39 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
     private void OnEmptySlotSelected(EmptySlotSelectedEvent.Context context)
     {
-        if(selectedCard != null)
+        if (selectedCard != null)
         {
             workoutGroupRows[selectedGroupIndex].RemoveCardFromSlot(selectedSlotIndex);
             AddRunnerToSlot(selectedCard, context.groupIndex, context.slotIndex);
-            
+
             selectedCard = null;
         }
     }
+
+    #endregion
+
+    #region Button Functions
 
     public void OnRosterButton()
     {
         OnToggle(false);
         CutsceneUIController.toggleEvent.Invoke(false);
         RosterUIController.toggleEvent.Invoke(true);
-    }   
+    }
 
     public void OnStartWorkoutButton()
     {
         OnToggle(false);
-        WorkoutController.starWorkoutEvent.Invoke(new WorkoutController.StartWorkoutEvent.Context{
+        WorkoutController.starWorkoutEvent.Invoke(new WorkoutController.StartWorkoutEvent.Context {
             groups = workoutGroupRows.Select(groupRow => groupRow.GetWorkoutGroup()).ToList(),
             workout = selectedWorkout,
             runConditions = new RunConditions()
-        }); 
-    } 
+        });
+    }
 
     private void OnWorkoutSelectionButton(Workout workout)
     {
-        switch(currentState)
+        switch (currentState)
         {
             case State.WorkoutSelection:
                 selectedWorkout = workout;
@@ -164,7 +171,9 @@ public class WorkoutSelectionUIController : MonoBehaviour
                 break;
         }
     }
-    
+    #endregion
+
+    #region Utility Functions
     private void SetUpWorkoutSelection()
     {
         workoutSelectionContainer.gameObject.SetActive(true);
@@ -172,24 +181,24 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
         // set up today's workouts if necessary
         // TODO: right now this is totally random but should be done with some sense later
-        if(todaysWorkouts == null)
+        if (todaysWorkouts == null)
         {
             todaysWorkouts = new Workout[3];
-            for(int i = 0; i < todaysWorkouts.Length; i++)
+            for (int i = 0; i < todaysWorkouts.Length; i++)
             {
                 Workout w;
                 do
                 {
                     w = workouts[Random.Range(0, workouts.Length)];
-                } 
-                while(todaysWorkouts.Contains(w));
+                }
+                while (todaysWorkouts.Contains(w));
 
                 todaysWorkouts[i] = w;
             }
         }
 
         // set up each of the workout selection buttons with today's workouts
-        for(int i = 0; i < workoutSelectionButtons.Length; i++)
+        for (int i = 0; i < workoutSelectionButtons.Length; i++)
         {
             Workout w = todaysWorkouts[i];
             workoutSelectionButtons[i].Setup(w);
@@ -203,14 +212,14 @@ public class WorkoutSelectionUIController : MonoBehaviour
         workoutSelectionContainer.gameObject.SetActive(false);
         groupingContainer.gameObject.SetActive(true);
 
-        for(int i = 0; i < workoutGroupRows.Length; i++)
+        for (int i = 0; i < workoutGroupRows.Length; i++)
         {
             workoutGroupRows[i].Initialize(i);
         }
 
         int groupIndex = 0;
         int slotIndex = 0;
-        for(int i = 0; i < TeamModel.Instance.Runners.Count; i++)
+        for (int i = 0; i < TeamModel.Instance.Runners.Count; i++)
         {
             Runner runner = TeamModel.Instance.Runners[i];
             WorkoutRunnerCard runnerCard = workoutRunnerCardPoolContext.GetPooledObject<WorkoutRunnerCard>();
@@ -224,7 +233,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
             //increment the slot + group indices
             slotIndex++;
-            if(slotIndex >= NUM_SLOTS_PER_GROUP)
+            if (slotIndex >= NUM_SLOTS_PER_GROUP)
             {
                 slotIndex = 0;
                 groupIndex++;
@@ -236,4 +245,5 @@ public class WorkoutSelectionUIController : MonoBehaviour
     {
         workoutGroupRows[groupIndex].AddRunnerToSlot(runnerCard, slotIndex);
     }
+    #endregion
 }

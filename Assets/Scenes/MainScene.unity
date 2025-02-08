@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1751274852359225162, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -21942076
+      value: -21961144
       objectReference: {fileID: 0}
     - target: {fileID: 6512532813464802310, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -768,10 +768,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueUIController
       objectReference: {fileID: 0}
-    - target: {fileID: 9074907689163008048, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -848,10 +844,6 @@ PrefabInstance:
     - target: {fileID: 1268593646229736466, guid: 5cc45dcbd73524b7baa684ac0865dad8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1334199857698088195, guid: 5cc45dcbd73524b7baa684ac0865dad8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 1699524943693327668, guid: 5cc45dcbd73524b7baa684ac0865dad8, type: 3}
       propertyPath: m_AnchorMax.y

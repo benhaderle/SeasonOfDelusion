@@ -7,7 +7,8 @@ using UnityEngine;
 [Serializable]
 public class Workout
 {   
-    public enum Type { DistanceRepeats = 0, TimeRepeats = 1};
+    //TODO: currently only distance repeats are supported
+    public enum Type { DistanceRepeats = 0, TimeRepeats = 1 };
 
     /// <summary>
     /// The name of this workout. Can be used for player display.

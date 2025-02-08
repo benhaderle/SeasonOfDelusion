@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
@@ -31,6 +32,14 @@ public class RunView : MonoBehaviour
     private IEnumerator toggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
 
+    public class PracticeEndedEvent : UnityEvent<PracticeEndedEvent.Context>
+    {
+        public class Context
+        {
+        }
+    }
+    public static PracticeEndedEvent practiceEndedEvent = new ();
+
     private void Awake()
     {
         runnerCompletionBubblePool.Initialize();
@@ -54,7 +63,7 @@ public class RunView : MonoBehaviour
 
     public void OnContinueButton()
     {
-        RunController.practiceEndedEvent.Invoke(new RunController.PracticeEndedEvent.Context { });
+        practiceEndedEvent.Invoke(new PracticeEndedEvent.Context { });
     }
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
