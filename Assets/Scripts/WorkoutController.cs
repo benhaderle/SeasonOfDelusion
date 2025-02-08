@@ -114,7 +114,7 @@ public class WorkoutController : MonoBehaviour
                 // TODO: if the coach guidance is slow already, should heavy soreness make you go slower?
                 float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, runner.LongTermSoreness)) * sorenessEffect;
                 float statusDeviation = Mathf.Clamp((1 - (runner.Experience / experienceCap)) * maxDeviation, 0, maxDeviation);
-                float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
+                float roll = 0;//CNExtensions.RandGaussian(statusMean, statusDeviation);
                 Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
                 //this calculates what the vo2 should be for the run for this runner

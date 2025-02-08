@@ -107,6 +107,7 @@ public class Runner
         currentVO2Max = minVO2Max;
         currentForm = minForm + 10;
         currentStrength = minStrength + 10;
+        strengthMomentum = 1;
         currentNutrition = minNutrition + 10;
         hydrationStatus = 4f;
         longTermCalories = 100000;
@@ -129,12 +130,12 @@ public class Runner
         shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
         longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
 
-        float milesPerSecond = runState.distance / runState.timeInSeconds;
+        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
 
         // experience is a function of cumulative miles run
-        IncreaseExperience(runState.distance);
+        IncreaseExperience(runState.totalDistance);
 
         // VO2 is moved up or down depending on how far away you were from 90% of your VO2
         UpdateVO2(runVO2, timeInMinutes);
@@ -142,8 +143,8 @@ public class Runner
         // exhaustion changes based off of how far away you were from your recovery VO2
         UpdateLongTermSoreness(runVO2, timeInMinutes);
 
-        UpdateStrength(runState.distance, runVO2);
-       
+        UpdateStrength(runState.distanceTimeSimulationIntervalList);
+
         Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
         return new RunnerUpdateRecord
@@ -167,7 +168,7 @@ public class Runner
         float longTermCaloriesToAdd = (caloriesToAdd - (shortTermCalories - 3000)) * .5f;
 
         shortTermCalories += caloriesToAdd;
-        if(longTermCaloriesToAdd > 0)
+        if (longTermCaloriesToAdd > 0)
         {
             shortTermCalories = 3000;
             longTermCalories += longTermCaloriesToAdd;
@@ -205,8 +206,8 @@ public class Runner
 
         // go look at desmos if you want to see the shape of this graph
         // basic idea is that VO2 goes up if you ran harder or longer, goes down if you ran slower or shorter
-        float vo2Update = (variables.CubicVO2Slope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3)) 
-            + (variables.LinearVO2Slope * timeInMinutes * (vo2ImprovementGap + variables.LinearVO2Offset)) 
+        float vo2Update = (variables.CubicVO2Slope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3))
+            + (variables.LinearVO2Slope * timeInMinutes * (vo2ImprovementGap + variables.LinearVO2Offset))
             + variables.ConstantVO2Offset;
 
         // one last linear tune
@@ -232,7 +233,7 @@ public class Runner
         // add it up
         longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
     }
-    
+
     public float CalculateShortTermSoreness(float runVO2, float timeInMinutes)
     {
         return .001f * Mathf.Pow(runVO2, 2) * timeInMinutes;
@@ -258,12 +259,12 @@ public class Runner
         // decrement form based on how long it's been since we practiced
         currentForm -= daysSinceFormPractice;
         currentForm = Mathf.Max(currentForm, minForm);
-        
+
         // increment the counter for how long it's been since we practiced
-        daysSinceFormPractice++; 
-        
+        daysSinceFormPractice++;
+
         // if we're 90% of our maxForm, we get to raise the floor of our form potential
-        if(currentForm - minForm >= (maxForm - minForm) * .9f)
+        if (currentForm - minForm >= (maxForm - minForm) * .9f)
         {
             minForm++;
             minForm = Mathf.Min(minForm, maxForm - 1);
@@ -273,12 +274,28 @@ public class Runner
     /// <summary>
     /// Updates strength and strength related stats at the end of the day
     /// </summary> 
-    private void UpdateStrength(float distanceRun, float runVO2)
+    private void UpdateStrength(List<(float, float)> distanceTimeSimulationIntervalList)
     {
-        float strengthCostToday = distanceRun * 10 * runVO2 / (maxVO2Max  * .8f);
-        float strengthDelta = strengthCostToday - currentStrength;
-        strengthMomentum = Mathf.Lerp(strengthMomentum, strengthDelta, .15f);
-        currentStrength += strengthMomentum;
+        float strengthUtilisationSum = 0;
+        float timeSum = 0;
+        for (int i = 0; i < distanceTimeSimulationIntervalList.Count - 1; i++)
+        {
+            float intervalDistance = distanceTimeSimulationIntervalList[i+1].Item1 - distanceTimeSimulationIntervalList[i].Item1;
+            float intervalTime = distanceTimeSimulationIntervalList[i+1].Item2 - distanceTimeSimulationIntervalList[i].Item2;
+
+            float intervalVO2 = RunUtility.SpeedToOxygenCost(intervalDistance / intervalTime);
+
+            //TODO: this should take into account elevation in the future
+            float intervalStrengthUtilisation = intervalVO2 / (.75f * currentVO2Max);
+            if (intervalStrengthUtilisation > 1)
+                intervalStrengthUtilisation *= intervalStrengthUtilisation;
+
+            strengthUtilisationSum += intervalStrengthUtilisation * intervalTime;
+            timeSum += intervalTime;
+        }
+
+        strengthMomentum = Mathf.Lerp(strengthMomentum, strengthUtilisationSum / timeSum, 1/3f);
+        currentStrength *= strengthMomentum;
         currentStrength = Mathf.Clamp(currentStrength, minStrength, maxStrength);
     }
 
@@ -288,8 +305,8 @@ public class Runner
         float strengthWeight = .25f;
         float hydrationWeight = .25f;
         float calorieWeight = .25f;
-        
-        return formWeight * Mathf.Sqrt(currentForm * Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus)/ MAX_FORM) + 
+
+        return formWeight * Mathf.Sqrt(currentForm * Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus) / MAX_FORM) +
          strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH) +
          hydrationWeight * Mathf.Clamp01(hydration) +
          calorieWeight * Mathf.Min(1, calories);
@@ -302,7 +319,7 @@ public class Runner
 
     public float CalculateRunEconomy(RunnerState state)
     {
-       return CalculateRunEconomy(hydrationStatus - state.hydrationCost, shortTermCalories + longTermCalories - state.calorieCost);
+        return CalculateRunEconomy(hydrationStatus - state.hydrationCost, shortTermCalories + longTermCalories - state.calorieCost);
     }
 
     public float CalculateHydrationCost(float runVO2, float timeInMinutes)
