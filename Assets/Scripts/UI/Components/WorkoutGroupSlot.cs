@@ -44,27 +44,27 @@ public class WorkoutGroupSlot : MonoBehaviour
         if (runnerCard == null)
             return;
 
-        float thresholdVO2 = runnerCard.Runner.CurrentVO2Max * runnerCard.Runner.CalculateRunEconomy() * .85f;
+        float thresholdVO2 = runnerCard.Runner.CurrentVO2Max;
 
-        float percentOff = (thresholdVO2 - groupVO2) / thresholdVO2;
+        float percentOfGroup = groupVO2 / thresholdVO2;
 
-        if(percentOff >= .1f)
+        if(percentOfGroup <= .8f)
         {
             intensityText.text = "Comfortable";
         }
-        else if(percentOff >= .05f)
+        else if(percentOfGroup <= .9f)
         {
             intensityText.text = "Confident";
         }
-        else if(percentOff >= -.05f)
+        else if(percentOfGroup <= 1f)
         {
             intensityText.text = "Determined";
         }
-        else if(percentOff >= -.15f)
+        else if(percentOfGroup <= 1.1f)
         {
             intensityText.text = "Nervous";
         }
-        else if(percentOff >= -.2f)
+        else if(percentOfGroup <= 1.2f)
         {
             intensityText.text = "Fearful";
         }

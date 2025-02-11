@@ -69,7 +69,7 @@ public class WorkoutGroupRow : MonoBehaviour
             intensityText.text = "Very Hard";
         }
 
-        groupIntensity = Mathf.Lerp(.7f, 1.1f, groupIntensity);
+        groupIntensity = Mathf.Lerp(.8f, 1.2f, groupIntensity);
 
         UpdateRunnerIntensities();
     }
