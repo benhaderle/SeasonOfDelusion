@@ -38,14 +38,16 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
-        RunView.practiceEndedEvent.AddListener(OnPracticeEnded);
+        RunView.postRunContinueButtonPressedEvent.AddListener(OnPostRunContinueButtonPressed);
+        WorkoutView.postWorkoutContinueButtonPressedEvent.AddListener(OnPostWorkoutContinueButtonPressed);
     }
 
     private void OnDisable()
     {
         CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
-        RunView.practiceEndedEvent.RemoveListener(OnPracticeEnded);
+        RunView.postRunContinueButtonPressedEvent.RemoveListener(OnPostRunContinueButtonPressed);
+        WorkoutView.postWorkoutContinueButtonPressedEvent.RemoveListener(OnPostWorkoutContinueButtonPressed);
     }
 
     private void Start()
@@ -72,7 +74,12 @@ public class SimulationModel : Singleton<SimulationModel>
         LoadNextEventOrAdvanceDay();
     }
 
-    private void OnPracticeEnded(RunView.PracticeEndedEvent.Context context)
+    private void OnPostRunContinueButtonPressed(RunView.PostRunContinueButtonPressedEvent.Context context)
+    {
+        LoadNextEventOrAdvanceDay();
+    }
+
+    private void OnPostWorkoutContinueButtonPressed(WorkoutView.PostWorkoutContinueButtonPressedEvent.Context context)
     {
         LoadNextEventOrAdvanceDay();
     }

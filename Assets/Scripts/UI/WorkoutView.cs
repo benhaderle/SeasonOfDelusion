@@ -7,19 +7,18 @@ using TMPro;
 using System.Linq;
 
 /// <summary>
-/// The view for the run simulation
+/// The view for the workout simulation
 /// </summary> 
-public class RunView : MonoBehaviour
+public class WorkoutView : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [Header("Info Panel")]
-    [SerializeField] private TextMeshProUGUI routeText;
-    [SerializeField] private TextMeshProUGUI easeText;
+    [SerializeField] private TextMeshProUGUI workoutText;
     [Header("Completion Bar")]
     [SerializeField] private RectTransform runCompletionBar;
     [SerializeField] private PoolContext runnerCompletionBubblePool;
-    private Dictionary<Runner, RunnerCompletionBubble> activeRunnerBubbleDictionary = new();
+    private List<RunnerCompletionBubble> activeGroupBubbleDictionary = new();
     [Header("Runner List")]
     [SerializeField] private PoolContext runnerSimulationCardPool;
     [SerializeField] private RectTransform runnerSimulationCardParent;
@@ -33,13 +32,13 @@ public class RunView : MonoBehaviour
     private IEnumerator continueButtonToggleRoutine;
 
     #region Events
-    public class PostRunContinueButtonPressedEvent : UnityEvent<PostRunContinueButtonPressedEvent.Context>
+    public class PostWorkoutContinueButtonPressedEvent : UnityEvent<PostWorkoutContinueButtonPressedEvent.Context>
     {
         public class Context
         {
         }
     }
-    public static PostRunContinueButtonPressedEvent postRunContinueButtonPressedEvent = new ();
+    public static PostWorkoutContinueButtonPressedEvent postWorkoutContinueButtonPressedEvent = new ();
     #endregion
 
     private void Awake()
@@ -49,66 +48,59 @@ public class RunView : MonoBehaviour
         Toggle(false);
     }
 
+
     private void OnEnable()
     {
-        RunController.startRunEvent.AddListener(OnStartRun);
-        RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
-        RunController.runSimulationEndedEvent.AddListener(OnRunSimulationEnded);
+        WorkoutController.startWorkoutEvent.AddListener(OnStartWorkout);
+        WorkoutController.workoutSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
+        WorkoutController.workoutSimulationEndedEvent.AddListener(OnRunSimulationEnded);
     }
 
     private void OnDisable()
     {
-        RunController.startRunEvent.RemoveListener(OnStartRun);
-        RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
-        RunController.runSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
+        WorkoutController.startWorkoutEvent.RemoveListener(OnStartWorkout);
+        WorkoutController.workoutSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
+        WorkoutController.workoutSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
     }
 
-    public void OnContinueButton()
-    {
-        postRunContinueButtonPressedEvent.Invoke(new PostRunContinueButtonPressedEvent.Context { });
-    }
 
-    private void OnStartRun(RunController.StartRunEvent.Context context)
+    private void OnStartWorkout(WorkoutController.StartWorkoutEvent.Context context)
     {
-        routeText.text = $"{context.route.Name} - {context.route.Length} mi";
+        Toggle(true);
 
-        easeText.text = "Coach says: ";
-        if(context.runConditions.coachVO2Guidance <= .7f)
-        {
-            easeText.text += "\"Talk to the birds\"";
-        }
-        else if(context.runConditions.coachVO2Guidance <= .9f)
-        {
-            easeText.text += "\"Keep it honest\"";
-        }
-        else 
-        {
-            easeText.text += "\"Let's get it rolling today\"";
-        }
+        workoutText.text = context.workout.Name;
 
         runnerSimulationCardParent.gameObject.SetActive(true);
-        for(int i = 0; i < context.runners.Count; i++)
-        {   
+        int runnerCount = 0;
+        for (int i = 0; i < context.groups.Count; i++)
+        {
             // bubble setup
             RunnerCompletionBubble bubble = runnerCompletionBubblePool.GetPooledObject<RunnerCompletionBubble>();
 
-            bubble.labelText.text = $"{context.runners[i].FirstName.ToCharArray()[0]}{context.runners[i].LastName.ToCharArray()[0]}";
+            bubble.labelText.text = $"{i+1}";
 
-            SetBubblePositionAlongBar(bubble, 0);
+            SetBubblePositionAlongBar(bubble, 0f);
 
-            activeRunnerBubbleDictionary.Add(context.runners[i], bubble);
+            activeGroupBubbleDictionary.Add(bubble);
 
-            // runner card setup
-            RunnerSimulationCard card = runnerSimulationCardPool.GetPooledObject<RunnerSimulationCard>();
-            card.Setup(context.runners[i], i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
-            activeRunnerCardDictionary.Add(context.runners[i], card);
+            for (int j = 0; j < context.groups[i].runners.Length; j++)
+            {
+                // runner card setup
+                RunnerSimulationCard card = runnerSimulationCardPool.GetPooledObject<RunnerSimulationCard>();
+                card.Setup(context.groups[i].runners[j], i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
+                card.transform.SetSiblingIndex(runnerCount);
+                activeRunnerCardDictionary.Add(context.groups[i].runners[j], card);
+                runnerCount++;
+            }
         }
-
-        Toggle(true);
     }
 
-    private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
+    private void OnRunSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
     {
+        RunnerCompletionBubble bubble = activeGroupBubbleDictionary[context.groupIndex];
+        float percentDone = context.runnerStateDictionary.Values.Min(state => state.percentDone);
+        SetBubblePositionAlongBar(bubble, percentDone);
+
         List<Runner> orderedRunners = context.runnerStateDictionary.Keys.ToList();
         orderedRunners.Sort((r1, r2) =>
         {
@@ -118,25 +110,23 @@ public class RunView : MonoBehaviour
             }
             else
             {
-                return context.runnerStateDictionary[r1].percentDone - context.runnerStateDictionary[r2].percentDone <= 0 ? -1 : 1;
+                return context.runnerStateDictionary[r1].percentDone - context.runnerStateDictionary[r2].percentDone >= 0 ? -1 : 1;
             }
         });
 
-        for(int i = 0; i < orderedRunners.Count; i++)
+
+        int baseSiblingIndexForRunnersInGroup = orderedRunners.Select(runner => activeRunnerCardDictionary[runner]).Max(card => card.transform.GetSiblingIndex());
+        for (int i = 0; i < orderedRunners.Count; i++)
         {
             RunnerState state = context.runnerStateDictionary[orderedRunners[i]];
 
-            RunnerCompletionBubble bubble = activeRunnerBubbleDictionary[orderedRunners[i]];
-            SetBubblePositionAlongBar(bubble, state.percentDone);
-            bubble.transform.SetSiblingIndex(i);
-
             RunnerSimulationCard card = activeRunnerCardDictionary[orderedRunners[i]];
             card.UpdatePace(state);
-            card.UpdateListPosition(orderedRunners.Count - 1 - i, i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
+            card.UpdateListPosition(orderedRunners.Count - 1 - (baseSiblingIndexForRunnersInGroup - i), context.groupIndex % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
         }
     }
 
-    private void OnRunSimulationEnded(RunController.RunSimulationEndedEvent.Context context)
+    private void OnRunSimulationEnded(WorkoutController.WorkoutSimulationEndedEvent.Context context)
     {
         foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
         {
@@ -146,10 +136,15 @@ public class RunView : MonoBehaviour
 
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
+    
+    public void OnContinueButton()
+    {
+        postWorkoutContinueButtonPressedEvent.Invoke(new PostWorkoutContinueButtonPressedEvent.Context { });
+    }
 
     private void Toggle(bool active)
     {
-        if(active)
+        if (active)
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
@@ -165,7 +160,7 @@ public class RunView : MonoBehaviour
 
         runnerCompletionBubblePool.ReturnAllToPool();
         runnerSimulationCardPool.ReturnAllToPool();
-        activeRunnerBubbleDictionary.Clear();
+        activeGroupBubbleDictionary.Clear();
         activeRunnerCardDictionary.Clear();
         runnerSimulationCardParent.gameObject.SetActive(false);
     }

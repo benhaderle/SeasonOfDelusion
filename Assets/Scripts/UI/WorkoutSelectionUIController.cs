@@ -148,7 +148,9 @@ public class WorkoutSelectionUIController : MonoBehaviour
     public void OnStartWorkoutButton()
     {
         OnToggle(false);
-        WorkoutController.starWorkoutEvent.Invoke(new WorkoutController.StartWorkoutEvent.Context {
+        CutsceneUIController.toggleEvent.Invoke(false);
+        
+        WorkoutController.startWorkoutEvent.Invoke(new WorkoutController.StartWorkoutEvent.Context {
             groups = workoutGroupRows.Select(groupRow => groupRow.GetWorkoutGroup()).ToList(),
             workout = selectedWorkout,
             runConditions = new RunConditions()

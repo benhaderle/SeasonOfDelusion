@@ -41,9 +41,12 @@ public class WorkoutController : MonoBehaviour
     /// </summary>
     [SerializeField] private float sorenessEffect = .1f;
 
+    private int numGroups;
+    private Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
+
     #region Events
-    public class StartWorkoutEvent : UnityEvent<StartWorkoutEvent.Context> 
-    { 
+    public class StartWorkoutEvent : UnityEvent<StartWorkoutEvent.Context>
+    {
         public class Context
         {
             public List<WorkoutGroup> groups;
@@ -51,13 +54,14 @@ public class WorkoutController : MonoBehaviour
             public RunConditions runConditions;
         }
     };
-    public static StartWorkoutEvent starWorkoutEvent = new ();
+    public static StartWorkoutEvent startWorkoutEvent = new ();
     
     public class WorkoutSimulationUpdatedEvent : UnityEvent<WorkoutSimulationUpdatedEvent.Context>
     {
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerState> runnerStateDictionary;
+            public int groupIndex;
         }
     }
     public static WorkoutSimulationUpdatedEvent workoutSimulationUpdatedEvent = new ();
@@ -67,6 +71,7 @@ public class WorkoutController : MonoBehaviour
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
+            public WorkoutGroup group;
         }
     }
     public static WorkoutSimulationEndedEvent workoutSimulationEndedEvent = new ();
@@ -75,21 +80,23 @@ public class WorkoutController : MonoBehaviour
 
     private void OnEnable()
     {
-        starWorkoutEvent.AddListener(OnStartWorkout);
+        startWorkoutEvent.AddListener(OnStartWorkout);
     }
 
     private void OnDisable()
     {
-        starWorkoutEvent.RemoveListener(OnStartWorkout);
+        startWorkoutEvent.RemoveListener(OnStartWorkout);
     }
 
     private void OnStartWorkout(StartWorkoutEvent.Context context)
     {
+        int numGroups = context.groups.Count;
+
         // start a routine for each workout group
         IEnumerator[] groupWorkoutRoutines = new IEnumerator[context.groups.Count];
-        for(int i = 0; i < context.groups.Count; i++)
+        for (int i = 0; i < context.groups.Count; i++)
         {
-            groupWorkoutRoutines[i] = SimulateWorkoutRoutine(context.groups[i], context.workout, i); 
+            groupWorkoutRoutines[i] = SimulateWorkoutRoutine(context.groups[i], context.workout, i);
             StartCoroutine(groupWorkoutRoutines[i]);
         }
     }
@@ -99,14 +106,14 @@ public class WorkoutController : MonoBehaviour
     /// </summary>
     /// <param name="group">The group of runners</param>
     /// <param name="workout">The workout to do</param>
-    /// <param name="index">The index of the group in the list. Used to delay the start of the workout</param>
-    private IEnumerator SimulateWorkoutRoutine(WorkoutGroup group, Workout workout, int index)
+    /// <param name="groupIndex">The index of the group in the list. Used to delay the start of the workout</param>
+    private IEnumerator SimulateWorkoutRoutine(WorkoutGroup group, Workout workout, int groupIndex)
     {
         // wait a frame for the other starts to get going
         yield return null;
 
         // space each coroutine/group out by 5 seconds
-        yield return new WaitForSeconds(index * 5);
+        yield return new WaitForSeconds(groupIndex * 5);
 
         // go through each runner and initialize their state for this workout
         Dictionary<Runner, RunnerState> runnerStates = new();
@@ -138,7 +145,6 @@ public class WorkoutController : MonoBehaviour
                 state.currentSpeed = 0;
                 state.desiredSpeed = 0;
                 state.workoutIntervalDistance = 0;
-                state.percentDone = 0;
             }
 
 
@@ -291,7 +297,8 @@ public class WorkoutController : MonoBehaviour
                     Debug.Log(stateString);
                     workoutSimulationUpdatedEvent.Invoke(new WorkoutSimulationUpdatedEvent.Context
                     {
-                        runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates)
+                        runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates),
+                        groupIndex = groupIndex
                     });
 
                     yield return null;
@@ -303,8 +310,8 @@ public class WorkoutController : MonoBehaviour
             yield return new WaitForSeconds(workout.RestLength * 60 / simulationSecondsPerRealSeconds);
         }
 
+
         // post run update
-        Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
@@ -314,9 +321,14 @@ public class WorkoutController : MonoBehaviour
             runnerUpdateDictionary.Add(runner, record);
         }
 
-        workoutSimulationEndedEvent.Invoke(new WorkoutSimulationEndedEvent.Context()
+        //if this is the last group to finish, send the ended event
+        groupIndex--;
+        if (groupIndex == 0)
         {
-            runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
-        });
+            workoutSimulationEndedEvent.Invoke(new WorkoutSimulationEndedEvent.Context()
+            {
+                runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
+            });
+        }
     }
 }
