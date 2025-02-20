@@ -106,3 +106,7 @@ MonoBehaviour:
     length: 5.67
   - name: Single Track
     length: 6.82
+  raceRoutes:
+  - id: CrystalSprings
+    name: Crystal Springs
+    length: 3

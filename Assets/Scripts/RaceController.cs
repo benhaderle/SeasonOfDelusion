@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using CreateNeptune;
 using UnityEngine;
 using UnityEngine.Events;
@@ -89,10 +91,7 @@ public class RaceController : MonoBehaviour
 
     private void OnStartRace(StartRaceEvent.Context context)
     {
-        SimulateRaceRoutine(context.teams, new RaceRoute
-        {
-            
-        });
+        StartCoroutine(SimulateRaceRoutine(context.teams, context.raceRoute));
     }
 
     /// <summary>
@@ -132,7 +131,6 @@ public class RaceController : MonoBehaviour
             state.desiredSpeed = 0;
             state.workoutIntervalDistance = 0;
         }
-
 
         // while all runners have not finished, simulate the run
         while (runnerStates.Values.Any(state => state.totalDistance < raceRoute.Length))
@@ -244,7 +242,26 @@ public class RaceController : MonoBehaviour
             {
                 string stateString = "";
                 float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
-                foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+                List<KeyValuePair<Runner, RunnerState>> sortedRunnerStates = runnerStates.ToList();
+                sortedRunnerStates.Sort((kvp1, kvp2) =>
+                {
+                    if (kvp1.Value.totalDistance == kvp2.Value.totalDistance)
+                    {
+                        if (kvp1.Value.timeInSeconds == kvp2.Value.timeInSeconds)
+                        {
+                            return 0;
+                        }
+                        else if (kvp1.Value.timeInSeconds < kvp2.Value.timeInSeconds)
+                            return -1;
+                        else
+                            return 1;
+                    }
+                    else if (kvp1.Value.totalDistance > kvp2.Value.totalDistance)
+                        return -1;
+                    else
+                        return 1;
+                });
+                foreach (KeyValuePair<Runner, RunnerState> kvp in sortedRunnerStates)
                 {
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
@@ -275,7 +292,7 @@ public class RaceController : MonoBehaviour
                         state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
                     }
 
-                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tTime: {state.timeInSeconds}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
                 }
                 Debug.Log(stateString);
                 raceSimulationUpdatedEvent.Invoke(new RaceSimulationUpdatedEvent.Context
@@ -303,25 +320,4 @@ public class RaceController : MonoBehaviour
             runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
         });
     }
-}
-
-public class RaceRoute
-{
-    /// <summary>
-    /// internally used ID
-    /// </summary>
-    [SerializeField] private string id;
-    public string ID => id;
-
-    /// <summary>
-    /// The name of this route. Can be used for player display.
-    /// </summary>
-    [SerializeField] private string name;
-    public string Name => name;
-
-    /// <summary>
-    /// Length of route in miles.
-    /// </summary>
-    [SerializeField] private float length;
-    public float Length => length;
 }

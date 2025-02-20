@@ -8,7 +8,7 @@
                 {
                     "name": "RACE1",
                     "type": "Race",
-                    "raceRoute": "CrystalSprings",
+                    "raceRouteID": "CrystalSprings",
                     "timeHours": 14,
                     "timeMinutes": 30
                 }
