@@ -1,17 +1,30 @@
 
 {
     "days": 
-    [{
-        "date": "1/1/11",
-        "events":[
-            {
-                "name": "WORKOUT",
-                "type": "Workout",
-                "timeHours": 14,
-                "timeMinutes": 30
-            }
-        ]
-    },
+    [
+        {
+            "date": "1/1/11",
+            "events":[
+                {
+                    "name": "RACE1",
+                    "type": "Race",
+                    "raceRoute": "CrystalSprings",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "1/1/11",
+            "events":[
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
         {
             "date": "8/25/11",
             "events":[

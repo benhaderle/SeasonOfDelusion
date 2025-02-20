@@ -120,6 +120,7 @@ public class SimulationModel : Singleton<SimulationModel>
             case "Dialogue": LoadDialogueEvent(dayEvent); break;
             case "Practice": LoadPracticeEvent(dayEvent); break;
             case "Workout": LoadWorkoutEvent(dayEvent); break;
+            case "Race": LoadRaceEvent(dayEvent); break;
         }
     }
 
@@ -148,6 +149,16 @@ public class SimulationModel : Singleton<SimulationModel>
     private void LoadWorkoutEvent(DayEvent workoutEvent)
     {
         WorkoutSelectionUIController.toggleEvent.Invoke(true);
+        BackgroundController.toggleEvent.Invoke(true);
+    }
+
+    private void LoadRaceEvent(DayEvent raceEvent)
+    {
+        RaceController.startRaceEvent.Invoke(new RaceController.StartRaceEvent.Context
+        {
+            teams = TeamModel.Instance.GetAllTeams(),
+            raceRoute = RouteModel.Instance.GetRaceRoute(raceEvent.raceRouteID)
+        });
         BackgroundController.toggleEvent.Invoke(true);
     }
 

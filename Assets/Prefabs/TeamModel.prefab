@@ -45,6 +45,402 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
+  playerTeam:
+    name: Player Team
+    runners:
+    - firstName: Chris
+      lastName: Foster
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 75
+      minStrength: 30
+      maxStrength: 100
+      minForm: 50
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 60
+    - firstName: Ben
+      lastName: Haderle
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 67
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 90
+      minNutrition: 50
+      maxNutrition: 100
+      recovery: 65
+    - firstName: Ari
+      lastName: Rubin
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 63
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 80
+      minNutrition: 20
+      maxNutrition: 100
+      recovery: 50
+    - firstName: Aaron
+      lastName: Walker
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+  otherTeams:
+  - name: A
+    runners:
+    - firstName: A
+      lastName: A
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 75
+      minStrength: 30
+      maxStrength: 100
+      minForm: 50
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 60
+    - firstName: B
+      lastName: B
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 67
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 90
+      minNutrition: 50
+      maxNutrition: 100
+      recovery: 65
+    - firstName: C
+      lastName: C
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 63
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 80
+      minNutrition: 20
+      maxNutrition: 100
+      recovery: 50
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+  - name: B
+    runners:
+    - firstName: A
+      lastName: A
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 75
+      minStrength: 30
+      maxStrength: 100
+      minForm: 50
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 60
+    - firstName: B
+      lastName: B
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 67
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 90
+      minNutrition: 50
+      maxNutrition: 100
+      recovery: 65
+    - firstName: C
+      lastName: C
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 63
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 80
+      minNutrition: 20
+      maxNutrition: 100
+      recovery: 50
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+  - name: C
+    runners:
+    - firstName: A
+      lastName: A
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 75
+      minStrength: 30
+      maxStrength: 100
+      minForm: 50
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 60
+    - firstName: B
+      lastName: B
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 67
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 90
+      minNutrition: 50
+      maxNutrition: 100
+      recovery: 65
+    - firstName: C
+      lastName: C
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 63
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 80
+      minNutrition: 20
+      maxNutrition: 100
+      recovery: 50
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+  - name: D
+    runners:
+    - firstName: A
+      lastName: A
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 75
+      minStrength: 30
+      maxStrength: 100
+      minForm: 50
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 60
+    - firstName: B
+      lastName: B
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 67
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 90
+      minNutrition: 50
+      maxNutrition: 100
+      recovery: 65
+    - firstName: C
+      lastName: C
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 63
+      minStrength: 20
+      maxStrength: 100
+      minForm: 30
+      maxForm: 80
+      minNutrition: 20
+      maxNutrition: 100
+      recovery: 50
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
+    - firstName: D
+      lastName: D
+      weight: 0
+      minVO2Max: 50
+      maxVO2Max: 65
+      minStrength: 30
+      maxStrength: 100
+      minForm: 40
+      maxForm: 100
+      minNutrition: 30
+      maxNutrition: 100
+      recovery: 55
   variables: {fileID: 11400000, guid: 09eb7807c1f0346588187fe975d00147, type: 2}
   runners:
   - firstName: Chris
