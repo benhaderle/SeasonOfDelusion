@@ -48,5 +48,5 @@ MonoBehaviour:
   simulationStep: 60
   maxDeviation: 0.1
   experienceCap: 1000000
-  maxExhaustion: 1000
-  exhaustionEffect: 0.1
+  maxSoreness: 500
+  sorenessEffect: 0.1

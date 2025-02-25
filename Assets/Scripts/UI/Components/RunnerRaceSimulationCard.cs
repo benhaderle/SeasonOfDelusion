@@ -8,11 +8,12 @@ using Unity.VisualScripting;
 /// <summary>
 /// One of the UI cards representing one Runner on the Run screen
 /// </summary> 
-public class RunnerSimulationCard : MonoBehaviour
+public class RunnerRaceSimulationCard : MonoBehaviour
 {
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI paceText;
+    [SerializeField] private TextMeshProUGUI placeText;
     [SerializeField] private RunnerSimulationCardStat aeroStat;
     [SerializeField] private RectTransform statusContainer;
     [SerializeField] private TextMeshProUGUI statusText;
@@ -28,6 +29,11 @@ public class RunnerSimulationCard : MonoBehaviour
     public void UpdatePace(RunnerState runnerState)
     {
         paceText.text = RunUtility.SpeedToMilePaceString(runnerState.currentSpeed);
+    }
+
+    public void UpdatePlace(int place)
+    {
+        placeText.text = place.ToString();
     }
 
     public void UpdateListPosition(int orderInList, Color backgroundColor)

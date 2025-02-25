@@ -305,11 +305,10 @@ public class RaceController : MonoBehaviour
             }
         }
 
-        // post run update
-        foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+        // post run update for the player team
+        foreach (Runner runner in teams[0].Runners)
         {
-            Runner runner = kvp.Key;
-            RunnerState state = kvp.Value;
+            RunnerState state = runnerStates[runner];
 
             RunnerUpdateRecord record = runner.PostRunUpdate(state);
             runnerUpdateDictionary.Add(runner, record);

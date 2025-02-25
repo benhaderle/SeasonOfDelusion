@@ -29,7 +29,7 @@ public class SimulationModel : Singleton<SimulationModel>
     public static EndDayEvent endDayEvent = new ();
     #endregion
 
-    private void Awake()
+    protected override void OnSuccessfulAwake()
     {
         days = JsonUtility.FromJson<DaySerializationContainer>(daysAsset.text).days;
     }
@@ -40,6 +40,7 @@ public class SimulationModel : Singleton<SimulationModel>
         DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
         RunView.postRunContinueButtonPressedEvent.AddListener(OnPostRunContinueButtonPressed);
         WorkoutView.postWorkoutContinueButtonPressedEvent.AddListener(OnPostWorkoutContinueButtonPressed);
+        RaceView.postRaceContinueButtonPressedEvent.AddListener(OnPostRaceContinueButtonPressed);
     }
 
     private void OnDisable()
@@ -48,6 +49,7 @@ public class SimulationModel : Singleton<SimulationModel>
         DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
         RunView.postRunContinueButtonPressedEvent.RemoveListener(OnPostRunContinueButtonPressed);
         WorkoutView.postWorkoutContinueButtonPressedEvent.RemoveListener(OnPostWorkoutContinueButtonPressed);
+        RaceView.postRaceContinueButtonPressedEvent.RemoveListener(OnPostRaceContinueButtonPressed);
     }
 
     private void Start()
@@ -80,6 +82,11 @@ public class SimulationModel : Singleton<SimulationModel>
     }
 
     private void OnPostWorkoutContinueButtonPressed(WorkoutView.PostWorkoutContinueButtonPressedEvent.Context context)
+    {
+        LoadNextEventOrAdvanceDay();
+    }
+
+    private void OnPostRaceContinueButtonPressed(RaceView.PostRaceContinueButtonPressedEvent.Context context)
     {
         LoadNextEventOrAdvanceDay();
     }
@@ -159,6 +166,7 @@ public class SimulationModel : Singleton<SimulationModel>
             teams = TeamModel.Instance.GetAllTeams(),
             raceRoute = RouteModel.Instance.GetRaceRoute(raceEvent.raceRouteID)
         });
+        CutsceneUIController.toggleEvent.Invoke(false);
         BackgroundController.toggleEvent.Invoke(true);
     }
 
