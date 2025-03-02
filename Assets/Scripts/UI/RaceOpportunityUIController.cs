@@ -13,9 +13,12 @@ public class RaceOpportunityUIController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private TextMeshProUGUI headerText;
+    [SerializeField] private CanvasGroup buttonContainerGroup;
     [SerializeField] private TextMeshProUGUI opportunityPromptText;
 
     private IEnumerator toggleRoutine;
+    private IEnumerator buttonContainerToggleRoutine;
 
     #region Events
     public class ToggleEvent : UnityEvent<bool> { };
@@ -56,6 +59,7 @@ public class RaceOpportunityUIController : MonoBehaviour
         if (active)
         {
             opportunityPromptText.text = "";
+            CNExtensions.SafeStartCoroutine(this, ref buttonContainerToggleRoutine, CNAction.FadeObject(buttonContainerGroup, GameManager.Instance.DefaultUIAnimationTime, buttonContainerGroup.alpha, 0, CNEase.EaseType.Linear));
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
         else
@@ -72,10 +76,12 @@ public class RaceOpportunityUIController : MonoBehaviour
     private void OnRaceOpportunityStarted(RaceController.RaceOpportunityStartedEvent.Context context)
     {
         OnToggle(true);
+        headerText.text = $"MILE {context.distance:F1}";
     }
 
     private void OnRunnerInRaceOpportunityZone(RaceController.RunnerInRaceOpportunityZoneEvent.Context context)
     {
+        CNExtensions.SafeStartCoroutine(this, ref buttonContainerToggleRoutine, CNAction.FadeObject(buttonContainerGroup, GameManager.Instance.DefaultUIAnimationTime, buttonContainerGroup.alpha, 1, CNEase.EaseType.Linear));
         opportunityPromptText.text = $"{context.runner.FirstName} is here.";
     }
 
@@ -88,6 +94,7 @@ public class RaceOpportunityUIController : MonoBehaviour
     {
         opportunityPromptText.text = "";
         raceOpportunityButtonPressedEvent.Invoke(new RaceOpportunityButtonPressedEvent.Context { ease = ease });
+        CNExtensions.SafeStartCoroutine(this, ref buttonContainerToggleRoutine, CNAction.FadeObject(buttonContainerGroup, GameManager.Instance.DefaultUIAnimationTime, buttonContainerGroup.alpha, 0, CNEase.EaseType.Linear));
     }
 
 }

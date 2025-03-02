@@ -119,7 +119,12 @@ public class RaceView : MonoBehaviour
         orderedRunners.Sort((r1, r2) =>
         {
             if (Mathf.Approximately(context.runnerStateDictionary[r1].percentDone, context.runnerStateDictionary[r2].percentDone))
-            { 
+            {
+                if (context.runnerStateDictionary[r1].timeInSeconds == context.runnerStateDictionary[r2].timeInSeconds)
+                {
+                    return 0;
+                } 
+                
                 return context.runnerStateDictionary[r1].timeInSeconds - context.runnerStateDictionary[r2].timeInSeconds >= 0 ? -1 : 1;
             }
             else

@@ -408,8 +408,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4041791604954189852}
+  - component: {fileID: 6417223908244905001}
   m_Layer: 5
-  m_Name: EaseContainer
+  m_Name: Button Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,6 +436,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 0, y: 1450}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!225 &6417223908244905001
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844281054633929558}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8162717598271641060
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7445691476009143532}
   canvasGroup: {fileID: 4853741229461421631}
+  headerText: {fileID: 5491326482946668986}
+  buttonContainerGroup: {fileID: 6417223908244905001}
   opportunityPromptText: {fileID: 7789247180460916231}
 --- !u!1 &8871777925390168348
 GameObject:

@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using CreateNeptune;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -51,7 +52,6 @@ public class RaceController : MonoBehaviour
     /// IE if VO2 percent is .8, sorenessEffect is .1, and the runner is half sore, then VO2 will change to .75
     /// </summary>
     [SerializeField] private float sorenessEffect = .1f;
-    private RaceRoute currentRaceRoute;
     private int currentOpportunityZoneIndex;
     private bool inOpportunityZone;
     private bool lastRunnerInOpportunityZone;
@@ -94,6 +94,7 @@ public class RaceController : MonoBehaviour
     {
         public class Context
         {
+            public float distance;
         }
     }
     public static RaceOpportunityStartedEvent raceOpportunityStartedEvent = new();
@@ -133,7 +134,6 @@ public class RaceController : MonoBehaviour
         simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsNormal;
         inOpportunityZone = false;
         currentOpportunityZoneIndex = 0;
-        currentRaceRoute = context.raceRoute;
         StartCoroutine(SimulateRaceRoutine(context.teams, context.raceRoute));
     }
 
@@ -225,7 +225,7 @@ public class RaceController : MonoBehaviour
                 state.runVO2 += roll * runner.CurrentVO2Max;
 
                 // clamp the vo2 between some reasonable values
-                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
+                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.5f * runner.CurrentVO2Max);
 
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy(state));
             }
@@ -342,7 +342,7 @@ public class RaceController : MonoBehaviour
                 //if we've got a runner within the next opporunity threshold, trigger the opportunity flow
                 if (!inOpportunityZone && currentOpportunityZoneIndex < raceRoute.OpportunityMarkers.Count && sortedRunnerStates[0].Value.totalDistance > raceRoute.OpportunityMarkers[currentOpportunityZoneIndex] - opportunityZoneThreshold)
                 {
-                    raceOpportunityStartedEvent.Invoke(new RaceOpportunityStartedEvent.Context { });
+                    raceOpportunityStartedEvent.Invoke(new RaceOpportunityStartedEvent.Context { distance = raceRoute.OpportunityMarkers[currentOpportunityZoneIndex] });
                     inOpportunityZone = true;
                     simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsInOpportunityZone;
                 }
@@ -370,6 +370,7 @@ public class RaceController : MonoBehaviour
                                 runnerState = runnerState
                             });
 
+                            //if the list count is 1, then this is the last runner
                             if (playerTeamRunnersInZone.Count == 1)
                             {
                                 lastRunnerInOpportunityZone = true;
@@ -413,7 +414,14 @@ public class RaceController : MonoBehaviour
 
     private void OnRaceOpportunityButtonPressed(RaceOpportunityUIController.RaceOpportunityButtonPressedEvent.Context context)
     {
-        //TODO: do something with context
+        if (context.ease < 0)
+        {
+            currentRunnerStateInOpportunityZone.runVO2 *= .7f;
+        }
+        else if (context.ease > 0)
+        {
+            currentRunnerStateInOpportunityZone.runVO2 *= 1.3f;
+        }
 
         //reset the simulation seconds and set everything as null
         runnersThroughOpportunityZone.Add(currentRunnerInOpportunityZone);
@@ -424,16 +432,24 @@ public class RaceController : MonoBehaviour
         //do a check to see if that's all the runners thru the opportunity zone
         if (lastRunnerInOpportunityZone)
         {
-            runnersThroughOpportunityZone.Clear();
+            //reset the simulation speed
             simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsNormal;
-            lastRunnerInOpportunityZone = false;
-            inOpportunityZone = false;
+
+            //increment to the next opportunity zone
             currentOpportunityZoneIndex++;
+
+            //reset all the bools and clear the list of runners thru the zone
+            inOpportunityZone = false;
+            lastRunnerInOpportunityZone = false;
+            runnersThroughOpportunityZone.Clear();
 
             raceOpportunityEndedEvent.Invoke(new RaceOpportunityEndedEvent.Context { });
         }
     }
 
+    /// <param name="stateDictionary">The dictionary whose entries you want to select runners and states from</param>
+    /// <param name="teamName">The team name whose runners you are looking for</param>
+    /// <returns>A List of all runners and states that are part of the given team</returns>
     private List<KeyValuePair<Runner, RunnerState>> GetRunnersOnTeam(Dictionary<Runner, RunnerState> stateDictionary, string teamName)
     {
         return stateDictionary.Where(kvp => kvp.Key.TeamName == teamName).ToList();
