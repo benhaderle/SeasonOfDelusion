@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using CreateNeptune;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,9 +14,17 @@ using UnityEngine.Events;
 public class RaceController : MonoBehaviour
 {
     /// <summary>
-    /// How fast the simulation should run at
+    /// How fast the simulation should run at normally (not in an opportunity zone)
     /// </summary>
-    [SerializeField] private float simulationSecondsPerRealSeconds = 30;
+    [SerializeField] private float simulationSecondsPerRealSecondsNormal = 30;
+    /// <summary>
+    /// How fast the simulation should run at while in a opportunity zone
+    /// </summary>
+    [SerializeField] private float simulationSecondsPerRealSecondsInOpportunityZone = 10;
+    /// <summary>
+    /// How fast the simulation is running currently
+    /// </summary>
+    private float simulationSecondsPerRealSeconds;
 
     /// <summary>
     /// How many simulation-seconds should pass before we update people's speeds and such
@@ -43,6 +51,10 @@ public class RaceController : MonoBehaviour
     /// </summary>
     [SerializeField] private float sorenessEffect = .1f;
 
+    private int currentOpporunityZoneIndex;
+    private bool inOpportunityZone;
+    private Runner currentRunnerInOpportunityZone;
+
     private Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
 
     #region Events
@@ -62,7 +74,6 @@ public class RaceController : MonoBehaviour
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerState> runnerStateDictionary;
-            public int groupIndex;
         }
     }
     public static RaceSimulationUpdatedEvent raceSimulationUpdatedEvent = new();
@@ -72,10 +83,25 @@ public class RaceController : MonoBehaviour
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
-            public WorkoutGroup group;
         }
     }
     public static RaceSimulationEndedEvent raceSimulationEndedEvent = new();
+    public class StartRaceOpportunityEvent : UnityEvent<StartRaceOpportunityEvent.Context>
+    {
+        public class Context
+        {
+        }
+    }
+    public static StartRaceOpportunityEvent startRaceOpportunityEvent = new();
+    public class RunnerInRaceOpportunityZoneEvent : UnityEvent<RunnerInRaceOpportunityZoneEvent.Context>
+    {
+        public class Context
+        {
+            public Runner runner;
+            public RunnerState runnerState;
+        }
+    }
+    public static RunnerInRaceOpportunityZoneEvent runnerInRaceOpportunityZoneEvent = new();
 
     #endregion
 
@@ -91,6 +117,9 @@ public class RaceController : MonoBehaviour
 
     private void OnStartRace(StartRaceEvent.Context context)
     {
+        simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsNormal;
+        inOpportunityZone = false;
+        currentOpporunityZoneIndex = 0;
         StartCoroutine(SimulateRaceRoutine(context.teams, context.raceRoute));
     }
 
@@ -294,6 +323,51 @@ public class RaceController : MonoBehaviour
 
                     stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tTime: {state.timeInSeconds}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
                 }
+
+                float opportunityZoneThreshold = .05f;
+                //if we've got a runner within the next opporunity threshold, trigger the opportunity flow
+                if (!inOpportunityZone && currentOpporunityZoneIndex < raceRoute.OpportunityMarkers.Count && sortedRunnerStates[0].Value.totalDistance > raceRoute.OpportunityMarkers[currentOpporunityZoneIndex] - opportunityZoneThreshold)
+                {
+                    startRaceOpportunityEvent.Invoke(new StartRaceOpportunityEvent.Context { });
+                    inOpportunityZone = true;
+                    simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsInOpportunityZone;
+                }
+                else if (inOpportunityZone)
+                {
+                    float currentOpportunityDistance = raceRoute.OpportunityMarkers[currentOpporunityZoneIndex];
+                    // if we're in the opportunity zone, but don't have a current runner, try to see if there is one
+                    if (currentRunnerInOpportunityZone == null)
+                    {
+                        List<KeyValuePair<Runner, RunnerState>> playerTeamRunners = sortedRunnerStates.Where(kvp => kvp.Key.TeamName == TeamModel.Instance.PlayerTeamName).ToList();
+                        playerTeamRunners.OrderBy(kvp => kvp.Value.totalDistance);
+
+                        for (int i = 0; i < playerTeamRunners.Count; i++)
+                        {
+                            RunnerState runnerState = playerTeamRunners[i].Value;
+                            if (runnerState.totalDistance > currentOpportunityDistance - opportunityZoneThreshold
+                                && runnerState.totalDistance <= currentOpportunityDistance)
+                            {
+                                currentRunnerInOpportunityZone = playerTeamRunners[i].Key;
+                                runnerInRaceOpportunityZoneEvent.Invoke(new RunnerInRaceOpportunityZoneEvent.Context
+                                {
+                                    runner = currentRunnerInOpportunityZone,
+                                    runnerState = runnerState
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // if we have a runner in the opportunity zone, slow down the simulation as they approach the marker
+                        // we will listen for an event to set things back to normal speed
+                        RunnerState runnerState = runnerStates[currentRunnerInOpportunityZone];
+                        simulationSecondsPerRealSeconds = simulationSecondsPerRealSecondsInOpportunityZone * Mathf.InverseLerp(currentOpportunityDistance, currentOpportunityDistance - opportunityZoneThreshold, runnerState.totalDistance);
+                        Debug.Log(simulationSecondsPerRealSeconds);
+
+                    }
+                }
+                
+
                 Debug.Log(stateString);
                 raceSimulationUpdatedEvent.Invoke(new RaceSimulationUpdatedEvent.Context
                 {

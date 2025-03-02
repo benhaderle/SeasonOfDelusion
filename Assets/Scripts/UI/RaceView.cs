@@ -56,6 +56,7 @@ public class RaceView : MonoBehaviour
         RaceController.startRaceEvent.AddListener(OnStartRace);
         RaceController.raceSimulationUpdatedEvent.AddListener(OnRaceSimulationUpdated);
         RaceController.raceSimulationEndedEvent.AddListener(OnRaceSimulationEnded);
+        RaceController.startRaceOpportunityEvent.AddListener(OnStartRaceOpportunity);
     }
 
     private void OnDisable()
@@ -63,6 +64,7 @@ public class RaceView : MonoBehaviour
         RaceController.startRaceEvent.RemoveListener(OnStartRace);
         RaceController.raceSimulationUpdatedEvent.RemoveListener(OnRaceSimulationUpdated);
         RaceController.raceSimulationEndedEvent.RemoveListener(OnRaceSimulationEnded);
+        RaceController.startRaceOpportunityEvent.RemoveListener(OnStartRaceOpportunity);
     }
 
     public void OnContinueButton()
@@ -136,7 +138,7 @@ public class RaceView : MonoBehaviour
             if (activeRunnerCardDictionary.TryGetValue(orderedRunners[i], out RunnerRaceSimulationCard card))
             {
                 card.UpdatePace(state);
-                card.UpdatePlace(orderedRunners.Count - 1 - i);
+                card.UpdatePlace(orderedRunners.Count - i);
                 card.UpdateListPosition(activeRunnerCardDictionary.Count - 1 - cardIndex, cardIndex % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
                 cardIndex++;
             }
@@ -154,28 +156,42 @@ public class RaceView : MonoBehaviour
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
 
-    private void Toggle(bool active)
+    private void OnStartRaceOpportunity(RaceController.StartRaceOpportunityEvent.Context context)
     {
-        if(active)
+        //toggle off, but don't clean up the view
+        Toggle(false, false);
+    }
+
+    /// <summary>
+    /// Toggles the view on and off and cleans up pools if necessary
+    /// </summary>
+    /// <param name="active">Whether the view should be active or not</param>
+    /// <param name="cleanUp">Whether we should clean up all the pooled objects if we're turning the view inactive</param>
+    private void Toggle(bool active, bool cleanUp = true)
+    {
+        if (active)
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
         else
         {
-            CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, ToggleOffRoutine());
+            CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, ToggleOffRoutine(cleanUp));
         }
     }
 
-    private IEnumerator ToggleOffRoutine()
+    private IEnumerator ToggleOffRoutine(bool cleanUp)
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
 
-        runnerCompletionBubblePool.ReturnAllToPool();
-        anonymousRunnerCompletionBubblePool.ReturnAllToPool();
-        runnerSimulationCardPool.ReturnAllToPool();
-        activeRunnerBubbleDictionary.Clear();
-        activeRunnerCardDictionary.Clear();
-        runnerSimulationCardParent.gameObject.SetActive(false);
+        if (cleanUp)
+        {
+            runnerCompletionBubblePool.ReturnAllToPool();
+            anonymousRunnerCompletionBubblePool.ReturnAllToPool();
+            runnerSimulationCardPool.ReturnAllToPool();
+            activeRunnerBubbleDictionary.Clear();
+            activeRunnerCardDictionary.Clear();
+            runnerSimulationCardParent.gameObject.SetActive(false);
+        }
     }
 
     private void SetBubblePositionAlongBar(RunnerCompletionBubble bubble, float completion)

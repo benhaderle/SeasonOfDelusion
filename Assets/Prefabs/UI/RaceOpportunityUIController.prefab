@@ -803,6 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7445691476009143532}
   canvasGroup: {fileID: 4853741229461421631}
+  opportunityPromptText: {fileID: 7789247180460916231}
 --- !u!1 &8871777925390168348
 GameObject:
   m_ObjectHideFlags: 0

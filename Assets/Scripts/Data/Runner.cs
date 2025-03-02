@@ -29,6 +29,9 @@ public class Runner
     /// <value>User facing string formatted as "FirstName LastName"</value>
     public string Name => $"{firstName} {lastName}";
 
+    private string teamName;
+    public string TeamName => teamName;
+
     #region Stats
 
     [SerializeField] private float weight;
@@ -106,7 +109,7 @@ public class Runner
     /// Initializes this Runner
     /// </summary>
     /// <param name="variables">The variables to use for calculating updates to Runner stats</param> 
-    public void Initialize(RunnerCalculationVariables variables)
+    public void Initialize(RunnerCalculationVariables variables, string teamName)
     {
         currentVO2Max = minVO2Max;
         currentForm = minForm + 10;
@@ -118,6 +121,8 @@ public class Runner
         shortTermCalories = MAX_SHORT_TERM_CALORIES;
         sleepStatus = 10;
         this.variables = variables;
+
+        this.teamName = teamName;
     }
 
     #region Post Run Functions

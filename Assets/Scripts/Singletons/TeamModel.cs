@@ -12,6 +12,7 @@ using UnityEngine;
 public class TeamModel : Singleton<TeamModel>
 {
     [SerializeField] private Team playerTeam;
+    public string PlayerTeamName => playerTeam.Name;
     [SerializeField] private List<Team> otherTeams;
     [SerializeField] private RunnerCalculationVariables variables;
     [SerializeField] private List<Runner> runners;
@@ -64,7 +65,7 @@ public class Team
 
     public void Initialize(RunnerCalculationVariables variables)
     {
-        runners.ForEach(r => r.Initialize(variables));
+        runners.ForEach(r => r.Initialize(variables, name));
     }
 
     public void OnEndDay()

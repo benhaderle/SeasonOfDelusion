@@ -23,4 +23,10 @@ public class RaceRoute
     /// </summary>
     [SerializeField] private float length;
     public float Length => length;
+
+    /// <summary>
+    /// The list of mile markers where a Race Opportunity is present
+    /// </summary>
+    [SerializeField] private List<float> opportunityMarkers;
+    public List<float> OpportunityMarkers => opportunityMarkers;
 }
