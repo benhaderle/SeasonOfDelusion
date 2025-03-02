@@ -24,6 +24,7 @@ public class RaceOpportunityUIController : MonoBehaviour
     {
         public class Context
         {
+            public int ease;
         }
     }
     public static RaceOpportunityButtonPressedEvent raceOpportunityButtonPressedEvent = new();
@@ -37,14 +38,16 @@ public class RaceOpportunityUIController : MonoBehaviour
     private void OnEnable()
     {
         toggleEvent.AddListener(OnToggle);
-        RaceController.startRaceOpportunityEvent.AddListener(OnStartRaceOpportunity);
+        RaceController.raceOpportunityStartedEvent.AddListener(OnRaceOpportunityStarted);
+        RaceController.raceOpportunityEndedEvent.AddListener(OnRaceOpportunityEnded);
         RaceController.runnerInRaceOpportunityZoneEvent.AddListener(OnRunnerInRaceOpportunityZone);
     }
 
     private void OnDisable()
     {
         toggleEvent.RemoveListener(OnToggle);
-        RaceController.startRaceOpportunityEvent.RemoveListener(OnStartRaceOpportunity);
+        RaceController.raceOpportunityStartedEvent.RemoveListener(OnRaceOpportunityStarted);
+        RaceController.raceOpportunityEndedEvent.RemoveListener(OnRaceOpportunityEnded);
         RaceController.runnerInRaceOpportunityZoneEvent.RemoveListener(OnRunnerInRaceOpportunityZone);
     }
 
@@ -52,6 +55,7 @@ public class RaceOpportunityUIController : MonoBehaviour
     {
         if (active)
         {
+            opportunityPromptText.text = "";
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
         else
@@ -65,7 +69,7 @@ public class RaceOpportunityUIController : MonoBehaviour
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
     }
 
-    private void OnStartRaceOpportunity(RaceController.StartRaceOpportunityEvent.Context context)
+    private void OnRaceOpportunityStarted(RaceController.RaceOpportunityStartedEvent.Context context)
     {
         OnToggle(true);
     }
@@ -75,9 +79,15 @@ public class RaceOpportunityUIController : MonoBehaviour
         opportunityPromptText.text = $"{context.runner.FirstName} is here.";
     }
 
-    public void OnRaceOpportunityButton()
+    private void OnRaceOpportunityEnded(RaceController.RaceOpportunityEndedEvent.Context context)
     {
-        raceOpportunityButtonPressedEvent.Invoke(new RaceOpportunityButtonPressedEvent.Context { });
+        OnToggle(false);
+    }
+
+    public void OnRaceOpportunityButton(int ease)
+    {
+        opportunityPromptText.text = "";
+        raceOpportunityButtonPressedEvent.Invoke(new RaceOpportunityButtonPressedEvent.Context { ease = ease });
     }
 
 }

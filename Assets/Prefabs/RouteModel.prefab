@@ -110,3 +110,7 @@ MonoBehaviour:
   - id: CrystalSprings
     name: Crystal Springs
     length: 3
+    opportunityMarkers:
+    - 0.5
+    - 1.5
+    - 2.5

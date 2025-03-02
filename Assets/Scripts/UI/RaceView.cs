@@ -56,7 +56,8 @@ public class RaceView : MonoBehaviour
         RaceController.startRaceEvent.AddListener(OnStartRace);
         RaceController.raceSimulationUpdatedEvent.AddListener(OnRaceSimulationUpdated);
         RaceController.raceSimulationEndedEvent.AddListener(OnRaceSimulationEnded);
-        RaceController.startRaceOpportunityEvent.AddListener(OnStartRaceOpportunity);
+        RaceController.raceOpportunityStartedEvent.AddListener(OnRaceOpportunityStarted);
+        RaceController.raceOpportunityEndedEvent.AddListener(OnRaceOpportunityEnded);
     }
 
     private void OnDisable()
@@ -64,7 +65,8 @@ public class RaceView : MonoBehaviour
         RaceController.startRaceEvent.RemoveListener(OnStartRace);
         RaceController.raceSimulationUpdatedEvent.RemoveListener(OnRaceSimulationUpdated);
         RaceController.raceSimulationEndedEvent.RemoveListener(OnRaceSimulationEnded);
-        RaceController.startRaceOpportunityEvent.RemoveListener(OnStartRaceOpportunity);
+        RaceController.raceOpportunityStartedEvent.RemoveListener(OnRaceOpportunityStarted);
+        RaceController.raceOpportunityEndedEvent.RemoveListener(OnRaceOpportunityEnded);
     }
 
     public void OnContinueButton()
@@ -156,10 +158,15 @@ public class RaceView : MonoBehaviour
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
 
-    private void OnStartRaceOpportunity(RaceController.StartRaceOpportunityEvent.Context context)
+    private void OnRaceOpportunityStarted(RaceController.RaceOpportunityStartedEvent.Context context)
     {
         //toggle off, but don't clean up the view
         Toggle(false, false);
+    }
+
+    private void OnRaceOpportunityEnded(RaceController.RaceOpportunityEndedEvent.Context context)
+    {
+        Toggle(true);
     }
 
     /// <summary>

@@ -877,6 +877,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1334017188525395969}
     m_Modifications:
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5606998701865464483}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRaceOpportunityButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RaceOpportunityUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4366628010298347501, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -983,6 +999,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1334017188525395969}
     m_Modifications:
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5606998701865464483}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRaceOpportunityButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RaceOpportunityUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4366628010298347501, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1089,6 +1125,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1334017188525395969}
     m_Modifications:
+    - target: {fileID: 4222465104641454442, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5606998701865464483}
     - target: {fileID: 4366628010298347501, guid: f44b70eaacf824ff18ad502a8ec8f459, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
