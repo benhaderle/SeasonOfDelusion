@@ -27,11 +27,7 @@ public class RaceView : MonoBehaviour
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
     private Dictionary<Runner, RunnerRaceSimulationCard> activeRunnerCardDictionary = new();
-
-    [SerializeField] private CanvasGroup continueButtonContainer;
-
     private IEnumerator toggleRoutine;
-    private IEnumerator continueButtonToggleRoutine;
 
     #region Events
     public class PostRaceContinueButtonPressedEvent : UnityEvent<PostRaceContinueButtonPressedEvent.Context>
@@ -154,13 +150,7 @@ public class RaceView : MonoBehaviour
 
     private void OnRaceSimulationEnded(RaceController.RaceSimulationEndedEvent.Context context)
     {
-        //TODO: gotta show a real results screen
-        foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
-        {
-            activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
-        }
-
-        CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
+        Toggle(false);
     }
 
     private void OnRaceOpportunityStarted(RaceController.RaceOpportunityStartedEvent.Context context)

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
   playerTeam:
-    name: Player Team
+    name: Los Gatos
     runners:
     - firstName: Chris
       lastName: Foster
@@ -97,7 +97,7 @@ MonoBehaviour:
       maxNutrition: 100
       recovery: 55
   otherTeams:
-  - name: A
+  - name: Saratoga
     runners:
     - firstName: A
       lastName: A
@@ -183,7 +183,7 @@ MonoBehaviour:
       minNutrition: 30
       maxNutrition: 100
       recovery: 55
-  - name: B
+  - name: Lynbrook
     runners:
     - firstName: A
       lastName: A
@@ -269,7 +269,7 @@ MonoBehaviour:
       minNutrition: 30
       maxNutrition: 100
       recovery: 55
-  - name: C
+  - name: Los Altos
     runners:
     - firstName: A
       lastName: A
@@ -355,7 +355,7 @@ MonoBehaviour:
       minNutrition: 30
       maxNutrition: 100
       recovery: 55
-  - name: D
+  - name: St. Francis
     runners:
     - firstName: A
       lastName: A

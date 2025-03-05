@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO.Compression;
 using System.Linq;
-using System.Threading;
 using CreateNeptune;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -87,6 +84,7 @@ public class RaceController : MonoBehaviour
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
+            public List<TeamRaceResultRecord> sortedTeamRaceResultRecords;
         }
     }
     public static RaceSimulationEndedEvent raceSimulationEndedEvent = new();
@@ -149,6 +147,7 @@ public class RaceController : MonoBehaviour
 
         // go through each runner and initialize their state for this workout
         Dictionary<Runner, RunnerState> runnerStates = new();
+        List<KeyValuePair<Runner, RunnerState>> sortedRunnerStates;
 
         teams.ForEach(t => t.Runners.ToList().ForEach(r =>
             runnerStates.Add(r, new RunnerState
@@ -285,25 +284,8 @@ public class RaceController : MonoBehaviour
             {
                 string stateString = "";
                 float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
-                List<KeyValuePair<Runner, RunnerState>> sortedRunnerStates = runnerStates.ToList();
-                sortedRunnerStates.Sort((kvp1, kvp2) =>
-                {
-                    if (kvp1.Value.totalDistance == kvp2.Value.totalDistance)
-                    {
-                        if (kvp1.Value.timeInSeconds == kvp2.Value.timeInSeconds)
-                        {
-                            return 0;
-                        }
-                        else if (kvp1.Value.timeInSeconds < kvp2.Value.timeInSeconds)
-                            return -1;
-                        else
-                            return 1;
-                    }
-                    else if (kvp1.Value.totalDistance > kvp2.Value.totalDistance)
-                        return -1;
-                    else
-                        return 1;
-                });
+                sortedRunnerStates = runnerStates.ToList();
+                sortedRunnerStates.Sort((kvp1, kvp2) => SortRunnerState(kvp1.Value, kvp2.Value));
                 foreach (KeyValuePair<Runner, RunnerState> kvp in sortedRunnerStates)
                 {
                     Runner runner = kvp.Key;
@@ -375,7 +357,7 @@ public class RaceController : MonoBehaviour
                             {
                                 lastRunnerInOpportunityZone = true;
                             }
-                        }                       
+                        }
                     }
                     else
                     {
@@ -397,6 +379,24 @@ public class RaceController : MonoBehaviour
             }
         }
 
+
+        sortedRunnerStates = runnerStates.ToList();
+        sortedRunnerStates.Sort((kvp1, kvp2) => SortRunnerState(kvp1.Value, kvp2.Value));
+        List<TeamRaceResultRecord> teamRaceResultRecords = new();
+        for (int i = 0; i < teams.Count; i++)
+        {
+            List<KeyValuePair<Runner, RunnerState>> runnersOnTeam = GetRunnersOnTeam(runnerStates, teams[i].Name);
+            int[] runnerScores = runnersOnTeam.Select(r => sortedRunnerStates.IndexOf(r) + 1).OrderBy(n => n).ToArray();
+
+            teamRaceResultRecords.Add(new TeamRaceResultRecord
+            {
+                teamName = teams[i].Name,
+                runnerScores = runnerScores,
+                teamScore = runnerScores[0] + runnerScores[1] + runnerScores[2] + runnerScores[3]
+            });
+        }
+        teamRaceResultRecords = teamRaceResultRecords.OrderBy(t => t.teamScore).ToList();
+
         // post run update for the player team
         foreach (Runner runner in teams[0].Runners)
         {
@@ -408,7 +408,8 @@ public class RaceController : MonoBehaviour
 
         raceSimulationEndedEvent.Invoke(new RaceSimulationEndedEvent.Context()
         {
-            runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
+            runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary),
+            sortedTeamRaceResultRecords = teamRaceResultRecords
         });
     }
 
@@ -454,4 +455,31 @@ public class RaceController : MonoBehaviour
     {
         return stateDictionary.Where(kvp => kvp.Key.TeamName == teamName).ToList();
     }
+
+    private int SortRunnerState(RunnerState state1, RunnerState state2)
+    {
+        if (state1.totalDistance == state2.totalDistance)
+        {
+            if (state1.timeInSeconds == state2.timeInSeconds)
+            {
+                return 0;
+            }
+            else if (state1.timeInSeconds < state2.timeInSeconds)
+                return -1;
+            else
+                return 1;
+        }
+        else if (state1.totalDistance > state2.totalDistance)
+            return -1;
+        else
+            return 1;
+    }
+}
+
+public class TeamRaceResultRecord
+{
+    public string teamName;
+    public int teamScore;
+    public int[] runnerScores;
+
 }
