@@ -29,7 +29,7 @@ public class WorkoutGroupRow : MonoBehaviour
     {
         slots[slotIndex].SetRunnerCardToSlot(card);
 
-        vo2MaxSum += card.Runner.CurrentVO2Max;
+        vo2MaxSum += card.Runner.currentVO2Max;
         numSlotsFilled++;
         UpdateRunnerIntensities();
     }
@@ -39,7 +39,7 @@ public class WorkoutGroupRow : MonoBehaviour
         Runner runnerRemoved = slots[slotIndex].RemoveCardFromSlot();
         if(runnerRemoved != null)
         {
-            vo2MaxSum -= runnerRemoved.CurrentVO2Max;
+            vo2MaxSum -= runnerRemoved.currentVO2Max;
             numSlotsFilled--;
             UpdateRunnerIntensities();
         }

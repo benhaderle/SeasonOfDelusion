@@ -141,7 +141,7 @@ public class WorkoutController : MonoBehaviour
 
                 //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
                 // but this should probably account for experience and soreness in some way
-                state.runVO2 = runner.CurrentVO2Max * group.targetVO2 / runner.CurrentVO2Max;
+                state.runVO2 = runner.currentVO2Max * group.targetVO2 / runner.currentVO2Max;
                 state.currentSpeed = 0;
                 state.desiredSpeed = 0;
                 state.workoutIntervalDistance = 0;
@@ -164,17 +164,17 @@ public class WorkoutController : MonoBehaviour
                 float paceChangeMeanMagnitude = .02f;
 
                 // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
-                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness));
+                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness));
                 // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
                 // low numbers mean you can speed up and high numbers mean you gotta slow doen
                 float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
 
                 // number that represents the percentile of the last interval's VO2 usage
                 // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
-                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.CurrentVO2Max;
+                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.currentVO2Max;
                 // how far off the last interval was from coach's guidance in percent of VO2
                 // low numbers mean you're slow and high numbers mean you're fast
-                float vo2PaceChangeFactor = intervalVO2Percent - (group.targetVO2 / runner.CurrentVO2Max);
+                float vo2PaceChangeFactor = intervalVO2Percent - (group.targetVO2 / runner.currentVO2Max);
 
                 // these if statements check if there are extremes being hit with soreness and pace
                 // if there are, then roll to change pace will be affected
@@ -195,10 +195,10 @@ public class WorkoutController : MonoBehaviour
 
                 // do the roll then adjust vo2
                 float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
-                state.runVO2 += roll * runner.CurrentVO2Max;
+                state.runVO2 += roll * runner.currentVO2Max;
 
                 // clamp the vo2 between some reasonable values
-                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
+                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.currentVO2Max, 1.25f * runner.currentVO2Max);
 
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy(state));
                 }
@@ -241,7 +241,7 @@ public class WorkoutController : MonoBehaviour
                         // the last runner left on the route will not be effected by anyone so they just run at their desired speed
                         if (weightTotal > 0)
                         {
-                            state.desiredSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * group.targetVO2 / runner.CurrentVO2Max));
+                            state.desiredSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * group.targetVO2 / runner.currentVO2Max));
                         }
 
                         // if this is the last iteration, set the current speed
@@ -292,7 +292,7 @@ public class WorkoutController : MonoBehaviour
                             state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
                         }
 
-                        stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
+                        stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
                     }
                     Debug.Log(stateString);
                     workoutSimulationUpdatedEvent.Invoke(new WorkoutSimulationUpdatedEvent.Context

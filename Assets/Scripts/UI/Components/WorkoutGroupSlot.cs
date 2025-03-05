@@ -44,7 +44,7 @@ public class WorkoutGroupSlot : MonoBehaviour
         if (runnerCard == null)
             return;
 
-        float thresholdVO2 = runnerCard.Runner.CurrentVO2Max;
+        float thresholdVO2 = runnerCard.Runner.currentVO2Max;
 
         float percentOfGroup = groupVO2 / thresholdVO2;
 

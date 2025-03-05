@@ -7,6 +7,8 @@ using System.IO;
 
 namespace CreateNeptune
 {
+    // TExtendedClass is the class that you extend from this abstract class (ie 'SaveData')
+    // TSerializedClass is the class that represents serialized save data (ie 'SerializedSaveData')
     public abstract class SaveDataSingleton<TExtendedClass, TSerializedClass> : Singleton<TExtendedClass>
         where TExtendedClass : class
     {
@@ -82,8 +84,7 @@ namespace CreateNeptune
             }
             catch (Exception e)
             {
-                Debug.LogError("User save data corrupted.");
-                Debug.LogError(e);
+                Debug.LogError($"User save data corrupted. ERROR MESSAGE: \"{e}\"");
             }
 
             SaveDataLoadedEvent.Instance.Invoke();

@@ -18,10 +18,6 @@ public class Runner
     private const float MAX_SLEEP = 10;
     private const float MIN_SLEEP = 0;
     private const float MAX_SHORT_TERM_CALORIES = 3000;
-    /// <summary>
-    /// An SO with shared variables between all runners
-    /// </summary>
-    private RunnerCalculationVariables variables;
     [SerializeField] private string firstName;
     public string FirstName => firstName;
     [SerializeField] private string lastName;
@@ -31,11 +27,12 @@ public class Runner
 
     private string teamName;
     public string TeamName => teamName;
-
-    #region Stats
-
-    [SerializeField] private float weight;
-
+#region Stats
+    [SerializeField] private RunnerSaveDataSO runnerSaveData;
+    /// <summary>
+    /// An SO with shared variables between all runners
+    /// </summary>
+    private RunnerCalculationVariables variables;
     /// <summary>
     /// This runner's minVO2Max. currentVO2Max will never go below this.
     /// </summary>
@@ -44,42 +41,97 @@ public class Runner
     /// The runner's maxVO2Max. currentVO2Max will never go above this.
     /// </summary> 
     [SerializeField] private float maxVO2Max;
+    [SerializeField] private float minStrength;
+    [SerializeField] private float maxStrength;
+    [SerializeField] private float minForm;
+    [SerializeField] private float maxForm;
+    [SerializeField] private float minNutrition;
+    [SerializeField] private float maxNutrition;
+    [SerializeField] private float recovery;
+    public float weight
+{
+    get => runnerSaveData.data.weight;
+    private set => runnerSaveData.data.weight = value;
+}
     /// <summary>
     /// The runner's current VO2Max.
     /// </summary>    
-    private float currentVO2Max;
-    public float CurrentVO2Max => currentVO2Max;
-
-    [SerializeField] private float minStrength;
-    [SerializeField] private float maxStrength;
-    private float currentStrength;
-    public float CurrentStrength => currentStrength;
+    public float currentVO2Max
+    {
+        get => runnerSaveData.data.currentVO2Max;
+        private set => runnerSaveData.data.currentVO2Max = value;
+    }
+    private float currentStrength
+    {
+        get => runnerSaveData.data.currentStrength;
+        set => runnerSaveData.data.currentStrength = value;
+    }
     /// <summary>
     /// The current rate of strength change. Changes depending on run performance
     /// </summary>
-    private float strengthChangeRate;
-
-    [SerializeField] private float minForm;
-    [SerializeField] private float maxForm;
-    private float currentForm;
-    public float CurrentForm => currentForm;
-    private int daysSinceFormPractice;
-
+    private float strengthChangeRate
+    {
+        get => runnerSaveData.data.strengthChangeRate;
+        set => runnerSaveData.data.strengthChangeRate = value;
+    }
+    private float currentForm
+    {
+        get => runnerSaveData.data.currentForm;
+        set => runnerSaveData.data.currentForm = value;
+    }
+    private int daysSinceFormPractice
+    {
+        get => runnerSaveData.data.daysSinceFormPractice;
+        set => runnerSaveData.data.daysSinceFormPractice = value;
+    }
     /// <summary>
     /// A number >= 0 that roughly represents cumulative lifetime miles for this runner
     /// </summary>
-    private float experience;
-    public float Experience => experience;
-    [SerializeField] private float minNutrition;
-    [SerializeField] private float maxNutrition;
-    private float currentNutrition;
-    public float CurrentNutrition => currentNutrition;
-    [SerializeField] private float recovery;
-    public float Recovery => recovery;
-    private float grit;
-    public float Grit => grit;
-    private float school;
-    public float School => school;
+    public float experience
+    {
+        get => runnerSaveData.data.experience;
+        private set => runnerSaveData.data.experience = value;
+    }
+    private float currentNutrition
+    {
+        get => runnerSaveData.data.currentNutrition;
+        set => runnerSaveData.data.currentNutrition = value;
+    }
+    private float grit
+    {
+        get => runnerSaveData.data.grit;
+        set => runnerSaveData.data.grit = value;
+    }
+    private float school
+    {
+        get => runnerSaveData.data.school;
+        set => runnerSaveData.data.school = value;
+    }
+    private float sleepStatus
+    {
+        get => runnerSaveData.data.sleepStatus;
+        set => runnerSaveData.data.sleepStatus = value;
+    }
+    private float shortTermCalories
+    {
+        get => runnerSaveData.data.shortTermCalories;
+        set => runnerSaveData.data.shortTermCalories = value;
+    }
+    public float longTermCalories
+    {
+        get => runnerSaveData.data.longTermCalories;
+        private set => runnerSaveData.data.longTermCalories = value;
+    }
+    private float hydrationStatus
+    {
+        get => runnerSaveData.data.hydrationStatus;
+        set => runnerSaveData.data.hydrationStatus = value;
+    }
+    public float longTermSoreness
+    {
+        get => runnerSaveData.data.longTermSoreness;
+        private set => runnerSaveData.data.longTermSoreness = value;
+    }
 
     // TODO: impromptu list of stats that might get implemented at some point
     // public int wit { get; private set; }
@@ -88,41 +140,35 @@ public class Runner
 
     // private float emotion;
     // private float intuition;
-    private float sleepStatus;
-    public float SleepStatus => sleepStatus;
-    private float shortTermCalories;
-    public float ShortTermCalories => shortTermCalories;
-    private float longTermCalories;
-    public float LongTermCalories => longTermCalories;
-    private float hydrationStatus;
-    public float HydrationStatus => hydrationStatus;
-    private float longTermSoreness;
-    public float LongTermSoreness => longTermSoreness;
-
     #endregion
-
     public Runner()
     {
     }
 
     /// <summary>
-    /// Initializes this Runner
+    /// Initializes this Runner with a new RunnerSaveData object with default values
     /// </summary>
     /// <param name="variables">The variables to use for calculating updates to Runner stats</param> 
     public void Initialize(RunnerCalculationVariables variables, string teamName)
     {
-        currentVO2Max = minVO2Max;
-        currentForm = minForm + 10;
-        currentStrength = minStrength + 10;
-        strengthChangeRate = 1;
-        currentNutrition = minNutrition + 10;
-        hydrationStatus = 4f;
-        longTermCalories = 100000;
-        shortTermCalories = MAX_SHORT_TERM_CALORIES;
-        sleepStatus = 10;
+
         this.variables = variables;
 
         this.teamName = teamName;
+
+        if (runnerSaveData == null)
+        {
+            runnerSaveData = ScriptableObject.CreateInstance<RunnerSaveDataSO>();
+        }
+
+        if (!runnerSaveData.data.initialized)
+        {
+            runnerSaveData.Initialize(minVO2Max, minForm, minStrength, minNutrition, MAX_SHORT_TERM_CALORIES);
+        }
+        
+        runnerSaveData.data.firstName = firstName;
+        runnerSaveData.data.lastName = lastName;
+        runnerSaveData.data.teamName = teamName;
     }
 
     #region Post Run Functions
@@ -148,7 +194,7 @@ public class Runner
         float timeInMinutes = runState.timeInSeconds / 60f;
 
         // experience is a function of cumulative miles run
-        UpdateExperiencePostRun(runState.totalDistance);
+        UpdateexperiencePostRun(runState.totalDistance);
 
         // VO2 is moved up or down depending on how far away you were from 90% of your VO2
         UpdateVO2PostRun(runVO2, timeInMinutes);
@@ -159,7 +205,7 @@ public class Runner
         // strength rate is moved up or down depending on how far away you were from 75% of your VO2
         UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
 
-        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {CurrentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {CurrentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
         return new RunnerUpdateRecord
         {
@@ -175,7 +221,7 @@ public class Runner
     private void UpdateVO2PostRun(float runVO2, float timeInMinutes)
     {
         // the percent away from the improvement threshold
-        float vo2ImprovementGap = (runVO2 / (CurrentVO2Max * variables.VO2ImprovementThreshold)) - 1f;
+        float vo2ImprovementGap = (runVO2 / (currentVO2Max * variables.VO2ImprovementThreshold)) - 1f;
 
         // go look at desmos if you want to see the shape of this graph
         // basic idea is that VO2 goes up if you ran harder or longer, goes down if you ran slower or shorter
@@ -200,7 +246,7 @@ public class Runner
     /// Increases experience by the amount provided
     /// </summary>
     /// <param name="exp">The amount of experience to add</param>
-    private void UpdateExperiencePostRun(float exp)
+    private void UpdateexperiencePostRun(float exp)
     {
         experience += exp;
     }

@@ -100,8 +100,8 @@ public class RunController : MonoBehaviour
         {
             // TODO: if the coach guidance is slow already, should heavy soreness make you go slower?
             // TODO: thinkin that maybe this is too random
-            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, runner.LongTermSoreness)) * sorenessEffect;
-            float statusDeviation = Mathf.Clamp((1 - (runner.Experience / experienceCap)) * maxDeviation, 0, maxDeviation);
+            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, runner.longTermSoreness)) * sorenessEffect;
+            float statusDeviation = Mathf.Clamp((1 - (runner.experience / experienceCap)) * maxDeviation, 0, maxDeviation);
             float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
 
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
@@ -112,7 +112,7 @@ public class RunController : MonoBehaviour
                 //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
                 //amount of experience is based off of how many miles a runner has run
                 //right now we just have a linear relationship between number of miles run and variance in runVO2
-                runVO2 = runner.CurrentVO2Max * Mathf.Max(.5f, conditions.coachVO2Guidance + roll),
+                runVO2 = runner.currentVO2Max * Mathf.Max(.5f, conditions.coachVO2Guidance + roll),
                 currentSpeed = 0,
                 desiredSpeed = 0,
                 totalDistance = 0,
@@ -136,14 +136,14 @@ public class RunController : MonoBehaviour
                 float paceChangeMeanMagnitude = .02f;
 
                 // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
-                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness));
+                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness));
                 // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
                 // low numbers mean you can speed up and high numbers mean you gotta slow doen
                 float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
 
                 // number that represents the percentile of the last interval's VO2 usage
                 // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
-                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.CurrentVO2Max;
+                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.currentVO2Max;
                 // how far off the last interval was from coach's guidance in percent of VO2
                 // low numbers mean you're slow and high numbers mean you're fast
                 float vo2PaceChangeFactor = intervalVO2Percent - conditions.coachVO2Guidance;
@@ -167,10 +167,10 @@ public class RunController : MonoBehaviour
 
                 // do the roll then adjust vo2
                 float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
-                state.runVO2 += roll * runner.CurrentVO2Max;
+                state.runVO2 += roll * runner.currentVO2Max;
 
                 // clamp the vo2 between some reasonable values
-                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.25f * runner.CurrentVO2Max);
+                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.currentVO2Max, 1.25f * runner.currentVO2Max);
 
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy(state));
             }
@@ -261,7 +261,7 @@ public class RunController : MonoBehaviour
                         state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
                     }
 
-                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness+runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness+runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
                 }
                 Debug.Log(stateString);
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context

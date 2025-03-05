@@ -221,9 +221,9 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
         int groupIndex = 0;
         int slotIndex = 0;
-        for (int i = 0; i < TeamModel.Instance.Runners.Count; i++)
+        for (int i = 0; i < TeamModel.Instance.PlayerRunners.Count; i++)
         {
-            Runner runner = TeamModel.Instance.Runners[i];
+            Runner runner = TeamModel.Instance.PlayerRunners[i];
             WorkoutRunnerCard runnerCard = workoutRunnerCardPoolContext.GetPooledObject<WorkoutRunnerCard>();
 
             //set up the card with the runner data

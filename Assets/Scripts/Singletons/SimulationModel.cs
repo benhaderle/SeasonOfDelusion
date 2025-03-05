@@ -13,11 +13,19 @@ public class SimulationModel : Singleton<SimulationModel>
 {
     [SerializeField] private TextAsset daysAsset;
     private Day[] days;
+    private bool loaded;
+    [SerializeField] private SimulationSaveDataSO simulationSaveData;
+    public int dayIndex
+    {
+        get => simulationSaveData.data.dayIndex;
+        private set => simulationSaveData.data.dayIndex = value;
+    }
 
-    private int dayIndex;
-    public int DayIndex => dayIndex;
-
-    private int eventIndex;
+    public int eventIndex
+    {
+        get => simulationSaveData.data.eventIndex;
+        private set => simulationSaveData.data.eventIndex = value;
+    }
 
     #region Events
     public class EndDayEvent : UnityEvent<EndDayEvent.Context> 
@@ -32,10 +40,12 @@ public class SimulationModel : Singleton<SimulationModel>
     protected override void OnSuccessfulAwake()
     {
         days = JsonUtility.FromJson<DaySerializationContainer>(daysAsset.text).days;
+        loaded = false;
     }
 
     private void OnEnable()
     {
+        SaveDataLoadedEvent.Instance.AddListener(OnSaveDataLoaded);
         CutsceneController.cutsceneEndedEvent.AddListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
         RunView.postRunContinueButtonPressedEvent.AddListener(OnPostRunContinueButtonPressed);
@@ -45,6 +55,7 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void OnDisable()
     {
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
         CutsceneController.cutsceneEndedEvent.RemoveListener(OnCutsceneEnded);
         DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
         RunView.postRunContinueButtonPressedEvent.RemoveListener(OnPostRunContinueButtonPressed);
@@ -54,7 +65,19 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void Start()
     {
+        if (!loaded && SaveData.Instance.loaded)
+        {
+            OnSaveDataLoaded();
+        }
+    }
+
+    private void OnSaveDataLoaded()
+    {
+        loaded = true;
+
         StartDay(dayIndex);
+
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
     }
 
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)

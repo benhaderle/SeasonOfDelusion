@@ -168,7 +168,7 @@ public class RaceController : MonoBehaviour
 
             //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
             // but this should probably account for experience and soreness in some way
-            state.runVO2 = runner.CurrentVO2Max * targetVO2Percent;
+            state.runVO2 = runner.currentVO2Max * targetVO2Percent;
             state.currentSpeed = 0;
             state.desiredSpeed = 0;
             state.workoutIntervalDistance = 0;
@@ -190,14 +190,14 @@ public class RaceController : MonoBehaviour
                 float paceChangeMeanMagnitude = .02f;
 
                 // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
-                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.LongTermSoreness));
+                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness));
                 // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
                 // low numbers mean you can speed up and high numbers mean you gotta slow doen
                 float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
 
                 // number that represents the percentile of the last interval's VO2 usage
                 // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
-                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.CurrentVO2Max;
+                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.currentVO2Max;
                 // how far off the last interval was from coach's guidance in percent of VO2
                 // low numbers mean you're slow and high numbers mean you're fast
                 float vo2PaceChangeFactor = intervalVO2Percent - targetVO2Percent;
@@ -221,10 +221,10 @@ public class RaceController : MonoBehaviour
 
                 // do the roll then adjust vo2
                 float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
-                state.runVO2 += roll * runner.CurrentVO2Max;
+                state.runVO2 += roll * runner.currentVO2Max;
 
                 // clamp the vo2 between some reasonable values
-                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.CurrentVO2Max, 1.5f * runner.CurrentVO2Max);
+                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.currentVO2Max, 1.5f * runner.currentVO2Max);
 
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy(state));
             }
@@ -317,7 +317,7 @@ public class RaceController : MonoBehaviour
                         state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
                     }
 
-                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tTime: {state.timeInSeconds}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.LongTermSoreness} ({state.shortTermSoreness},{runner.LongTermSoreness})\n";
+                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tTime: {state.timeInSeconds}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
                 }
 
                 float opportunityZoneThreshold = .05f;

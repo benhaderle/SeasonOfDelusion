@@ -97,7 +97,7 @@ public class RouteUIController : MonoBehaviour
     {
         RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
         {
-            runners = TeamModel.Instance.Runners.ToList(),
+            runners = TeamModel.Instance.PlayerRunners.ToList(),
             route = selectedRoute,
             runConditions = new RunConditions
             {

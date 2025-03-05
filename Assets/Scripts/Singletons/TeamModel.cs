@@ -15,26 +15,43 @@ public class TeamModel : Singleton<TeamModel>
     public string PlayerTeamName => playerTeam.Name;
     [SerializeField] private List<Team> otherTeams;
     [SerializeField] private RunnerCalculationVariables variables;
-    [SerializeField] private List<Runner> runners;
-
-    public ReadOnlyCollection<Runner> Runners => runners.AsReadOnly();
+    public ReadOnlyCollection<Runner> PlayerRunners => playerTeam.Runners;
+    private bool loaded;
 
     protected override void OnSuccessfulAwake()
     {
         base.OnSuccessfulAwake();
-
-        playerTeam.Initialize(variables);
-        otherTeams.ForEach(team => team.Initialize(variables));
+        loaded = false;
     }
 
     private void OnEnable()
     {
+        SaveDataLoadedEvent.Instance.AddListener(OnSaveDataLoaded);
         SimulationModel.endDayEvent.AddListener(OnEndDay);
     }
 
     private void OnDisable()
     {
-        SimulationModel.endDayEvent.AddListener(OnEndDay);
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
+        SimulationModel.endDayEvent.RemoveListener(OnEndDay);
+    }
+
+    private void Start()
+    {
+        if (!loaded && SaveData.Instance.loaded)
+        {
+            OnSaveDataLoaded();
+        }
+    }
+
+    private void OnSaveDataLoaded()
+    {
+        loaded = true;
+
+        playerTeam.Initialize(variables);
+        otherTeams.ForEach(team => team.Initialize(variables));
+
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
     }
 
     private void OnEndDay(SimulationModel.EndDayEvent.Context context)
@@ -53,27 +70,4 @@ public class TeamModel : Singleton<TeamModel>
 
         return allTeams;
     }
-}
-
-[Serializable]
-public class Team
-{
-    [SerializeField] private string name;
-    public string Name => name;
-    [SerializeField] private List<Runner> runners;
-    public ReadOnlyCollection<Runner> Runners => runners.AsReadOnly();
-
-    public void Initialize(RunnerCalculationVariables variables)
-    {
-        runners.ForEach(r => r.Initialize(variables, name));
-    }
-
-    public void OnEndDay()
-    {
-        runners.ForEach(r =>
-        {
-            r.OnEndDay();
-        });
-    }
-
 }
