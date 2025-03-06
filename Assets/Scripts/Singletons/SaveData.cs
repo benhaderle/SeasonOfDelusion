@@ -13,7 +13,6 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     [SerializeField] private RunnerSaveDataSO[] playerRunnerSaveDatas;
     private void Start()
     {
-
         LoadGame();
     }
 
@@ -42,8 +41,13 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     /// This function is used to reset all the values in the save data to their default values 
     /// (without clearing the loaded flag like SetDefaultValues always does)
     /// </summary>
-    private void ResetValues()
+    public void ResetValues()
     {
+        simulationSaveData.data = new();
+        for (int i = 0; i < playerRunnerSaveDatas.Length; i++)
+        {
+            playerRunnerSaveDatas[i].data = new();
+        }
     }
 
     /// <summary>

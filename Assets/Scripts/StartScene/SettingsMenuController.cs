@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 using CreateNeptune;
+using UnityEngine.UI;
 
-public class StartMenuUIController : MonoBehaviour
+public class SettingsMenuController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -15,6 +15,12 @@ public class StartMenuUIController : MonoBehaviour
     public class ToggleEvent : UnityEvent<bool> { };
     public static ToggleEvent toggleEvent = new ToggleEvent();
 #endregion
+
+    private void Awake()
+    {
+        OnToggle(false);
+    }
+
     private void OnEnable()
     {
         toggleEvent.AddListener(OnToggle);
@@ -42,17 +48,17 @@ public class StartMenuUIController : MonoBehaviour
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
     }
-
     #endregion
-    public void OnPlayButton()
-    {
-        SceneManager.LoadScene((int)Scene.MainScene);
-    }
 
-    public void OnSettingsButton()
+    public void OnBackButton()
     {
         OnToggle(false);
-        SettingsMenuController.toggleEvent.Invoke(true);
+        StartMenuUIController.toggleEvent.Invoke(true);
+    }
+
+    public void OnResetSaveDataButton()
+    {
+        SaveData.Instance.ResetValues();
     }
     
 }
