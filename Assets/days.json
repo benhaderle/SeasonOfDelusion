@@ -1,6 +1,6 @@
 
 {
-    "days": 
+    "test_days":
     [
         {
             "date": "1/1/11",
@@ -24,9 +24,12 @@
                     "timeMinutes": 30
                 }
             ]
-        },
+        }
+    ],
+    "days": 
+    [
         {
-            "date": "8/25/11",
+            "date": "8/13/12",
             "events":[
                 {
                     "name": "FIRSTDAYCUTSCENE",
@@ -51,7 +54,7 @@
             ]
         },
         {
-            "date": "8/26/11",
+            "date": "8/14/12",
             "events":[
                 {
                     "name": "PREDAYCUTSCENE",
@@ -63,6 +66,60 @@
                 {
                     "name": "NORMALPRACTICE",
                     "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/15/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/16/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/16/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
                     "timeHours": 14,
                     "timeMinutes": 30
                 }

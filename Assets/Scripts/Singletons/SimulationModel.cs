@@ -159,6 +159,7 @@ public class SimulationModel : Singleton<SimulationModel>
         Enum.TryParse(cutsceneEvent.cutsceneID, out CutsceneID cutsceneID);
 
         BackgroundController.toggleEvent.Invoke(false);
+        CutsceneUIController.toggleEvent.Invoke(true);
         CutsceneUIController.startCutsceneEvent.Invoke( new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
     }
 

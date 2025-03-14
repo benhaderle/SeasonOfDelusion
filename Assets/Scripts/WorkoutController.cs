@@ -283,7 +283,7 @@ public class WorkoutController : MonoBehaviour
                             float intervalDistance = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item1 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item1;
                             float intervalTimeInSeconds = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item2 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item2;
                             float intervalTimeInMinutes = intervalTimeInSeconds / 60f;
-                            float intervalMilesPerSecond = intervalDistance / Mathf.Max(1, intervalTimeInSeconds);
+                            float intervalMilesPerSecond = intervalDistance / intervalTimeInSeconds;
                             float intervalVO2 = RunUtility.SpeedToOxygenCost(intervalMilesPerSecond);
 
                             state.lastSimulationIntervalVO2 = intervalVO2;
