@@ -14,30 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueID: 0
   dialogueNodes:
-  - speaker: Chris
+  - speaker: Clark
     text: Wait, so they got a coach for us?
-  - speaker: Ari
+  - speaker: Rico
     text: 'Yeah dude. '
-  - speaker: Ben
+  - speaker: James
     text: So when's your dad coming down?
-  - speaker: Ari
-    text: Shut up dude. Ms. Edwards didn't even talk to him.
-  - speaker: Aaron
+  - speaker: Rico
+    text: Shut up dude. Ms. Meadows didn't even talk to him.
+  - speaker: Ryan
     text: Thank god, your dad's crazy.
-  - speaker: Ari
-    text: Sorry you're too weak to take the heat, Aaron.
-  - speaker: Ben
+  - speaker: Rico
+    text: Sorry you're too weak to take the heat, Ryan.
+  - speaker: James
     text: I think he's here.
   - speaker: Coach
     text: Hey, you guys are the runners, I'm guessing?
-  - speaker: Ari
+  - speaker: Rico
     text: Yeah boss.
   - speaker: Coach
     text: Well, I'm the new coach. Are we waiting on anyone?
-  - speaker: Ben
+  - speaker: James
     text: Nah, this should be everyone.
   - speaker: Coach
-    text: Alrighty, then let's get to it. I'm Coach Matt.  Background on me is that
+    text: Alrighty, then let's get to it. I'm Coach Jim.  Background on me is that
       I ran in high school, did a couple years in college, then became a PT for a
       couple years. You may have seen me around as an assistant coach for Saratoga
       the last couple years.  I'm looking forward to coaching y'all this season.
@@ -45,29 +45,29 @@ MonoBehaviour:
       think it's important to say that I'm here to help you guys run fast times and
       get a good team performance out of you guys come November. That's enough from
       me, why don't we go around and you guys can introduce yourself.
-  - speaker: Ari
-    text: I can go first. I'm Ari. I'm a junior. You can call me cap, because I'm
+  - speaker: Rico
+    text: I can go first. I'm Rico. I'm a junior. You can call me cap, because I'm
       the leader of these fools.
-  - speaker: Aaron
+  - speaker: Ryan
     text: Who the hell made you leader dude??
-  - speaker: Ari
-    text: Aaron, you've been taking my orders since popping out the womb.
-  - speaker: Aaron
+  - speaker: Rico
+    text: Aaron, you've been taking my orders since popping out of the womb.
+  - speaker: Ryan
     text: Yeah, right dude. Whatever.
-  - speaker: Ari
+  - speaker: Rico
     text: Anyway, nice to meet you Coach. Excited for the season.
-  - speaker: Aaron
-    text: I'll go next. I'm Aaron, also a junior. I've never taken an order from
-      Ari in my life.
-  - speaker: Ben
-    text: Hi, I'm Ben. I'm a sophomore. As far as leaders go, I'm currently running
+  - speaker: Ryan
+    text: I'll go next. I'm Ryan, also a junior. I've never taken an order from Ari
+      in my life.
+  - speaker: James
+    text: Hi, I'm James. I'm a sophomore. As far as leaders go, I'm currently running
       a grassroots campaign to replace Ari's dictatorship with a democratically elected
       council.
-  - speaker: Chris
+  - speaker: Clark
     text: Hey, I'm Chris. I'm a sophomore with Ben. I think that's it.
-  - speaker: Aaron
+  - speaker: Ryan
     text: You forgot to mention the mountains.
-  - speaker: Chris
+  - speaker: Clark
     text: Huh? Oh yeah, I live in the mountains.
   - speaker: Coach
     text: Well nice to meet you all. To cover some logistics- Practice will be every

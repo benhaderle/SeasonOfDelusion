@@ -48,8 +48,8 @@ MonoBehaviour:
   playerTeam:
     name: Los Gatos
     runners:
-    - firstName: Chris
-      lastName: Foster
+    - firstName: Clark
+      lastName: Faster
       runnerSaveData: {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
       minVO2Max: 50
       maxVO2Max: 75
@@ -60,8 +60,8 @@ MonoBehaviour:
       minNutrition: 30
       maxNutrition: 100
       recovery: 60
-    - firstName: Ben
-      lastName: Haderle
+    - firstName: James
+      lastName: Treau
       runnerSaveData: {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
       minVO2Max: 50
       maxVO2Max: 67
@@ -72,8 +72,8 @@ MonoBehaviour:
       minNutrition: 50
       maxNutrition: 100
       recovery: 65
-    - firstName: Ari
-      lastName: Rubin
+    - firstName: Rico
+      lastName: Ready
       runnerSaveData: {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
       minVO2Max: 50
       maxVO2Max: 63
@@ -84,7 +84,7 @@ MonoBehaviour:
       minNutrition: 20
       maxNutrition: 100
       recovery: 50
-    - firstName: Aaron
+    - firstName: Ryan
       lastName: Walker
       runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
       minVO2Max: 50
