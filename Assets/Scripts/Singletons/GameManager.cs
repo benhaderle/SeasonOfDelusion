@@ -23,4 +23,9 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     [SerializeField] private float defaultUIAnimationTime;
     public float DefaultUIAnimationTime => defaultUIAnimationTime;
+    protected override void OnSuccessfulAwake()
+    {
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 120;
+    }
 }
