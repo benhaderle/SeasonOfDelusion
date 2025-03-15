@@ -28,13 +28,23 @@ public class SimulationModel : Singleton<SimulationModel>
     }
 
     #region Events
-    public class EndDayEvent : UnityEvent<EndDayEvent.Context> 
-    { 
+
+    public class DayEventLoadedEvent : UnityEvent<DayEventLoadedEvent.Context>
+    {
+        public class Context
+        {
+            public string date;
+            public string time;
+        }
+    };
+    public static DayEventLoadedEvent dayEventLoadedEvent = new();
+    public class EndDayEvent : UnityEvent<EndDayEvent.Context>
+    {
         public class Context
         {
         }
     };
-    public static EndDayEvent endDayEvent = new ();
+    public static EndDayEvent endDayEvent = new();
     #endregion
 
     protected override void OnSuccessfulAwake()
@@ -126,7 +136,7 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         eventIndex++;
 
-        if(eventIndex < days[dayIndex].events.Count)
+        if (eventIndex < days[dayIndex].events.Count)
         {
             LoadEvent(days[dayIndex], eventIndex);
         }
@@ -140,7 +150,7 @@ public class SimulationModel : Singleton<SimulationModel>
     {
         DayEvent dayEvent = day.events[eventIndex];
 
-        switch(dayEvent.type)
+        switch (dayEvent.type)
         {
             default:
                 Debug.LogError($"UNrecognized event type \"{dayEvent.type}\". Skipping to the next event.");
@@ -152,6 +162,12 @@ public class SimulationModel : Singleton<SimulationModel>
             case "Workout": LoadWorkoutEvent(dayEvent); break;
             case "Race": LoadRaceEvent(dayEvent); break;
         }
+
+        dayEventLoadedEvent.Invoke(new DayEventLoadedEvent.Context
+        {
+            date = GetDate(),
+            time = GetTime(),
+        });
     }
 
     private void LoadCutsceneEvent(DayEvent cutsceneEvent)
@@ -160,7 +176,7 @@ public class SimulationModel : Singleton<SimulationModel>
 
         BackgroundController.toggleEvent.Invoke(false);
         CutsceneUIController.toggleEvent.Invoke(true);
-        CutsceneUIController.startCutsceneEvent.Invoke( new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
+        CutsceneUIController.startCutsceneEvent.Invoke(new CutsceneUIController.StartCutsceneEvent.Context { cutsceneID = cutsceneID });
     }
 
     private void LoadDialogueEvent(DayEvent dialogueEvent)
@@ -202,6 +218,17 @@ public class SimulationModel : Singleton<SimulationModel>
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private string GetDate()
+    {
+        return days[dayIndex].date;
+    }
+
+    private string GetTime()
+    {
+        DayEvent dayEvent = days[dayIndex].events[eventIndex];
+        return $"{dayEvent.timeHours % 12}:{dayEvent.timeMinutes:00} {(dayEvent.timeHours > 11 ? "PM" : "AM")}";
     }
 }
 

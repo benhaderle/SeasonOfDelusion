@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using CreateNeptune;
+using TMPro;
 
 public class HeaderController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private TextMeshProUGUI headerText;
 
     private IEnumerator toggleRoutine;
 
@@ -24,16 +26,18 @@ public class HeaderController : MonoBehaviour
     private void OnEnable()
     {
         toggleEvent.AddListener(OnToggle);
+        SimulationModel.dayEventLoadedEvent.AddListener(OnDayEventLoaded);
     }
 
     private void OnDisable()
     {
         toggleEvent.RemoveListener(OnToggle);
+        SimulationModel.dayEventLoadedEvent.RemoveListener(OnDayEventLoaded);
     }
 
-     private void OnToggle(bool active)
+    private void OnToggle(bool active)
     {
-        if(active)
+        if (active)
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
@@ -46,5 +50,10 @@ public class HeaderController : MonoBehaviour
     private IEnumerator ToggleOffRoutine()
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
+    }
+
+    private void OnDayEventLoaded(SimulationModel.DayEventLoadedEvent.Context context)
+    {
+        headerText.text = $"{context.date} | {context.time}";
     }
 }
