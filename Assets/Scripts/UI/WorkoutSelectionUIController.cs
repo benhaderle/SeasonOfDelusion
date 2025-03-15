@@ -31,6 +31,8 @@ public class WorkoutSelectionUIController : MonoBehaviour
     private int selectedSlotIndex;
 
     private IEnumerator toggleRoutine;
+    private bool selectionSetup;
+    private bool groupingSetup;
 
     #region Events
     public class ToggleEvent : UnityEvent<bool> { };
@@ -142,7 +144,11 @@ public class WorkoutSelectionUIController : MonoBehaviour
     {
         OnToggle(false);
         CutsceneUIController.toggleEvent.Invoke(false);
-        RosterUIController.toggleEvent.Invoke(true);
+        RosterUIController.toggleEvent.Invoke(true, () =>
+        {
+            CutsceneUIController.toggleEvent.Invoke(true);
+            toggleEvent.Invoke(true);
+        });
     }
 
     public void OnStartWorkoutButton()
@@ -178,6 +184,10 @@ public class WorkoutSelectionUIController : MonoBehaviour
     #region Utility Functions
     private void SetUpWorkoutSelection()
     {
+        if (selectionSetup)
+            return;
+        selectionSetup = true;
+
         workoutSelectionContainer.gameObject.SetActive(true);
         groupingContainer.gameObject.SetActive(false);
 
@@ -211,6 +221,10 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
     private void SetUpGrouping()
     {
+        if (groupingSetup)
+            return;
+        groupingSetup = true;
+
         workoutSelectionContainer.gameObject.SetActive(false);
         groupingContainer.gameObject.SetActive(true);
 

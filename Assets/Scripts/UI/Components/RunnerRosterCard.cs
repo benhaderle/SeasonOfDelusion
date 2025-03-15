@@ -11,6 +11,7 @@ public class RunnerRosterCard : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private RunnerRosterCardStat vo2MaxStat;
+    [SerializeField] private RunnerRosterCardStat strengthStat;
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Image backgroundImage;
 
@@ -18,6 +19,7 @@ public class RunnerRosterCard : MonoBehaviour
     {
         nameText.text = runner.Name;
         vo2MaxStat.SetValueText(Mathf.FloorToInt(runner.currentVO2Max * 10).ToString());
+        strengthStat.SetValueText(Mathf.FloorToInt(runner.currentStrength * 10).ToString());
         statusText.text = RunUtility.ExhaustionToStatusString(runner.longTermSoreness);
         backgroundImage.color = backgroundColor;
     }

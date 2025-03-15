@@ -61,10 +61,10 @@ public class Runner
         get => runnerSaveData.data.currentVO2Max;
         private set => runnerSaveData.data.currentVO2Max = value;
     }
-    private float currentStrength
+    public float currentStrength
     {
         get => runnerSaveData.data.currentStrength;
-        set => runnerSaveData.data.currentStrength = value;
+        private set => runnerSaveData.data.currentStrength = value;
     }
     /// <summary>
     /// The current rate of strength change. Changes depending on run performance
@@ -209,7 +209,8 @@ public class Runner
 
         return new RunnerUpdateRecord
         {
-            vo2Change = currentVO2Max - oldVO2
+            vo2Change = currentVO2Max - oldVO2,
+            strengthChange = currentStrength - oldStrength
         };
     }
 
@@ -459,4 +460,5 @@ public class Runner
 public struct RunnerUpdateRecord
 {
     public float vo2Change;
+    public float strengthChange;
 }

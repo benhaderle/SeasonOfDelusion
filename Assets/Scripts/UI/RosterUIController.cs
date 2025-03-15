@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CreateNeptune;
 using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// Controls the roster screen.
@@ -16,16 +17,17 @@ public class RosterUIController : MonoBehaviour
     [SerializeField] private Color darkCardColor;
 
     private IEnumerator toggleRoutine;
+    private Action onBackButtonAction;
 
 #region Events
-    public class ToggleEvent : UnityEvent<bool> { };
+    public class ToggleEvent : UnityEvent<bool, Action> { };
     public static ToggleEvent toggleEvent = new ToggleEvent();
 #endregion
 
     private void Awake()
     {
         runnerCardPool.Initialize();
-        OnToggle(false);
+        OnToggle(false, null);
     }
 
     private void OnEnable()
@@ -39,12 +41,14 @@ public class RosterUIController : MonoBehaviour
     }
 
     #region Event Callbacks
-    private void OnToggle(bool active)
+    private void OnToggle(bool active, Action onBackButtonAction)
     {
-        if(active)
+        this.onBackButtonAction = onBackButtonAction;
+
+        if (active)
         {
             runnerCardPool.ReturnAllToPool();
-            for(int i = 0; i < TeamModel.Instance.PlayerRunners.Count; i++)
+            for (int i = 0; i < TeamModel.Instance.PlayerRunners.Count; i++)
             {
                 RunnerRosterCard card = runnerCardPool.GetPooledObject<RunnerRosterCard>();
                 card.Setup(TeamModel.Instance.PlayerRunners[i], i % 2 == 0 ? lightCardColor : darkCardColor);
@@ -67,11 +71,13 @@ public class RosterUIController : MonoBehaviour
 
     #region Button Callbacks
     
-    public void OnBackToRoutesButton()
+    public void OnBackButton()
     {
-        OnToggle(false);
-        RouteUIController.toggleEvent.Invoke(true);
-        CutsceneUIController.toggleEvent.Invoke(true);
+        if (onBackButtonAction != null)
+        {
+            onBackButtonAction();
+        }
+        OnToggle(false, null);
     }
 
     #endregion

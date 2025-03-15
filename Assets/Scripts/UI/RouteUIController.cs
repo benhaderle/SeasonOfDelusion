@@ -21,6 +21,8 @@ public class RouteUIController : MonoBehaviour
     [SerializeField] private RectTransform easeSelectionContainer;
     [SerializeField] private RectTransform easeSelectionContentParent;
     private Route selectedRoute;
+    private bool routesLoaded;
+    private bool easeLoaded;
 
     private IEnumerator toggleRoutine;
 
@@ -66,14 +68,17 @@ public class RouteUIController : MonoBehaviour
     private IEnumerator ToggleOffRoutine()
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
-        routeCardPool.ReturnAllToPool();
     }
 
     public void OnRosterButton()
     {
         OnToggle(false);
         CutsceneUIController.toggleEvent.Invoke(false);
-        RosterUIController.toggleEvent.Invoke(true);
+        RosterUIController.toggleEvent.Invoke(true, () =>
+        {
+            CutsceneUIController.toggleEvent.Invoke(true);
+            toggleEvent.Invoke(true);
+        });
     }    
 
     private void OnRouteSelectionButton(Route route)
@@ -82,11 +87,13 @@ public class RouteUIController : MonoBehaviour
         {
             case State.RouteSelection:
                 selectedRoute = route;
+                routesLoaded = false;
                 currentState = State.EaseSelection;
                 SetupEaseSelection();
                 break;
             case State.EaseSelection:
                 selectedRoute = null;
+                easeLoaded = false;
                 currentState = State.RouteSelection;
                 SetupRouteSelection();
                 break;
@@ -111,6 +118,10 @@ public class RouteUIController : MonoBehaviour
 
     private void SetupRouteSelection()
     {
+        if (routesLoaded)
+            return;
+        routesLoaded = true;
+
         routeSelectionContainer.gameObject.SetActive(true);
         easeSelectionContainer.gameObject.SetActive(false);
 
@@ -128,6 +139,10 @@ public class RouteUIController : MonoBehaviour
 
     private void SetupEaseSelection()
     {
+        if (easeLoaded)
+            return;
+        easeLoaded = true;
+
         routeSelectionContainer.gameObject.SetActive(false);
         easeSelectionContainer.gameObject.SetActive(true);
 

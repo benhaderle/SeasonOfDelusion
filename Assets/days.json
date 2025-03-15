@@ -108,7 +108,7 @@
             ]
         },
         {
-            "date": "8/16/12",
+            "date": "8/17/12",
             "events":[
                 {
                     "name": "PREDAYCUTSCENE",
@@ -120,6 +120,553 @@
                 {
                     "name": "WORKOUT",
                     "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/18/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "8/20/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "8/21/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/22/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/23/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/24/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/25/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "8/27/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "8/28/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/29/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/30/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "8/31/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/1/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "9/3/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "9/4/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/5/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/6/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/7/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/8/12",
+            "events":[
+                {
+                    "name": "RACE1",
+                    "type": "Race",
+                    "raceRouteID": "CrystalSprings",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/10/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "9/11/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/12/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/13/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/14/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        { 
+            "date": "9/15/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+
+        {
+            "date": "9/16/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0
+                }
+            ]
+        },
+        {
+            "date": "9/17/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/18/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/19/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/20/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
+            "date": "9/21/12",
+            "events":[
+                {
+                    "name": "RACE1",
+                    "type": "Race",
+                    "raceRouteID": "CrystalSprings",
                     "timeHours": 14,
                     "timeMinutes": 30
                 }
