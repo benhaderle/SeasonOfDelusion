@@ -106,18 +106,9 @@ public class RunController : MonoBehaviour
 
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
-            runnerStates.Add(runner, new RunnerState
-            {
-                //this calculates what the vo2 should be for the run for this runner
-                //we use the vo2Max, the coach guidance as a percentage of that, then adjust based on the runner's amount of experience
-                //amount of experience is based off of how many miles a runner has run
-                //right now we just have a linear relationship between number of miles run and variance in runVO2
-                runVO2 = runner.currentVO2Max * Mathf.Max(.5f, conditions.coachVO2Guidance + roll),
-                currentSpeed = 0,
-                desiredSpeed = 0,
-                totalDistance = 0,
-                distanceTimeSimulationIntervalList = new List<(float, float)> {(0,0)}
-            });
+            RunnerState state = new RunnerState();
+            state.desiredVO2 = runner.currentVO2Max * conditions.coachVO2Guidance + roll;
+            runnerStates.Add(runner, state);
         }
 
         // while all runners have not finished, simulate the run
@@ -129,50 +120,8 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                // std dev for the roll for how much pace will change in percent of current run VO2
-                float paceChangeStdDev = .03f;
-                // the base mean for the roll for how much pace will change in percent of current run VO2
-                // example: paceMeanMagnitude = .02 and the roll comes up on the mean(disregarding other factors), pace will increase by 2% 
-                float paceChangeMeanMagnitude = .02f;
-
-                // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
-                float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness));
-                // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
-                // low numbers mean you can speed up and high numbers mean you gotta slow doen
-                float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
-
-                // number that represents the percentile of the last interval's VO2 usage
-                // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
-                float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.currentVO2Max;
-                // how far off the last interval was from coach's guidance in percent of VO2
-                // low numbers mean you're slow and high numbers mean you're fast
-                float vo2PaceChangeFactor = intervalVO2Percent - conditions.coachVO2Guidance;
-
-                // these if statements check if there are extremes being hit with soreness and pace
-                // if there are, then roll to change pace will be affected
-                // if both of them are in the middle, then pace change will be somewhat random
-                float paceChangeMean = 0;
-                // if soreness is high and pace is not too slow, then slow down
-                if (sorenessPaceChangeFactor > .1f && vo2PaceChangeFactor > -.05f)
-                {
-                    // the mean here will be somewhere between -paceChangeMeanMagnitude and -.1 * paceChangeMeanMagnitude
-                    paceChangeMean = -sorenessPaceChangeFactor * paceChangeMeanMagnitude;
-                }
-                // if soreness is low and pace is not too fast, then speed up
-                else if (sorenessPaceChangeFactor < -.1f && vo2PaceChangeFactor < .05f)
-                {
-                    // the mean here will be somewhere between 0 and ~.5 * paceChangeMeanMagnitude
-                    paceChangeMean = (-vo2PaceChangeFactor + .05f) * paceChangeMeanMagnitude;
-                }
-
-                // do the roll then adjust vo2
-                float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
-                state.runVO2 += roll * runner.currentVO2Max;
-
-                // clamp the vo2 between some reasonable values
-                state.runVO2 = Mathf.Clamp(state.runVO2, .5f * runner.currentVO2Max, 1.25f * runner.currentVO2Max);
-
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.runVO2 * runner.CalculateRunEconomy(state));
+                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, conditions.coachVO2Guidance, maxSoreness);
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
             }
 
             // now that we have everyone's desired speed, we use a gravity model to group people
@@ -184,38 +133,8 @@ public class RunController : MonoBehaviour
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
 
-                    // if this runner is done, continue
-                    if (state.totalDistance >= route.Length)
-                    {
-                        continue;
-                    }
+                    state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, conditions.coachVO2Guidance, route.Length);
 
-                    float runningAverage = 0f;
-                    float weightTotal = 0f;
-                    //go through each runner and add to the running average + total
-                    foreach (KeyValuePair<Runner, RunnerState> otherKvp in runnerStates)
-                    {
-                        //skip if current==other or if this runner is already done running
-                        if (kvp.Key == otherKvp.Key || otherKvp.Value.totalDistance >= route.Length)
-                        {
-                            continue;
-                        }
-
-                        // use a gravity model so runners closer together effect each other more than runners far away
-                        float difference = Mathf.Abs(otherKvp.Value.desiredSpeed - state.desiredSpeed) + Mathf.Abs(otherKvp.Value.totalDistance - state.totalDistance);
-                        // if the difference between the runners is super small, cap weight at a high amount
-                        float weight = (difference < .001f) ? 1000000f : 1f / Mathf.Max(Mathf.Pow(difference, 2), Mathf.Epsilon);
-                        runningAverage += weight * otherKvp.Value.desiredSpeed;
-                        weightTotal += weight;
-                    }
-
-                    // if we are effected by any runners, figure out how they effect our current speed
-                    // the last runner left on the route will not be effected by anyone so they just run at their desired speed
-                    if (weightTotal > 0)
-                    {
-                        state.desiredSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * conditions.coachVO2Guidance));
-                    }
-                    
                     // if this is the last iteration, set the current speed
                     if (i == numGravityIterations - 1)
                     {
@@ -228,42 +147,9 @@ public class RunController : MonoBehaviour
             float simulationTime = simulationStep;
             while(simulationTime > 0)
             {
-                string stateString = "";
                 float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
-                foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-                {
-                    Runner runner = kvp.Key;
-                    RunnerState state = kvp.Value;
+                RunUtility.StepRunState(runnerStates, timePassed, route.Length, route.Length);
 
-                    //if a runner is not done, keep incrementing them along the route
-                    if (state.totalDistance < route.Length)
-                    {
-                        state.totalDistance += state.currentSpeed * timePassed;
-                        state.totalDistance = Mathf.Min(state.totalDistance, route.Length);
-
-                        state.timeInSeconds += timePassed;
-
-                        state.percentDone = state.totalDistance / route.Length;
-
-                        state.distanceTimeSimulationIntervalList.Add((state.totalDistance, state.timeInSeconds));
-                        
-                        // calculating simulation interval data so we can update soreness, hydration, and calories
-                        int latestIntervalIndex = state.distanceTimeSimulationIntervalList.Count - 1;
-                        float intervalDistance = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item1 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item1;
-                        float intervalTimeInSeconds = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item2 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item2;
-                        float intervalTimeInMinutes = intervalTimeInSeconds / 60f;
-                        float intervalMilesPerSecond = intervalDistance / intervalTimeInSeconds;
-                        float intervalVO2 = RunUtility.SpeedToOxygenCost(intervalMilesPerSecond);
-
-                        state.lastSimulationIntervalVO2 = intervalVO2;
-                        state.shortTermSoreness += runner.CalculateShortTermSoreness(intervalVO2, intervalTimeInMinutes);
-                        state.hydrationCost += runner.CalculateHydrationCost(intervalVO2, intervalTimeInMinutes);
-                        state.calorieCost += runner.CalculateCalorieCost(intervalVO2, intervalTimeInMinutes);
-                    }
-
-                    stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {RunUtility.SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness+runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
-                }
-                Debug.Log(stateString);
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
                 {
                     runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates)
