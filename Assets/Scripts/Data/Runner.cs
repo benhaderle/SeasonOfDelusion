@@ -151,7 +151,6 @@ public class Runner
     /// <param name="variables">The variables to use for calculating updates to Runner stats</param> 
     public void Initialize(RunnerCalculationVariables variables, string teamName)
     {
-
         this.variables = variables;
 
         this.teamName = teamName;
@@ -269,7 +268,7 @@ public class Runner
     private void UpdateStrengthPostRun(List<(float, float)> distanceTimeSimulationIntervalList)
     {
         // the percent threshold of VO2 at which strength starts increasing
-        float strengthUtilisationVO2Threshold = .75f;
+        float strengthUtilisationVO2Threshold = .9f;
 
         // running sums so we can get an average utilisation for all intervals
         float strengthUtilisationSum = 0;
@@ -296,8 +295,8 @@ public class Runner
                 intervalStrengthUtilisation = (.1f * intervalStrengthUtilisation) + .9f;
             }
 
-                // add to the weighted sum
-                strengthUtilisationSum += intervalStrengthUtilisation * intervalTime;
+            // add to the weighted sum
+            strengthUtilisationSum += intervalStrengthUtilisation * intervalTime;
             timeSum += intervalTime;
         }
 
