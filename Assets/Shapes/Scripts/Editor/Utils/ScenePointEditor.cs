@@ -13,9 +13,7 @@ namespace Shapes
 
 	public class ScenePointEditor : SceneEditGizmos
 	{
-
 		static bool isEditing;
-
 		public bool hasAddRemoveMode = true;
 		public bool hasAddRemoveGridMode = false;
 		public bool hasConnectGridMode = false;
@@ -541,20 +539,25 @@ namespace Shapes
 				}
 				else if (currentEditMode == EditMode.AddRemoveGridPoints)
 				{
-					void ExtrapolatedAddPoints(MapPoint point, Vector3 offset)
+					void ExtrapolatedAddPoints(MapPoint point, Vector2 offset, ref List<Vector2> usedPoints)
 					{
-						if (points[point]
-						.Any(n => Vector2.Dot(offset, (Vector2)(n.point - point.point)) > .5f))
+						if (usedPoints.Any(p => ((Vector2)point.point + offset - p).sqrMagnitude < .5f ))
 						{
 							return;
 						}
 						MapPoint newPtData = MakeGridPoint(point, offset);
 						Vector3 ptWorld = tf.TransformPoint(newPtData.point);
-						Handles.DrawDottedLine(tf.TransformPoint(newPtData.point), ptWorld, 5f);
+						usedPoints.Add((Vector2)point.point + offset);
+
+						Handles.EndGUI();
+						Handles.DrawDottedLine(tf.TransformPoint(point.point), ptWorld, 5f);
+						Handles.BeginGUI();
+
 						_ = DoAddGridPoint(ptWorld, newPtData, new List<MapPoint>() { point });
 					}
 
 					Handles.BeginGUI();
+					List<Vector2> usedPoints = points.GetDictionary().Keys.Select(p => (Vector2)p.point).ToList();
 					for (int i = 0; i < points.GetDictionary().Keys.Count; i++)
 					{
 						MapPoint mp = points.GetDictionary().Keys.ElementAt(i);
@@ -563,10 +566,10 @@ namespace Shapes
 							Debug.Log(points.GetDictionary().ContainsKey(mp));
 							continue;
 						}
-						ExtrapolatedAddPoints(mp, new Vector3(0, 1));
-						ExtrapolatedAddPoints(mp, new Vector3(0, -1));
-						ExtrapolatedAddPoints(mp, new Vector3(1, 0));
-						ExtrapolatedAddPoints(mp, new Vector3(-1, 0));
+						ExtrapolatedAddPoints(mp, new Vector2(0, 1), ref usedPoints);
+						ExtrapolatedAddPoints(mp, new Vector2(0, -1), ref usedPoints);
+						ExtrapolatedAddPoints(mp, new Vector2(1, 0), ref usedPoints);
+						ExtrapolatedAddPoints(mp, new Vector2(-1, 0), ref usedPoints);
 
 						Vector3 ptWorld = GetWorldPt(mp);
 						if (TextureButton(ptWorld, UIAssets.Instance.pointEditRemove, 0.5f))

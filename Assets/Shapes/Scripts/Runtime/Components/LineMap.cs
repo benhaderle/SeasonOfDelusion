@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -180,7 +180,8 @@ namespace Shapes
 
 		public void RemovePoint(MapPoint point)
 		{
-			foreach (MapPoint neighbor in points[point])
+			List<MapPoint> neighbors = points[point].Select(p => p).ToList(); 
+			foreach (MapPoint neighbor in neighbors)
 			{
 				RemoveConnection(point, neighbor);
 			}
@@ -395,7 +396,7 @@ namespace Shapes
 		}
 
 		private Dictionary<MapPoint, List<MapPoint>> dictionary = new();
-		private List<MapPointEntry> serializedList = new();
+		[SerializeField] private List<MapPointEntry> serializedList = new();
 
 		[SerializeField, HideInInspector] private int nextID = 1;
 		public MapPointDictionary()

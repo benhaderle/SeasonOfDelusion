@@ -15,8 +15,6 @@ namespace Shapes {
 		SerializedProperty propJoins = null;
 		SerializedProperty propThickness = null;
 		SerializedProperty propThicknessSpace = null;
-
-
 		ScenePointEditor scenePointEditor;
 		bool showZ;
 
@@ -51,5 +49,4 @@ namespace Shapes {
 			
 		}
 	}
-
 }
