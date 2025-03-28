@@ -498,9 +498,16 @@ MonoBehaviour:
   stencilRefID: 0
   stencilReadMask: 255
   stencilWriteMask: 255
+  pointStyles:
+  - id: normalRoad
+    thickness: 1
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+  - id: walkingPath
+    thickness: 0.25
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
   points:
     rid: 3639885476545429508
-  geometry: 0
+  geometry: 1
   joins: 1
   closed: 1
   thickness: 0.25
@@ -776,12 +783,13 @@ MonoBehaviour:
           neighbors:
           - rid: 3639885476877566004
           - rid: 3639885476877565961
-        nextID: 2938831
+        nextID: 3100663
     - rid: 3639885476700618752
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 0
         point: {x: 1.6024804, y: -5.9317627, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476700618754
@@ -789,6 +797,7 @@ MonoBehaviour:
       data:
         id: 83286
         point: {x: -0.92610383, y: -3.9075134, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565953
@@ -796,6 +805,7 @@ MonoBehaviour:
       data:
         id: 175415
         point: {x: 2.2465646, y: -4.8697233, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565954
@@ -803,6 +813,7 @@ MonoBehaviour:
       data:
         id: 196905
         point: {x: 4.5497956, y: -1.32221, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565955
@@ -810,6 +821,7 @@ MonoBehaviour:
       data:
         id: 219275
         point: {x: 6.0047774, y: 2.6381521, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565956
@@ -817,6 +829,7 @@ MonoBehaviour:
       data:
         id: 241659
         point: {x: 4.9800878, y: 2.794519, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565957
@@ -824,6 +837,7 @@ MonoBehaviour:
       data:
         id: 254222
         point: {x: 4.0047774, y: 2.9508867, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565958
@@ -831,6 +845,7 @@ MonoBehaviour:
       data:
         id: 271187
         point: {x: 3.5150282, y: 2.810979, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565959
@@ -838,6 +853,7 @@ MonoBehaviour:
       data:
         id: 278318
         point: {x: 3.0993476, y: 2.4817853, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565960
@@ -845,13 +861,15 @@ MonoBehaviour:
       data:
         id: 302579
         point: {x: 2.6836672, y: 1.9879942, z: 0}
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565961
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 307370
         point: {x: 0.2845924, y: 1.6011906, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565962
@@ -859,6 +877,7 @@ MonoBehaviour:
       data:
         id: 313703
         point: {x: -0.91292405, y: 1.9715343, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565963
@@ -866,6 +885,7 @@ MonoBehaviour:
       data:
         id: 324298
         point: {x: -1.7977061, y: 2.539394, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565964
@@ -873,6 +893,7 @@ MonoBehaviour:
       data:
         id: 331543
         point: {x: -2.3439932, y: 2.7604375, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565965
@@ -880,6 +901,7 @@ MonoBehaviour:
       data:
         id: 381198
         point: {x: -2.630702, y: 2.0402226, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565966
@@ -887,6 +909,7 @@ MonoBehaviour:
       data:
         id: 434069
         point: {x: -2.1135783, y: 3.417911, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565967
@@ -894,6 +917,7 @@ MonoBehaviour:
       data:
         id: 465396
         point: {x: -4.248614, y: -2.1610327, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565968
@@ -901,6 +925,7 @@ MonoBehaviour:
       data:
         id: 474499
         point: {x: -5.932223, y: -6.9123917, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565969
@@ -908,6 +933,7 @@ MonoBehaviour:
       data:
         id: 482197
         point: {x: -4.6722026, y: -7.6770163, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565970
@@ -915,6 +941,7 @@ MonoBehaviour:
       data:
         id: 489025
         point: {x: -4.371667, y: -7.775079, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565971
@@ -922,6 +949,7 @@ MonoBehaviour:
       data:
         id: 497064
         point: {x: -3.9975538, y: -7.6809845, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565972
@@ -929,13 +957,15 @@ MonoBehaviour:
       data:
         id: 628970
         point: {x: -3.5185592, y: -2.7549129, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565973
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 633822
-        point: {x: -2.1406355, y: -3.4259205, z: 0}
+        point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565974
@@ -943,6 +973,7 @@ MonoBehaviour:
       data:
         id: 697707
         point: {x: -6.363048, y: -7.8246317, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565975
@@ -950,6 +981,7 @@ MonoBehaviour:
       data:
         id: 753531
         point: {x: -3.0135002, y: -7.780649, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565976
@@ -957,6 +989,7 @@ MonoBehaviour:
       data:
         id: 763536
         point: {x: -1.9497149, y: -7.844434, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565977
@@ -964,6 +997,7 @@ MonoBehaviour:
       data:
         id: 774404
         point: {x: -0.3955822, y: -7.904233, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565978
@@ -971,6 +1005,7 @@ MonoBehaviour:
       data:
         id: 788652
         point: {x: -0.15302992, y: -7.788622, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565979
@@ -978,6 +1013,7 @@ MonoBehaviour:
       data:
         id: 833856
         point: {x: 0.50013876, y: -7.170704, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565982
@@ -985,6 +1021,7 @@ MonoBehaviour:
       data:
         id: 1031890
         point: {x: 6.350953, y: 3.3734305, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565983
@@ -992,6 +1029,7 @@ MonoBehaviour:
       data:
         id: 1101797
         point: {x: -6.6157784, y: -6.5778646, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565984
@@ -999,6 +1037,7 @@ MonoBehaviour:
       data:
         id: 1256481
         point: {x: -5.322363, y: -1.7037879, z: 0}
+        styleID: 
         color: {r: 1, g: 1, b: 1, a: 1}
         thickness: 1
     - rid: 3639885476877565985
@@ -1006,6 +1045,7 @@ MonoBehaviour:
       data:
         id: 1403125
         point: {x: -4.5220747, y: -7.5097713, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565986
@@ -1013,6 +1053,7 @@ MonoBehaviour:
       data:
         id: 1584578
         point: {x: -4.130085, y: -7.2190228, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565987
@@ -1020,6 +1061,7 @@ MonoBehaviour:
       data:
         id: 1676799
         point: {x: -3.7029653, y: -7.2099404, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565988
@@ -1027,6 +1069,7 @@ MonoBehaviour:
       data:
         id: 1688696
         point: {x: -3.7564678, y: -7.1074314, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565989
@@ -1034,6 +1077,7 @@ MonoBehaviour:
       data:
         id: 1756712
         point: {x: -4.3817644, y: -6.720971, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565990
@@ -1041,6 +1085,7 @@ MonoBehaviour:
       data:
         id: 1826126
         point: {x: -3.7982574, y: -6.1467733, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565991
@@ -1048,6 +1093,7 @@ MonoBehaviour:
       data:
         id: 1880187
         point: {x: -3.5774708, y: -6.156083, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565992
@@ -1055,6 +1101,7 @@ MonoBehaviour:
       data:
         id: 1890863
         point: {x: -2.0444098, y: -3.354344, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565993
@@ -1062,6 +1109,7 @@ MonoBehaviour:
       data:
         id: 2181801
         point: {x: -1.8961338, y: -3.2169693, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565994
@@ -1069,6 +1117,7 @@ MonoBehaviour:
       data:
         id: 2238381
         point: {x: -1.3145803, y: -3.1602764, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565995
@@ -1076,6 +1125,7 @@ MonoBehaviour:
       data:
         id: 2277194
         point: {x: -0.4338174, y: -2.651227, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565996
@@ -1083,6 +1133,7 @@ MonoBehaviour:
       data:
         id: 2295339
         point: {x: -0.057762623, y: -1.8254962, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565998
@@ -1090,6 +1141,7 @@ MonoBehaviour:
       data:
         id: 2353691
         point: {x: -0.017022848, y: -1.5716764, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877565999
@@ -1097,6 +1149,7 @@ MonoBehaviour:
       data:
         id: 2377586
         point: {x: 0.1643138, y: -1.3045564, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877566000
@@ -1104,6 +1157,7 @@ MonoBehaviour:
       data:
         id: 2391591
         point: {x: 0.48515224, y: -0.51112366, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877566001
@@ -1111,6 +1165,7 @@ MonoBehaviour:
       data:
         id: 2410755
         point: {x: 0.4127612, y: -0.27379107, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877566002
@@ -1118,13 +1173,15 @@ MonoBehaviour:
       data:
         id: 2436596
         point: {x: -0.06190443, y: 0.34823465, z: 0}
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566003
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2539739
         point: {x: -0.051176548, y: 0.7998593, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877566004
@@ -1132,6 +1189,7 @@ MonoBehaviour:
       data:
         id: 2578677
         point: {x: 0.07152009, y: 1.2179787, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
     - rid: 3639885476877566005
@@ -1139,6 +1197,7 @@ MonoBehaviour:
       data:
         id: 2853836
         point: {x: 0.067426205, y: 1.503506, z: 0}
+        styleID: 
         color: {r: 0.13762355, g: 1, b: 0, a: 1}
         thickness: 0.20897643
 --- !u!1660057539 &9223372036854775807

@@ -12,9 +12,9 @@ namespace Shapes {
 		public int id;
 		/// <summary>Position of this point</summary>
 		public Vector3 point;
+		public string styleID;
 		/// <summary>The color tint of this point</summary>
-		[ShapesColorField( true )] public Color color = Color.white;
-
+		[ShapesColorField(true)] public Color color = Color.white;
 		/// <summary>The thickness multiplier for this point</summary>
 		public float thickness = 1f;
 

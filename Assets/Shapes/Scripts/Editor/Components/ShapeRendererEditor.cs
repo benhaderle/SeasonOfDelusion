@@ -122,15 +122,6 @@ namespace Shapes {
 
 			foreach( FieldInfo field in fieldsBase.Concat( fieldsInherited ) ) {
 				string fieldName = char.ToLowerInvariant( field.Name[4] ) + field.Name.Substring( 5 );
-				if (fieldName == "points")
-				{
-
-					Debug.Log("breakPoint");	
-					
-
-					
-
-				}
 				field.SetValue( this, serializedObject.FindProperty( fieldName ) );
 				if( field.GetValue( this ) == null )
 					Debug.LogError( $"Failed to load {target.GetType()} property: {field.Name} !=> {fieldName}" );

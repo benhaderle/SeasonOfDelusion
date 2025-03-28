@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Graphs;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -17,6 +18,7 @@ namespace Shapes
 		public bool hasAddRemoveMode = true;
 		public bool hasAddRemoveGridMode = false;
 		public bool hasConnectGridMode = false;
+		public bool hasMapStyleMode = false;
 		public bool hasEditThicknessMode = false;
 		public bool hasEditColorMode = false;
 		private MapPoint selectedMapPoint;
@@ -61,6 +63,7 @@ namespace Shapes
 			EditColor,
 			AddRemoveGridPoints,
 			ConnectGridPoints,
+			MapPointStyle,
 			COUNT
 		}
 
@@ -365,7 +368,7 @@ namespace Shapes
 			return changed;
 		}
 
-		public bool DoSceneHandles(LineMap lineMap, MapPointDictionary points, Transform tf, float globalThicknessScale = 1f, Color globalColorTint = default)
+		public bool DoSceneHandles(LineMap lineMap, MapPointDictionary points, Transform tf, float globalThicknessScale = 1f, Color globalColorTint = default, List<MapPointStyle> styles = null)
 		{
 			float GetThicknessWorld(MapPoint mapPoint)
 			{
@@ -441,6 +444,7 @@ namespace Shapes
 						SelectLabel("color", EditMode.EditColor, hasEditColorMode);
 						SelectLabel("add/remove grid points", EditMode.AddRemoveGridPoints, hasAddRemoveGridMode);
 						SelectLabel("connect grid points", EditMode.ConnectGridPoints, hasConnectGridMode);
+						SelectLabel("map point style", EditMode.MapPointStyle, hasMapStyleMode);
 
 						GUI.Label(r, label);
 						Handles.EndGUI();
@@ -630,6 +634,27 @@ namespace Shapes
 
 					Handles.EndGUI();
 				}
+				else if (currentEditMode == EditMode.MapPointStyle)
+				{
+					Handles.BeginGUI();
+					foreach (MapPoint mp in points.GetDictionary().Keys)
+					{
+						Vector3 ptWorld = GetWorldPt(mp);
+
+						Color col = GetColor(mp);
+						col.a = 1f;
+						GUI.color = col;
+						if (TextureButton(ptWorld, UIAssets.Instance.pointEditColor, 0.5f, fade: false))
+						{
+							Rect popupWindowRect = new Rect(0, 0, UIAssets.Instance.pointEditColor.width * .5f, UIAssets.Instance.pointEditColor.height * .5f);
+							popupWindowRect.center = HandleUtility.WorldToGUIPoint(ptWorld);
+							PopupWindow.Show(popupWindowRect, new MapPointStylePopupWindow(styles, lineMap, mp));
+						}
+					}
+
+					GUI.color = Color.white;
+					Handles.EndGUI();
+				}
 			}
 
 			return changed;
@@ -637,4 +662,44 @@ namespace Shapes
 
 	}
 
+	public class MapPointStylePopupWindow : PopupWindowContent
+	{
+		private List<MapPointStyle> styles;
+		MapPoint mapPoint;
+		LineMap lineMap;
+		private int index = 0;
+
+		public MapPointStylePopupWindow(List<MapPointStyle> styles, LineMap lineMap, MapPoint mapPoint) : base()
+		{
+			this.styles = styles;
+			this.lineMap = lineMap;
+			this.mapPoint = mapPoint;
+		}
+
+		public override Vector2 GetWindowSize()
+		{
+			return new Vector2(200, 150);
+		}
+
+		public override void OnGUI(Rect rect)
+		{
+			GUILayout.Label("Popup Options Example", EditorStyles.boldLabel);
+			index = styles.FindIndex(s => s.id == mapPoint.styleID);
+			index = Mathf.Max(0, index);
+			index = EditorGUILayout.Popup(index, styles.Select(s => s.id).ToArray());
+			if (styles[index].id != mapPoint.styleID)
+			{
+				Undo.RecordObjects(new Object[] { lineMap }, "modify style");
+				mapPoint.styleID = styles[index].id;
+				if (index != 0)
+				{
+					mapPoint.thickness = styles[index].thickness;
+					mapPoint.color = styles[index].color;
+				}
+				(lineMap as ShapeRenderer)?.UpdateAllMaterialProperties();
+				(lineMap as ShapeRenderer)?.UpdateMesh(force: true);
+				ShapesUI.RepaintAllSceneViews();
+			}
+		}
+	}
 }

@@ -2,14 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
 
 // Shapes © Freya Holmér - https://twitter.com/FreyaHolmer/
 // Website & Documentation - https://acegikmo.com/shapes/
 namespace Shapes
 {
-
 	/// <summary>A LineMap shape component</summary>
 	[ExecuteAlways]
 	[AddComponentMenu("Shapes/LineMap")]
@@ -17,7 +15,7 @@ namespace Shapes
 	{
 		/// <summary>IMPORTANT: if you modify this list, you need to set meshOutOfDate to true, otherwise your changes won't apply</summary>
 		// [SerializeField] public List<MapPoint> points = new();
-
+		[SerializeField] public List<MapPointStyle> pointStyles = new();
 		[SerializeField, SerializeReference] public MapPointDictionary points = new();
 
 		// also called alignment
@@ -79,97 +77,6 @@ namespace Shapes
 		/// <summary>The number of points in this polyline</summary>
 		public int Count => points.Count;
 
-		/// <summary>Get or set a polyline point by index</summary>
-		// public MapPoint this[int i]
-		// {
-		// 	get => points[i];
-		// 	set
-		// 	{
-		// 		points[i] = value;
-		// 		meshOutOfDate = true;
-		// 	}
-		// }
-
-		// /// <summary>Set a polygon point position by index</summary>
-		// public void SetPointPosition(int index, Vector3 position)
-		// {
-		// 	if (index < 0 || index >= Count) throw new IndexOutOfRangeException();
-		// 	MapPoint pp = points[index];
-		// 	pp.point = position;
-		// 	points[index] = pp;
-		// 	meshOutOfDate = true;
-		// }
-
-		// /// <summary>Set a polygon point color by index</summary>
-		// public void SetPointColor(int index, UnityEngine.Color color)
-		// {
-		// 	if (index < 0 || index >= Count) throw new IndexOutOfRangeException();
-		// 	MapPoint pp = points[index];
-		// 	pp.color = color;
-		// 	points[index] = pp;
-		// 	meshOutOfDate = true;
-		// }
-
-		// /// <summary>Set a polygon point thickness by index</summary>
-		// public void SetPointThickness(int index, float thickness)
-		// {
-		// 	if (index < 0 || index >= Count) throw new IndexOutOfRangeException();
-		// 	MapPoint pp = points[index];
-		// 	pp.thickness = thickness;
-		// 	points[index] = pp;
-		// 	meshOutOfDate = true;
-		// }
-
-		// /// <summary>Sets all points and their corresponding colors for this polyline</summary>
-		// public void SetPoints( IReadOnlyCollection<Vector3> points, IReadOnlyCollection<Color> colors = null ) {
-		// 	this.points.Clear();
-		// 	if( colors == null ) {
-		// 		AddPoints( points.Select( p => new MapPoint( p, Color.white ) ) );
-		// 	} else {
-		// 		if( points.Count != colors.Count )
-		// 			throw new ArgumentException( "point.Count != color.Count" );
-		// 		AddPoints( points.Zip( colors, ( p, c ) => new MapPoint( p, c ) ) );
-		// 	}
-		// }
-
-		// /// <summary>Sets all points and their corresponding colors for this polyline</summary>
-		// public void SetPoints( IReadOnlyCollection<Vector2> points, IReadOnlyCollection<Color> colors = null ) {
-		// 	this.points.Clear();
-		// 	if( colors == null ) {
-		// 		AddPoints( points.Select( p => new MapPoint( p, Color.white ) ) );
-		// 	} else {
-		// 		if( points.Count != colors.Count )
-		// 			throw new ArgumentException( "point.Count != color.Count" );
-		// 		AddPoints( points.Zip( colors, ( p, c ) => new MapPoint( p, c ) ) );
-		// 	}
-		// }
-
-		// /// <summary>Sets all points of this polyline</summary>
-		// public void SetPoints(IEnumerable<MapPoint> points)
-		// {
-		// 	this.points.Clear();
-		// 	AddPoints(points);
-		// }
-
-		// /// <summary>Adds a set of points to this polyline</summary>
-		// public void AddPoints(IEnumerable<MapPoint> points)
-		// {
-		// 	this.points.AddRange(points);
-		// 	meshOutOfDate = true;
-		// }
-
-		/// <summary>Adds a point to this polyline</summary>
-		// public void AddPoint( Vector3 position ) => AddPoint( new MapPoint( position ) );
-
-		// /// <summary>Adds a point to this polyline</summary>
-		// public void AddPoint( Vector3 position, Color color ) => AddPoint( new MapPoint( position, color ) );
-
-		// /// <summary>Adds a point to this polyline</summary>
-		// public void AddPoint( Vector3 position, Color color, float thickness ) => AddPoint( new MapPoint( position, color, thickness ) );
-
-		// /// <summary>Adds a point to this polyline</summary>
-		// public void AddPoint( Vector3 position, float thickness ) => AddPoint( new MapPoint( position, Color.white, thickness ) );
-
 		/// <summary>Adds a point to this polyline</summary>
 		public void AddPoint(MapPoint point)
 		{
@@ -180,7 +87,7 @@ namespace Shapes
 
 		public void RemovePoint(MapPoint point)
 		{
-			List<MapPoint> neighbors = points[point].Select(p => p).ToList(); 
+			List<MapPoint> neighbors = points[point].Select(p => p).ToList();
 			foreach (MapPoint neighbor in neighbors)
 			{
 				RemoveConnection(point, neighbor);
@@ -225,6 +132,12 @@ namespace Shapes
 			foreach (KeyValuePair<MapPoint, List<MapPoint>> kvp in points.GetDictionary())
 			{
 				neighborsDictionary.Add(kvp.Key, kvp.Value.Select(p => p).ToList());
+				int styleIndex = pointStyles.FindIndex(s => s.id == kvp.Key.styleID);
+				if (styleIndex != -1)
+				{
+					kvp.Key.color = pointStyles[styleIndex].color;
+					kvp.Key.thickness = pointStyles[styleIndex].thickness;
+				}
 			}
 
 			while (neighborsDictionary.Sum(kvp => kvp.Value.Count) > 0)
@@ -452,4 +365,11 @@ namespace Shapes
 		public int Count => dictionary.Count;
 	}
 
+	[Serializable]
+	public struct MapPointStyle
+	{
+		public string id;
+		public float thickness;
+		public Color color;
+	}
 }
