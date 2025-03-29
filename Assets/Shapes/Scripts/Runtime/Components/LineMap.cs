@@ -17,6 +17,8 @@ namespace Shapes
 		// [SerializeField] public List<MapPoint> points = new();
 		[SerializeField] public List<MapPointStyle> pointStyles = new();
 		[SerializeField, SerializeReference] public MapPointDictionary points = new();
+		[SerializeField] public Polyline routePolyline;
+		[SerializeField] public RouteLineData currentRouteLineData;
 
 		// also called alignment
 		[SerializeField] PolylineGeometry geometry = PolylineGeometry.Flat2D;
@@ -213,87 +215,85 @@ namespace Shapes
 			return new Bounds((max + min) * 0.5f, (max - min) + Vector3.one * (thickness * 0.5f));
 		}
 
-	}
-
-	[Serializable]
-	public class AdjacencyList<K>
-	{
-		private int nextID;
-		public int GetNextID()
+		public List<PolylinePoint> GetPolylinePointsFromIndices(List<int> mapPointIDs)
 		{
-			int id = nextID;
-			nextID++;
-			return id;
-		}
+			List<PolylinePoint> polylinePoints = new();
 
-		public ReadOnlyDictionary<K, List<K>> VertexDict => new ReadOnlyDictionary<K, List<K>>(_vertexDict);
-		private SerializableDictionary<K, List<K>> _vertexDict = new SerializableDictionary<K, List<K>>();
-
-		public AdjacencyList(K origin)
-		{
-			nextID = 1;
-			AddVertex(origin);
-		}
-
-		public List<K> AddVertex(K key)
-		{
-			List<K> vertex = new List<K>();
-			_vertexDict.Add(key, vertex);
-
-			return vertex;
-		}
-
-
-		public void AddEdge(K startKey, K endKey)
-		{
-			List<K> startVertex = _vertexDict.ContainsKey(startKey) ? _vertexDict[startKey] : null;
-			List<K> endVertex = _vertexDict.ContainsKey(endKey) ? _vertexDict[endKey] : null;
-
-			if (startVertex == null)
-				throw new ArgumentException("Cannot create edge from a non-existent start vertex.");
-
-			if (endVertex == null)
-				endVertex = AddVertex(endKey);
-
-			startVertex.Add(endKey);
-			endVertex.Add(startKey);
-		}
-
-		public void RemoveVertex(K key)
-		{
-			List<K> vertex = _vertexDict[key];
-
-			//First remove the edges / adjacency entries
-			int vertexNumAdjacent = vertex.Count;
-			for (int i = 0; i < vertexNumAdjacent; i++)
+			if (mapPointIDs == null || mapPointIDs.Count < 1)
 			{
-				K neighbourVertexKey = vertex[i];
-				RemoveEdge(key, neighbourVertexKey);
+				return polylinePoints;
 			}
 
-			//Lastly remove the vertex / adj. list
-			_vertexDict.Remove(key);
+			for (int i = 0; i < mapPointIDs.Count - 1; i++)
+			{
+				polylinePoints.AddRange(GetAStarPathBetweenPoints(points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i]), points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i+1])));
+			}
+			polylinePoints.Add(MapPointToPolylinePoint(mapPointIDs[mapPointIDs.Count - 1]));
+
+			return polylinePoints;
 		}
 
-		public void RemoveEdge(K startKey, K endKey)
+		private PolylinePoint MapPointToPolylinePoint(int id)
 		{
-			((List<K>)_vertexDict[startKey]).Remove(endKey);
-			((List<K>)_vertexDict[endKey]).Remove(startKey);
+			MapPoint mapPoint = points.GetDictionary().Keys.First(mp => mp.id == id);
+			return MapPointToPolylinePoint(mapPoint);
+
 		}
 
-		public bool Contains(K key)
+		private PolylinePoint MapPointToPolylinePoint(MapPoint mapPoint)
 		{
-			return _vertexDict.ContainsKey(key);
+			return new PolylinePoint
+			{
+				point = mapPoint.point,
+				color = mapPoint.color,
+				thickness = mapPoint.thickness
+			};
 		}
 
-		public int VertexDegree(K key)
+		private List<PolylinePoint> GetAStarPathBetweenPoints(MapPoint start, MapPoint end)
 		{
-			return _vertexDict[key].Count;
-		}
+			List<PolylinePoint> polylinePoints = new();
+			List<MapPoint> mapPoints = new() { start };
 
-		public int NumVertices()
-		{
-			return _vertexDict.Count;
+			Dictionary<MapPoint, MapPoint> cameFrom = new();
+
+			Dictionary<MapPoint, float> gScore = points.GetDictionary().Select(kvp => kvp.Key).ToDictionary(mp => mp, mp => Mathf.Infinity);
+			gScore[start] = 0;
+
+			Dictionary<MapPoint, float> fScore = points.GetDictionary().Select(kvp => kvp.Key).ToDictionary(mp => mp, mp => Mathf.Infinity);
+			fScore[start] = (start.point - end.point).sqrMagnitude;
+
+			while (mapPoints.Count > 0)
+			{
+				MapPoint current = fScore.Where(kvp => mapPoints.Contains(kvp.Key)).OrderBy(kvp => kvp.Value).ToList()[0].Key;
+				if (current == end)
+				{
+					while (cameFrom.ContainsKey(current))
+					{
+						current = cameFrom[current];
+						polylinePoints = polylinePoints.Prepend(MapPointToPolylinePoint(current)).ToList();
+					}
+					return polylinePoints;
+				}
+
+				mapPoints.Remove(current);
+				foreach (MapPoint neighbor in points[current])
+				{
+					float tempGScore = gScore[current] + (current.point - neighbor.point).sqrMagnitude;
+					if (tempGScore < gScore[neighbor])
+					{
+						cameFrom[neighbor] = current;
+						gScore[neighbor] = tempGScore;
+						fScore[neighbor] = tempGScore + (neighbor.point - end.point).sqrMagnitude;
+						if (!mapPoints.Contains(neighbor))
+						{
+							mapPoints.Add(neighbor);
+						}
+					}
+				}
+			}
+
+			return polylinePoints;
 		}
 
 	}

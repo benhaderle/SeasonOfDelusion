@@ -388,6 +388,416 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1281143609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1281143613}
+  - component: {fileID: 1281143610}
+  - component: {fileID: 1281143612}
+  - component: {fileID: 1281143611}
+  m_Layer: 0
+  m_Name: RouteLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1281143610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281143609}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb1cf2193571cf41b51b8f61d4c9c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendMode: 1
+  scaleMode: 0
+  color: {r: 1, g: 0.3820755, b: 0.3820755, a: 0.36078432}
+  detailLevel: 2
+  renderQueue: -1
+  zTest: 4
+  zOffsetFactor: 0
+  zOffsetUnits: 0
+  colorMask: 15
+  stencilComp: 8
+  stencilOpPass: 0
+  stencilRefID: 0
+  stencilReadMask: 255
+  stencilWriteMask: 255
+  points:
+  - point: {x: 6.0047774, y: 2.6381521, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 4.5497956, y: -1.32221, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 2.2465646, y: -4.8697233, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.92610383, y: -3.9075134, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.5185592, y: -2.7549129, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.248614, y: -2.1610327, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.630702, y: 2.0402226, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.3439932, y: 2.7604375, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -1.7977061, y: 2.539394, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.91292405, y: 1.9715343, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 0.2845924, y: 1.6011906, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 0.067426205, y: 1.503506, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.07152009, y: 1.2179787, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.051176548, y: 0.7998593, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.06190443, y: 0.34823465, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.4127612, y: -0.27379107, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.48515224, y: -0.51112366, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.1643138, y: -1.3045564, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.017022848, y: -1.5716764, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.057762623, y: -1.8254962, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.4338174, y: -2.651227, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -1.3145803, y: -3.1602764, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -1.8961338, y: -3.2169693, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -2.0444098, y: -3.354344, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.5774708, y: -6.156083, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7982574, y: -6.1467733, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.3817644, y: -6.720971, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7564678, y: -7.1074314, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7029653, y: -7.2099404, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.130085, y: -7.2190228, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.5220747, y: -7.5097713, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.6722026, y: -7.6770163, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.371667, y: -7.775079, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.9975538, y: -7.6809845, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.0135002, y: -7.780649, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -1.9497149, y: -7.844434, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.3955822, y: -7.904233, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.15302992, y: -7.788622, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 0.50013876, y: -7.170704, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 1.6024804, y: -5.9317627, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 2.2465646, y: -4.8697233, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.92610383, y: -3.9075134, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.5185592, y: -2.7549129, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.248614, y: -2.1610327, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.630702, y: 2.0402226, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.3439932, y: 2.7604375, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -1.7977061, y: 2.539394, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.91292405, y: 1.9715343, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 0.2845924, y: 1.6011906, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 2.6836672, y: 1.9879942, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 3.0993476, y: 2.4817853, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 3.5150282, y: 2.810979, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 4.0047774, y: 2.9508867, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 4.9800878, y: 2.794519, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 6.0047774, y: 2.6381521, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 4.5497956, y: -1.32221, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 2.2465646, y: -4.8697233, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 1.6024804, y: -5.9317627, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: 0.50013876, y: -7.170704, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.15302992, y: -7.788622, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.3955822, y: -7.904233, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -1.9497149, y: -7.844434, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.0135002, y: -7.780649, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -3.9975538, y: -7.6809845, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.371667, y: -7.775079, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.6722026, y: -7.6770163, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.5220747, y: -7.5097713, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.130085, y: -7.2190228, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7029653, y: -7.2099404, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7564678, y: -7.1074314, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -4.3817644, y: -6.720971, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.7982574, y: -6.1467733, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -3.5774708, y: -6.156083, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -2.0444098, y: -3.354344, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -1.8961338, y: -3.2169693, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -1.3145803, y: -3.1602764, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.4338174, y: -2.651227, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.057762623, y: -1.8254962, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.017022848, y: -1.5716764, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.1643138, y: -1.3045564, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.48515224, y: -0.51112366, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.4127612, y: -0.27379107, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.06190443, y: 0.34823465, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: -0.051176548, y: 0.7998593, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.07152009, y: 1.2179787, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.067426205, y: 1.503506, z: 0}
+    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+    thickness: 0.25
+  - point: {x: 0.2845924, y: 1.6011906, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -0.91292405, y: 1.9715343, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -1.7977061, y: 2.539394, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.3439932, y: 2.7604375, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -2.630702, y: 2.0402226, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.248614, y: -2.1610327, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -5.322363, y: -1.7037879, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.248614, y: -2.1610327, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -5.932223, y: -6.9123917, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -6.6157784, y: -6.5778646, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  geometry: 1
+  joins: 1
+  closed: 0
+  thickness: 0.25
+  thicknessSpace: 0
+--- !u!23 &1281143611
+MeshRenderer:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281143609}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 34fc5346917eea54aba37bcbe8ff730a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 269
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1281143612
+MeshFilter:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281143609}
+  m_Mesh: {fileID: 0}
+--- !u!4 &1281143613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281143609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1857367316}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857367312
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,11 +811,11 @@ GameObject:
   - component: {fileID: 1857367318}
   - component: {fileID: 1857367317}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: LosGatosMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1857367316
 Transform:
@@ -419,7 +829,8 @@ Transform:
   m_LocalPosition: {x: 3.21, y: 3.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1281143613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1857367317
@@ -507,6 +918,8 @@ MonoBehaviour:
     color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
   points:
     rid: 3639885476545429508
+  routePolyline: {fileID: 1281143610}
+  currentRouteLineData: {fileID: 11400000, guid: 431ee81c431b143cba9948016e2e614c, type: 2}
   geometry: 1
   joins: 1
   closed: 1
@@ -783,78 +1196,78 @@ MonoBehaviour:
           neighbors:
           - rid: 3639885476877566004
           - rid: 3639885476877565961
-        nextID: 3100663
+        nextID: 3159073
     - rid: 3639885476700618752
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 0
         point: {x: 1.6024804, y: -5.9317627, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476700618754
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 83286
         point: {x: -0.92610383, y: -3.9075134, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565953
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 175415
         point: {x: 2.2465646, y: -4.8697233, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565954
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 196905
         point: {x: 4.5497956, y: -1.32221, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565955
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 219275
         point: {x: 6.0047774, y: 2.6381521, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565956
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 241659
         point: {x: 4.9800878, y: 2.794519, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565957
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 254222
         point: {x: 4.0047774, y: 2.9508867, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565958
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 271187
         point: {x: 3.5150282, y: 2.810979, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565959
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 278318
         point: {x: 3.0993476, y: 2.4817853, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565960
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
@@ -869,305 +1282,305 @@ MonoBehaviour:
       data:
         id: 307370
         point: {x: 0.2845924, y: 1.6011906, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565962
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 313703
         point: {x: -0.91292405, y: 1.9715343, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565963
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 324298
         point: {x: -1.7977061, y: 2.539394, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565964
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 331543
         point: {x: -2.3439932, y: 2.7604375, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565965
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 381198
         point: {x: -2.630702, y: 2.0402226, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565966
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 434069
         point: {x: -2.1135783, y: 3.417911, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565967
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 465396
         point: {x: -4.248614, y: -2.1610327, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565968
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 474499
         point: {x: -5.932223, y: -6.9123917, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565969
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 482197
         point: {x: -4.6722026, y: -7.6770163, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565970
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 489025
         point: {x: -4.371667, y: -7.775079, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565971
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 497064
         point: {x: -3.9975538, y: -7.6809845, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565972
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 628970
         point: {x: -3.5185592, y: -2.7549129, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565973
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 633822
         point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565974
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 697707
         point: {x: -6.363048, y: -7.8246317, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565975
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 753531
         point: {x: -3.0135002, y: -7.780649, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565976
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 763536
         point: {x: -1.9497149, y: -7.844434, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565977
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 774404
         point: {x: -0.3955822, y: -7.904233, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565978
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 788652
         point: {x: -0.15302992, y: -7.788622, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565979
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 833856
         point: {x: 0.50013876, y: -7.170704, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565982
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1031890
         point: {x: 6.350953, y: 3.3734305, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565983
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1101797
         point: {x: -6.6157784, y: -6.5778646, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565984
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1256481
         point: {x: -5.322363, y: -1.7037879, z: 0}
-        styleID: 
-        color: {r: 1, g: 1, b: 1, a: 1}
+        styleID: normalRoad
+        color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1
     - rid: 3639885476877565985
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1403125
         point: {x: -4.5220747, y: -7.5097713, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565986
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1584578
         point: {x: -4.130085, y: -7.2190228, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565987
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1676799
         point: {x: -3.7029653, y: -7.2099404, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565988
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1688696
         point: {x: -3.7564678, y: -7.1074314, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565989
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1756712
         point: {x: -4.3817644, y: -6.720971, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565990
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1826126
         point: {x: -3.7982574, y: -6.1467733, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565991
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1880187
         point: {x: -3.5774708, y: -6.156083, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565992
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 1890863
         point: {x: -2.0444098, y: -3.354344, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565993
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2181801
         point: {x: -1.8961338, y: -3.2169693, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565994
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2238381
         point: {x: -1.3145803, y: -3.1602764, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565995
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2277194
         point: {x: -0.4338174, y: -2.651227, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565996
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2295339
         point: {x: -0.057762623, y: -1.8254962, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565998
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2353691
         point: {x: -0.017022848, y: -1.5716764, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877565999
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2377586
         point: {x: 0.1643138, y: -1.3045564, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566000
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2391591
         point: {x: 0.48515224, y: -0.51112366, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566001
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2410755
         point: {x: 0.4127612, y: -0.27379107, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566002
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
@@ -1181,25 +1594,25 @@ MonoBehaviour:
       data:
         id: 2539739
         point: {x: -0.051176548, y: 0.7998593, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566004
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2578677
         point: {x: 0.07152009, y: 1.2179787, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
     - rid: 3639885476877566005
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 2853836
         point: {x: 0.067426205, y: 1.503506, z: 0}
-        styleID: 
-        color: {r: 0.13762355, g: 1, b: 0, a: 1}
-        thickness: 0.20897643
+        styleID: walkingPath
+        color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
+        thickness: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
