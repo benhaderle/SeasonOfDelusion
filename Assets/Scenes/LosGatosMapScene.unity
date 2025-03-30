@@ -419,9 +419,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb1cf2193571cf41b51b8f61d4c9c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blendMode: 1
+  blendMode: 0
   scaleMode: 0
-  color: {r: 1, g: 0.3820755, b: 0.3820755, a: 0.36078432}
+  color: {r: 0.3803922, g: 0.39193374, b: 1, a: 1}
   detailLevel: 2
   renderQueue: -1
   zTest: 4
@@ -434,105 +434,6 @@ MonoBehaviour:
   stencilReadMask: 255
   stencilWriteMask: 255
   points:
-  - point: {x: 6.0047774, y: 2.6381521, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 4.5497956, y: -1.32221, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 2.2465646, y: -4.8697233, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -0.92610383, y: -3.9075134, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -3.5185592, y: -2.7549129, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.248614, y: -2.1610327, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -2.630702, y: 2.0402226, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -2.3439932, y: 2.7604375, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -1.7977061, y: 2.539394, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -0.91292405, y: 1.9715343, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 0.2845924, y: 1.6011906, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 0.067426205, y: 1.503506, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.07152009, y: 1.2179787, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.051176548, y: 0.7998593, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.06190443, y: 0.34823465, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.4127612, y: -0.27379107, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.48515224, y: -0.51112366, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.1643138, y: -1.3045564, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.017022848, y: -1.5716764, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.057762623, y: -1.8254962, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.4338174, y: -2.651227, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -1.3145803, y: -3.1602764, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -1.8961338, y: -3.2169693, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -2.0444098, y: -3.354344, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.5774708, y: -6.156083, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7982574, y: -6.1467733, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.3817644, y: -6.720971, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7564678, y: -7.1074314, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7029653, y: -7.2099404, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.130085, y: -7.2190228, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.5220747, y: -7.5097713, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.6722026, y: -7.6770163, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
   - point: {x: -4.371667, y: -7.775079, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
@@ -560,144 +461,27 @@ MonoBehaviour:
   - point: {x: 2.2465646, y: -4.8697233, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: -0.92610383, y: -3.9075134, z: 0}
+  - point: {x: 4.5497956, y: -1.32221, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -3.5185592, y: -2.7549129, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.248614, y: -2.1610327, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -2.630702, y: 2.0402226, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -2.3439932, y: 2.7604375, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -1.7977061, y: 2.539394, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -0.91292405, y: 1.9715343, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 0.2845924, y: 1.6011906, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 2.6836672, y: 1.9879942, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 3.0993476, y: 2.4817853, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 3.5150282, y: 2.810979, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: 4.0047774, y: 2.9508867, z: 0}
+  - point: {x: 6.0047774, y: 2.6381521, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
   - point: {x: 4.9800878, y: 2.794519, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: 6.0047774, y: 2.6381521, z: 0}
+  - point: {x: 4.0047774, y: 2.9508867, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: 4.5497956, y: -1.32221, z: 0}
+  - point: {x: 3.5150282, y: 2.810979, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: 2.2465646, y: -4.8697233, z: 0}
+  - point: {x: 3.0993476, y: 2.4817853, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: 1.6024804, y: -5.9317627, z: 0}
+  - point: {x: 2.6836672, y: 1.9879942, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: 0.50013876, y: -7.170704, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -0.15302992, y: -7.788622, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -0.3955822, y: -7.904233, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -1.9497149, y: -7.844434, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -3.0135002, y: -7.780649, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -3.9975538, y: -7.6809845, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.371667, y: -7.775079, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.6722026, y: -7.6770163, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.5220747, y: -7.5097713, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.130085, y: -7.2190228, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7029653, y: -7.2099404, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7564678, y: -7.1074314, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -4.3817644, y: -6.720971, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.7982574, y: -6.1467733, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -3.5774708, y: -6.156083, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -2.0444098, y: -3.354344, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -1.8961338, y: -3.2169693, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -1.3145803, y: -3.1602764, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.4338174, y: -2.651227, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.057762623, y: -1.8254962, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.017022848, y: -1.5716764, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.1643138, y: -1.3045564, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.48515224, y: -0.51112366, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.4127612, y: -0.27379107, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.06190443, y: 0.34823465, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: -0.051176548, y: 0.7998593, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.07152009, y: 1.2179787, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
-  - point: {x: 0.067426205, y: 1.503506, z: 0}
-    color: {r: 0.08949022, g: 0.65199995, b: 0, a: 1}
-    thickness: 0.25
   - point: {x: 0.2845924, y: 1.6011906, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
@@ -711,12 +495,6 @@ MonoBehaviour:
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
   - point: {x: -2.630702, y: 2.0402226, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -4.248614, y: -2.1610327, z: 0}
-    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
-    thickness: 1
-  - point: {x: -5.322363, y: -1.7037879, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
   - point: {x: -4.248614, y: -2.1610327, z: 0}
@@ -725,7 +503,10 @@ MonoBehaviour:
   - point: {x: -5.932223, y: -6.9123917, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
-  - point: {x: -6.6157784, y: -6.5778646, z: 0}
+  - point: {x: -4.6722026, y: -7.6770163, z: 0}
+    color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
+    thickness: 1
+  - point: {x: -4.371667, y: -7.775079, z: 0}
     color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
     thickness: 1
   geometry: 1
@@ -753,7 +534,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 34fc5346917eea54aba37bcbe8ff730a, type: 2}
+  - {fileID: 2100000, guid: b21a39af907487148a1f6ed8e81a2398, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -919,7 +700,7 @@ MonoBehaviour:
   points:
     rid: 3639885476545429508
   routePolyline: {fileID: 1281143610}
-  currentRouteLineData: {fileID: 11400000, guid: 431ee81c431b143cba9948016e2e614c, type: 2}
+  currentRouteLineData: {fileID: 11400000, guid: b99ae8f9b7db742318bc4ac7fdcc7525, type: 2}
   geometry: 1
   joins: 1
   closed: 1
@@ -1377,7 +1158,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 633822
-        point: {x: -2.1406355, y: -3.4259205, z: -0.09279865}
+        point: {x: -2.5005012, y: -3.4894261, z: -0.09279865}
         styleID: normalRoad
         color: {r: 0.745, g: 0.745, b: 0.745, a: 1}
         thickness: 1

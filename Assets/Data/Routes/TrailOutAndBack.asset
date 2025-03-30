@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
-  m_Name: RouteLineData2
+  m_Name: TrailOutAndBack
   m_EditorClassIdentifier: 
-  displayName: 
-  pointIDs: 
+  displayName: Trail Out and Back
+  pointIDs: 417607007bb01c00cc8b2b0041760700

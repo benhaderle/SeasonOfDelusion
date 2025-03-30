@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEditor.Graphs;
 using UnityEditor.IMGUI.Controls;
@@ -11,36 +12,23 @@ using Object = UnityEngine.Object;
 // Website & Documentation - https://acegikmo.com/shapes/
 namespace Shapes
 {
-
 	public class RoutePointEditor : SceneEditGizmos
 	{
 		static bool isEditing;
-		private bool hasAddRemoveMode;
 
-		EditMode currentEditMode = EditMode.AddRemovePoints;
+		private MapPoint selectedPoint;
 
-		void GoToNextEditMode()
+		EditMode currentEditMode = EditMode.AddPoints;
+
+		private void GoToNextEditMode()
 		{
-			while (true)
-			{
-				currentEditMode = (EditMode)(((int)currentEditMode + 1) % (int)EditMode.COUNT);
-				if (CanEdit(currentEditMode) == false) continue;
-				break;
-			}
-		}
-
-		bool CanEdit(EditMode mode)
-		{
-			switch (mode)
-			{
-				case EditMode.AddRemovePoints: return hasAddRemoveMode;
-				default: return true;
-			}
+			currentEditMode = (EditMode)(((int)currentEditMode + 1) % (int)EditMode.COUNT);
 		}
 
 		enum EditMode
 		{
-			AddRemovePoints,
+			AddPoints,
+			RemovePoints,
 			COUNT
 		}
 
@@ -83,11 +71,11 @@ namespace Shapes
 			if (!isEditing)
 			{
 				routePolyline.enabled = false;
+				selectedPoint = null;
 			}
 			else
 			{
 				routePolyline.enabled = true;
-				bool changed = false;
 
 				if (Event.current.isKey && Event.current.keyCode == KeyCode.Tab)
 				{
@@ -102,30 +90,29 @@ namespace Shapes
 				{
 					if (Event.current.type == EventType.MouseMove)
 						SceneView.lastActiveSceneView.Repaint();
-					if (hasAddRemoveMode)
+
+					Handles.BeginGUI();
+					Vector2 mousePos = Event.current.mousePosition;
+					Rect r = new Rect(mousePos.x + 32, mousePos.y, Screen.width, 128);
+
+
+					string label = "Press Tab to cycle modes:";
+
+					void SelectLabel(string str, EditMode mode, bool exists = true)
 					{
-						Handles.BeginGUI();
-						Vector2 mousePos = Event.current.mousePosition;
-						Rect r = new Rect(mousePos.x + 32, mousePos.y, Screen.width, 128);
-
-
-						string label = "Press Tab to cycle modes:";
-
-						void SelectLabel(string str, EditMode mode, bool exists = true)
-						{
-							if (exists == false)
-								return;
-							if (mode == currentEditMode)
-								label += "\n> " + str;
-							else
-								label += "\n  " + str;
-						}
-
-						SelectLabel("add/remove points", EditMode.AddRemovePoints, hasAddRemoveMode);
-
-						GUI.Label(r, label);
-						Handles.EndGUI();
+						if (exists == false)
+							return;
+						if (mode == currentEditMode)
+							label += "\n> " + str;
+						else
+							label += "\n  " + str;
 					}
+
+					SelectLabel("add/remove points", EditMode.AddPoints);
+
+					GUI.Label(r, label);
+					Handles.EndGUI();
+
 				}
 
 				if (routeLineData == null)
@@ -135,21 +122,62 @@ namespace Shapes
 					AssetDatabase.CreateAsset(routeLineData, $"Assets/Data/Routes/RouteLineData{numRoutes + 1}.asset");
 				}
 
-				if (currentEditMode == EditMode.AddRemovePoints)
+				if (routeLineData.pointIDs.Count < 1)
+				{
+					selectedPoint = null;
+				}
+				else if ((selectedPoint == null || !routeLineData.pointIDs.Contains(selectedPoint.id)) && routeLineData.pointIDs.Count > 0)
+				{
+					selectedPoint = points.GetDictionary().Keys.First(m => m.id == routeLineData.pointIDs[routeLineData.pointIDs.Count - 1]);
+				}
+
+				if (currentEditMode == EditMode.AddPoints)
 				{
 					Handles.BeginGUI();
+					bool selectPointButton = Event.current.command;
+					bool removePointButton = Event.current.control;
 					for (int i = 0; i < points.GetDictionary().Keys.Count; i++)
 					{
 						MapPoint mp = points.GetDictionary().Keys.ElementAt(i);
+						if ((selectPointButton || removePointButton) && !routeLineData.pointIDs.Contains(mp.id))
+						{
+							continue;
+						}
 
 						Vector3 ptWorld = lineMap.transform.TransformPoint(mp.point);
 
-						GUI.color = Color.white;
-
+						GUI.color = selectedPoint == mp ? Color.red : Color.white;
+						
 						if (TextureButton(ptWorld, UIAssets.Instance.pointEditColor, 0.5f, fade: false))
 						{
-							routeLineData.pointIDs.Add(mp.id);
-							changed = true;
+							if (selectPointButton)
+							{
+								if (selectedPoint != mp)
+								{
+									selectedPoint = mp;
+								}
+								else
+								{
+									selectedPoint = points.GetDictionary().Keys.First(m => m.id == routeLineData.pointIDs[routeLineData.pointIDs.Count - 1]);
+								}
+							}
+							else if (removePointButton)
+							{
+								Undo.RecordObjects(new Object[] { routeLineData }, "remove point");
+								routeLineData.pointIDs.Remove(mp.id);
+								EditorUtility.SetDirty(routeLineData);
+								AssetDatabase.SaveAssets();
+							}
+							else
+							{
+								Undo.RecordObjects(new Object[] { routeLineData }, "add point");
+								int insertIndex = routeLineData.pointIDs.Count > 0 ? routeLineData.pointIDs.FindIndex(id => id == selectedPoint.id) + 1 : 0;
+								routeLineData.pointIDs.Insert(insertIndex, mp.id);
+								selectedPoint = mp;
+								EditorUtility.SetDirty(routeLineData);
+								AssetDatabase.SaveAssets();
+							}
+
 
 							// if (selectedMapPoint == null)
 							// {
@@ -367,9 +395,15 @@ namespace Shapes
 				// 		GUI.color = Color.white;
 				// 		Handles.EndGUI();
 				// 	}
-				// if(changed)
 
-				routePolyline.SetPoints(lineMap.GetPolylinePointsFromIndices(routeLineData.pointIDs));
+				if (routeLineData.pointIDs.Count < 2)
+				{
+					routePolyline.Mesh.Clear();
+				}
+				else
+				{
+					routePolyline.SetPoints(lineMap.GetPolylinePointsFromIndices(routeLineData.pointIDs));
+				}
 			}
 
 			return routeLineData;

@@ -29,7 +29,7 @@ namespace Shapes {
 		{
 			base.OnEnable();
 
-			scenePointEditor = new ScenePointEditor(this) { hasAddRemoveMode = false, hasEditThicknessMode = true, hasEditColorMode = true, hasAddRemoveGridMode = true, hasConnectGridMode = true, hasMapStyleMode = true };
+			scenePointEditor = new ScenePointEditor(this) { hasAddRemoveMode = false, hasAddRemoveGridMode = true, hasConnectGridMode = true, hasMapStyleMode = true };
 			routePointEditor = new RoutePointEditor(this);
 
 			pointStyles = new ReorderableList(serializedObject, propPointStyles, true, true, true, true)
