@@ -7,9 +7,10 @@ using UnityEngine;
 public enum Scene 
 { 
     StartScene = 0,
-    MainScene = 1, 
-    IntroCutscene = 2,
-    PredayCutscene = 3
+    MainScene = 1,
+    MapScene = 2, 
+    IntroCutscene = 3,
+    PredayCutscene = 4
 }
 
 /// <summary>

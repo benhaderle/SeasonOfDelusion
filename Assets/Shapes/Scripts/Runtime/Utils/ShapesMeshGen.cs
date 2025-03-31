@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.YamlDotNet.Core.Events;
 using UnityEngine;
 
 namespace Shapes {

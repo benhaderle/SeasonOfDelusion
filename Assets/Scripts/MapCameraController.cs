@@ -6,7 +6,9 @@ using UnityEngine.Events;
 public class MapCameraController : MonoBehaviour
 {
     [SerializeField] private Camera camera;
-    [SerializeField] private float movementSpeed = .1f;
+    [SerializeField] private float movementSpeed = 1f;
+    [SerializeField] private float zoomMin;
+    [SerializeField] private float zoomMax;
     [SerializeField] private float dampingTime = .1f;
     private Vector3 lastDragViewportPosition;
     private Vector3 targetPosition;
@@ -21,7 +23,15 @@ public class MapCameraController : MonoBehaviour
             public bool firstFrame;
         }
     };
-    public static DragEvent dragEvent = new DragEvent();
+    public static DragEvent dragEvent = new();
+    public class ZoomEvent : UnityEvent<ZoomEvent.Context>
+    {
+        public class Context
+        {
+            public float zoomAmount;
+        }
+    };
+    public static ZoomEvent zoomEvent = new();
     #endregion
 
     private void Awake()
@@ -32,11 +42,13 @@ public class MapCameraController : MonoBehaviour
     private void OnEnable()
     {
         dragEvent.AddListener(OnDrag);
+        zoomEvent.AddListener(OnZoom);
     }
 
-    private void ODisable()
+    private void OnDisable()
     {
         dragEvent.RemoveListener(OnDrag);
+        zoomEvent.RemoveListener(OnZoom);
     }
 
     // Update is called once per frame
@@ -51,9 +63,16 @@ public class MapCameraController : MonoBehaviour
 
         if (!context.firstFrame)
         {
+            float targetZ = targetPosition.z;
             targetPosition -= (uvWorldPos - camera.ViewportToWorldPoint(new Vector3(lastDragViewportPosition.x, lastDragViewportPosition.y, -transform.position.z))) * movementSpeed;
-            targetPosition.z = transform.position.z;
+            targetPosition.z = targetZ;
         }
         lastDragViewportPosition = context.uvPosition;
+    }
+
+    private void OnZoom(ZoomEvent.Context context)
+    {
+        targetPosition.z += context.zoomAmount;
+        targetPosition.z = Mathf.Clamp(targetPosition.z, zoomMin, zoomMax);
     }
 }

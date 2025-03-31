@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controls both the Route selection and also the coach guidance selection.
@@ -18,6 +19,7 @@ public class RouteUIController : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RawImage mapDislayImage;
+    [SerializeField] private Scene mapScene;
     private Route selectedRoute;
 
     private IEnumerator toggleRoutine;
@@ -49,6 +51,8 @@ public class RouteUIController : MonoBehaviour
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
 
+            SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
+
             Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
             float scale = Mathf.Min(mapDislayImage.texture.width / mapPixelRect.width, mapDislayImage.texture.height / mapPixelRect.height);
             float offset = (1 - scale) / 2f;
@@ -63,6 +67,7 @@ public class RouteUIController : MonoBehaviour
     private IEnumerator ToggleOffRoutine()
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
+        if(SceneManager.sceneCount > 2f) SceneManager.UnloadSceneAsync((int)mapScene);
     }
 
     public void OnRosterButton()

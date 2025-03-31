@@ -319,7 +319,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 416081185}
   movementSpeed: 1
-  dampingTime: 0.05
+  zoomMin: -50
+  zoomMax: -1
+  dampingTime: 0.01
 --- !u!1 &1142870270
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,9 +179,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutscenes:
   - id: 0
-    scene: 2
-  - id: 1
     scene: 3
+  - id: 1
+    scene: 4
   canvas: {fileID: 3636843849772695893}
   canvasGroup: {fileID: 2880003840394180770}
 --- !u!1 &5247502045758978892

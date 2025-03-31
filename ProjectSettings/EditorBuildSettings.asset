@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: 09500cb1053f3470884a66db4f894081
   - enabled: 1
+    path: Assets/Scenes/LosGatosMapScene.unity
+    guid: 6f3b0992db3454452a94d22f388597ac
+  - enabled: 1
     path: Assets/Scenes/IntroCutscene.unity
     guid: 71211635062d24029a08cef09a7b1ef1
   - enabled: 1
