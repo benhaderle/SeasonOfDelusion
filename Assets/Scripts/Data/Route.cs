@@ -1,4 +1,5 @@
 using System;
+using Shapes;
 using UnityEngine;
 
 public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
@@ -8,7 +9,7 @@ public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
 /// </summary>
 [Serializable]
 public class Route
-{   
+{
     /// <summary>
     /// The name of this route. Can be used for player display.
     /// </summary>
@@ -20,6 +21,8 @@ public class Route
     /// </summary>
     [SerializeField] private float length;
     public float Length => length;
+
+    [SerializeField] public RouteLineData lineData;
 
     // [SerializeField] private AnimationCurve profile;
     // [SerializeField] private float minElevation;

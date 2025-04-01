@@ -520,6 +520,304 @@ namespace Shapes {
 				mesh.SetColors( meshColors.list );
 		}
 
+		public static void GenPolylineMeshWithThickness(Mesh mesh, IList<PolylinePoint> path, bool closed, PolylineJoins joins, bool flattenZ, bool useColors, float parentThickness)
+		{
+			meshColors.Clear();
+			meshVertices.Clear();
+			meshUv0.Clear();
+			meshUv1Prevs.Clear();
+			meshUv2Nexts.Clear();
+			meshTriangles.Clear();
+			meshJoinsTriangles.Clear();
+
+			int pointCount = path.Count;
+
+			if (pointCount < 2)
+				return;
+			if (pointCount == 2 && closed)
+				closed = false;
+
+			PolylinePoint firstPoint = path[0];
+			PolylinePoint lastPoint = path[path.Count - 1];
+
+			// if the last point is at the same place as the first and it's closed, ignore the last point
+			if ((closed || pointCount == 2) && SamePosition(firstPoint.point, lastPoint.point))
+			{
+				pointCount--; // ignore last point
+				if (pointCount < 2) // check point count again
+					return;
+				lastPoint = path[path.Count - 2]; // second last point technically
+			}
+
+			// only mitered joints can be in the same submesh at the moment
+			bool separateJoinMesh = joins.HasJoinMesh();
+			bool isSimpleJoin = joins.HasSimpleJoin(); // only used when join meshes exist
+			int vertsPerPathPoint = separateJoinMesh ? 5 : 2;
+			int vertexCount = pointCount * vertsPerPathPoint;
+
+			// Joins mesh data
+			int joinVertsPerJoin = isSimpleJoin ? 3 : 5;
+
+			// indices used per triangle
+			int iv0, iv1, iv2 = 0, iv3 = 0, iv4 = 0;
+			int ivj0 = 0, ivj1 = 0, ivj2 = 0, ivj3 = 0, ivj4 = 0;
+			int triId = 0;
+			int triIdJoin = 0;
+			for (int i = 0; i < pointCount; i++)
+			{
+				bool isLast = i == pointCount - 1;
+				bool isFirst = i == 0;
+				bool makeJoin = closed || (!isLast && !isFirst);
+				bool isEndpoint = closed == false && (isFirst || isLast);
+				float uvEndpointValue = isEndpoint ? (isFirst ? -1 : 1) : 0;
+				float pathThickness = path[i].thickness;
+
+				// Indices & verts
+				Vector3 vert = flattenZ ? new Vector3(path[i].point.x, path[i].point.y, 0f) : path[i].point;
+				Color color = useColors ? path[i].color.ColorSpaceAdjusted() : default;
+				iv0 = i * vertsPerPathPoint;
+				if (separateJoinMesh)
+				{
+					iv1 = iv0 + 1; // "prev" outer
+					iv2 = iv0 + 2; // "next" outer
+					iv3 = iv0 + 3; // "prev" inner
+					iv4 = iv0 + 4; // "next" inner
+					meshVertices[iv0] = vert;
+					meshVertices[iv1] = vert;
+					meshVertices[iv2] = vert;
+					meshVertices[iv3] = vert;
+					meshVertices[iv4] = vert;
+					if (useColors)
+					{
+						meshColors[iv0] = color;
+						meshColors[iv1] = color;
+						meshColors[iv2] = color;
+						meshColors[iv3] = color;
+						meshColors[iv4] = color;
+					}
+
+
+					// joins mesh
+					if (makeJoin)
+					{
+						int joinIndex = (closed ? i : i - 1); // Skip first if open
+						ivj0 = joinIndex * joinVertsPerJoin + vertexCount;
+						ivj1 = ivj0 + 1;
+						ivj2 = ivj0 + 2;
+						ivj3 = ivj0 + 3;
+						ivj4 = ivj0 + 4;
+						meshVertices[ivj0] = vert;
+						meshVertices[ivj1] = vert;
+						meshVertices[ivj2] = vert;
+						if (useColors)
+						{
+							meshColors[ivj0] = color;
+							meshColors[ivj1] = color;
+							meshColors[ivj2] = color;
+						}
+
+						if (isSimpleJoin == false)
+						{
+							meshVertices[ivj3] = vert;
+							meshVertices[ivj4] = vert;
+							if (useColors)
+							{
+								meshColors[ivj3] = color;
+								meshColors[ivj4] = color;
+							}
+						}
+					}
+				}
+				else
+				{
+					iv1 = iv0 + 1; // Inner vert
+
+					meshVertices[iv0] = vert;
+					meshVertices[iv1] = vert;
+					if (useColors)
+					{
+						meshColors[iv0] = color;
+						meshColors[iv1] = color;
+					}
+				}
+
+				// Setting up next/previous positions
+				Vector3 prevPos;
+				Vector3 nextPos;
+				if (i == 0)
+				{
+					prevPos = closed ? lastPoint.point : (firstPoint.point * 2 - path[1].point); // Mirror second point
+					nextPos = path[i + 1].point;
+				}
+				else if (i == pointCount - 1)
+				{
+					prevPos = path[i - 1].point;
+					nextPos = closed ? firstPoint.point : (path[pointCount - 1].point * 2 - path[pointCount - 2].point); // Mirror second last point
+				}
+				else
+				{
+					prevPos = path[i - 1].point;
+					nextPos = path[i + 1].point;
+				}
+
+				void SetPrevNext(int atIndex)
+				{
+					meshUv1Prevs[atIndex] = prevPos;
+					meshUv2Nexts[atIndex] = nextPos;
+				}
+
+				SetPrevNext(iv0);
+				SetPrevNext(iv1);
+				if (separateJoinMesh)
+				{
+					SetPrevNext(iv2);
+					SetPrevNext(iv3);
+					SetPrevNext(iv4);
+					if (makeJoin)
+					{
+						SetPrevNext(ivj0);
+						SetPrevNext(ivj1);
+						SetPrevNext(ivj2);
+						if (isSimpleJoin == false)
+						{
+							SetPrevNext(ivj3);
+							SetPrevNext(ivj4);
+						}
+					}
+				}
+
+				void SetUv0(ExpandoList<Vector4> uvArr, float uvEndpointVal, float pathThicc, int id, float x, float y) => uvArr[id] = new Vector4(x, y, uvEndpointVal, pathThicc);
+				if (separateJoinMesh)
+				{
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv0, 0, 0);
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv1, -1, -1);
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv2, -1, 1);
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv3, 1, -1);
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv4, 1, 1);
+					if (makeJoin)
+					{
+						SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj0, 0, 0);
+						if (isSimpleJoin)
+						{
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj1, 1, -1);
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj2, 1, 1);
+						}
+						else
+						{
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj1, 1, -1);
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj2, -1, -1);
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj3, -1, 1);
+							SetUv0(meshUv0, uvEndpointValue, pathThickness, ivj4, 1, 1);
+						}
+					}
+				}
+				else
+				{
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv0, -1, i);
+					SetUv0(meshUv0, uvEndpointValue, pathThickness, iv1, 1, i);
+				}
+
+
+				if (isLast == false || closed)
+				{
+					// clockwise order
+					void AddQuad(int a, int b, int c, int d)
+					{
+						meshTriangles[triId++] = a;
+						meshTriangles[triId++] = b;
+						meshTriangles[triId++] = c;
+						meshTriangles[triId++] = c;
+						meshTriangles[triId++] = d;
+						meshTriangles[triId++] = a;
+					}
+
+					if (separateJoinMesh)
+					{
+						int rootCenter = iv0;
+						int rootOuter = iv2;
+						int rootInner = iv4;
+						int nextCenter = isLast ? 0 : rootCenter + vertsPerPathPoint;
+						int nextOuter = nextCenter + 1;
+						int nextInner = nextCenter + 3;
+						AddQuad(rootCenter, rootOuter, nextOuter, nextCenter);
+						AddQuad(nextCenter, nextInner, rootInner, rootCenter);
+
+						if (makeJoin)
+						{
+							meshJoinsTriangles[triIdJoin++] = ivj0;
+							meshJoinsTriangles[triIdJoin++] = ivj1;
+							meshJoinsTriangles[triIdJoin++] = ivj2;
+
+							if (isSimpleJoin == false)
+							{
+								meshJoinsTriangles[triIdJoin++] = ivj2;
+								meshJoinsTriangles[triIdJoin++] = ivj3;
+								meshJoinsTriangles[triIdJoin++] = ivj0;
+
+								meshJoinsTriangles[triIdJoin++] = ivj0;
+								meshJoinsTriangles[triIdJoin++] = ivj3;
+								meshJoinsTriangles[triIdJoin++] = ivj4;
+							}
+						}
+					}
+					else
+					{
+						int rootOuter = iv0;
+						int rootInner = iv1;
+						int nextOuter = isLast ? 0 : rootOuter + vertsPerPathPoint;
+						int nextInner = nextOuter + 1;
+						AddQuad(rootInner, rootOuter, nextOuter, nextInner);
+					}
+				}
+
+
+				void OffsetVertex(int iv)
+				{
+					Vector3 miterDir;
+					float miterLength;
+
+					Vector3 ptPrev = new Vector3(meshUv1Prevs[iv].x, meshUv1Prevs[iv].y, 0);
+					Vector3 ptNext = new Vector3(meshUv2Nexts[iv].x, meshUv2Nexts[iv].y, 0);
+
+					Vector3 tangentPrev = (meshVertices[iv] - ptPrev).normalized;
+					Vector3 tangentNext = (ptNext - meshVertices[iv]).normalized;
+
+					Vector3 normalPrev = new Vector3(tangentPrev.y, -tangentPrev.x, 0);
+					Vector3 normalNext = new Vector3(tangentNext.y, -tangentNext.x, 0);
+
+
+					float dotVal = Vector3.Dot(normalPrev, normalNext);
+					if (dotVal < -0.99)
+					{
+						miterDir = Vector3.zero;
+						miterLength = 0;
+					}
+					else
+					{
+						miterDir = (normalPrev + normalNext).normalized;
+						miterLength = pathThickness * parentThickness;
+					}
+
+					meshVertices[iv] = meshVertices[iv] + miterDir * miterLength * meshUv0[iv].x;
+				}
+				OffsetVertex(iv0);
+				OffsetVertex(iv1);
+			}
+
+			// assign to segments mesh
+			mesh.Clear(); // todo maybe not always do this you know?
+			mesh.SetVertices(meshVertices.list);
+			mesh.subMeshCount = separateJoinMesh ? 2 : 1;
+			mesh.SetTriangles(meshTriangles.list, 0);
+			if (separateJoinMesh)
+				mesh.SetTriangles(meshJoinsTriangles.list, 1);
+			mesh.SetUVs(0, meshUv0.list);
+			mesh.SetUVs(1, meshUv1Prevs.list);
+			mesh.SetUVs(2, meshUv2Nexts.list);
+			if (useColors)
+				mesh.SetColors(meshColors.list);
+		}
+
 		enum ReflexState {
 			Unknown,
 			Reflex,

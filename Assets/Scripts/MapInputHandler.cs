@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CreateNeptune;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
     private bool pinching;
     private bool firstFrame;
     private bool pointerOver;
+
+    private float tapTime = .1f;
+    private float lastTapTime;
 
     private void Awake()
     {
@@ -45,13 +49,11 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
     {
         if (Input.GetMouseButton(0) && Input.touchCount < 2)
         {
-            if (!pinching && RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.pointerCurrentRaycast.screenPosition, null, out Vector2 mouseRectPosition))
+            if (!pinching)
             {
-                Vector2 normalizedPosition = (mouseRectPosition + new Vector2(rt.rect.width, rt.rect.height) * .5f) / new Vector2(rt.rect.width, rt.rect.height);
-                Vector2 uv = normalizedPosition * new Vector2(rawImage.uvRect.width, rawImage.uvRect.height) + rawImage.uvRect.position;
                 MapCameraController.dragEvent.Invoke(new MapCameraController.DragEvent.Context
                 {
-                    uvPosition = uv,
+                    uvPosition = TransformPointFromScreenToViewport(eventData.position),
                     firstFrame = firstFrame
                 });
 
@@ -62,14 +64,33 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Input.touchCount == 1)
+        if (Input.touchCount < 2)
         {
             firstFrame = true;
+            lastTapTime = Time.time;
         }
         else if (Input.touchCount == 2)
         {
             pinching = true;
             lastPinchDistance = (Input.GetTouch(0).position - Input.GetTouch(1).position).sqrMagnitude;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (Input.touchCount < 2)
+        {
+            pinching = false;
+            firstFrame = true;
+
+            if (Time.time - lastTapTime < tapTime)
+            {
+                MapCameraController.tapEvent.Invoke(new MapCameraController.TapEvent.Context
+                {
+                    viewportPosition = TransformPointFromScreenToViewport(eventData.position)
+                });
+            }
+
         }
     }
 
@@ -83,16 +104,15 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
         pointerOver = false;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    private Vector2 TransformPointFromScreenToViewport(Vector2 screenPoint)
     {
-        if (Input.touchCount < 2)
+        Vector2 viewportPoint = Vector2.zero;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, screenPoint, null, out Vector2 mouseRectPosition))
         {
-            pinching = false;
-
-            if (Input.touchCount == 1)
-            {
-                firstFrame = true;
-            }
+            Vector2 normalizedPosition = (mouseRectPosition + new Vector2(rt.rect.width, rt.rect.height) * .5f) / new Vector2(rt.rect.width, rt.rect.height);
+            viewportPoint = normalizedPosition * new Vector2(rawImage.uvRect.width, rawImage.uvRect.height) + rawImage.uvRect.position;
         }
+
+        return viewportPoint;
     }
 }

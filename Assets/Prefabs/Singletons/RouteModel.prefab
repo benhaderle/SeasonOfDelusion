@@ -46,66 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
   routes:
-  - name: LGBVD-Winchester
-    length: 6.21
-  - name: Sierra Azul
-    length: 13.11
-  - name: Night Run Loop
-    length: 5.05
-  - name: Kennedy-Shannon
-    length: 7.79
-  - name: St. Joe's
-    length: 6.78
-  - name: Vasona to Campbell
-    length: 16.71
-  - name: Greenwood-Daves
-    length: 5.91
-  - name: Montevina
-    length: 11.25
-  - name: Saratoga
-    length: 9.31
-  - name: Overlook
-    length: 6.67
-  - name: Reservoir
-    length: 12.07
-  - name: Monte Sereno Wastewater
-    length: 8.67
-  - name: Almaden-Blossom Hill
-    length: 8.65
-  - name: El Sombroso
-    length: 17.3
-  - name: Mt. Umunhum
-    length: 31.27
-  - name: Twin Creeks
-    length: 5.99
-  - name: Overlook-Hwy 9
-    length: 7.98
-  - name: Limekiln-Priest Rock
-    length: 10.62
-  - name: Priest Rock-Limekiln
-    length: 16.62
-  - name: Vasona Red Bridge
-    length: 4.12
-  - name: Bottom of the Dam
-    length: 3.29
-  - name: Top of the Dam
-    length: 4.35
-  - name: Dam Loop
-    length: 4.72
-  - name: Daves
-    length: 5.07
-  - name: Daves-Ridgecrest
-    length: 5.58
-  - name: Ridgecrest-Daves
-    length: 5.58
-  - name: Twin Creeks
-    length: 5.99
-  - name: Vasona Dam
-    length: 5.36
-  - name: University
-    length: 5.67
-  - name: Single Track
-    length: 6.82
+  - name: Trail Out and Back
+    length: 4
+    lineData: {fileID: 11400000, guid: 8588681b294d04ebfb4cca3fbe5b88a8, type: 2}
+  - name: Town Loop
+    length: 6
+    lineData: {fileID: 11400000, guid: b99ae8f9b7db742318bc4ac7fdcc7525, type: 2}
   raceRoutes:
   - id: CrystalSprings
     name: Crystal Springs

@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// Controls both the Route selection and also the coach guidance selection.
@@ -52,6 +53,7 @@ public class RouteUIController : MonoBehaviour
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
 
             SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
+            SceneManager.sceneLoaded += OnMapSceneLoaded;
 
             Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
             float scale = Mathf.Min(mapDislayImage.texture.width / mapPixelRect.width, mapDislayImage.texture.height / mapPixelRect.height);
@@ -68,6 +70,19 @@ public class RouteUIController : MonoBehaviour
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
         if(SceneManager.sceneCount > 2f) SceneManager.UnloadSceneAsync((int)mapScene);
+    }
+
+    private void OnMapSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.buildIndex == (int)mapScene)
+        {
+            MapController.showRoutesEvent.Invoke(new MapController.ShowRoutesEvent.Context
+            {
+                routes = RouteModel.Instance.Routes.Select(r => r.lineData).ToList()
+            });
+
+            SceneManager.sceneLoaded -= OnMapSceneLoaded;
+        }
     }
 
     public void OnRosterButton()

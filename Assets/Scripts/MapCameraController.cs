@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,6 +33,14 @@ public class MapCameraController : MonoBehaviour
         }
     };
     public static ZoomEvent zoomEvent = new();
+    public class TapEvent : UnityEvent<TapEvent.Context>
+    {
+        public class Context
+        {
+            public Vector2 viewportPosition;
+        }
+    };
+    public static TapEvent tapEvent = new();
     #endregion
 
     private void Awake()
@@ -43,12 +52,14 @@ public class MapCameraController : MonoBehaviour
     {
         dragEvent.AddListener(OnDrag);
         zoomEvent.AddListener(OnZoom);
+        tapEvent.AddListener(OnTap);
     }
 
     private void OnDisable()
     {
         dragEvent.RemoveListener(OnDrag);
         zoomEvent.RemoveListener(OnZoom);
+        tapEvent.RemoveListener(OnTap);
     }
 
     // Update is called once per frame
@@ -74,5 +85,18 @@ public class MapCameraController : MonoBehaviour
     {
         targetPosition.z += context.zoomAmount;
         targetPosition.z = Mathf.Clamp(targetPosition.z, zoomMin, zoomMax);
+    }
+
+    private void OnTap(TapEvent.Context context)
+    {
+        Ray ray = camera.ViewportPointToRay(new Vector3(context.viewportPosition.x, context.viewportPosition.y, 10));
+
+        Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
+
+        MapController.routeLineSelectedEvent.Invoke(new MapController.RouteLineSelectedEvent.Context
+        {
+            polyline = hitInfo.collider?.GetComponent<Polyline>()
+        });
+        
     }
 }

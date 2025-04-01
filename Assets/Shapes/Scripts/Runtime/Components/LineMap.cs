@@ -240,12 +240,12 @@ namespace Shapes
 
 		}
 
-		private PolylinePoint MapPointToPolylinePoint(MapPoint mapPoint)
+		private PolylinePoint MapPointToPolylinePoint(MapPoint mapPoint, bool copyColor = false)
 		{
 			return new PolylinePoint
 			{
 				point = mapPoint.point,
-				color = mapPoint.color,
+				color = copyColor ? mapPoint.color : Color.white,
 				thickness = mapPoint.thickness
 			};
 		}
