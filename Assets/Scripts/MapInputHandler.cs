@@ -13,7 +13,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
     private bool pinching;
     private bool firstFrame;
     private bool pointerOver;
-
+    private bool pointerDown;
     private float tapTime = .1f;
     private float lastTapTime;
 
@@ -47,7 +47,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        if (Input.GetMouseButton(0) && Input.touchCount < 2)
+        if (pointerDown && Input.GetMouseButton(0) && Input.touchCount < 2)
         {
             if (!pinching)
             {
@@ -67,6 +67,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
         if (Input.touchCount < 2)
         {
             firstFrame = true;
+            pointerDown = true;
             lastTapTime = Time.time;
         }
         else if (Input.touchCount == 2)
@@ -82,6 +83,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
         {
             pinching = false;
             firstFrame = true;
+            pointerDown = false;
 
             if (Time.time - lastTapTime < tapTime)
             {
@@ -102,6 +104,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
     public void OnPointerExit(PointerEventData eventData)
     {
         pointerOver = false;
+        pointerDown = false;
     }
 
     private Vector2 TransformPointFromScreenToViewport(Vector2 screenPoint)

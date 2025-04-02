@@ -96,21 +96,6 @@ public class RouteUIController : MonoBehaviour
         });
     }
 
-    private void OnRouteSelectionButton(Route route)
-    {
-        switch (currentState)
-        {
-            case State.RouteSelection:
-                selectedRoute = route;
-                currentState = State.EaseSelection;
-                break;
-            case State.EaseSelection:
-                selectedRoute = null;
-                currentState = State.RouteSelection;
-                break;
-        }
-    }
-
     public void OnEaseButton(float easeGuidance)
     {
         RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
