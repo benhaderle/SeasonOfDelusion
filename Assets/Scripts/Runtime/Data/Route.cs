@@ -24,6 +24,9 @@ public class Route
 
     [SerializeField] public RouteLineData lineData;
 
+    [SerializeField] private string description;
+    public string Description => description;
+
     // [SerializeField] private AnimationCurve profile;
     // [SerializeField] private float minElevation;
     // [SerializeField] private float maxElevation;

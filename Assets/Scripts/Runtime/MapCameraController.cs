@@ -41,6 +41,18 @@ public class MapCameraController : MonoBehaviour
         }
     };
     public static TapEvent tapEvent = new();
+    public class RouteLineTappedEvent : UnityEvent<RouteLineTappedEvent.Context>
+    {
+        public class Context
+        {
+            public string routeName;
+        }
+    };
+    public static RouteLineTappedEvent routeLineTappedEvent = new();
+    public class MapUnselectedEvent : UnityEvent
+    {
+    };
+    public static MapUnselectedEvent mapUnselectedEvent = new();
     #endregion
 
     private void Awake()
@@ -91,12 +103,17 @@ public class MapCameraController : MonoBehaviour
     {
         Ray ray = camera.ViewportPointToRay(new Vector3(context.viewportPosition.x, context.viewportPosition.y, 10));
 
-        Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity);
-
-        MapController.routeLineSelectedEvent.Invoke(new MapController.RouteLineSelectedEvent.Context
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
         {
-            polyline = hitInfo.collider?.GetComponent<Polyline>()
-        });
+            routeLineTappedEvent.Invoke(new RouteLineTappedEvent.Context
+            {
+                routeName = hitInfo.collider?.GetComponent<RouteLine>().RouteName
+            });
+        }
+        else
+        {
+            mapUnselectedEvent.Invoke();
+        }
         
     }
 }

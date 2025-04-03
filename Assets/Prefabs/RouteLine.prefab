@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3648790597692461320}
   - component: {fileID: 9050716487047230397}
   - component: {fileID: 5500965235121001434}
+  - component: {fileID: -9056483303093100334}
   m_Layer: 7
   m_Name: RouteLine
   m_TagString: Map
@@ -211,3 +212,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: -1
   m_Mesh: {fileID: 0}
+--- !u!114 &-9056483303093100334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720282929374279883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43cf811b38aa4e0b8280a85b81be57d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  polyline: {fileID: 1842504866527270003}
+  meshCollider: {fileID: 5500965235121001434}
