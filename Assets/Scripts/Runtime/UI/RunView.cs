@@ -73,11 +73,11 @@ public class RunView : MonoBehaviour
         routeText.text = $"{context.route.Name} - {context.route.Length} mi";
 
         easeText.text = "Coach says: ";
-        if(context.runConditions.coachVO2Guidance <= .7f)
+        if(context.route.Difficulty <= .7f)
         {
             easeText.text += "\"Talk to the birds\"";
         }
-        else if(context.runConditions.coachVO2Guidance <= .9f)
+        else if(context.route.Difficulty <= .9f)
         {
             easeText.text += "\"Keep it honest\"";
         }

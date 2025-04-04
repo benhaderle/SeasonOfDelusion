@@ -15,8 +15,4 @@ public class RunConditions
     // public float uvIndex;
     // public float precipitation;
     // public float airQuality;
-    /// <summary>
-    /// A number between 0 and 1 that represents what percentage of VO2Max that coach wants the runners to hit on the run
-    /// </summary>
-    public float coachVO2Guidance;
 }

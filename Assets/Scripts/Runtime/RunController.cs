@@ -107,7 +107,7 @@ public class RunController : MonoBehaviour
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
             RunnerState state = new RunnerState();
-            state.desiredVO2 = runner.currentVO2Max * conditions.coachVO2Guidance + roll;
+            state.desiredVO2 = runner.currentVO2Max * route.Difficulty + roll;
             runnerStates.Add(runner, state);
         }
 
@@ -120,7 +120,7 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, conditions.coachVO2Guidance, maxSoreness);
+                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, route.Difficulty, maxSoreness);
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
             }
 
@@ -133,7 +133,7 @@ public class RunController : MonoBehaviour
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
 
-                    state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, conditions.coachVO2Guidance, route.Length);
+                    state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, route.Difficulty, route.Length);
 
                     // if this is the last iteration, set the current speed
                     if (i == numGravityIterations - 1)

@@ -49,9 +49,13 @@ MonoBehaviour:
   - name: Trail Out and Back
     length: 4
     lineData: {fileID: 11400000, guid: 8588681b294d04ebfb4cca3fbe5b88a8, type: 2}
+    description: 
+    difficulty: 0.7
   - name: Town Loop
     length: 6
     lineData: {fileID: 11400000, guid: b99ae8f9b7db742318bc4ac7fdcc7525, type: 2}
+    description: 
+    difficulty: 0.8
   raceRoutes:
   - id: CrystalSprings
     name: Crystal Springs

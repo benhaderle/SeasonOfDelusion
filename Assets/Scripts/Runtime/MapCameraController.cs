@@ -11,6 +11,7 @@ public class MapCameraController : MonoBehaviour
     [SerializeField] private float zoomMin;
     [SerializeField] private float zoomMax;
     [SerializeField] private float dampingTime = .1f;
+    [SerializeField] private LayerMask tappingLayerMask;
     private Vector3 lastDragViewportPosition;
     private Vector3 targetPosition;
     private Vector3 dampingVelocity = Vector3.zero;
@@ -103,7 +104,7 @@ public class MapCameraController : MonoBehaviour
     {
         Ray ray = camera.ViewportPointToRay(new Vector3(context.viewportPosition.x, context.viewportPosition.y, 10));
 
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, tappingLayerMask))
         {
             routeLineTappedEvent.Invoke(new RouteLineTappedEvent.Context
             {

@@ -10,8 +10,7 @@ using System;
 using Unity.VisualScripting;
 
 /// <summary>
-/// Controls both the Route selection and also the coach guidance selection.
-/// TODO move coach guidance to its own script
+/// Controls Route selection
 /// </summary>
 public class RouteUIController : MonoBehaviour
 {
@@ -51,7 +50,6 @@ public class RouteUIController : MonoBehaviour
     private void Awake()
     {
         routeMapCardPool.Initialize();
-        routeMapCardScrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
         OnToggle(false);
     }
 
@@ -94,6 +92,8 @@ public class RouteUIController : MonoBehaviour
             int horizontalPadding = (int)(routeMapCardScrollRect.GetComponent<RectTransform>().rect.width - cardWidth) / 2;
             routeMapCardLayoutGroup.padding.left = horizontalPadding;
             routeMapCardLayoutGroup.padding.right = horizontalPadding;
+
+            routeMapCardScrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
         }
         else
         {
@@ -103,6 +103,8 @@ public class RouteUIController : MonoBehaviour
 
     private IEnumerator ToggleOffRoutine()
     {
+        routeMapCardScrollRect.onValueChanged.RemoveListener(OnScrollRectValueChanged);
+
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
 
         if (SceneManager.sceneCount > 2f)
@@ -136,7 +138,7 @@ public class RouteUIController : MonoBehaviour
 
     private void OnRouteLineTapped(MapCameraController.RouteLineTappedEvent.Context context)
     {
-        SelectRoute(RouteModel.Instance.Routes.FirstOrDefault(r => r.Name == context.routeName));
+        SelectRoute(RouteModel.Instance.Routes.First(r => r.Name == context.routeName));
     }
 
     private void SelectRoute(Route r)
@@ -148,7 +150,7 @@ public class RouteUIController : MonoBehaviour
             CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.one));
 
             RouteMapCard card = activeRouteMapCards.First(rmc => rmc.RouteName == r.Name);
-            CNExtensions.SafeStartCoroutine(this, ref scrollRoutine, ScrollToCard(card, routeMapCardScrollRect.transform.localScale.y < 1 ? 0 : GameManager.Instance.DefaultUIAnimationTime));
+            CNExtensions.SafeStartCoroutine(this, ref scrollRoutine, ScrollToCard(card, routeMapCardScrollRect.transform.localScale.y < 1 ? 0.01f : GameManager.Instance.DefaultUIAnimationTime));
 
             confirmButton.interactable = true;
         }
@@ -176,25 +178,22 @@ public class RouteUIController : MonoBehaviour
         });
     }
 
-    public void OnEaseButton(float easeGuidance)
+    public void OnConfirmButton()
     {
+        OnToggle(false);
         RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
         {
             runners = TeamModel.Instance.PlayerRunners.ToList(),
             route = selectedRoute,
-            runConditions = new RunConditions
-            {
-                coachVO2Guidance = easeGuidance
-            }
+            runConditions = new RunConditions { }
         });
 
-        OnToggle(false);
         CutsceneUIController.toggleEvent.Invoke(false);
     }
 
     public void OnScrollRectValueChanged(Vector2 value)
     {
-        if (!routeMapCardScrollRect.IsDragging && routeMapCardScrollRect.velocity.sqrMagnitude < scrollRectSnapVelocityThreshold)
+        if (canvas.enabled && selectedRoute != null && !routeMapCardScrollRect.IsDragging && routeMapCardScrollRect.velocity.sqrMagnitude < scrollRectSnapVelocityThreshold)
         {
             routeMapCardScrollRect.StopMovement();
 
