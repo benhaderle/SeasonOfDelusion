@@ -20,7 +20,7 @@ namespace Shapes {
 		SerializedProperty propJoins = null;
 		SerializedProperty propThickness = null;
 		SerializedProperty propThicknessSpace = null;
-		ScenePointEditor scenePointEditor;
+		LineMapScenePointEditor lineMapScenePointEditor;
 		RoutePointEditor routePointEditor;
 		ReorderableList pointStyles;
 		private bool isRouteEditing;
@@ -29,7 +29,7 @@ namespace Shapes {
 		{
 			base.OnEnable();
 
-			scenePointEditor = new ScenePointEditor(this) { hasAddRemoveMode = false, hasAddRemoveGridMode = true, hasConnectGridMode = true, hasMapStyleMode = true };
+			lineMapScenePointEditor = new LineMapScenePointEditor(this);
 			routePointEditor = new RoutePointEditor(this);
 
 			pointStyles = new ReorderableList(serializedObject, propPointStyles, true, true, true, true)
@@ -47,7 +47,7 @@ namespace Shapes {
 			ShapesUI.FloatInSpaceField(propThickness, propThicknessSpace);
 			pointStyles.DoLayoutList();
 
-			scenePointEditor.GUIEditButton("Edit Points in Scene");
+			lineMapScenePointEditor.GUIEditButton("Edit Points in Scene");
 
 			EditorGUILayout.Space(25);
 			GUIStyle headerStyle = new GUIStyle() { fontStyle = FontStyle.Bold };
@@ -65,16 +65,14 @@ namespace Shapes {
 		private void OnSceneGUI()
 		{
 			LineMap p = target as LineMap;
-			scenePointEditor.useFlatThicknessHandles = p.Geometry == PolylineGeometry.Flat2D;
-			scenePointEditor.hasEditThicknessMode = p.ThicknessSpace == ThicknessSpace.Meters;
-			bool changed = scenePointEditor.DoSceneHandles(p, p.points, p.transform, p.Thickness, p.Color, p.pointStyles.Prepend(new MapPointStyle { id = "None" }).ToList());
+			lineMapScenePointEditor.useFlatThicknessHandles = p.Geometry == PolylineGeometry.Flat2D;
+			bool changed = lineMapScenePointEditor.DoSceneHandles(p, p.points, p.transform, p.Thickness, p.Color, p.pointStyles.Prepend(new MapPointStyle { id = "None" }).ToList());
 			if (changed)
 				p.UpdateMesh(force: true);
 
 
 			p.currentRouteLineData = routePointEditor.DoSceneHandles(p, p.currentRouteLineData, p.points, p.routePolyline);
 		}
-
 
 		// Draws the elements on the list
 		void DrawMapPointStyleElement(Rect r, int i, bool isActive, bool isFocused)
