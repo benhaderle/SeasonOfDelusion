@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// The view for the run simulation
@@ -16,10 +18,8 @@ public class RunView : MonoBehaviour
     [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI routeText;
     [SerializeField] private TextMeshProUGUI easeText;
-    [Header("Completion Bar")]
-    [SerializeField] private RectTransform runCompletionBar;
-    [SerializeField] private PoolContext runnerCompletionBubblePool;
-    private Dictionary<Runner, RunnerCompletionBubble> activeRunnerBubbleDictionary = new();
+    [Header("Map View")]
+    [SerializeField] private RawImage mapViewImage;
     [Header("Runner List")]
     [SerializeField] private PoolContext runnerSimulationCardPool;
     [SerializeField] private RectTransform runnerSimulationCardParent;
@@ -44,7 +44,6 @@ public class RunView : MonoBehaviour
 
     private void Awake()
     {
-        runnerCompletionBubblePool.Initialize();
         runnerSimulationCardPool.Initialize();
         Toggle(false);
     }
@@ -65,6 +64,7 @@ public class RunView : MonoBehaviour
 
     public void OnContinueButton()
     {
+        Toggle(false);
         postRunContinueButtonPressedEvent.Invoke(new PostRunContinueButtonPressedEvent.Context { });
     }
 
@@ -89,15 +89,6 @@ public class RunView : MonoBehaviour
         runnerSimulationCardParent.gameObject.SetActive(true);
         for(int i = 0; i < context.runners.Count; i++)
         {   
-            // bubble setup
-            RunnerCompletionBubble bubble = runnerCompletionBubblePool.GetPooledObject<RunnerCompletionBubble>();
-
-            bubble.labelText.text = $"{context.runners[i].FirstName.ToCharArray()[0]}{context.runners[i].LastName.ToCharArray()[0]}";
-
-            SetBubblePositionAlongBar(bubble, 0);
-
-            activeRunnerBubbleDictionary.Add(context.runners[i], bubble);
-
             // runner card setup
             RunnerSimulationCard card = runnerSimulationCardPool.GetPooledObject<RunnerSimulationCard>();
             card.Setup(context.runners[i], i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
@@ -126,10 +117,6 @@ public class RunView : MonoBehaviour
         {
             RunnerState state = context.runnerStateDictionary[orderedRunners[i]];
 
-            RunnerCompletionBubble bubble = activeRunnerBubbleDictionary[orderedRunners[i]];
-            SetBubblePositionAlongBar(bubble, state.percentDone);
-            bubble.transform.SetSiblingIndex(i);
-
             RunnerSimulationCard card = activeRunnerCardDictionary[orderedRunners[i]];
             card.UpdatePace(state);
             card.UpdateListPosition(orderedRunners.Count - 1 - i, i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
@@ -143,15 +130,23 @@ public class RunView : MonoBehaviour
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
         }
 
-
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
 
     private void Toggle(bool active)
     {
-        if(active)
+        if (active)
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
+
+            Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapViewImage.rectTransform, canvas);
+            mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
+            mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
+
+            Rect mapUVRect = new Rect(0, 0, mapPixelRect.width / mapViewImage.texture.width, mapPixelRect.height / mapViewImage.texture.height);
+            mapUVRect.x = (1 - mapUVRect.width) / 2f;
+            mapUVRect.y = (1 - mapUVRect.height) / 2f;
+            mapViewImage.uvRect = mapUVRect;
         }
         else
         {
@@ -163,16 +158,16 @@ public class RunView : MonoBehaviour
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
 
-        runnerCompletionBubblePool.ReturnAllToPool();
         runnerSimulationCardPool.ReturnAllToPool();
-        activeRunnerBubbleDictionary.Clear();
         activeRunnerCardDictionary.Clear();
         runnerSimulationCardParent.gameObject.SetActive(false);
-    }
 
-    private void SetBubblePositionAlongBar(RunnerCompletionBubble bubble, float completion)
-    {
-        float bounds = runCompletionBar.rect.height * .5f;
-        bubble.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Mathf.Lerp(-bounds, bounds, completion));
+        for (int i = 0; i < SceneManager.loadedSceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == (int)Scene.MapScene)
+            {
+                SceneManager.UnloadSceneAsync((int)Scene.MapScene);
+            }
+        }
     }
 }

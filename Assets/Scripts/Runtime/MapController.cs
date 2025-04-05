@@ -8,7 +8,10 @@ using UnityEngine.Events;
 
 public class MapController : MonoBehaviour
 {
+    private static int MAP_LAYER = 7;
+
     [SerializeField] private LineMap lineMap;
+    [Header("Line Variables and References")]
     [SerializeField] private PoolContext polylinePool;
     [SerializeField] private Color selectedLineColor;
     [SerializeField] private Color unselectedLineColor;
@@ -16,6 +19,9 @@ public class MapController : MonoBehaviour
     [SerializeField] private float unselectedLineThickness;
     private RouteLine selectedLine;
     private List<RouteLine> activeRouteLines = new();
+    [Header("Runner Bubble Variables and References")]
+    [SerializeField] private PoolContext runnerBubblePool;
+    [SerializeField] private Dictionary<Runner, MapRunnerBubble> activeRunnerBubbleDictionary = new();
 
     #region Events
     public class ShowRoutesEvent : UnityEvent<ShowRoutesEvent.Context>
@@ -31,27 +37,35 @@ public class MapController : MonoBehaviour
     private void Awake()
     {
         polylinePool.Initialize();
+        runnerBubblePool.Initialize();
     }
 
     private void OnEnable()
     {
         showRoutesEvent.AddListener(OnShowRoutes);
         RouteUIController.routeSelectedEvent.AddListener(OnRouteSelected);
+        RunController.startRunEvent.AddListener(OnStartRun);
+        RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
     }
 
     private void OnDisable()
     {
         showRoutesEvent.RemoveListener(OnShowRoutes);
         RouteUIController.routeSelectedEvent.RemoveListener(OnRouteSelected);
+        RunController.startRunEvent.RemoveListener(OnStartRun);
+        RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
     }
+
+    #region Event Listeners
 
     private void OnShowRoutes(ShowRoutesEvent.Context context)
     {
+        activeRouteLines.Clear();
+        polylinePool.ReturnAllToPool();
+
         for (int i = 0; i < context.routes.Count; i++)
         {
-            RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
-            rl.Setup(context.routes[i].Name, lineMap.GetPolylinePointsFromIndices(context.routes[i].lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
-            activeRouteLines.Add(rl);
+            InstantiateRouteLine(context.routes[i]);
         }
     }
 
@@ -59,6 +73,39 @@ public class MapController : MonoBehaviour
     {
         SelectLine(context.route == null ? null : activeRouteLines.First(rl => rl.RouteName == context.route.Name));
     }
+
+    private void OnStartRun(RunController.StartRunEvent.Context context)
+    {
+        activeRouteLines.Clear();
+        polylinePool.ReturnAllToPool();
+
+        InstantiateRouteLine(context.route);
+
+        for (int i = 0; i < context.runners.Count; i++)
+        {
+            MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
+            bubble.gameObject.layer = MAP_LAYER;
+            bubble.initialsText.text = $"{context.runners[i].FirstName[0]}{context.runners[i].LastName[0]}";
+
+            SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
+
+            activeRunnerBubbleDictionary.Add(context.runners[i], bubble);
+        }
+    }
+
+    private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
+    {
+
+        foreach(KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
+        {
+            MapRunnerBubble bubble = activeRunnerBubbleDictionary[keyValuePair.Key];
+            float positionAlongLine = keyValuePair.Value.percentDone;
+
+            SetBubblePositionAlongLine(activeRouteLines[0], bubble, positionAlongLine);
+        }
+    }
+
+    #endregion
 
     private void SelectLine(RouteLine rl)
     {
@@ -73,5 +120,20 @@ public class MapController : MonoBehaviour
         {
             selectedLine.SetLineStyle(selectedLineColor, selectedLineThickness);
         }
+    }
+
+    private void InstantiateRouteLine(Route route)
+    {
+        RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
+        rl.Setup(route.Name, lineMap.GetPolylinePointsFromIndices(route.lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
+        activeRouteLines.Add(rl);
+    }
+
+    private void SetBubblePositionAlongLine(RouteLine routeLine, MapRunnerBubble bubble, float normalizedPosition)
+    {
+        Vector3 pos = routeLine.GetPositionAlongRoute(normalizedPosition);
+        pos.z -= 1;
+
+        bubble.transform.position = pos;
     }
 }

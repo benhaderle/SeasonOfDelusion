@@ -77,9 +77,13 @@ public class RouteUIController : MonoBehaviour
             SceneManager.sceneLoaded += OnMapSceneLoaded;
 
             Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
-            float scale = Mathf.Min(mapDislayImage.texture.width / mapPixelRect.width, mapDislayImage.texture.height / mapPixelRect.height);
-            float offset = (1 - scale) / 2f;
-            mapDislayImage.uvRect = new Rect(offset, offset, scale, scale);
+            mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
+            mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
+
+            Rect mapUVRect = new Rect(0, 0, mapPixelRect.width / mapDislayImage.texture.width, mapPixelRect.height / mapDislayImage.texture.height);
+            mapUVRect.x = (1 - mapUVRect.width) / 2f;
+            mapUVRect.y = (1 - mapUVRect.height) / 2f;
+            mapDislayImage.uvRect = mapUVRect;
 
             for (int i = 0; i < RouteModel.Instance.Routes.Count; i++)
             {
@@ -106,11 +110,6 @@ public class RouteUIController : MonoBehaviour
         routeMapCardScrollRect.onValueChanged.RemoveListener(OnScrollRectValueChanged);
 
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
-
-        if (SceneManager.sceneCount > 2f)
-        {
-            SceneManager.UnloadSceneAsync((int)mapScene);
-        }
 
         activeRouteMapCards.Clear();
         routeMapCardPool.ReturnAllToPool();
