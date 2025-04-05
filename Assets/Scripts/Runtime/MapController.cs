@@ -56,6 +56,14 @@ public class MapController : MonoBehaviour
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
     }
 
+    private void Start()
+    {
+        MapCameraController.setMaxBoundsEvent.Invoke(new MapCameraController.SetMaxBoundsEvent.Context
+        {
+            maxBounds = lineMap.GetBounds()
+        });
+    }
+
     #region Event Listeners
 
     private void OnShowRoutes(ShowRoutesEvent.Context context)
@@ -81,6 +89,11 @@ public class MapController : MonoBehaviour
 
         InstantiateRouteLine(context.route);
 
+        MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
+        {
+            bounds = activeRouteLines[0].Polyline.GetBounds()
+        });
+
         for (int i = 0; i < context.runners.Count; i++)
         {
             MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
@@ -95,7 +108,6 @@ public class MapController : MonoBehaviour
 
     private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
     {
-
         foreach(KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
         {
             MapRunnerBubble bubble = activeRunnerBubbleDictionary[keyValuePair.Key];
@@ -119,6 +131,10 @@ public class MapController : MonoBehaviour
         if (selectedLine != null)
         {
             selectedLine.SetLineStyle(selectedLineColor, selectedLineThickness);
+            MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
+            {
+                bounds = selectedLine.Polyline.GetBounds()
+            });
         }
     }
 

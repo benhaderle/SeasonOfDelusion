@@ -192,7 +192,7 @@ public class RouteUIController : MonoBehaviour
 
     public void OnScrollRectValueChanged(Vector2 value)
     {
-        if (canvas.enabled && selectedRoute != null && !routeMapCardScrollRect.IsDragging && routeMapCardScrollRect.velocity.sqrMagnitude < scrollRectSnapVelocityThreshold)
+        if (canvas.enabled && selectedRoute != null && !routeMapCardScrollRect.IsDragging && routeMapCardScrollRect.velocity.sqrMagnitude < scrollRectSnapVelocityThreshold && routeMapCardScrollRect.velocity.sqrMagnitude > 10f)
         {
             routeMapCardScrollRect.StopMovement();
 

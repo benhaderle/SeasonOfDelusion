@@ -25,7 +25,7 @@ public class MapInputHandler : MonoBehaviour, IPointerMoveHandler, IPointerDownH
 
     private void Update()
     {
-        if (pointerOver)
+        if (pointerOver && Input.mouseScrollDelta.y != 0)
         {
             MapCameraController.zoomEvent.Invoke(new MapCameraController.ZoomEvent.Context
             {
