@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
@@ -19,7 +18,8 @@ namespace Shapes
 		[SerializeField, SerializeReference] public MapPointDictionary points = new();
 		[SerializeField] public Polyline routePolyline;
 		[SerializeField] public RouteLineData currentRouteLineData;
-
+		private List<List<MapPoint>> meshLines = new();
+		public bool needToBuildLines = false;
 		// also called alignment
 		[SerializeField] PolylineGeometry geometry = PolylineGeometry.Flat2D;
 		/// <summary>Get or set the geometry type to use for this polyline</summary>
@@ -84,6 +84,7 @@ namespace Shapes
 		{
 			points.Add(point, new List<MapPoint>());
 
+			needToBuildLines = true;
 			meshOutOfDate = true;
 		}
 
@@ -96,6 +97,7 @@ namespace Shapes
 			}
 			points.Remove(point);
 
+			needToBuildLines = true;
 			meshOutOfDate = true;
 		}
 
@@ -103,12 +105,14 @@ namespace Shapes
 		{
 			points[p1].Add(p2);
 			points[p2].Add(p1);
+			needToBuildLines = true;
 		}
 
 		public void RemoveConnection(MapPoint p1, MapPoint p2)
 		{
 			points[p1].Remove(p2);
 			points[p2].Remove(p1);
+			needToBuildLines = true;
 		}
 
 		private protected override bool UseCamOnPreCull => true;
@@ -128,8 +132,6 @@ namespace Shapes
 			if (Count < 2)
 				return;
 
-			List<List<MapPoint>> lines = new();
-
 			Dictionary<MapPoint, List<MapPoint>> neighborsDictionary = new();
 			foreach (KeyValuePair<MapPoint, List<MapPoint>> kvp in points.GetDictionary())
 			{
@@ -142,7 +144,14 @@ namespace Shapes
 				}
 			}
 
-			while (neighborsDictionary.Sum(kvp => kvp.Value.Count) > 0)
+
+			if (needToBuildLines || meshLines.Count == 0)
+			{
+				needToBuildLines = true;
+				meshLines.Clear();	
+			}
+			
+			while (needToBuildLines && neighborsDictionary.Sum(kvp => kvp.Value.Count) > 0)
 			{
 				MapPoint currentPoint = neighborsDictionary.Where(kvp => kvp.Value.Count > 0).OrderBy(kvp => kvp.Value.Count).ToList()[0].Key;
 				MapPoint lastPoint = null;
@@ -162,22 +171,27 @@ namespace Shapes
 					else
 					{
 						Vector2 lastSegment = currentPoint.point - lastPoint.point;
-						nextPoint = neighborsDictionary[currentPoint].OrderByDescending(p => Vector2.Dot(lastSegment, p.point - currentPoint.point)).ToList()[0];
+						nextPoint = neighborsDictionary[currentPoint][0];//.OrderByDescending(p => Vector2.Dot(lastSegment, p.point - currentPoint.point)).ToList()[0];
 					}
 
-					neighborsDictionary[nextPoint].Remove(currentPoint);
 					neighborsDictionary[currentPoint].Remove(nextPoint);
+					if (neighborsDictionary.TryGetValue(nextPoint, out List<MapPoint> nextPointNeighbors))
+					{
+						nextPointNeighbors.Remove(currentPoint);
 
-					line.Add(nextPoint);
-					lastPoint = currentPoint;
-					currentPoint = nextPoint;
+						line.Add(nextPoint);
+						lastPoint = currentPoint;
+						currentPoint = nextPoint;
+					}
 				}
 
-				lines.Add(line);
+				meshLines.Add(line);
 			}
 
+			needToBuildLines = false;
+
 			Mesh.Clear();
-			Mesh.CombineMeshes(lines.Select(l => new CombineInstance { mesh = ShapesMeshGen.GenLineMapMesh(new Mesh(), l, joins, flattenZ: geometry == PolylineGeometry.Flat2D, useColors: true) }).ToArray(), true, false, false);
+			Mesh.CombineMeshes(meshLines.Select(l => new CombineInstance { mesh = ShapesMeshGen.GenLineMapMesh(new Mesh(), l, joins, flattenZ: geometry == PolylineGeometry.Flat2D, useColors: true) }).ToArray(), true, false, false);
 		}
 
 		private protected override void SetAllMaterialProperties()
@@ -314,7 +328,7 @@ namespace Shapes
 		[SerializeField, HideInInspector] private int nextID = 1;
 		public MapPointDictionary()
 		{
-			dictionary.Add(new MapPoint(0, Vector2.zero, Color.white, 1f), new List<MapPoint>());
+			dictionary.Add(new MapPoint(0, Vector2.zero, Color.white, 1f, "None"), new List<MapPoint>());
 		}
 
 		public void OnAfterDeserialize()

@@ -66,7 +66,7 @@ namespace Shapes {
 		{
 			LineMap p = target as LineMap;
 			lineMapScenePointEditor.useFlatThicknessHandles = p.Geometry == PolylineGeometry.Flat2D;
-			bool changed = lineMapScenePointEditor.DoSceneHandles(p, p.points, p.transform, p.Thickness, p.Color, p.pointStyles.Prepend(new MapPointStyle { id = "None" }).ToList());
+			bool changed = lineMapScenePointEditor.DoSceneHandles(p, p.points, p.transform, p.pointStyles.Prepend(new MapPointStyle { id = "None" }).ToList());
 			if (changed)
 				p.UpdateMesh(force: true);
 

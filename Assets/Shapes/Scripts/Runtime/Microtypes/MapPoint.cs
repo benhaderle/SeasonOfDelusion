@@ -62,7 +62,7 @@ namespace Shapes {
 		/// <summary>Creates a polyline point</summary>
 		/// <param name="point">The position of this point</param>
 		/// <param name="color">The color of this point</param>
-		public MapPoint(int id,  Vector2 point, Color color ) {
+		public MapPoint(int id, Vector2 point, Color color ) {
 			this.id = id;
 			this.point = point;
 			this.color = color;
@@ -73,8 +73,9 @@ namespace Shapes {
 		/// <param name="point">The position of this point</param>
 		/// <param name="color">The color tint of this point</param>
 		/// <param name="thickness">The thickness multiplier of this point</param>
-		public MapPoint(int id, Vector3 point, Color color, float thickness ) {
+		public MapPoint(int id, Vector3 point, Color color, float thickness, string styleID ) {
 			this.id = id;
+			this.styleID = styleID;
 			this.point = point;
 			this.color = color;
 			this.thickness = thickness;
@@ -84,8 +85,9 @@ namespace Shapes {
 		/// <param name="point">The position of this point</param>
 		/// <param name="color">The color tint of this point</param>
 		/// <param name="thickness">The thickness multiplier of this point</param>
-		public MapPoint(int id,  Vector2 point, Color color, float thickness ) {
+		public MapPoint(int id, Vector2 point, Color color, float thickness, string styleID ) {
 			this.id = id;
+			this.styleID = styleID;
 			this.point = point;
 			this.color = color;
 			this.thickness = thickness;
