@@ -176,6 +176,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &234891378
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Polyline 2D Opaque (JOIN_MITER) (instance)
+  m_Shader: {fileID: 4800000, guid: ce9d543fec555b240b9ded3a084c95e0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - JOIN_MITER
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _StencilComp: 8
+    - _StencilID: 0
+    - _StencilOp: 0
+    - _StencilOpPass: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _ZOffsetFactor: 1000
+    - _ZOffsetUnits: 0
+    - _ZTest: 4
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1 &416081182
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,44 +496,6 @@ Transform:
   - {fileID: 1281143613}
   m_Father: {fileID: 1857367316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1643316692
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Polyline 2D Opaque (JOIN_MITER) (instance)
-  m_Shader: {fileID: 4800000, guid: ce9d543fec555b240b9ded3a084c95e0, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - JOIN_MITER
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _StencilComp: 8
-    - _StencilID: 0
-    - _StencilOp: 0
-    - _StencilOpPass: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _ZOffsetFactor: 1000
-    - _ZOffsetUnits: 0
-    - _ZTest: 4
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1 &1857367312
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1643316692}
+  - {fileID: 234891378}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -623,7 +623,7 @@ MonoBehaviour:
     rid: 3639885476545429508
   routePolyline: {fileID: 1281143610}
   currentRouteLineData: {fileID: 11400000, guid: b99ae8f9b7db742318bc4ac7fdcc7525, type: 2}
-  needToBuildLines: 1
+  needToBuildLines: 0
   geometry: 1
   joins: 1
   closed: 1
@@ -748,7 +748,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 4857528
-        point: {x: 6.725145, y: -4.399861, z: 0}
+        point: {x: 6.700914, y: -4.4543805, z: 0}
         styleID: smallRoad
         color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
         thickness: 0.25
@@ -8052,7 +8052,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 36740333
-        point: {x: 4.9853683, y: 13.695593, z: 0}
+        point: {x: 4.754142, y: 13.660321, z: 0}
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
         thickness: 0.25
@@ -8060,7 +8060,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 36757529
-        point: {x: 5.2820234, y: 14.03901, z: 0}
+        point: {x: 5.309457, y: 14.068403, z: 0}
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
         thickness: 0.25
@@ -8484,7 +8484,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 38490988
-        point: {x: 7.720358, y: -3.9736817, z: 0}
+        point: {x: 7.58992, y: -4.01615, z: 0}
         styleID: smallRoad
         color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
         thickness: 0.25
@@ -8492,7 +8492,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 38521414
-        point: {x: 7.678292, y: -4.4526606, z: 0}
+        point: {x: 7.5357203, y: -4.492095, z: 0}
         styleID: smallRoad
         color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
         thickness: 0.25
@@ -8652,7 +8652,7 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 39047897
-        point: {x: 20.099363, y: -4.4986095, z: 0}
+        point: {x: 19.947584, y: -4.6161165, z: 0}
         styleID: smallRoad
         color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
         thickness: 0.25
@@ -13816,14 +13816,6 @@ MonoBehaviour:
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
         thickness: 0.25
-    - rid: 337692104886059021
-      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
-      data:
-        id: 55960111
-        point: {x: 22.105625, y: -21.66465, z: 0}
-        styleID: walkingPath
-        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
-        thickness: 0.25
     - rid: 337692104886059022
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
@@ -13844,25 +13836,1137 @@ MonoBehaviour:
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
         id: 59487606
-        point: {x: 22.097507, y: -20.617851, z: 0}
+        point: {x: 22.078236, y: -20.993683, z: 0}
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
         thickness: 0.25
-    - rid: 337692104886059032
+    - rid: 337692113766449153
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
-        id: 59612359
-        point: {x: 22.097507, y: -21.056572, z: 0}
+        id: 59583477
+        point: {x: 22.588326, y: -21.562296, z: 0}
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
         thickness: 0.25
-    - rid: 337692104886059033
+    - rid: 337692113766449154
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
-        id: 59510099
-        point: {x: 22.097507, y: -20.617851, z: 0}
+        id: 59933759
+        point: {x: 22.264688, y: -19.80465, z: 0}
         styleID: walkingPath
         color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449155
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59946851
+        point: {x: 22.419104, y: -19.596273, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449156
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59948635
+        point: {x: 22.422869, y: -19.112965, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449157
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59951494
+        point: {x: 21.856705, y: -18.423748, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449158
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59956835
+        point: {x: 22.052547, y: -18.286932, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449159
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59964077
+        point: {x: 23.097021, y: -18.18901, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449160
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59977771
+        point: {x: 23.560265, y: -17.871416, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449161
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59983471
+        point: {x: 23.55273, y: -17.501095, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449162
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 59989354
+        point: {x: 22.873579, y: -17.324083, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449163
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60022970
+        point: {x: 22.62136, y: -17.357595, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449164
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60031006
+        point: {x: 22.14015, y: -17.0169, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449165
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60043038
+        point: {x: 21.770643, y: -17.072752, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449166
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60052866
+        point: {x: 21.540766, y: -16.882854, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449167
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60066106
+        point: {x: 20.942266, y: -16.938707, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449168
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60079392
+        point: {x: 20.785881, y: -17.118317, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449169
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60091267
+        point: {x: 20.759645, y: -16.76258, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449170
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60099069
+        point: {x: 21.002567, y: -16.752087, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449171
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60107395
+        point: {x: 21.191463, y: -16.561636, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449173
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60171648
+        point: {x: 21.396034, y: -16.528088, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449174
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60195552
+        point: {x: 21.679491, y: -16.228466, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449175
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60207410
+        point: {x: 21.878834, y: -16.343454, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449176
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60211898
+        point: {x: 22.137007, y: -16.281948, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449177
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60217306
+        point: {x: 22.380472, y: -16.25387, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449178
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60230488
+        point: {x: 22.579992, y: -15.85891, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449180
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60267758
+        point: {x: 23.039547, y: -15.956041, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449181
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60271284
+        point: {x: 23.045376, y: -15.78594, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449182
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60275935
+        point: {x: 22.87236, y: -15.714063, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449183
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60293364
+        point: {x: 22.839252, y: -15.118755, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449184
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60302031
+        point: {x: 22.477547, y: -14.78583, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449185
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60306159
+        point: {x: 22.196772, y: -14.728809, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449186
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60308575
+        point: {x: 22.044752, y: -14.428993, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449187
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60316900
+        point: {x: 22.101772, y: -14.083839, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449188
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60325914
+        point: {x: 22.415716, y: -14.009917, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449189
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60328664
+        point: {x: 22.645325, y: -13.912143, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449190
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60332133
+        point: {x: 23.095581, y: -14.571057, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449191
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60346720
+        point: {x: 22.79023, y: -13.659592, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449192
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60381199
+        point: {x: 21.94572, y: -13.457878, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449193
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60403609
+        point: {x: 21.411268, y: -13.981895, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449194
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60418649
+        point: {x: 21.257755, y: -14.326814, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449195
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60425997
+        point: {x: 21.2407, y: -14.589291, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449196
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60440111
+        point: {x: 20.995281, y: -14.452834, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449197
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60457791
+        point: {x: 20.604877, y: -13.543128, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449198
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60472236
+        point: {x: 20.630463, y: -13.033325, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449199
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60498699
+        point: {x: 20.342402, y: -13.70992, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449200
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60508057
+        point: {x: 19.853436, y: -14.128753, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449201
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60545819
+        point: {x: 19.698988, y: -13.946811, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449202
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60562844
+        point: {x: 19.818388, y: -12.470444, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449203
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60583423
+        point: {x: 19.70374, y: -12.294188, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449204
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60586396
+        point: {x: 19.95675, y: -12.1255245, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449205
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60590632
+        point: {x: 20.03635, y: -11.726592, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449206
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60596728
+        point: {x: 20.61629, y: -11.503915, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449207
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60605312
+        point: {x: 20.846558, y: -11.267023, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449208
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60619676
+        point: {x: 20.747059, y: -11.09836, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449209
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60623295
+        point: {x: 20.295996, y: -11.115291, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449210
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60628732
+        point: {x: 20.328226, y: -10.511801, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449211
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60641638
+        point: {x: 20.467487, y: -10.471806, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449212
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60648790
+        point: {x: 20.610384, y: -10.72996, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449213
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60660870
+        point: {x: 20.724194, y: -10.660877, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449214
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60670156
+        point: {x: 20.689651, y: -10.205284, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449215
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60737906
+        point: {x: 20.972374, y: -9.978417, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449216
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60747924
+        point: {x: 21.023165, y: -9.705853, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449217
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60756960
+        point: {x: 21.29405, y: -9.5111685, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449218
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60770323
+        point: {x: 20.933449, y: -9.209808, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449219
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60788539
+        point: {x: 20.698132, y: -9.159017, z: 0}
+        styleID: walkingPath
+        color: {r: 0.44618306, g: 0.6509804, b: 0, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449220
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60884257
+        point: {x: 7.2505774, y: -4.708077, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449221
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60912346
+        point: {x: 7.095561, y: -4.599767, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449222
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60931441
+        point: {x: 7.192649, y: -4.75965, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449224
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 60984201
+        point: {x: 7.5493727, y: -5.252949, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449225
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61020230
+        point: {x: 7.8743324, y: -5.39217, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449226
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61035414
+        point: {x: 8.329627, y: -5.2470245, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449227
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61065698
+        point: {x: 9.199622, y: -5.495845, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449228
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61093861
+        point: {x: 9.864598, y: -5.9826574, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449229
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61101981
+        point: {x: 10.730689, y: -7.040376, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449230
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61106305
+        point: {x: 10.983705, y: -7.7153277, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449231
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61110205
+        point: {x: 10.928477, y: -9.027733, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449232
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61114113
+        point: {x: 11.364627, y: -9.481351, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449233
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61116953
+        point: {x: 11.999026, y: -9.794391, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449234
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61121358
+        point: {x: 12.567988, y: -9.790786, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449235
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61131174
+        point: {x: 13.105498, y: -10.004092, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449236
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61133462
+        point: {x: 13.798469, y: -10.615089, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449237
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61137098
+        point: {x: 15.586895, y: -10.430705, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449238
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61144774
+        point: {x: 16.652248, y: -10.7488575, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449239
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61148188
+        point: {x: 16.847479, y: -10.294501, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449240
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61151259
+        point: {x: 16.66066, y: -9.914887, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449241
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61156456
+        point: {x: 16.920965, y: -9.550916, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449242
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61168266
+        point: {x: 17.288553, y: -9.652146, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449243
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61174186
+        point: {x: 17.68145, y: -9.489454, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449244
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61179394
+        point: {x: 18.349113, y: -9.637685, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449245
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61188156
+        point: {x: 18.526266, y: -9.454482, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449246
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61197694
+        point: {x: 19.020391, y: -9.3821745, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449247
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61209718
+        point: {x: 19.340979, y: -9.693096, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449248
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61220198
+        point: {x: 19.585646, y: -9.43279, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449249
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61262270
+        point: {x: 19.982157, y: -9.573789, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449250
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61281168
+        point: {x: 20.390694, y: -9.159202, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449251
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61303000
+        point: {x: 20.654615, y: -9.066382, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449252
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61352606
+        point: {x: 20.907354, y: -9.028296, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449253
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61436574
+        point: {x: 21.391495, y: -9.008486, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449254
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61460422
+        point: {x: 21.71715, y: -9.008486, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449255
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61468082
+        point: {x: 22.016392, y: -8.867611, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449256
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61474662
+        point: {x: 22.504934, y: -8.861007, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449257
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61488565
+        point: {x: 22.982588, y: -9.444199, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449258
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61493685
+        point: {x: 22.958374, y: -9.783061, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449259
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61504127
+        point: {x: 21.893126, y: -9.701617, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449260
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61517205
+        point: {x: 21.987776, y: -9.912811, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449261
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61529642
+        point: {x: 22.44504, y: -10.0171385, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449262
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61632009
+        point: {x: 23.247648, y: -10.387578, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449263
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61648578
+        point: {x: 23.769438, y: -10.213297, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449264
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61658554
+        point: {x: 24.584751, y: -10.433441, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449265
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61678000
+        point: {x: 24.970003, y: -10.118037, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449266
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61699648
+        point: {x: 25.180975, y: -9.697147, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449267
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61726420
+        point: {x: 26.488081, y: -8.9552145, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449268
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61734500
+        point: {x: 27.478731, y: -8.571015, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449269
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61755370
+        point: {x: 27.756561, y: -8.730154, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449270
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61759699
+        point: {x: 27.156696, y: -8.307993, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449271
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61771751
+        point: {x: 26.788244, y: -8.338936, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449272
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61778511
+        point: {x: 26.47063, y: -8.37209, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449273
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61797060
+        point: {x: 26.757965, y: -7.873233, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449274
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61823644
+        point: {x: 26.79117, y: -7.449132, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449275
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61843307
+        point: {x: 26.490068, y: -6.8371162, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449276
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61851903
+        point: {x: 25.430065, y: -6.3866725, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449277
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61865795
+        point: {x: 23.988163, y: -5.240979, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449278
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61873263
+        point: {x: 23.427565, y: -4.927627, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449279
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61876675
+        point: {x: 22.680914, y: -4.9031463, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449280
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61881585
+        point: {x: 22.132547, y: -5.311963, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449281
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61886987
+        point: {x: 21.199844, y: -4.94965, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449282
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61916507
+        point: {x: 20.486387, y: -4.859951, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449283
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61940838
+        point: {x: 4.897273, y: -10.70732, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449284
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61961452
+        point: {x: 5.3610334, y: -10.507545, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449285
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 61979332
+        point: {x: 5.731228, y: -10.775599, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449286
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62034434
+        point: {x: 6.1166267, y: -10.652599, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449287
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62039760
+        point: {x: 6.2056947, y: -10.390199, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449288
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62047280
+        point: {x: 7.058203, y: -10.03873, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449289
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62057048
+        point: {x: 8.678392, y: -9.865397, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449290
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62078708
+        point: {x: 9.259455, y: -8.898936, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449291
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62138308
+        point: {x: 9.264412, y: -8.081522, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449292
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62146430
+        point: {x: 10.982931, y: -8.114691, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449293
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62162008
+        point: {x: 9.274327, y: -7.749949, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449294
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62175791
+        point: {x: 8.17433, y: -7.0707617, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449295
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62233615
+        point: {x: 7.794056, y: -6.1244516, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
+        thickness: 0.25
+    - rid: 337692113766449296
+      type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
+      data:
+        id: 62264884
+        point: {x: 7.931875, y: -5.6640587, z: 0}
+        styleID: smallRoad
+        color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
         thickness: 0.25
     - rid: 3639885476545429508
       type: {class: MapPointDictionary, ns: Shapes, asm: ShapesRuntime}
@@ -14237,6 +15341,7 @@ MonoBehaviour:
             rid: 337692024575885327
           neighbors:
           - rid: 337692080575873190
+          - rid: 337692113766449221
         - mapPoint:
             rid: 337692024575885328
           neighbors:
@@ -15604,6 +16709,7 @@ MonoBehaviour:
           neighbors:
           - rid: 337692080575873128
           - rid: 337692080575873133
+          - rid: 337692113766449283
         - mapPoint:
             rid: 337692080575873133
           neighbors:
@@ -16979,7 +18085,6 @@ MonoBehaviour:
           - rid: 337692087548641297
           - rid: 337692087548641299
           - rid: 337692087548641682
-          - rid: 337692087548641683
         - mapPoint:
             rid: 337692087548641299
           neighbors:
@@ -19006,7 +20111,6 @@ MonoBehaviour:
             rid: 337692087548641683
           neighbors:
           - rid: 337692087548641682
-          - rid: 337692087548641298
           - rid: 337692087548641684
         - mapPoint:
             rid: 337692087548641684
@@ -19287,6 +20391,7 @@ MonoBehaviour:
             rid: 337692087548641738
           neighbors:
           - rid: 337692087548641737
+          - rid: 337692113766449220
         - mapPoint:
             rid: 337692087548641739
           neighbors:
@@ -19394,6 +20499,7 @@ MonoBehaviour:
             rid: 337692087548641759
           neighbors:
           - rid: 337692087548641758
+          - rid: 337692113766449282
         - mapPoint:
             rid: 337692087548641760
           neighbors:
@@ -20065,6 +21171,7 @@ MonoBehaviour:
           neighbors:
           - rid: 337692087548641885
           - rid: 337692087548641887
+          - rid: 337692087548641935
         - mapPoint:
             rid: 337692087548641887
           neighbors:
@@ -20089,6 +21196,7 @@ MonoBehaviour:
           - rid: 337692087548641889
           - rid: 337692087548641891
           - rid: 337692087548641849
+          - rid: 337692087548641938
         - mapPoint:
             rid: 337692087548641891
           neighbors:
@@ -20105,11 +21213,13 @@ MonoBehaviour:
           neighbors:
           - rid: 337692087548641892
           - rid: 337692087548641894
+          - rid: 337692087548641965
         - mapPoint:
             rid: 337692087548641894
           neighbors:
           - rid: 337692087548641893
           - rid: 337692087548641895
+          - rid: 337692087548641977
         - mapPoint:
             rid: 337692087548641895
           neighbors:
@@ -20351,6 +21461,7 @@ MonoBehaviour:
             rid: 337692087548641935
           neighbors:
           - rid: 337692087548641934
+          - rid: 337692087548641886
         - mapPoint:
             rid: 337692087548641936
           neighbors:
@@ -20365,6 +21476,7 @@ MonoBehaviour:
             rid: 337692087548641938
           neighbors:
           - rid: 337692087548641937
+          - rid: 337692087548641890
         - mapPoint:
             rid: 337692087548641939
           neighbors:
@@ -20514,6 +21626,7 @@ MonoBehaviour:
             rid: 337692087548641965
           neighbors:
           - rid: 337692087548641964
+          - rid: 337692087548641893
         - mapPoint:
             rid: 337692087548641966
           neighbors:
@@ -20583,6 +21696,7 @@ MonoBehaviour:
             rid: 337692087548641977
           neighbors:
           - rid: 337692087548641976
+          - rid: 337692087548641894
         - mapPoint:
             rid: 337692087548641978
           neighbors:
@@ -22741,12 +23855,12 @@ MonoBehaviour:
             rid: 337692104886059020
           neighbors:
           - rid: 337692104886059019
-          - rid: 337692104886059021
-        - mapPoint:
-            rid: 337692104886059021
-          neighbors:
-          - rid: 337692104886059020
           - rid: 337692104886059027
+        - mapPoint:
+            rid: 337692113766449155
+          neighbors:
+          - rid: 337692113766449154
+          - rid: 337692113766449156
         - mapPoint:
             rid: 337692104886059022
           neighbors:
@@ -22754,16 +23868,719 @@ MonoBehaviour:
         - mapPoint:
             rid: 337692104886059027
           neighbors:
-          - rid: 337692104886059021
+          - rid: 337692113766449153
+          - rid: 337692104886059020
         - mapPoint:
             rid: 337692104886059031
           neighbors:
-          - rid: 337692104886059032
+          - rid: 337692113766449153
+          - rid: 337692113766449154
         - mapPoint:
-            rid: 337692104886059033
+            rid: 337692113766449154
           neighbors:
-          - rid: 337692104886059032
-        nextID: 59532288
+          - rid: 337692104886059031
+          - rid: 337692113766449155
+        - mapPoint:
+            rid: 337692113766449153
+          neighbors:
+          - rid: 337692104886059027
+          - rid: 337692104886059031
+        - mapPoint:
+            rid: 337692113766449156
+          neighbors:
+          - rid: 337692113766449155
+          - rid: 337692113766449157
+        - mapPoint:
+            rid: 337692113766449157
+          neighbors:
+          - rid: 337692113766449156
+          - rid: 337692113766449158
+        - mapPoint:
+            rid: 337692113766449158
+          neighbors:
+          - rid: 337692113766449157
+          - rid: 337692113766449159
+        - mapPoint:
+            rid: 337692113766449159
+          neighbors:
+          - rid: 337692113766449158
+          - rid: 337692113766449160
+        - mapPoint:
+            rid: 337692113766449160
+          neighbors:
+          - rid: 337692113766449159
+          - rid: 337692113766449161
+        - mapPoint:
+            rid: 337692113766449161
+          neighbors:
+          - rid: 337692113766449160
+          - rid: 337692113766449162
+        - mapPoint:
+            rid: 337692113766449162
+          neighbors:
+          - rid: 337692113766449161
+          - rid: 337692113766449163
+        - mapPoint:
+            rid: 337692113766449163
+          neighbors:
+          - rid: 337692113766449162
+          - rid: 337692113766449164
+        - mapPoint:
+            rid: 337692113766449164
+          neighbors:
+          - rid: 337692113766449163
+          - rid: 337692113766449165
+        - mapPoint:
+            rid: 337692113766449165
+          neighbors:
+          - rid: 337692113766449164
+          - rid: 337692113766449166
+        - mapPoint:
+            rid: 337692113766449166
+          neighbors:
+          - rid: 337692113766449165
+          - rid: 337692113766449167
+        - mapPoint:
+            rid: 337692113766449167
+          neighbors:
+          - rid: 337692113766449166
+          - rid: 337692113766449168
+        - mapPoint:
+            rid: 337692113766449168
+          neighbors:
+          - rid: 337692113766449167
+          - rid: 337692113766449169
+        - mapPoint:
+            rid: 337692113766449169
+          neighbors:
+          - rid: 337692113766449168
+          - rid: 337692113766449170
+        - mapPoint:
+            rid: 337692113766449170
+          neighbors:
+          - rid: 337692113766449169
+          - rid: 337692113766449171
+        - mapPoint:
+            rid: 337692113766449171
+          neighbors:
+          - rid: 337692113766449170
+          - rid: 337692113766449173
+        - mapPoint:
+            rid: 337692113766449173
+          neighbors:
+          - rid: 337692113766449171
+          - rid: 337692113766449174
+        - mapPoint:
+            rid: 337692113766449174
+          neighbors:
+          - rid: 337692113766449173
+          - rid: 337692113766449175
+        - mapPoint:
+            rid: 337692113766449175
+          neighbors:
+          - rid: 337692113766449174
+          - rid: 337692113766449176
+        - mapPoint:
+            rid: 337692113766449176
+          neighbors:
+          - rid: 337692113766449175
+          - rid: 337692113766449177
+        - mapPoint:
+            rid: 337692113766449177
+          neighbors:
+          - rid: 337692113766449176
+          - rid: 337692113766449178
+        - mapPoint:
+            rid: 337692113766449178
+          neighbors:
+          - rid: 337692113766449177
+          - rid: 337692113766449180
+        - mapPoint:
+            rid: 337692113766449180
+          neighbors:
+          - rid: 337692113766449178
+          - rid: 337692113766449181
+        - mapPoint:
+            rid: 337692113766449181
+          neighbors:
+          - rid: 337692113766449180
+          - rid: 337692113766449182
+        - mapPoint:
+            rid: 337692113766449182
+          neighbors:
+          - rid: 337692113766449181
+          - rid: 337692113766449183
+        - mapPoint:
+            rid: 337692113766449183
+          neighbors:
+          - rid: 337692113766449182
+          - rid: 337692113766449184
+        - mapPoint:
+            rid: 337692113766449184
+          neighbors:
+          - rid: 337692113766449183
+          - rid: 337692113766449185
+        - mapPoint:
+            rid: 337692113766449185
+          neighbors:
+          - rid: 337692113766449184
+          - rid: 337692113766449186
+        - mapPoint:
+            rid: 337692113766449186
+          neighbors:
+          - rid: 337692113766449185
+          - rid: 337692113766449187
+        - mapPoint:
+            rid: 337692113766449187
+          neighbors:
+          - rid: 337692113766449186
+          - rid: 337692113766449188
+        - mapPoint:
+            rid: 337692113766449188
+          neighbors:
+          - rid: 337692113766449187
+          - rid: 337692113766449189
+        - mapPoint:
+            rid: 337692113766449189
+          neighbors:
+          - rid: 337692113766449188
+          - rid: 337692113766449190
+        - mapPoint:
+            rid: 337692113766449190
+          neighbors:
+          - rid: 337692113766449189
+          - rid: 337692113766449191
+        - mapPoint:
+            rid: 337692113766449191
+          neighbors:
+          - rid: 337692113766449190
+          - rid: 337692113766449192
+        - mapPoint:
+            rid: 337692113766449192
+          neighbors:
+          - rid: 337692113766449191
+          - rid: 337692113766449193
+        - mapPoint:
+            rid: 337692113766449193
+          neighbors:
+          - rid: 337692113766449192
+          - rid: 337692113766449194
+        - mapPoint:
+            rid: 337692113766449194
+          neighbors:
+          - rid: 337692113766449193
+          - rid: 337692113766449195
+        - mapPoint:
+            rid: 337692113766449195
+          neighbors:
+          - rid: 337692113766449194
+          - rid: 337692113766449196
+        - mapPoint:
+            rid: 337692113766449196
+          neighbors:
+          - rid: 337692113766449195
+          - rid: 337692113766449197
+        - mapPoint:
+            rid: 337692113766449197
+          neighbors:
+          - rid: 337692113766449196
+          - rid: 337692113766449198
+        - mapPoint:
+            rid: 337692113766449198
+          neighbors:
+          - rid: 337692113766449197
+          - rid: 337692113766449199
+        - mapPoint:
+            rid: 337692113766449199
+          neighbors:
+          - rid: 337692113766449198
+          - rid: 337692113766449200
+        - mapPoint:
+            rid: 337692113766449200
+          neighbors:
+          - rid: 337692113766449199
+          - rid: 337692113766449201
+        - mapPoint:
+            rid: 337692113766449201
+          neighbors:
+          - rid: 337692113766449200
+          - rid: 337692113766449202
+        - mapPoint:
+            rid: 337692113766449202
+          neighbors:
+          - rid: 337692113766449201
+          - rid: 337692113766449203
+        - mapPoint:
+            rid: 337692113766449203
+          neighbors:
+          - rid: 337692113766449202
+          - rid: 337692113766449204
+        - mapPoint:
+            rid: 337692113766449204
+          neighbors:
+          - rid: 337692113766449203
+          - rid: 337692113766449205
+        - mapPoint:
+            rid: 337692113766449205
+          neighbors:
+          - rid: 337692113766449204
+          - rid: 337692113766449206
+        - mapPoint:
+            rid: 337692113766449206
+          neighbors:
+          - rid: 337692113766449205
+          - rid: 337692113766449207
+        - mapPoint:
+            rid: 337692113766449207
+          neighbors:
+          - rid: 337692113766449206
+          - rid: 337692113766449208
+        - mapPoint:
+            rid: 337692113766449208
+          neighbors:
+          - rid: 337692113766449207
+          - rid: 337692113766449209
+        - mapPoint:
+            rid: 337692113766449209
+          neighbors:
+          - rid: 337692113766449208
+          - rid: 337692113766449210
+        - mapPoint:
+            rid: 337692113766449210
+          neighbors:
+          - rid: 337692113766449209
+          - rid: 337692113766449211
+        - mapPoint:
+            rid: 337692113766449211
+          neighbors:
+          - rid: 337692113766449210
+          - rid: 337692113766449212
+        - mapPoint:
+            rid: 337692113766449212
+          neighbors:
+          - rid: 337692113766449211
+          - rid: 337692113766449213
+        - mapPoint:
+            rid: 337692113766449213
+          neighbors:
+          - rid: 337692113766449212
+          - rid: 337692113766449214
+        - mapPoint:
+            rid: 337692113766449214
+          neighbors:
+          - rid: 337692113766449213
+          - rid: 337692113766449215
+        - mapPoint:
+            rid: 337692113766449215
+          neighbors:
+          - rid: 337692113766449214
+          - rid: 337692113766449216
+        - mapPoint:
+            rid: 337692113766449216
+          neighbors:
+          - rid: 337692113766449215
+          - rid: 337692113766449217
+        - mapPoint:
+            rid: 337692113766449217
+          neighbors:
+          - rid: 337692113766449216
+          - rid: 337692113766449218
+        - mapPoint:
+            rid: 337692113766449218
+          neighbors:
+          - rid: 337692113766449217
+          - rid: 337692113766449219
+        - mapPoint:
+            rid: 337692113766449219
+          neighbors:
+          - rid: 337692113766449218
+          - rid: 337692113766449251
+        - mapPoint:
+            rid: 337692113766449220
+          neighbors:
+          - rid: 337692087548641738
+          - rid: 337692113766449222
+        - mapPoint:
+            rid: 337692113766449221
+          neighbors:
+          - rid: 337692024575885327
+          - rid: 337692113766449222
+        - mapPoint:
+            rid: 337692113766449222
+          neighbors:
+          - rid: 337692113766449221
+          - rid: 337692113766449220
+          - rid: 337692113766449224
+        - mapPoint:
+            rid: 337692113766449224
+          neighbors:
+          - rid: 337692113766449222
+          - rid: 337692113766449225
+        - mapPoint:
+            rid: 337692113766449225
+          neighbors:
+          - rid: 337692113766449224
+          - rid: 337692113766449226
+          - rid: 337692113766449296
+        - mapPoint:
+            rid: 337692113766449226
+          neighbors:
+          - rid: 337692113766449225
+          - rid: 337692113766449227
+        - mapPoint:
+            rid: 337692113766449227
+          neighbors:
+          - rid: 337692113766449226
+          - rid: 337692113766449228
+        - mapPoint:
+            rid: 337692113766449228
+          neighbors:
+          - rid: 337692113766449227
+          - rid: 337692113766449229
+        - mapPoint:
+            rid: 337692113766449229
+          neighbors:
+          - rid: 337692113766449228
+          - rid: 337692113766449230
+        - mapPoint:
+            rid: 337692113766449230
+          neighbors:
+          - rid: 337692113766449229
+          - rid: 337692113766449292
+        - mapPoint:
+            rid: 337692113766449231
+          neighbors:
+          - rid: 337692113766449232
+          - rid: 337692113766449292
+        - mapPoint:
+            rid: 337692113766449232
+          neighbors:
+          - rid: 337692113766449231
+          - rid: 337692113766449233
+        - mapPoint:
+            rid: 337692113766449233
+          neighbors:
+          - rid: 337692113766449232
+          - rid: 337692113766449234
+        - mapPoint:
+            rid: 337692113766449234
+          neighbors:
+          - rid: 337692113766449233
+          - rid: 337692113766449235
+        - mapPoint:
+            rid: 337692113766449235
+          neighbors:
+          - rid: 337692113766449234
+          - rid: 337692113766449236
+        - mapPoint:
+            rid: 337692113766449236
+          neighbors:
+          - rid: 337692113766449235
+          - rid: 337692113766449237
+        - mapPoint:
+            rid: 337692113766449237
+          neighbors:
+          - rid: 337692113766449236
+          - rid: 337692113766449238
+        - mapPoint:
+            rid: 337692113766449238
+          neighbors:
+          - rid: 337692113766449237
+          - rid: 337692113766449239
+        - mapPoint:
+            rid: 337692113766449239
+          neighbors:
+          - rid: 337692113766449238
+          - rid: 337692113766449240
+        - mapPoint:
+            rid: 337692113766449240
+          neighbors:
+          - rid: 337692113766449239
+          - rid: 337692113766449241
+        - mapPoint:
+            rid: 337692113766449241
+          neighbors:
+          - rid: 337692113766449240
+          - rid: 337692113766449242
+        - mapPoint:
+            rid: 337692113766449242
+          neighbors:
+          - rid: 337692113766449241
+          - rid: 337692113766449243
+        - mapPoint:
+            rid: 337692113766449243
+          neighbors:
+          - rid: 337692113766449242
+          - rid: 337692113766449244
+        - mapPoint:
+            rid: 337692113766449244
+          neighbors:
+          - rid: 337692113766449243
+          - rid: 337692113766449245
+        - mapPoint:
+            rid: 337692113766449245
+          neighbors:
+          - rid: 337692113766449244
+          - rid: 337692113766449246
+        - mapPoint:
+            rid: 337692113766449246
+          neighbors:
+          - rid: 337692113766449245
+          - rid: 337692113766449247
+        - mapPoint:
+            rid: 337692113766449247
+          neighbors:
+          - rid: 337692113766449246
+          - rid: 337692113766449248
+        - mapPoint:
+            rid: 337692113766449248
+          neighbors:
+          - rid: 337692113766449247
+          - rid: 337692113766449249
+        - mapPoint:
+            rid: 337692113766449249
+          neighbors:
+          - rid: 337692113766449248
+          - rid: 337692113766449250
+        - mapPoint:
+            rid: 337692113766449250
+          neighbors:
+          - rid: 337692113766449249
+          - rid: 337692113766449251
+        - mapPoint:
+            rid: 337692113766449251
+          neighbors:
+          - rid: 337692113766449250
+          - rid: 337692113766449252
+          - rid: 337692113766449219
+        - mapPoint:
+            rid: 337692113766449252
+          neighbors:
+          - rid: 337692113766449251
+          - rid: 337692113766449253
+        - mapPoint:
+            rid: 337692113766449253
+          neighbors:
+          - rid: 337692113766449252
+          - rid: 337692113766449254
+        - mapPoint:
+            rid: 337692113766449254
+          neighbors:
+          - rid: 337692113766449253
+          - rid: 337692113766449255
+        - mapPoint:
+            rid: 337692113766449255
+          neighbors:
+          - rid: 337692113766449254
+          - rid: 337692113766449256
+        - mapPoint:
+            rid: 337692113766449256
+          neighbors:
+          - rid: 337692113766449255
+          - rid: 337692113766449257
+        - mapPoint:
+            rid: 337692113766449257
+          neighbors:
+          - rid: 337692113766449256
+          - rid: 337692113766449258
+        - mapPoint:
+            rid: 337692113766449258
+          neighbors:
+          - rid: 337692113766449257
+          - rid: 337692113766449259
+        - mapPoint:
+            rid: 337692113766449259
+          neighbors:
+          - rid: 337692113766449258
+          - rid: 337692113766449260
+        - mapPoint:
+            rid: 337692113766449260
+          neighbors:
+          - rid: 337692113766449259
+          - rid: 337692113766449261
+        - mapPoint:
+            rid: 337692113766449261
+          neighbors:
+          - rid: 337692113766449260
+          - rid: 337692113766449262
+        - mapPoint:
+            rid: 337692113766449262
+          neighbors:
+          - rid: 337692113766449261
+          - rid: 337692113766449263
+        - mapPoint:
+            rid: 337692113766449263
+          neighbors:
+          - rid: 337692113766449262
+          - rid: 337692113766449264
+        - mapPoint:
+            rid: 337692113766449264
+          neighbors:
+          - rid: 337692113766449263
+          - rid: 337692113766449265
+        - mapPoint:
+            rid: 337692113766449265
+          neighbors:
+          - rid: 337692113766449264
+          - rid: 337692113766449266
+        - mapPoint:
+            rid: 337692113766449266
+          neighbors:
+          - rid: 337692113766449265
+          - rid: 337692113766449267
+        - mapPoint:
+            rid: 337692113766449267
+          neighbors:
+          - rid: 337692113766449266
+          - rid: 337692113766449268
+        - mapPoint:
+            rid: 337692113766449268
+          neighbors:
+          - rid: 337692113766449267
+          - rid: 337692113766449269
+          - rid: 337692113766449270
+        - mapPoint:
+            rid: 337692113766449269
+          neighbors:
+          - rid: 337692113766449268
+        - mapPoint:
+            rid: 337692113766449270
+          neighbors:
+          - rid: 337692113766449268
+          - rid: 337692113766449271
+        - mapPoint:
+            rid: 337692113766449271
+          neighbors:
+          - rid: 337692113766449270
+          - rid: 337692113766449272
+        - mapPoint:
+            rid: 337692113766449272
+          neighbors:
+          - rid: 337692113766449271
+          - rid: 337692113766449273
+        - mapPoint:
+            rid: 337692113766449273
+          neighbors:
+          - rid: 337692113766449272
+          - rid: 337692113766449274
+        - mapPoint:
+            rid: 337692113766449274
+          neighbors:
+          - rid: 337692113766449273
+          - rid: 337692113766449275
+        - mapPoint:
+            rid: 337692113766449275
+          neighbors:
+          - rid: 337692113766449274
+          - rid: 337692113766449276
+        - mapPoint:
+            rid: 337692113766449276
+          neighbors:
+          - rid: 337692113766449275
+          - rid: 337692113766449277
+        - mapPoint:
+            rid: 337692113766449277
+          neighbors:
+          - rid: 337692113766449276
+          - rid: 337692113766449278
+        - mapPoint:
+            rid: 337692113766449278
+          neighbors:
+          - rid: 337692113766449277
+          - rid: 337692113766449279
+        - mapPoint:
+            rid: 337692113766449279
+          neighbors:
+          - rid: 337692113766449278
+          - rid: 337692113766449280
+        - mapPoint:
+            rid: 337692113766449280
+          neighbors:
+          - rid: 337692113766449279
+          - rid: 337692113766449281
+        - mapPoint:
+            rid: 337692113766449281
+          neighbors:
+          - rid: 337692113766449280
+          - rid: 337692113766449282
+        - mapPoint:
+            rid: 337692113766449282
+          neighbors:
+          - rid: 337692113766449281
+          - rid: 337692087548641759
+        - mapPoint:
+            rid: 337692113766449283
+          neighbors:
+          - rid: 337692080575873132
+          - rid: 337692113766449284
+        - mapPoint:
+            rid: 337692113766449284
+          neighbors:
+          - rid: 337692113766449283
+          - rid: 337692113766449285
+        - mapPoint:
+            rid: 337692113766449285
+          neighbors:
+          - rid: 337692113766449284
+          - rid: 337692113766449286
+        - mapPoint:
+            rid: 337692113766449286
+          neighbors:
+          - rid: 337692113766449285
+          - rid: 337692113766449287
+        - mapPoint:
+            rid: 337692113766449287
+          neighbors:
+          - rid: 337692113766449286
+          - rid: 337692113766449288
+        - mapPoint:
+            rid: 337692113766449288
+          neighbors:
+          - rid: 337692113766449287
+          - rid: 337692113766449289
+        - mapPoint:
+            rid: 337692113766449289
+          neighbors:
+          - rid: 337692113766449288
+          - rid: 337692113766449290
+        - mapPoint:
+            rid: 337692113766449290
+          neighbors:
+          - rid: 337692113766449289
+          - rid: 337692113766449291
+        - mapPoint:
+            rid: 337692113766449291
+          neighbors:
+          - rid: 337692113766449290
+          - rid: 337692113766449292
+          - rid: 337692113766449293
+        - mapPoint:
+            rid: 337692113766449292
+          neighbors:
+          - rid: 337692113766449291
+          - rid: 337692113766449230
+          - rid: 337692113766449231
+        - mapPoint:
+            rid: 337692113766449293
+          neighbors:
+          - rid: 337692113766449291
+          - rid: 337692113766449294
+        - mapPoint:
+            rid: 337692113766449294
+          neighbors:
+          - rid: 337692113766449293
+          - rid: 337692113766449295
+        - mapPoint:
+            rid: 337692113766449295
+          neighbors:
+          - rid: 337692113766449294
+          - rid: 337692113766449296
+        - mapPoint:
+            rid: 337692113766449296
+          neighbors:
+          - rid: 337692113766449295
+          - rid: 337692113766449225
+        nextID: 62507872
     - rid: 3639885476700618752
       type: {class: MapPoint, ns: Shapes, asm: ShapesRuntime}
       data:
@@ -23235,37 +25052,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1857367316}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2015659670
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2015659671}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2015659671
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015659670}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2, y: 17.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2576727744039347110
 PrefabInstance:
@@ -24324,4 +26110,3 @@ SceneRoots:
   - {fileID: 147190534}
   - {fileID: 1142870272}
   - {fileID: 1857367316}
-  - {fileID: 2015659671}

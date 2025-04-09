@@ -70,6 +70,7 @@ namespace Shapes
 			return pressed;
 		}
 
+		
 
 		bool movingPoint = false;
 		public bool DoSceneHandles(LineMap lineMap, MapPointDictionary points, Transform tf, List<MapPointStyle> styles = null)
@@ -78,6 +79,11 @@ namespace Shapes
 			MapPoint MakeGridPoint(MapPoint mapPoint, Vector3 offset)
 			{
 				return new MapPoint(points.GetNextID(), mapPoint.point + offset, mapPoint.color, mapPoint.thickness, mapPoint.styleID);
+			}
+			void OnUndoRedo(in UndoRedoInfo info)
+			{
+				tree = new RTree();
+				lineMap.points.GetDictionary().ForEach(kvp => tree.Insert(kvp.Key));
 			}
 
 			CheckForCancelEditAction();
@@ -90,6 +96,11 @@ namespace Shapes
 
 			if (!isEditing)
 			{
+				if (tree != null)
+				{
+					Undo.undoRedoEvent -= OnUndoRedo;
+				}
+
 				tree = null;
 			}
 			else
@@ -152,8 +163,6 @@ namespace Shapes
 
 				Quaternion handleRotation = Tools.pivotRotation == PivotRotation.Global ? Quaternion.identity : tf.rotation;
 
-
-
 				if (currentEditMode == EditMode.AddMovePoints)
 				{
 					void ExtrapolatedAddPoints(MapPoint point, Vector2 offset, ref List<Vector2> usedPoints)
@@ -180,6 +189,8 @@ namespace Shapes
 					{
 						tree = new RTree();
 						lineMap.points.GetDictionary().ForEach(kvp => tree.Insert(kvp.Key));
+
+						Undo.undoRedoEvent += OnUndoRedo;
 					}
 
 					List<Vector2> usedPoints = new();
@@ -284,7 +295,7 @@ namespace Shapes
 							{
 								// delete point
 								changed = true;
-								Undo.RecordObject(lineMap, "delete point");
+								Undo.RecordObject(lineMap, "change point connection");
 								if (points[selectedMapPoint].Contains(mp))
 								{
 									lineMap.RemoveConnection(selectedMapPoint, mp);
