@@ -180,7 +180,7 @@ namespace Shapes
 				}
 				else if (routeChanged)
 				{
-					routePolyline.SetPoints(lineMap.GetPolylinePointsFromIndices(routeLineData.pointIDs));
+					routePolyline.SetPoints(lineMap.GetMapPointsFromIDs(routeLineData.pointIDs).Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray());
 					routeLineData.SetLength(routePolyline.points);
 				}
 			}

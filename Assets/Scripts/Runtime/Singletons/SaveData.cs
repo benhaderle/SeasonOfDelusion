@@ -11,6 +11,7 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     private string userID;
     [SerializeField] private SimulationSaveDataSO simulationSaveData;
     [SerializeField] private RunnerSaveDataSO[] playerRunnerSaveDatas;
+    [SerializeField] private MapSaveDataSO mapSaveData;
     private void Start()
     {
         LoadGame();
@@ -48,6 +49,7 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             playerRunnerSaveDatas[i].data = new();
         }
+        mapSaveData.data = new();
     }
 
     /// <summary>
@@ -69,6 +71,7 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             SafeLoadDatum(ref playerRunnerSaveDatas[i].data, serializedSaveData.playerRunnerSaveDatas.ToList().Find(d => d.firstName == playerRunnerSaveDatas[i].data.firstName));
         }
+        SafeLoadDatum(ref mapSaveData.data, serializedSaveData.mapSaveData);
     }
 
     protected override SerializedSaveData Serialize()
@@ -78,7 +81,8 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
             userID = userID,
             timestamp = DateTime.UtcNow.ToString(),
             simulationSaveData = simulationSaveData.data,
-            playerRunnerSaveDatas = playerRunnerSaveDatas.Select(so => so.data).ToArray()
+            playerRunnerSaveDatas = playerRunnerSaveDatas.Select(so => so.data).ToArray(),
+            mapSaveData = mapSaveData.data
         };
 
         return saveDataObject;

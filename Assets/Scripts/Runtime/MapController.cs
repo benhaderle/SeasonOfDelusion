@@ -11,6 +11,7 @@ public class MapController : MonoBehaviour
     private static int MAP_LAYER = 7;
 
     [SerializeField] private LineMap lineMap;
+    [SerializeField] private MapSaveDataSO mapSaveData;
     [Header("Line Variables and References")]
     [SerializeField] private PoolContext polylinePool;
     [SerializeField] private Color selectedLineColor;
@@ -38,6 +39,13 @@ public class MapController : MonoBehaviour
     {
         polylinePool.Initialize();
         runnerBubblePool.Initialize();
+
+        mapSaveData.Load(lineMap.points.GetDictionary().Keys.ToList());
+
+        for(int i = 0; i < mapSaveData.data.mapPointSaveDataList.Count; i++)
+        {
+            lineMap.SetPointDiscovered(mapSaveData.data.mapPointSaveDataList[i].id, mapSaveData.data.mapPointSaveDataList[i].discovered);
+        }
     }
 
     private void OnEnable()
@@ -141,7 +149,7 @@ public class MapController : MonoBehaviour
     private void InstantiateRouteLine(Route route)
     {
         RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
-        rl.Setup(route.Name, lineMap.GetPolylinePointsFromIndices(route.lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
+        rl.Setup(route.Name, lineMap.GetMapPointsFromIDs(route.lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
         if(route.lineData.Length == 0)
         {
             route.lineData.SetLength(rl.Polyline.points);
@@ -151,7 +159,12 @@ public class MapController : MonoBehaviour
 
     private void SetBubblePositionAlongLine(RouteLine routeLine, MapRunnerBubble bubble, float normalizedPosition)
     {
-        Vector3 pos = routeLine.GetPositionAlongRoute(normalizedPosition);
+        Vector3 pos = routeLine.GetPositionAlongRoute(normalizedPosition, out int closestPointID);
+        if (!mapSaveData.mapPointDictionary[closestPointID].discovered)
+        {
+            mapSaveData.mapPointDictionary[closestPointID].discovered = true;
+            lineMap.SetPointDiscovered(closestPointID, true);
+        }
         pos.z -= 1;
 
         bubble.transform.position = pos;

@@ -115,6 +115,16 @@ namespace Shapes
 			needToBuildLines = true;
 		}
 
+		public void SetPointDiscovered(int id, bool discovered)
+		{
+			MapPoint mp = points.GetDictionary().Keys.FirstOrDefault(k => k.id == id);
+			if (mp != null)
+			{
+				mp.discovered = discovered;
+				meshOutOfDate = true;
+			}
+		}
+
 		private protected override bool UseCamOnPreCull => true;
 
 		internal override void CamOnPreCull()
@@ -136,11 +146,17 @@ namespace Shapes
 			foreach (KeyValuePair<MapPoint, List<MapPoint>> kvp in points.GetDictionary())
 			{
 				neighborsDictionary.Add(kvp.Key, kvp.Value.Select(p => p).ToList());
+
 				int styleIndex = pointStyles.FindIndex(s => s.id == kvp.Key.styleID);
 				if (styleIndex != -1)
 				{
 					kvp.Key.color = pointStyles[styleIndex].color;
 					kvp.Key.thickness = pointStyles[styleIndex].thickness;
+				}
+
+				if (Application.isPlaying && !kvp.Key.discovered)
+				{
+					kvp.Key.color.a = 0;
 				}
 			}
 
@@ -229,45 +245,28 @@ namespace Shapes
 			return new Bounds((max + min) * 0.5f, (max - min) + Vector3.one * (thickness * 0.5f));
 		}
 
-		public List<PolylinePoint> GetPolylinePointsFromIndices(List<int> mapPointIDs)
+		public List<MapPoint> GetMapPointsFromIDs(List<int> mapPointIDs)
 		{
-			List<PolylinePoint> polylinePoints = new();
+			List<MapPoint> mapPoints = new();
 
 			if (mapPointIDs == null || mapPointIDs.Count < 1)
 			{
-				return polylinePoints;
+				return mapPoints;
 			}
 
 			for (int i = 0; i < mapPointIDs.Count - 1; i++)
 			{
-				polylinePoints.AddRange(GetAStarPathBetweenPoints(points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i]), points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i+1])));
+				mapPoints.AddRange(GetAStarPathBetweenPoints(points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i]), points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[i + 1])));
 			}
-			polylinePoints.Add(MapPointToPolylinePoint(mapPointIDs[mapPointIDs.Count - 1]));
+			mapPoints.Add(points.GetDictionary().Keys.First(mp => mp.id == mapPointIDs[mapPointIDs.Count - 1]));
 
-			return polylinePoints;
+			return mapPoints;
 		}
 
-		private PolylinePoint MapPointToPolylinePoint(int id)
+		private List<MapPoint> GetAStarPathBetweenPoints(MapPoint start, MapPoint end)
 		{
-			MapPoint mapPoint = points.GetDictionary().Keys.First(mp => mp.id == id);
-			return MapPointToPolylinePoint(mapPoint);
-
-		}
-
-		private PolylinePoint MapPointToPolylinePoint(MapPoint mapPoint, bool copyColor = false)
-		{
-			return new PolylinePoint
-			{
-				point = mapPoint.point,
-				color = copyColor ? mapPoint.color : Color.white,
-				thickness = mapPoint.thickness
-			};
-		}
-
-		private List<PolylinePoint> GetAStarPathBetweenPoints(MapPoint start, MapPoint end)
-		{
-			List<PolylinePoint> polylinePoints = new();
-			List<MapPoint> mapPoints = new() { start };
+			List<MapPoint> pathPoints = new();
+			List<MapPoint> pointsToSearch = new() { start };
 
 			Dictionary<MapPoint, MapPoint> cameFrom = new();
 
@@ -277,20 +276,20 @@ namespace Shapes
 			Dictionary<MapPoint, float> fScore = points.GetDictionary().Select(kvp => kvp.Key).ToDictionary(mp => mp, mp => Mathf.Infinity);
 			fScore[start] = (start.point - end.point).sqrMagnitude;
 
-			while (mapPoints.Count > 0)
+			while (pointsToSearch.Count > 0)
 			{
-				MapPoint current = fScore.Where(kvp => mapPoints.Contains(kvp.Key)).OrderBy(kvp => kvp.Value).ToList()[0].Key;
+				MapPoint current = fScore.Where(kvp => pointsToSearch.Contains(kvp.Key)).OrderBy(kvp => kvp.Value).ToList()[0].Key;
 				if (current == end)
 				{
 					while (cameFrom.ContainsKey(current))
 					{
 						current = cameFrom[current];
-						polylinePoints = polylinePoints.Prepend(MapPointToPolylinePoint(current)).ToList();
+						pathPoints = pathPoints.Prepend(current).ToList();
 					}
-					return polylinePoints;
+					return pathPoints;
 				}
 
-				mapPoints.Remove(current);
+				pointsToSearch.Remove(current);
 				foreach (MapPoint neighbor in points[current])
 				{
 					float tempGScore = gScore[current] + (current.point - neighbor.point).sqrMagnitude;
@@ -299,15 +298,15 @@ namespace Shapes
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tempGScore;
 						fScore[neighbor] = tempGScore + (neighbor.point - end.point).sqrMagnitude;
-						if (!mapPoints.Contains(neighbor))
+						if (!pointsToSearch.Contains(neighbor))
 						{
-							mapPoints.Add(neighbor);
+							pointsToSearch.Add(neighbor);
 						}
 					}
 				}
 			}
 
-			return polylinePoints;
+			return pathPoints;
 		}
 
 	}

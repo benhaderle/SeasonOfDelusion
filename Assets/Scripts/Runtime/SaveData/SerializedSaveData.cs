@@ -12,4 +12,5 @@ public class SerializedSaveData
 
     public SimulationSaveData simulationSaveData;
     public RunnerSaveData[] playerRunnerSaveDatas;
+    public MapSaveData mapSaveData;
 }

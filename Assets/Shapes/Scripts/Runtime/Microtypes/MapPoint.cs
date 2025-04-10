@@ -13,6 +13,7 @@ namespace Shapes {
 		/// <summary>Position of this point</summary>
 		public Vector3 point;
 		public string styleID;
+		public bool discovered = false;
 		/// <summary>The color tint of this point</summary>
 		[ShapesColorField(true)] public Color color = Color.white;
 		/// <summary>The thickness multiplier for this point</summary>

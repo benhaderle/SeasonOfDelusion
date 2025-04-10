@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
+  shouldSaveLoadOnPause: 0
   simulationSaveData: {fileID: 11400000, guid: 0a4b591e55c1e4087b76f5451ae59679, type: 2}
   playerRunnerSaveDatas:
   - {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
   - {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
   - {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
   - {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
+  mapSaveData: {fileID: 11400000, guid: 5b4e36c9ae99244d4aab4721bcba0336, type: 2}
