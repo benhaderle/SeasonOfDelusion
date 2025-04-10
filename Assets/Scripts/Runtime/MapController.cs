@@ -123,14 +123,14 @@ public class MapController : MonoBehaviour
     {
         if (selectedLine != null)
         {
-            selectedLine.SetLineStyle(unselectedLineColor, unselectedLineThickness);
+            selectedLine.SetLineStyle(unselectedLineColor, unselectedLineThickness, 0);
         }
 
         selectedLine = rl;
 
         if (selectedLine != null)
         {
-            selectedLine.SetLineStyle(selectedLineColor, selectedLineThickness);
+            selectedLine.SetLineStyle(selectedLineColor, selectedLineThickness, 1);
             MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
             {
                 bounds = selectedLine.Polyline.GetBounds()

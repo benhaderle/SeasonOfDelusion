@@ -19,17 +19,18 @@ public class RouteLine : MonoBehaviour
         gameObject.layer = ROUTE_LINE_LAYER;
 
         polyline.SetPoints(points);
-        SetLineStyle(color, thickness);
+        SetLineStyle(color, thickness, 0);
 
         Mesh mesh = new Mesh();
         ShapesMeshGen.GenPolylineMeshWithThickness(mesh, points, false, PolylineJoins.Simple, true, false, thickness);
         meshCollider.sharedMesh = mesh;
     }
 
-    public void SetLineStyle(Color color, float thickness)
+    public void SetLineStyle(Color color, float thickness, int sortingOrder)
     {
         polyline.Color = color;
         polyline.Thickness = thickness;
+        polyline.SortingOrder = sortingOrder;
     }
 
     public Vector3 GetPositionAlongRoute(float normalizedPosition)

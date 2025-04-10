@@ -16,6 +16,8 @@ public class MapCameraController : MonoBehaviour
     private Vector3 lastDragViewportPosition;
     private Vector3 targetPosition;
     private Vector3 dampingVelocity = Vector3.zero;
+    private float targetZoom = 0;
+    private float dampingZoomVelocity = 0;
     private Bounds maxBounds;
 
     #region Events
@@ -96,12 +98,14 @@ public class MapCameraController : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref dampingVelocity, dampingTime);
+        camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, targetZoom, ref dampingZoomVelocity, dampingTime);
     }
 
     private void OnSetMaxBounds(SetMaxBoundsEvent.Context context)
     {
         maxBounds = context.maxBounds;
         SetTargetPosition(transform.position);
+        targetZoom = camera.orthographicSize;
     }
 
     private void OnDrag(DragEvent.Context context)
@@ -120,9 +124,8 @@ public class MapCameraController : MonoBehaviour
 
     private void OnZoom(ZoomEvent.Context context)
     {
-        Vector3 newTargetPosition = targetPosition;
-        newTargetPosition.z += context.zoomAmount;
-        SetTargetPosition(newTargetPosition);
+        targetZoom -= context.zoomAmount * .4f;
+        targetZoom = Mathf.Clamp(targetZoom, zoomMin, zoomMax);   
     }
 
     private void OnTap(TapEvent.Context context)
@@ -144,24 +147,16 @@ public class MapCameraController : MonoBehaviour
 
     private void OnFocusOnBounds(FocusOnBoundsEvent.Context context)
     {
-        float cameraDistance = 2.0f; // Constant factor
-        Vector3 objectSizes = context.bounds.max - context.bounds.min;
-        float objectSize = Mathf.Max(objectSizes.x, objectSizes.y, objectSizes.z);
-        float cameraView = 2.0f * Mathf.Tan(0.5f * Mathf.Deg2Rad * camera.fieldOfView); // Visible height 1 meter in front
-        float distance = cameraDistance * objectSize / cameraView; // Combined wanted distance from the object
-        distance += 0.5f * objectSize; // Estimated offset from the center to the outside of the object
-        Vector3 newTargetPosition = context.bounds.center - distance * camera.transform.forward;
-        SetTargetPosition(newTargetPosition);
+        SetTargetPosition(context.bounds.center);
+        targetZoom = Mathf.Max(context.bounds.size.x, context.bounds.size.y);
     }
 
     private void SetTargetPosition(Vector3 newTargetPos)
     {
-        targetPosition.z = Mathf.Clamp(newTargetPos.z, zoomMin, zoomMax);
+        targetPosition.z = -10;
 
         if (maxBounds != null)
         {
-            float padding = Mathf.Lerp(0, maxBoundsPadding, Mathf.InverseLerp(zoomMax, zoomMin, targetPosition.z));
-
             float tanX = Mathf.Tan(.5f * Mathf.Deg2Rad * Camera.VerticalToHorizontalFieldOfView(camera.fieldOfView, camera.aspect));
             float length = (maxBounds.center.z - targetPosition.z) * tanX;
             float minX = maxBounds.min.x - length + maxBoundsPadding;
