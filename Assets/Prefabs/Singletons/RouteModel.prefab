@@ -46,16 +46,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
   routes:
-  - name: Trail Out and Back
-    length: 4
-    lineData: {fileID: 11400000, guid: 8588681b294d04ebfb4cca3fbe5b88a8, type: 2}
+  - name: Dam Loop
+    length: 0
+    lineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
     description: 
-    difficulty: 0.7
-  - name: Town Loop
-    length: 6
-    lineData: {fileID: 11400000, guid: b99ae8f9b7db742318bc4ac7fdcc7525, type: 2}
+    difficulty: 0
+  - name: Dam Out and Back
+    length: 0
+    lineData: {fileID: 11400000, guid: 9bdc5a82150744c238790723abe92673, type: 2}
     description: 
-    difficulty: 0.8
+    difficulty: 0
+  - name: Night Run Loop
+    length: 0
+    lineData: {fileID: 11400000, guid: 9d8936360f5844c929f9ffadaa44980e, type: 2}
+    description: 
+    difficulty: 0
+  - name: Red Bridge
+    length: 0
+    lineData: {fileID: 11400000, guid: d6a8609ae9c0a480b998071c0afa82cc, type: 2}
+    description: 
+    difficulty: 0
+  - name: Sierra Azul
+    length: 0
+    lineData: {fileID: 11400000, guid: 07bd81b8ac633405ca20600f28e5abb3, type: 2}
+    description: 
+    difficulty: 0
+  - name: 'St. Joe''s (Long) '
+    length: 0
+    lineData: {fileID: 11400000, guid: 87662c08fc06843e982329e4568db769, type: 2}
+    description: 
+    difficulty: 0
+  - name: 'St. Joe''s (Short) '
+    length: 0
+    lineData: {fileID: 11400000, guid: ed2d10cbc7ff245b0a25d5bba6e46fef, type: 2}
+    description: 
+    difficulty: 0
+  - name: Big Town Loop
+    length: 0
+    lineData: {fileID: 11400000, guid: b4b730c59055a4e8fbc7852b9f0d3d29, type: 2}
+    description: 
+    difficulty: 0
+  - name: Small Town Loop
+    length: 0
+    lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
+    description: 
+    difficulty: 0
+  - name: Lake Loop
+    length: 0
+    lineData: {fileID: 11400000, guid: 491b0becf8b074a0c917c391cd15a39b, type: 2}
+    description: 
+    difficulty: 0
   raceRoutes:
   - id: CrystalSprings
     name: Crystal Springs

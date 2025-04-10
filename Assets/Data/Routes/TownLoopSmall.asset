@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: TownLoopSmall
   m_EditorClassIdentifier: 
   displayName: 
+  length: 4.0891438
   pointIDs: 0106370004d10b008b580300170f0500833d070001063700

@@ -10,6 +10,7 @@ namespace Shapes
 
         [SerializeField] private string displayName;
         [SerializeField] private float length;
+        public float Length => length;
         public List<int> pointIDs = new();
 
         public void SetLength(List<PolylinePoint> points)

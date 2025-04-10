@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
   m_Name: RedBridge
   m_EditorClassIdentifier: 
-  displayName: RedBridge
+  displayName: 
+  length: 4.3199844
   pointIDs: 010637004abf2200f660290281ee1f02ec5e1d0201063700

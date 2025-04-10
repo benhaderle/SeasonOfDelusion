@@ -142,6 +142,10 @@ public class MapController : MonoBehaviour
     {
         RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
         rl.Setup(route.Name, lineMap.GetPolylinePointsFromIndices(route.lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
+        if(route.lineData.Length == 0)
+        {
+            route.lineData.SetLength(rl.Polyline.points);
+        }
         activeRouteLines.Add(rl);
     }
 

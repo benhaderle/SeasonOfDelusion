@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: NightRunLoop
   m_EditorClassIdentifier: 
   displayName: 
+  length: 5.489266
   pointIDs: 010637002725440071bda10335144d025c4658024bc28601170f0500833d070004d10b0001063700

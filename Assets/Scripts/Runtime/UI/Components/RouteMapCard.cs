@@ -23,7 +23,7 @@ public class RouteMapCard : MonoBehaviour
     {
         routeName = route.Name;
         nameText.text = route.Name;
-        lengthText.text = $"{route.Length} miles";
+        lengthText.text = $"{route.Length:F1} miles";
         difficultyText.text = $"Gentle";
         elevationText.text = $"200 feet";
         surfaceText.text = $"Paved Path";

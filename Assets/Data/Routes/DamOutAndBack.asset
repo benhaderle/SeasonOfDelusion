@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: DamOutAndBack
   m_EditorClassIdentifier: 
   displayName: 
+  length: 4.5119877
   pointIDs: 010637004872f80201063700

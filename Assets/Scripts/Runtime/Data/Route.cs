@@ -16,11 +16,7 @@ public class Route
     [SerializeField] private string name;
     public string Name => name;
 
-    /// <summary>
-    /// Length of route in miles.
-    /// </summary>
-    [SerializeField] private float length;
-    public float Length => length;
+    public float Length => lineData.Length;
 
     [SerializeField] public RouteLineData lineData;
 

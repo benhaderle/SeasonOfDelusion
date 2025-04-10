@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
   m_Name: DamLoop
   m_EditorClassIdentifier: 
-  displayName: Dam Loop
+  displayName: 
+  length: 4.6601944
   pointIDs: 01063700a7df64000a788900d5467f00c53ed70001063700

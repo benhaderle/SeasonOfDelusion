@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: StJoesLong
   m_EditorClassIdentifier: 
   displayName: 
+  length: 6.897072
   pointIDs: 01063700af7ff902ab828d00780ac5003445b900cb08aa00bdbb8c00b29fd60058ead800dfeb310001063700

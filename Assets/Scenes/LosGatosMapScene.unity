@@ -326,7 +326,7 @@ MonoBehaviour:
   tappingLayerMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!21 &450945468
+--- !u!21 &853710388
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 450945468}
+  - {fileID: 853710388}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

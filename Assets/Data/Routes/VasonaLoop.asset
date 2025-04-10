@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: VasonaLoop
   m_EditorClassIdentifier: 
   displayName: 
+  length: 5.7578707
   pointIDs: 010637004abf2200f66029025f0c2402a16b2002ec5e1d02ff95190001063700
