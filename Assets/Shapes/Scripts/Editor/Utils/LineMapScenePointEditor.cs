@@ -163,6 +163,20 @@ namespace Shapes
 
 				Quaternion handleRotation = Tools.pivotRotation == PivotRotation.Global ? Quaternion.identity : tf.rotation;
 
+				
+				if (tree == null)
+				{
+					tree = new RTree();
+					lineMap.points.GetDictionary().ForEach(kvp => tree.Insert(kvp.Key));
+
+					Undo.undoRedoEvent += OnUndoRedo;
+				}
+
+				Bounds cameraBounds = new Bounds();
+				float z = lineMap.transform.position.z - Camera.current.transform.position.z;
+				cameraBounds.SetMinMax(Camera.current.ViewportToWorldPoint(new Vector3(0, 0, 0)), Camera.current.ViewportToWorldPoint(new Vector3(1, 1, Camera.current.farClipPlane)));
+				List<MapPoint> pointsInView = tree.Search(cameraBounds);
+
 				if (currentEditMode == EditMode.AddMovePoints)
 				{
 					void ExtrapolatedAddPoints(MapPoint point, Vector2 offset, ref List<Vector2> usedPoints)
@@ -184,21 +198,7 @@ namespace Shapes
 						_ = DoAddGridPoint(ptWorld, newPtData, new List<MapPoint>() { point });
 					}
 
-
-					if (tree == null)
-					{
-						tree = new RTree();
-						lineMap.points.GetDictionary().ForEach(kvp => tree.Insert(kvp.Key));
-
-						Undo.undoRedoEvent += OnUndoRedo;
-					}
-
 					List<Vector2> usedPoints = new();
-
-					Bounds cameraBounds = new Bounds();
-					float z = lineMap.transform.position.z - Camera.current.transform.position.z;
-					cameraBounds.SetMinMax(Camera.current.ViewportToWorldPoint(new Vector3(0, 0, 0)), Camera.current.ViewportToWorldPoint(new Vector3(1, 1, Camera.current.farClipPlane)));
-					List<MapPoint> pointsInView = tree.Search(cameraBounds);
 
 					for (int i = 0; i < pointsInView.Count; i++)
 					{
@@ -248,9 +248,9 @@ namespace Shapes
 				else if (currentEditMode == EditMode.RemovePoints)
 				{
 					Handles.BeginGUI();
-					for (int i = 0; i < points.GetDictionary().Keys.Count; i++)
+					for (int i = 0; i < pointsInView.Count; i++)
 					{
-						MapPoint mp = points.GetDictionary().Keys.ElementAt(i);
+						MapPoint mp = pointsInView[i];
 
 						Vector3 ptWorld = GetWorldPt(mp);
 						if (TextureButton(ptWorld, UIAssets.Instance.pointEditRemove, 0.5f))
@@ -269,9 +269,9 @@ namespace Shapes
 				else if (currentEditMode == EditMode.ConnectPoints)
 				{
 					Handles.BeginGUI();
-					for (int i = 0; i < points.GetDictionary().Keys.Count; i++)
+					for (int i = 0; i < pointsInView.Count; i++)
 					{
-						MapPoint mp = points.GetDictionary().Keys.ElementAt(i);
+						MapPoint mp = pointsInView[i];
 
 						Vector3 ptWorld = GetWorldPt(mp);
 
@@ -315,8 +315,9 @@ namespace Shapes
 				else if (currentEditMode == EditMode.EditPointStyle)
 				{
 					Handles.BeginGUI();
-					foreach (MapPoint mp in points.GetDictionary().Keys)
+					for (int i = 0; i < pointsInView.Count; i++)
 					{
+						MapPoint mp = pointsInView[i];
 						Vector3 ptWorld = GetWorldPt(mp);
 
 						Color col = mp.color;
