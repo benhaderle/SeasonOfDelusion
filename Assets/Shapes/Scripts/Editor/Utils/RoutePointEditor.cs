@@ -178,9 +178,10 @@ namespace Shapes
 				{
 					routePolyline.Mesh.Clear();
 				}
-				else if(routeChanged)
+				else if (routeChanged)
 				{
 					routePolyline.SetPoints(lineMap.GetPolylinePointsFromIndices(routeLineData.pointIDs));
+					routeLineData.SetLength(routePolyline.points);
 				}
 			}
 
