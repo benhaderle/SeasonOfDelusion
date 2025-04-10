@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
-  m_Name: TownLoop
+  m_Name: SierraAzul
   m_EditorClassIdentifier: 
-  displayName: Town Loop
-  pointIDs: 41760700f39d0400f419070041760700
+  displayName: 
+  pointIDs: 010637003a715f00fc24220325613b03d868a7039d57a4039653a30395f4410001063700
