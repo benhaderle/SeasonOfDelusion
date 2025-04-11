@@ -46,43 +46,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldDestroyOnLoad: 0
   routes:
-  - name: Dam Loop
+  - saveData: {fileID: 11400000, guid: aea63beb3c7714cefba7c59952dcb6b7, type: 2}
+    name: Dam Loop
     lineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
     description: 
     difficulty: 0.7
-  - name: Dam Out and Back
+  - saveData: {fileID: 11400000, guid: d4e2d4187c62f4940a26fc62ad214fcf, type: 2}
+    name: Dam Out and Back
     lineData: {fileID: 11400000, guid: 9bdc5a82150744c238790723abe92673, type: 2}
     description: 
     difficulty: 0.7
-  - name: Night Run Loop
+  - saveData: {fileID: 11400000, guid: 95692dfd87fbb41ffb23267e41f1c3a4, type: 2}
+    name: Night Run Loop
     lineData: {fileID: 11400000, guid: 9d8936360f5844c929f9ffadaa44980e, type: 2}
     description: 
     difficulty: 0.7
-  - name: Red Bridge
+  - saveData: {fileID: 11400000, guid: 4494641ca3f334d23ad748319873da48, type: 2}
+    name: Red Bridge
     lineData: {fileID: 11400000, guid: d6a8609ae9c0a480b998071c0afa82cc, type: 2}
     description: 
     difficulty: 0.7
-  - name: Sierra Azul
+  - saveData: {fileID: 11400000, guid: 5f098b1a2a8e447af928cba03464d73d, type: 2}
+    name: Sierra Azul
     lineData: {fileID: 11400000, guid: 07bd81b8ac633405ca20600f28e5abb3, type: 2}
     description: 
     difficulty: 0.7
-  - name: 'St. Joe''s (Long) '
+  - saveData: {fileID: 11400000, guid: 0c09adeda2fa74ba5b9cf5f5757e409d, type: 2}
+    name: 'St. Joe''s (Long) '
     lineData: {fileID: 11400000, guid: 87662c08fc06843e982329e4568db769, type: 2}
     description: 
     difficulty: 0.7
-  - name: 'St. Joe''s (Short) '
+  - saveData: {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
+    name: 'St. Joe''s (Short) '
     lineData: {fileID: 11400000, guid: ed2d10cbc7ff245b0a25d5bba6e46fef, type: 2}
     description: 
     difficulty: 0.7
-  - name: Big Town Loop
+  - saveData: {fileID: 11400000, guid: 192d702ddff4f4e3e8541919ed45674f, type: 2}
+    name: Big Town Loop
     lineData: {fileID: 11400000, guid: b4b730c59055a4e8fbc7852b9f0d3d29, type: 2}
     description: 
     difficulty: 0.7
-  - name: Small Town Loop
+  - saveData: {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
+    name: Small Town Loop
     lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
     description: 
     difficulty: 0.7
-  - name: Lake Loop
+  - saveData: {fileID: 11400000, guid: 095d3b766c1ff49b8a032fa0c970f03a, type: 2}
+    name: Lake Loop
     lineData: {fileID: 11400000, guid: 491b0becf8b074a0c917c391cd15a39b, type: 2}
     description: 
     difficulty: 0.7

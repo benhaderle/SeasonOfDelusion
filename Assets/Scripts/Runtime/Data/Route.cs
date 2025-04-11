@@ -1,5 +1,6 @@
 using System;
 using Shapes;
+using UnityEditor;
 using UnityEngine;
 
 public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
@@ -10,6 +11,7 @@ public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
 [Serializable]
 public class Route
 {
+    [SerializeField] private RouteSaveDataSO saveData;
     /// <summary>
     /// The name of this route. Can be used for player display.
     /// </summary>
@@ -25,6 +27,16 @@ public class Route
 
     [SerializeField] private float difficulty;
     public float Difficulty => difficulty;
+
+    public void Validate()
+    {
+        if(!string.IsNullOrWhiteSpace(name) && saveData == null)
+        {
+            saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
+            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name.Replace(" ", "")}SaveData.asset");
+            saveData.Initialize(name);
+        }
+    }
 
     // [SerializeField] private AnimationCurve profile;
     // [SerializeField] private float minElevation;

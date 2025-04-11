@@ -32,23 +32,9 @@ public class RaceController : MonoBehaviour
 
     [Header("Run VO2 Calculation Variables")]
     /// <summary>
-    /// The max standard deviation a runner's VO2 can be off from the coach's guidance at the beginning of a run in percentage of that runner's V02.
-    /// IE if coach's guidance is .8 and maxDeviation is .1, then at most, the range from -1sigma to 1sigma will be .7-.9
-    /// </summary>
-    [SerializeField] private float maxDeviation = .1f;
-    /// <summary>
-    /// The max amount of experience before we consider a runner "fully experienced"
-    /// </summary>
-    [SerializeField] private float experienceCap = 1000000f;
-    /// <summary>
     /// The amount of soreness at which point additional soreness no longer impacts performance
     /// </summary>
     [SerializeField] private float maxSoreness = 500f;
-    /// <summary>
-    /// The max amount in percentage of a runner's VO2 that soreness will effect
-    /// IE if VO2 percent is .8, sorenessEffect is .1, and the runner is half sore, then VO2 will change to .75
-    /// </summary>
-    [SerializeField] private float sorenessEffect = .1f;
     private int currentOpportunityZoneIndex;
     private bool inOpportunityZone;
     private bool lastRunnerInOpportunityZone;

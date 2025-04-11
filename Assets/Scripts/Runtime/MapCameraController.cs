@@ -6,7 +6,8 @@ using UnityEngine.Events;
 
 public class MapCameraController : MonoBehaviour
 {
-    [SerializeField] private Camera camera;
+    [SerializeField] new private Camera camera;
+    
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float zoomMin;
     [SerializeField] private float zoomMax;

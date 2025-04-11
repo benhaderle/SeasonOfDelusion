@@ -47,9 +47,20 @@ MonoBehaviour:
   shouldDestroyOnLoad: 0
   shouldSaveLoadOnPause: 0
   simulationSaveData: {fileID: 11400000, guid: 0a4b591e55c1e4087b76f5451ae59679, type: 2}
+  mapSaveData: {fileID: 11400000, guid: 5b4e36c9ae99244d4aab4721bcba0336, type: 2}
+  routeSaveDatas:
+  - {fileID: 11400000, guid: 192d702ddff4f4e3e8541919ed45674f, type: 2}
+  - {fileID: 11400000, guid: aea63beb3c7714cefba7c59952dcb6b7, type: 2}
+  - {fileID: 11400000, guid: d4e2d4187c62f4940a26fc62ad214fcf, type: 2}
+  - {fileID: 11400000, guid: 095d3b766c1ff49b8a032fa0c970f03a, type: 2}
+  - {fileID: 11400000, guid: 95692dfd87fbb41ffb23267e41f1c3a4, type: 2}
+  - {fileID: 11400000, guid: 4494641ca3f334d23ad748319873da48, type: 2}
+  - {fileID: 11400000, guid: 5f098b1a2a8e447af928cba03464d73d, type: 2}
+  - {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
+  - {fileID: 11400000, guid: 0c09adeda2fa74ba5b9cf5f5757e409d, type: 2}
+  - {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
   playerRunnerSaveDatas:
   - {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
   - {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
   - {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
   - {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
-  mapSaveData: {fileID: 11400000, guid: 5b4e36c9ae99244d4aab4721bcba0336, type: 2}

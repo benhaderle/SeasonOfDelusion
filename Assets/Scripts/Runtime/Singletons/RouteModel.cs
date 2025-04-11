@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -16,11 +17,26 @@ public class RouteModel : Singleton<RouteModel>
 
     [SerializeField] private List<RaceRoute> raceRoutes;
 
-    protected override void OnSuccessfulAwake()
+    public void OnValidate()
     {
-        routes.Sort((a, b) => { return a.Length <= b.Length ? -1 : 1; });
+        if (routes != null)
+        {
+            for (int i = 0; i < routes.Count; i++)
+            {
+                routes[i].Validate();
+            }
+        }
     }
 
+    protected override void OnSuccessfulAwake()
+    {
+        for(int i = 0; i < routes.Count; i++)
+        {
+            routes[i].Validate();
+        }
+
+        routes.Sort((a, b) => { return a.Length <= b.Length ? -1 : 1; });
+    }
 
     public RaceRoute GetRaceRoute(string id)
     {
