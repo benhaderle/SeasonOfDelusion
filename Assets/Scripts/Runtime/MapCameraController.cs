@@ -132,7 +132,7 @@ public class MapCameraController : MonoBehaviour
     {
         Ray ray = camera.ViewportPointToRay(new Vector3(context.viewportPosition.x, context.viewportPosition.y, 10));
 
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, tappingLayerMask))
+        if (Physics.SphereCast(ray, .5f, out RaycastHit hitInfo, Mathf.Infinity, tappingLayerMask))
         { 
             routeLineTappedEvent.Invoke(new RouteLineTappedEvent.Context
             {
