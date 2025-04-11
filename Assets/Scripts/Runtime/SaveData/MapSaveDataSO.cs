@@ -18,6 +18,7 @@ public class MapSaveDataSO : ScriptableObject
     /// <param name="mapPoints"></param>
     public void Load(List<MapPoint> mapPoints)
     {
+        mapPointDictionary.Clear();
         List<MapPointSaveData> newMapPointSaveDataList = new();
         for (int i = 0; i < mapPoints.Count; i++)
         {

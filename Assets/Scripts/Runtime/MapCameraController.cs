@@ -148,7 +148,17 @@ public class MapCameraController : MonoBehaviour
     private void OnFocusOnBounds(FocusOnBoundsEvent.Context context)
     {
         SetTargetPosition(context.bounds.center);
-        targetZoom = Mathf.Max(context.bounds.size.x, context.bounds.size.y);
+
+        if (context.bounds.size.x > context.bounds.size.y)
+        {
+            targetZoom = Mathf.Abs(context.bounds.size.x) / camera.aspect / 2f;
+        }
+        else
+        {
+            targetZoom = Mathf.Abs(context.bounds.size.y) / 2f;
+        }
+        targetZoom *= 2f;
+        targetZoom = Mathf.Clamp(targetZoom, zoomMin, zoomMax);
     }
 
     private void SetTargetPosition(Vector3 newTargetPos)

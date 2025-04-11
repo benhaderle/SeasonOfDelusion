@@ -70,7 +70,7 @@ public class RunView : MonoBehaviour
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
     {
-        routeText.text = $"{context.route.Name} - {context.route.Length} mi";
+        routeText.text = $"{context.route.Name} - {context.route.Length:F2} mi";
 
         easeText.text = "Coach says: ";
         if(context.route.Difficulty <= .7f)
