@@ -149,8 +149,13 @@ public class MapController : MonoBehaviour
     private void InstantiateRouteLine(Route route)
     {
         RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
-        rl.Setup(route.Name, lineMap.GetMapPointsFromIDs(route.lineData.pointIDs), unselectedLineColor, unselectedLineThickness);
-        if(route.lineData.Length == 0)
+
+        List<MapPoint> routePoints = lineMap.GetMapPointsFromIDs(route.lineData.pointIDs);
+        List<bool> pointsDiscovered = routePoints.Select(mp => mapSaveData.mapPointDictionary[mp.id].discovered).ToList();
+
+        rl.Setup(route.Name, routePoints, pointsDiscovered, unselectedLineColor, unselectedLineThickness);
+        
+        if (route.lineData.Length == 0)
         {
             route.lineData.SetLength(rl.Polyline.points);
         }

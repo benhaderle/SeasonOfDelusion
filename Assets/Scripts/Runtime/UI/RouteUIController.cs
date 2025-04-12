@@ -73,9 +73,6 @@ public class RouteUIController : MonoBehaviour
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
 
-            SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
-            SceneManager.sceneLoaded += OnMapSceneLoaded;
-
             Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
             mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
             mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
@@ -85,19 +82,23 @@ public class RouteUIController : MonoBehaviour
             mapUVRect.y = (1 - mapUVRect.height) / 2f;
             mapDislayImage.uvRect = mapUVRect;
 
-            for (int i = 0; i < RouteModel.Instance.Routes.Count; i++)
+            Route[] routes = RouteModel.Instance.Routes.Where(r => r.saveData.data.unlocked).ToArray();
+            for (int i = 0; i < routes.Length; i++)
             {
                 RouteMapCard rmc = routeMapCardPool.GetPooledObject<RouteMapCard>();
-                rmc.Setup(RouteModel.Instance.Routes[i]);
+                rmc.Setup(routes[i]);
                 activeRouteMapCards.Add(rmc);
             }
 
-            cardWidth = routeMapCardLayoutGroup.GetComponentInChildren<LayoutElement>().preferredWidth;
+            cardWidth = routeMapCardLayoutGroup.GetComponentInChildren<HorizontalLayoutGroup>().preferredWidth;
             int horizontalPadding = (int)(routeMapCardScrollRect.GetComponent<RectTransform>().rect.width - cardWidth) / 2;
             routeMapCardLayoutGroup.padding.left = horizontalPadding;
             routeMapCardLayoutGroup.padding.right = horizontalPadding;
 
             routeMapCardScrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
+
+            SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
+            SceneManager.sceneLoaded += OnMapSceneLoaded;
         }
         else
         {
@@ -121,10 +122,10 @@ public class RouteUIController : MonoBehaviour
         {
             MapController.showRoutesEvent.Invoke(new MapController.ShowRoutesEvent.Context
             {
-                routes = RouteModel.Instance.Routes.ToList()
+                routes = RouteModel.Instance.Routes.Where(r => r.saveData.data.unlocked).ToList()
             });
 
-            SelectRoute(RouteModel.Instance.Routes[0]);
+            SelectRoute(RouteModel.Instance.Routes.First(r => activeRouteMapCards[0].RouteName == r.Name));
 
             SceneManager.sceneLoaded -= OnMapSceneLoaded;
         }

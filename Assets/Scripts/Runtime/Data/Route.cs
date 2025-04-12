@@ -11,7 +11,7 @@ public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
 [Serializable]
 public class Route
 {
-    [SerializeField] private RouteSaveDataSO saveData;
+    public RouteSaveDataSO saveData;
     /// <summary>
     /// The name of this route. Can be used for player display.
     /// </summary>
@@ -28,12 +28,20 @@ public class Route
     [SerializeField] private float difficulty;
     public float Difficulty => difficulty;
 
+    public bool IsNewRoute => saveData.data != null && saveData.data.numTimesRun == 0 && saveData.data.unlocked;
+
     public void Validate()
     {
-        if(!string.IsNullOrWhiteSpace(name) && saveData == null)
+        #if UNITY_EDITOR
+        if (saveData == null)
         {
             saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
             AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name.Replace(" ", "")}SaveData.asset");
+        }
+        #endif
+
+        if (string.IsNullOrWhiteSpace(saveData.data.name))
+        {
             saveData.Initialize(name);
         }
     }

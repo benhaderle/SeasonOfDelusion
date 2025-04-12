@@ -2,29 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Shapes;
+using TMPro;
 using UnityEngine;
 
 public class RouteLine : MonoBehaviour
 {
     private static readonly int ROUTE_LINE_LAYER = 8;
     [SerializeField] private Polyline polyline;
+    [SerializeField] private TextMeshPro newRouteText;
     private List<int> mapPointIDs = new();
     public Polyline Polyline => polyline;
     private string routeName;
     public string RouteName => routeName;
     [SerializeField] private MeshCollider meshCollider;
     private float length;
+    
 
-    public void Setup(string routeName, List<MapPoint> points, Color color, float thickness)
+    public void Setup(string routeName, List<MapPoint> points, List<bool> pointsDiscovered, Color color, float thickness)
     {
         this.routeName = routeName;
         gameObject.layer = ROUTE_LINE_LAYER;
-        
+
         mapPointIDs = points.Select(mp => mp.id).ToList();
 
         PolylinePoint[] polylinePoints = points.Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray();
         polyline.SetPoints(polylinePoints);
         SetLineStyle(color, thickness, 0);
+
+        newRouteText.gameObject.SetActive(false);
+        bool passedDiscovered = false;
+        for (int i = 5; i < pointsDiscovered.Count; i++)
+        {
+            passedDiscovered |= !pointsDiscovered[i - 5];
+            if (passedDiscovered)
+            {
+                polyline.SetPointColor(i, Color.clear);
+
+                if (!newRouteText.IsActive())
+                {
+                    newRouteText.gameObject.SetActive(true);
+                    newRouteText.transform.position = points[i].point;
+                }
+            }
+        }
+
 
         Mesh mesh = new Mesh();
         ShapesMeshGen.GenPolylineMeshWithThickness(mesh, polylinePoints, false, PolylineJoins.Simple, true, false, thickness);

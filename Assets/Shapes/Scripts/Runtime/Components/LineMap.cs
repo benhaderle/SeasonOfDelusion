@@ -245,7 +245,7 @@ namespace Shapes
 			return new Bounds((max + min) * 0.5f, (max - min) + Vector3.one * (thickness * 0.5f));
 		}
 
-		public List<MapPoint> GetMapPointsFromIDs(List<int> mapPointIDs)
+		public List<MapPoint> GetMapPointsFromIDs(List<int> mapPointIDs, bool includeUndiscoveredPoints = true)
 		{
 			List<MapPoint> mapPoints = new();
 

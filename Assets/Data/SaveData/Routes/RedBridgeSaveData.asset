@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128ff18f320ae46ea89f02989c8175f6, type: 3}
   m_Name: RedBridgeSaveData
   m_EditorClassIdentifier: 
+  isUnlockedAtStart: 1
   data:
-    name: 
-    unlocked: 0
+    name: Red Bridge
+    unlocked: 1
     numTimesRun: 0
