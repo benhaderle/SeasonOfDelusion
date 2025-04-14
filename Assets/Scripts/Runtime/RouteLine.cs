@@ -18,7 +18,7 @@ public class RouteLine : MonoBehaviour
     private float length;
     
 
-    public void Setup(string routeName, List<MapPoint> points, List<bool> pointsDiscovered, Color color, float thickness)
+    public void Setup(string routeName, List<MapPoint> points, List<bool> pointsDiscovered, bool showNewRouteText, Color color, float thickness)
     {
         this.routeName = routeName;
         gameObject.layer = ROUTE_LINE_LAYER;
@@ -38,7 +38,7 @@ public class RouteLine : MonoBehaviour
             {
                 polyline.SetPointColor(i, Color.clear);
 
-                if (!newRouteText.IsActive())
+                if (showNewRouteText && !newRouteText.IsActive())
                 {
                     newRouteText.gameObject.SetActive(true);
                     newRouteText.transform.position = points[i].point;

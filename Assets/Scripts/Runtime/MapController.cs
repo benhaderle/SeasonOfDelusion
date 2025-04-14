@@ -89,7 +89,7 @@ public class MapController : MonoBehaviour
 
         for (int i = 0; i < context.routes.Count; i++)
         {
-            InstantiateRouteLine(context.routes[i]);
+            InstantiateRouteLine(context.routes[i], true);
         }
     }
 
@@ -103,7 +103,7 @@ public class MapController : MonoBehaviour
         activeRouteLines.Clear();
         polylinePool.ReturnAllToPool();
 
-        InstantiateRouteLine(context.route);
+        InstantiateRouteLine(context.route, false);
 
         MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
         {
@@ -154,14 +154,14 @@ public class MapController : MonoBehaviour
         }
     }
 
-    private void InstantiateRouteLine(Route route)
+    private void InstantiateRouteLine(Route route, bool showNewRouteText)
     {
         RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
 
         List<MapPoint> routePoints = lineMap.GetMapPointsFromIDs(route.lineData.pointIDs);
         List<bool> pointsDiscovered = routePoints.Select(mp => mapSaveData.mapPointDictionary[mp.id].discovered).ToList();
 
-        rl.Setup(route.Name, routePoints, pointsDiscovered, unselectedLineColor, unselectedLineThickness);
+        rl.Setup(route.Name, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
         
         if (route.lineData.Length == 0)
         {
