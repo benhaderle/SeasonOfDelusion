@@ -21,7 +21,7 @@ public class Route
     public float Length => lineData.Length;
 
     [SerializeField] public RouteLineData lineData;
-
+    [SerializeField] private int nodeIDForUnlock;
     [SerializeField] private string description;
     public string Description => description;
 
@@ -32,18 +32,34 @@ public class Route
 
     public void Validate()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (saveData == null)
         {
             saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
             AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name.Replace(" ", "")}SaveData.asset");
         }
-        #endif
+#endif
 
         if (string.IsNullOrWhiteSpace(saveData.data.name))
         {
             saveData.Initialize(name);
         }
+    }
+
+    /// <summary>
+    /// If the route is locked, then we check to see if its unlock condition is met and if so we unlock it.
+    /// </summary>
+    /// <returns>True if the function unlocks the route for the first time, false otherwise </returns>
+    public bool CheckUnlock(int nodeID)
+    {
+        bool gotUnlocked = false;
+        if (!saveData.data.unlocked && nodeID == nodeIDForUnlock)
+        {
+            saveData.data.unlocked = true;
+            gotUnlocked = true;
+        }
+
+        return gotUnlocked;
     }
 
     // [SerializeField] private AnimationCurve profile;

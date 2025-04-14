@@ -33,6 +33,14 @@ public class MapController : MonoBehaviour
         }
     };
     public static ShowRoutesEvent showRoutesEvent = new();
+    public class MapNodeDiscoveredEvent : UnityEvent<MapNodeDiscoveredEvent.Context>
+    {
+        public class Context
+        {
+            public int nodeID;
+        }
+    };
+    public static MapNodeDiscoveredEvent mapNodeDiscoveredEvent = new();
     #endregion
 
     private void Awake()
@@ -42,7 +50,7 @@ public class MapController : MonoBehaviour
 
         mapSaveData.Load(lineMap.points.GetDictionary().Keys.ToList());
 
-        for(int i = 0; i < mapSaveData.data.mapPointSaveDataList.Count; i++)
+        for (int i = 0; i < mapSaveData.data.mapPointSaveDataList.Count; i++)
         {
             lineMap.SetPointDiscovered(mapSaveData.data.mapPointSaveDataList[i].id, mapSaveData.data.mapPointSaveDataList[i].discovered);
         }
@@ -169,6 +177,10 @@ public class MapController : MonoBehaviour
         {
             mapSaveData.mapPointDictionary[closestPointID].discovered = true;
             lineMap.SetPointDiscovered(closestPointID, true);
+            mapNodeDiscoveredEvent.Invoke(new MapNodeDiscoveredEvent.Context
+            {
+                nodeID = closestPointID
+            });
         }
         pos.z -= 1;
 

@@ -27,6 +27,7 @@ namespace Shapes
 		enum EditMode
 		{
 			AddPoints,
+			GetPointID,
 			COUNT
 		}
 
@@ -89,6 +90,29 @@ namespace Shapes
 				{
 					if (Event.current.type == EventType.MouseMove)
 						SceneView.lastActiveSceneView.Repaint();
+					
+					Handles.BeginGUI();
+					Vector2 mousePos = Event.current.mousePosition;
+					Rect r = new Rect(mousePos.x + 32, mousePos.y, Screen.width, 128);
+
+
+					string label = "Press Tab to cycle modes:";
+
+					void SelectLabel(string str, EditMode mode, bool exists = true)
+					{
+						if (exists == false)
+							return;
+						if (mode == currentEditMode)
+							label += "\n> " + str;
+						else
+							label += "\n  " + str;
+					}
+
+					SelectLabel("Add/Select/Remove Points", EditMode.AddPoints);
+					SelectLabel("Get Point ID", EditMode.GetPointID);
+
+					GUI.Label(r, label);
+					Handles.EndGUI();
 				}
 
 				if (routeLineData == null)
@@ -173,16 +197,41 @@ namespace Shapes
 
 					Handles.EndGUI();
 				}
+				else if (currentEditMode == EditMode.GetPointID)
+				{
+					Handles.BeginGUI();
+					for (int i = 0; i < pointsInView.Count; i++)
+					{
+						MapPoint mp = pointsInView[i];
+						if (!routeLineData.pointIDs.Contains(mp.id))
+						{
+							continue;
+						}
+
+						Vector3 ptWorld = lineMap.transform.TransformPoint(mp.point);
+						Vector2 ptScreen = HandleUtility.WorldToGUIPoint(ptWorld);
+
+						GUI.Label(new Rect(ptScreen.x + 10, ptScreen.y - 10, 100, 20), mp.id.ToString());
+
+						if (TextureButton(ptWorld, UIAssets.Instance.pointEditColor, 0.5f, fade: false))
+						{
+							EditorGUIUtility.systemCopyBuffer = mp.id.ToString();
+							Debug.Log($"Copied point ID {mp.id} to clipboard");
+						}
+					}
+
+					Handles.EndGUI();
+				}
 
 				if (routeLineData.pointIDs.Count < 2)
-				{
-					routePolyline.Mesh.Clear();
-				}
-				else if (routeChanged)
-				{
-					routePolyline.SetPoints(lineMap.GetMapPointsFromIDs(routeLineData.pointIDs).Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray());
-					routeLineData.SetLength(routePolyline.points);
-				}
+					{
+						routePolyline.Mesh.Clear();
+					}
+					else if (routeChanged)
+					{
+						routePolyline.SetPoints(lineMap.GetMapPointsFromIDs(routeLineData.pointIDs).Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray());
+						routeLineData.SetLength(routePolyline.points);
+					}
 			}
 
 			return routeLineData;

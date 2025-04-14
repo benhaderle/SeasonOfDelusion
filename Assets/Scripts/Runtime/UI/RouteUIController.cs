@@ -181,6 +181,8 @@ public class RouteUIController : MonoBehaviour
     public void OnConfirmButton()
     {
         OnToggle(false);
+
+        selectedRoute.saveData.data.numTimesRun++;
         RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
         {
             runners = TeamModel.Instance.PlayerRunners.ToList(),
