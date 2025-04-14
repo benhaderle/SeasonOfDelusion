@@ -90,7 +90,7 @@ public class RouteUIController : MonoBehaviour
                 activeRouteMapCards.Add(rmc);
             }
 
-            cardWidth = routeMapCardLayoutGroup.GetComponentInChildren<HorizontalLayoutGroup>().preferredWidth;
+            cardWidth = routeMapCardLayoutGroup.GetComponentInChildren<LayoutElement>().preferredWidth;
             int horizontalPadding = (int)(routeMapCardScrollRect.GetComponent<RectTransform>().rect.width - cardWidth) / 2;
             routeMapCardLayoutGroup.padding.left = horizontalPadding;
             routeMapCardLayoutGroup.padding.right = horizontalPadding;
