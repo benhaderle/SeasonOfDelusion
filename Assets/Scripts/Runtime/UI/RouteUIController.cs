@@ -67,6 +67,8 @@ public class RouteUIController : MonoBehaviour
         MapCameraController.routeLineTappedEvent.RemoveListener(OnRouteLineTapped);
     }
 
+    #region Event Listeners
+
     private void OnToggle(bool active)
     {
         if (active)
@@ -140,44 +142,9 @@ public class RouteUIController : MonoBehaviour
     {
         SelectRoute(RouteModel.Instance.Routes.First(r => r.Name == context.routeName));
     }
+    #endregion
 
-    private void SelectRoute(Route r)
-    {
-        selectedRoute = r;
-
-        if (selectedRoute != null)
-        {
-            CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.one));
-
-            RouteMapCard card = activeRouteMapCards.First(rmc => rmc.RouteName == r.Name);
-            CNExtensions.SafeStartCoroutine(this, ref scrollRoutine, ScrollToCard(card, routeMapCardScrollRect.transform.localScale.y < 1 ? 0.01f : GameManager.Instance.DefaultUIAnimationTime));
-
-            confirmButton.interactable = true;
-        }
-        else
-        {
-            CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.right));
-
-            confirmButton.interactable = false;
-        }
-
-        routeSelectedEvent.Invoke(new RouteSelectedEvent.Context
-        {
-            route = r
-        });
-    }
-
-    public void OnRosterButton()
-    {
-        OnToggle(false);
-        CutsceneUIController.toggleEvent.Invoke(false);
-        RosterUIController.toggleEvent.Invoke(true, () =>
-        {
-            CutsceneUIController.toggleEvent.Invoke(true);
-            toggleEvent.Invoke(true);
-        });
-    }
-
+    #region UI Callbacks
     public void OnConfirmButton()
     {
         OnToggle(false);
@@ -215,6 +182,46 @@ public class RouteUIController : MonoBehaviour
         }
     }
 
+    public void OnRosterButton()
+    {
+        OnToggle(false);
+        CutsceneUIController.toggleEvent.Invoke(false);
+        RosterUIController.toggleEvent.Invoke(true, () =>
+        {
+            CutsceneUIController.toggleEvent.Invoke(true);
+            toggleEvent.Invoke(true);
+        });
+    }
+
+    #endregion
+
+    #region Utility Functions
+    private void SelectRoute(Route r)
+    {
+        selectedRoute = r;
+
+        if (selectedRoute != null)
+        {
+            CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.one));
+
+            RouteMapCard card = activeRouteMapCards.First(rmc => rmc.RouteName == r.Name);
+            CNExtensions.SafeStartCoroutine(this, ref scrollRoutine, ScrollToCard(card, routeMapCardScrollRect.transform.localScale.y < 1 ? 0.01f : GameManager.Instance.DefaultUIAnimationTime));
+
+            confirmButton.interactable = true;
+        }
+        else
+        {
+            CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.right));
+
+            confirmButton.interactable = false;
+        }
+
+        routeSelectedEvent.Invoke(new RouteSelectedEvent.Context
+        {
+            route = r
+        });
+    }
+
     private IEnumerator ScrollToCard(RouteMapCard card, float time)
     {
         Vector2 targetPos = new Vector2(routeMapCardLayoutGroup.padding.left - card.GetComponent<RectTransform>().anchoredPosition.x, 0);
@@ -227,4 +234,6 @@ public class RouteUIController : MonoBehaviour
 
         routeMapCardScrollRect.StopMovement();
     }
+    
+    #endregion
 }

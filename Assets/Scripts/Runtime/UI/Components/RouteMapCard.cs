@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
-using UnityEngine.UI;
 
 /// <summary>
 /// One of the route buttons on the Routes screen
@@ -15,8 +13,6 @@ public class RouteMapCard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI lengthText;
     [SerializeField] private TextMeshProUGUI difficultyText;
-    [SerializeField] private TextMeshProUGUI elevationText;
-    [SerializeField] private TextMeshProUGUI surfaceText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
     public void Setup(Route route)
@@ -24,9 +20,17 @@ public class RouteMapCard : MonoBehaviour
         routeName = route.Name;
         nameText.text = route.Name;
         lengthText.text = $"{route.Length:F1} miles";
-        difficultyText.text = $"Gentle";
-        elevationText.text = $"200 feet";
-        surfaceText.text = $"Paved Path";
-        descriptionText.text = route.Description;
+        difficultyText.text = GetDifficultyString(route.Difficulty);
+        descriptionText.text = $"\"{route.Description}\"";
+    }
+
+    private string GetDifficultyString(float difficulty)
+    {
+        if (difficulty <= 0.7f)         return "Gentle";
+        else if (difficulty <= 0.75f)   return "Chill";
+        else if (difficulty <= 0.85f)   return "Moderate";
+        else if (difficulty <= 0.9f)    return "Challenging";
+        else if (difficulty <= 0.95f)   return "Aggressive";
+        else                            return "Difficult";
     }
 }

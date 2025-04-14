@@ -50,13 +50,16 @@ MonoBehaviour:
     name: Dam Loop
     lineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
     nodeIDForUnlock: 5756946
-    description: 
-    difficulty: 0.7
+    description: Loop that starts along the east side of the creek before climbing
+      steep, single-track switchbacks the descending the Dam and coming back on the
+      west side.
+    difficulty: 0.75
   - saveData: {fileID: 11400000, guid: d4e2d4187c62f4940a26fc62ad214fcf, type: 2}
     name: Dam Out and Back
     lineData: {fileID: 11400000, guid: 9bdc5a82150744c238790723abe92673, type: 2}
     nodeIDForUnlock: 0
-    description: 
+    description: Along the forested west side of the creek to the top of the Dam
+      and back.
     difficulty: 0.7
   - saveData: {fileID: 11400000, guid: 95692dfd87fbb41ffb23267e41f1c3a4, type: 2}
     name: Night Run Loop
@@ -68,43 +71,46 @@ MonoBehaviour:
     name: Red Bridge
     lineData: {fileID: 11400000, guid: d6a8609ae9c0a480b998071c0afa82cc, type: 2}
     nodeIDForUnlock: 0
-    description: 
+    description: Rolling paved trail through the woods with a loop over the Red Bridge
+      at the mouth of the creek.
     difficulty: 0.7
   - saveData: {fileID: 11400000, guid: 5f098b1a2a8e447af928cba03464d73d, type: 2}
     name: Sierra Azul
     lineData: {fileID: 11400000, guid: 07bd81b8ac633405ca20600f28e5abb3, type: 2}
     nodeIDForUnlock: -1
     description: 
-    difficulty: 0.7
+    difficulty: 1
   - saveData: {fileID: 11400000, guid: 0c09adeda2fa74ba5b9cf5f5757e409d, type: 2}
     name: 'St. Joe''s (Long) '
     lineData: {fileID: 11400000, guid: 87662c08fc06843e982329e4568db769, type: 2}
     nodeIDForUnlock: -1
     description: 
-    difficulty: 0.7
+    difficulty: 0.95
   - saveData: {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
     name: 'St. Joe''s (Short) '
     lineData: {fileID: 11400000, guid: ed2d10cbc7ff245b0a25d5bba6e46fef, type: 2}
     nodeIDForUnlock: 8567129
-    description: 
-    difficulty: 0.7
+    description: A stepped climb along exposed fire roads with wide views at the
+      top.
+    difficulty: 0.9
   - saveData: {fileID: 11400000, guid: 192d702ddff4f4e3e8541919ed45674f, type: 2}
     name: Big Town Loop
     lineData: {fileID: 11400000, guid: b4b730c59055a4e8fbc7852b9f0d3d29, type: 2}
     nodeIDForUnlock: 219275
-    description: 
-    difficulty: 0.7
+    description: Heads out to the edge of town before looping back through downtown
+      along Main Street.
+    difficulty: 0.75
   - saveData: {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
     name: Small Town Loop
     lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
     nodeIDForUnlock: -1
-    description: 
+    description: Surface street loop around the core of town.
     difficulty: 0.7
   - saveData: {fileID: 11400000, guid: 095d3b766c1ff49b8a032fa0c970f03a, type: 2}
     name: Lake Loop
     lineData: {fileID: 11400000, guid: 491b0becf8b074a0c917c391cd15a39b, type: 2}
     nodeIDForUnlock: 36266230
-    description: 
+    description: 'Flat, idyllic loop around the Lake. '
     difficulty: 0.7
   raceRoutes:
   - id: CrystalSprings
