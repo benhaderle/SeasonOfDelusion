@@ -14,8 +14,6 @@ using Unity.VisualScripting;
 /// </summary>
 public class RouteUIController : MonoBehaviour
 {
-    private enum State { RouteSelection = 0, EaseSelection = 1 };
-    private State currentState;
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RawImage mapDislayImage;
@@ -26,6 +24,12 @@ public class RouteUIController : MonoBehaviour
     [SerializeField] private PoolContext routeMapCardPool;
     private List<RouteMapCard> activeRouteMapCards = new();
     [SerializeField] private Button confirmButton;
+    [Header("Routes View Toggle References")]
+    [SerializeField] private Image routesViewToggleButtonImage;
+    [SerializeField] private Image routesViewToggleButtonShadowImage;
+    [SerializeField] private Sprite toggleOnSprite;
+    [SerializeField] private Sprite toggleOffSprite;
+    private bool routesViewToggleOn = true;
 
     private Route selectedRoute;
     private float cardWidth;
@@ -145,6 +149,23 @@ public class RouteUIController : MonoBehaviour
     #endregion
 
     #region UI Callbacks
+    public void OnRoutesViewToggle()
+    {
+        routesViewToggleOn = !routesViewToggleOn;
+        if (routesViewToggleOn)
+        {
+            routesViewToggleButtonShadowImage.sprite = toggleOnSprite;
+            routesViewToggleButtonImage.sprite = toggleOnSprite;
+        }
+        else
+        {
+            routesViewToggleButtonShadowImage.sprite = toggleOffSprite;
+            routesViewToggleButtonImage.sprite = toggleOffSprite;
+        }
+
+        MapController.toggleRoutesEvent.Invoke();
+    }
+
     public void OnConfirmButton()
     {
         OnToggle(false);

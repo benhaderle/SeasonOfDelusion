@@ -34,6 +34,10 @@ public class MapController : MonoBehaviour
         }
     };
     public static ShowRoutesEvent showRoutesEvent = new();
+    public class ToggleRoutesEvent : UnityEvent
+    {
+    };
+    public static ToggleRoutesEvent toggleRoutesEvent = new();
     public class MapPointDiscoveredEvent : UnityEvent<MapPointDiscoveredEvent.Context>
     {
         public class Context
@@ -60,6 +64,7 @@ public class MapController : MonoBehaviour
     private void OnEnable()
     {
         showRoutesEvent.AddListener(OnShowRoutes);
+        toggleRoutesEvent.AddListener(OnToggleRoutes);
         RouteUIController.routeSelectedEvent.AddListener(OnRouteSelected);
         RunController.startRunEvent.AddListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
@@ -69,6 +74,7 @@ public class MapController : MonoBehaviour
     private void OnDisable()
     {
         showRoutesEvent.RemoveListener(OnShowRoutes);
+        toggleRoutesEvent.RemoveListener(OnToggleRoutes);
         RouteUIController.routeSelectedEvent.RemoveListener(OnRouteSelected);
         RunController.startRunEvent.RemoveListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
@@ -93,6 +99,16 @@ public class MapController : MonoBehaviour
         for (int i = 0; i < context.routes.Count; i++)
         {
             InstantiateRouteLine(context.routes[i], true);
+        }
+    }
+
+    private void OnToggleRoutes()
+    {
+        activeRouteLines.ForEach(rl => rl.gameObject.SetActive(!rl.gameObject.activeSelf));
+        
+        if(!activeRouteLines[0].gameObject.activeSelf)
+        {
+            MapCameraController.mapUnselectedEvent.Invoke();
         }
     }
 

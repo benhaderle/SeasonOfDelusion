@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulationSecondsPerRealSeconds: 300
+  pauseTime: 0.1
   simulationStep: 60
   maxDeviation: 0.1
   experienceCap: 1000000
