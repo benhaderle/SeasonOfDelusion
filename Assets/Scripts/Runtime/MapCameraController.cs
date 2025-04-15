@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Shapes;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,9 @@ public class MapCameraController : MonoBehaviour
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float zoomMin;
     [SerializeField] private float zoomMax;
-    [SerializeField] private float dampingTime = .1f;
+    [SerializeField] private float menuDampingTime = .1f;
+    [SerializeField] private float simulationDampingTime = .5f;
+    private float currentDampingTime;
     [SerializeField] private float maxBoundsPadding = 5f;
     [SerializeField] private LayerMask tappingLayerMask;
     private Vector3 lastDragViewportPosition;
@@ -20,6 +23,7 @@ public class MapCameraController : MonoBehaviour
     private float targetZoom = 0;
     private float dampingZoomVelocity = 0;
     private Bounds maxBounds;
+    private Bounds currentRouteBounds;
 
     #region Events
     public class SetMaxBoundsEvent : UnityEvent<SetMaxBoundsEvent.Context>
@@ -77,6 +81,10 @@ public class MapCameraController : MonoBehaviour
     public static FocusOnBoundsEvent focusOnBoundsEvent = new();
     #endregion
 
+    private void Awake()
+    {
+        currentDampingTime = menuDampingTime;
+    }
     private void OnEnable()
     {
         setMaxBoundsEvent.AddListener(OnSetMaxBounds);
@@ -84,6 +92,8 @@ public class MapCameraController : MonoBehaviour
         zoomEvent.AddListener(OnZoom);
         tapEvent.AddListener(OnTap);
         focusOnBoundsEvent.AddListener(OnFocusOnBounds);
+        RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
+        RunController.runSimulationResumeEvent.AddListener(OnRunSimulationResume);
     }
 
     private void OnDisable()
@@ -93,13 +103,15 @@ public class MapCameraController : MonoBehaviour
         zoomEvent.RemoveListener(OnZoom);
         tapEvent.RemoveListener(OnTap);
         focusOnBoundsEvent.RemoveListener(OnFocusOnBounds);
+        RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
+        RunController.runSimulationResumeEvent.RemoveListener(OnRunSimulationResume);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref dampingVelocity, dampingTime);
-        camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, targetZoom, ref dampingZoomVelocity, dampingTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref dampingVelocity, currentDampingTime);
+        camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, targetZoom, ref dampingZoomVelocity, currentDampingTime);
     }
 
     private void OnSetMaxBounds(SetMaxBoundsEvent.Context context)
@@ -111,7 +123,6 @@ public class MapCameraController : MonoBehaviour
 
     private void OnDrag(DragEvent.Context context)
     {
-
         if (!context.firstFrame)
         {
             Vector3 uvWorldPos = camera.ViewportToWorldPoint(new Vector3(context.uvPosition.x, context.uvPosition.y, -transform.position.z));
@@ -148,15 +159,32 @@ public class MapCameraController : MonoBehaviour
 
     private void OnFocusOnBounds(FocusOnBoundsEvent.Context context)
     {
-        SetTargetPosition(context.bounds.center);
+        FocusOnBounds(context.bounds);
+        currentRouteBounds = context.bounds;
+    }
 
-        if (context.bounds.size.x > context.bounds.size.y)
+    private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
+    {
+        currentDampingTime = simulationDampingTime;
+        FocusOnBounds(new Bounds(new Vector3(context.unlockedPoint.point.x, context.unlockedPoint.point.y), new Vector3(1, 1)));
+    }
+
+    private void OnRunSimulationResume(RunController.RunSimulationResumeEvent.Context context)
+    {
+        FocusOnBounds(currentRouteBounds);
+    }
+
+    private void FocusOnBounds(Bounds bounds)
+    {
+        SetTargetPosition(bounds.center);
+
+        if (bounds.size.x > bounds.size.y)
         {
-            targetZoom = Mathf.Abs(context.bounds.size.x) / camera.aspect / 2f;
+            targetZoom = Mathf.Abs(bounds.size.x) / camera.aspect / 2f;
         }
         else
         {
-            targetZoom = Mathf.Abs(context.bounds.size.y) / 2f;
+            targetZoom = Mathf.Abs(bounds.size.y) / 2f;
         }
         targetZoom *= 2f;
         targetZoom = Mathf.Clamp(targetZoom, zoomMin, zoomMax);

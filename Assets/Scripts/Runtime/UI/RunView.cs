@@ -18,6 +18,7 @@ public class RunView : MonoBehaviour
     [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI routeText;
     [SerializeField] private TextMeshProUGUI easeText;
+    [SerializeField] private TextMeshProUGUI newRouteText;
     [Header("Map View")]
     [SerializeField] private RawImage mapViewImage;
     [Header("Runner List")]
@@ -26,11 +27,12 @@ public class RunView : MonoBehaviour
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
     private Dictionary<Runner, RunnerSimulationCard> activeRunnerCardDictionary = new();
-
     [SerializeField] private CanvasGroup continueButtonContainer;
 
     private IEnumerator toggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
+
+    private bool newRouteUnlocked = false;
 
     #region Events
     public class PostRunContinueButtonPressedEvent : UnityEvent<PostRunContinueButtonPressedEvent.Context>
@@ -53,6 +55,7 @@ public class RunView : MonoBehaviour
         RunController.startRunEvent.AddListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
         RunController.runSimulationEndedEvent.AddListener(OnRunSimulationEnded);
+        RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
     }
 
     private void OnDisable()
@@ -60,12 +63,26 @@ public class RunView : MonoBehaviour
         RunController.startRunEvent.RemoveListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
         RunController.runSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
+        RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
     }
 
     public void OnContinueButton()
     {
-        Toggle(false);
-        postRunContinueButtonPressedEvent.Invoke(new PostRunContinueButtonPressedEvent.Context { });
+        if (!newRouteUnlocked)
+        {
+            Toggle(false);
+            postRunContinueButtonPressedEvent.Invoke(new PostRunContinueButtonPressedEvent.Context { });
+        }
+        else
+        {
+            newRouteUnlocked = false;
+            easeText.gameObject.SetActive(true);
+            routeText.gameObject.SetActive(true);
+            newRouteText.gameObject.SetActive(false);
+
+            CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 1, 0, false, true, true));
+            RunController.runSimulationResumeEvent.Invoke(new RunController.RunSimulationResumeEvent.Context { });
+        }
     }
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
@@ -130,6 +147,16 @@ public class RunView : MonoBehaviour
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
         }
 
+        CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
+    }
+
+    private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
+    {
+        easeText.gameObject.SetActive(false);
+        routeText.gameObject.SetActive(false);
+        newRouteText.gameObject.SetActive(true);
+
+        newRouteUnlocked = true;
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
 

@@ -164,9 +164,9 @@ namespace Shapes
 			if (needToBuildLines || meshLines.Count == 0)
 			{
 				needToBuildLines = true;
-				meshLines.Clear();	
+				meshLines.Clear();
 			}
-			
+
 			while (needToBuildLines && neighborsDictionary.Sum(kvp => kvp.Value.Count) > 0)
 			{
 				MapPoint currentPoint = neighborsDictionary.Where(kvp => kvp.Value.Count > 0).OrderBy(kvp => kvp.Value.Count).ToList()[0].Key;
@@ -307,6 +307,11 @@ namespace Shapes
 			}
 
 			return pathPoints;
+		}
+
+		public MapPoint GetMapPointFromID(int id)
+		{
+			return points.GetDictionary().Keys.FirstOrDefault(mp => mp.id == id);
 		}
 
 	}

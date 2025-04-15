@@ -12,6 +12,7 @@ public class MapController : MonoBehaviour
 
     [SerializeField] private LineMap lineMap;
     [SerializeField] private MapSaveDataSO mapSaveData;
+    [SerializeField] private GameObject newRouteSimulationMarker;
     [Header("Line Variables and References")]
     [SerializeField] private PoolContext polylinePool;
     [SerializeField] private Color selectedLineColor;
@@ -33,14 +34,14 @@ public class MapController : MonoBehaviour
         }
     };
     public static ShowRoutesEvent showRoutesEvent = new();
-    public class MapNodeDiscoveredEvent : UnityEvent<MapNodeDiscoveredEvent.Context>
+    public class MapPointDiscoveredEvent : UnityEvent<MapPointDiscoveredEvent.Context>
     {
         public class Context
         {
-            public int nodeID;
+            public MapPoint point;
         }
     };
-    public static MapNodeDiscoveredEvent mapNodeDiscoveredEvent = new();
+    public static MapPointDiscoveredEvent mapPointDiscoveredEvent = new();
     #endregion
 
     private void Awake()
@@ -62,6 +63,7 @@ public class MapController : MonoBehaviour
         RouteUIController.routeSelectedEvent.AddListener(OnRouteSelected);
         RunController.startRunEvent.AddListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
+        RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
     }
 
     private void OnDisable()
@@ -70,6 +72,7 @@ public class MapController : MonoBehaviour
         RouteUIController.routeSelectedEvent.RemoveListener(OnRouteSelected);
         RunController.startRunEvent.RemoveListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
+        RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
     }
 
     private void Start()
@@ -133,6 +136,14 @@ public class MapController : MonoBehaviour
         }
     }
 
+    private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
+    {
+        newRouteSimulationMarker.SetActive(true);
+        int nextPointID = context.route.lineData.pointIDs.FindIndex(id => id == context.unlockedPoint.id) + 1;
+        Vector3 offset = (lineMap.GetMapPointFromID(context.route.lineData.pointIDs[nextPointID]).point - context.unlockedPoint.point).normalized;
+        newRouteSimulationMarker.transform.position = context.unlockedPoint.point + offset;
+    }
+
     #endregion
 
     private void SelectLine(RouteLine rl)
@@ -177,9 +188,9 @@ public class MapController : MonoBehaviour
         {
             mapSaveData.mapPointDictionary[closestPointID].discovered = true;
             lineMap.SetPointDiscovered(closestPointID, true);
-            mapNodeDiscoveredEvent.Invoke(new MapNodeDiscoveredEvent.Context
+            mapPointDiscoveredEvent.Invoke(new MapPointDiscoveredEvent.Context
             {
-                nodeID = closestPointID
+                point = lineMap.GetMapPointFromID(closestPointID)
             });
         }
         pos.z -= 1;

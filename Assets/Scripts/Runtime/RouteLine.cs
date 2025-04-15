@@ -17,7 +17,6 @@ public class RouteLine : MonoBehaviour
     [SerializeField] private MeshCollider meshCollider;
     private float length;
     
-
     public void Setup(string routeName, List<MapPoint> points, List<bool> pointsDiscovered, bool showNewRouteText, Color color, float thickness)
     {
         this.routeName = routeName;

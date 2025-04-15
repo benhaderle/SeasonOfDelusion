@@ -16,6 +16,8 @@ public class RunController : MonoBehaviour
     /// How fast the simulation should run at
     /// </summary>
     [SerializeField] private float simulationSecondsPerRealSeconds = 30;
+    [SerializeField] private float pauseTime = .5f;
+    private float currentSimulationSecondsPerRealSeconds;
 
     /// <summary>
     /// How many simulation-seconds should pass before we update people's speeds and such
@@ -42,9 +44,11 @@ public class RunController : MonoBehaviour
     /// </summary>
     [SerializeField] private float sorenessEffect = .1f;
 
+    private IEnumerator pauseRoutine;
+
     #region Events
-    public class StartRunEvent : UnityEvent<StartRunEvent.Context> 
-    { 
+    public class StartRunEvent : UnityEvent<StartRunEvent.Context>
+    {
         public class Context
         {
             public List<Runner> runners;
@@ -71,16 +75,29 @@ public class RunController : MonoBehaviour
         }
     }
     public static RunSimulationEndedEvent runSimulationEndedEvent = new ();
+
+    public class RunSimulationResumeEvent : UnityEvent<RunSimulationResumeEvent.Context>
+    {
+        public class Context
+        {
+        }
+    }
+    public static RunSimulationResumeEvent runSimulationResumeEvent = new ();
+    
     #endregion
 
     private void OnEnable()
     {
         startRunEvent.AddListener(OnStartRun);
+        runSimulationResumeEvent.AddListener(OnRunSimulationResume);
+        RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
     }
 
     private void OnDisable()
     {
         startRunEvent.RemoveListener(OnStartRun);
+        runSimulationResumeEvent.RemoveListener(OnRunSimulationResume);
+        RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
     }
 
     private void OnStartRun(StartRunEvent.Context context)
@@ -88,15 +105,42 @@ public class RunController : MonoBehaviour
         StartCoroutine(SimulateRunRoutine(context.runners, context.route, context.runConditions));
     }
 
+    private void OnRunSimulationResume(RunSimulationResumeEvent.Context context)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref pauseRoutine, LerpSimulationSpeed(simulationSecondsPerRealSeconds, pauseTime));
+    }
+
+    private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref pauseRoutine, LerpSimulationSpeed(0, pauseTime));
+    }
+
+    private IEnumerator LerpSimulationSpeed(float targetSpeed, float duration)
+    {
+        float startSpeed = currentSimulationSecondsPerRealSeconds;
+        float timePassed = 0;
+
+        while (timePassed < duration)
+        {
+            currentSimulationSecondsPerRealSeconds = Mathf.Lerp(startSpeed, targetSpeed, timePassed / duration);
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        currentSimulationSecondsPerRealSeconds = targetSpeed;
+    }
+
     private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions)
     {
         //wait a frame for the other starts to get going
         yield return null;
 
+        currentSimulationSecondsPerRealSeconds = simulationSecondsPerRealSeconds;
+
         // go through each runner and initialize their state for this run
         // most of the work here is setting up what the vo2 for this run should be to begin the run with
         Dictionary<Runner, RunnerState> runnerStates = new();
-        foreach(Runner runner in runners)
+        foreach (Runner runner in runners)
         {
             // TODO: if the coach guidance is slow already, should heavy soreness make you go slower?
             // TODO: thinkin that maybe this is too random
@@ -112,10 +156,10 @@ public class RunController : MonoBehaviour
         }
 
         // while all runners have not finished, simulate the run
-        while(runnerStates.Values.Any(state => state.totalDistance < route.Length))
+        while (runnerStates.Values.Any(state => state.totalDistance < route.Length))
         {
             // first figure out every runner's preferred speed
-            foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+            foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
             {
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
@@ -145,9 +189,15 @@ public class RunController : MonoBehaviour
 
             //then spend a step simulating before moving on to the next iteration
             float simulationTime = simulationStep;
-            while(simulationTime > 0)
+            while (simulationTime > 0)
             {
-                float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
+                if(currentSimulationSecondsPerRealSeconds == 0)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                float timePassed = currentSimulationSecondsPerRealSeconds * Time.deltaTime;
                 RunUtility.StepRunState(runnerStates, timePassed, route.Length, route.Length);
 
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
@@ -162,7 +212,7 @@ public class RunController : MonoBehaviour
 
         // post run update
         Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
-        foreach(KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+        foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;

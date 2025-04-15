@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
+using Shapes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,6 +25,7 @@ public class RouteModel : Singleton<RouteModel>
         public class Context
         {
             public Route route;
+            public MapPoint unlockedPoint;
         }
     };
     public static RouteUnlockedEvent routeUnlockedEvent = new();
@@ -53,23 +55,24 @@ public class RouteModel : Singleton<RouteModel>
 
     private void OnEnable()
     {
-        MapController.mapNodeDiscoveredEvent.AddListener(OnMapNodeDiscovered);
+        MapController.mapPointDiscoveredEvent.AddListener(OnMapNodeDiscovered);
     }
 
     private void OnDisable()
     {
-        MapController.mapNodeDiscoveredEvent.RemoveListener(OnMapNodeDiscovered);
+        MapController.mapPointDiscoveredEvent.RemoveListener(OnMapNodeDiscovered);
     }
 
-    private void OnMapNodeDiscovered(MapController.MapNodeDiscoveredEvent.Context context)
+    private void OnMapNodeDiscovered(MapController.MapPointDiscoveredEvent.Context context)
     {
         for (int i = 0; i < routes.Count; i++)
         {
-            if (routes[i].CheckUnlock(context.nodeID))
+            if (routes[i].CheckUnlock(context.point.id))
             {
                 routeUnlockedEvent.Invoke(new RouteUnlockedEvent.Context
                 {
-                    route = routes[i]
+                    route = routes[i],
+                    unlockedPoint = context.point
                 });
             }
         }
