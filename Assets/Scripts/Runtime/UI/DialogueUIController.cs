@@ -9,7 +9,7 @@ public class DialogueUIController : MonoBehaviour
     [SerializeField] private DialogueRunner dialogueRunner;
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
-    private DialogueID currentDialogueID;
+    private string currentDialogueID;
 
     private IEnumerator toggleRoutine;
 
@@ -21,7 +21,7 @@ public class DialogueUIController : MonoBehaviour
     {
         public class Context
         {
-            public DialogueID dialogueID;
+            public string dialogueID;
         }
     };
     public static StartDialogueEvent startDialgoueEvent = new StartDialogueEvent();
@@ -29,7 +29,7 @@ public class DialogueUIController : MonoBehaviour
     {
         public class Context
         {
-            public DialogueID dialogueID;
+            public string dialogueID;
         }
     };
     public static DialogueEndedEvent dialogueEndedEvent = new DialogueEndedEvent();
@@ -55,9 +55,9 @@ public class DialogueUIController : MonoBehaviour
     #if UNITY_EDITOR
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && canvasGroup.alpha == 1)
+        if(Input.GetKeyDown(KeyCode.Space) && dialogueRunner.IsDialogueRunning)
         {
-            EndDialogue();    
+            dialogueRunner.Stop();
         }
     }
     #endif
@@ -80,18 +80,13 @@ public class DialogueUIController : MonoBehaviour
         dialogueRunner.StartDialogue($"{context.dialogueID}Dialogue");
     }
 
-    public void OnDialogueNodeCompleted()
-    {
-        EndDialogue();
-    }
-
-    #region Utility Functions
-
-    private void EndDialogue()
+    public void OnDialogueCompleted()
     {
         OnToggle(false);
         dialogueEndedEvent.Invoke(new DialogueEndedEvent.Context { dialogueID = currentDialogueID });
     }
+
+    #region Utility Functions
 
     private IEnumerator ToggleOffRoutine()
     {

@@ -32,24 +32,31 @@
             "date": "8/13/12",
             "events":[
                 {
-                    "name": "FIRSTDAYCUTSCENE",
+                    "name": "DAY1PRECUTSCENE",
                     "type": "Cutscene",
                     "timeHours": 14,
                     "timeMinutes": 20,
                     "cutsceneID": "Intro"
                 },
                 {
-                    "name": "FIRSTDAYDIALOGUE",
+                    "name": "DAY1PREDIALOGUE",
                     "type": "Dialogue",
                     "timeHours": 14,
                     "timeMinutes": 20,
-                    "dialogueID": "Intro"
+                    "dialogueID": "Day1Pre"
                 },
                 {
-                    "name": "FIRSTDAYPRACTICE",
+                    "name": "DAY1PRACTICE",
                     "type": "Practice",
                     "timeHours": 14,
                     "timeMinutes": 30
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 15,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day1Post"
                 }
             ]
         },
@@ -62,6 +69,13 @@
                     "timeHours": 14,
                     "timeMinutes": 20,
                     "cutsceneID": "Preday"
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day2Pre"
                 },
                 {
                     "name": "NORMALPRACTICE",
@@ -80,6 +94,13 @@
                     "timeHours": 14,
                     "timeMinutes": 20,
                     "cutsceneID": "Preday"
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day3Pre"
                 },
                 {
                     "name": "NORMALPRACTICE",

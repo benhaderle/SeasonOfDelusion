@@ -1,0 +1,20 @@
+﻿title: Day3PreDialogue
+tags:
+---
+Coach: Where's Ryan? Am I already down one?
+Rico: Ugh dude, he's probably mackin on his "girl".
+James: I thought she was just a friend.
+Rico: Whatever she is, she's on my shitlist.
+Coach: Alright, let's just get started-
+Ryan: Hey guys sorry I'm late!
+Rico: Well, well, well, look who deigns to come to practice. Drop and give me 20, toolbag.
+Ryan: Dude I'm like 5 min late. 
+Coach: Well now we get to discuss consequences for lateness.
+-> Ryan does 20 pushups
+    Rico: Suck it Ryan. Gimme 20.
+    Ryan: Shut up dude.
+-> Everyone does 20 pushups
+    Rico: Oh my god Ryan, what the hell. Whatever, 20 is nothing for me.
+    Ryan: Sorry guys, won't happen again.
+Coach: Alright. Let's get started.
+===

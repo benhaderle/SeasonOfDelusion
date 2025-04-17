@@ -181,10 +181,8 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void LoadDialogueEvent(DayEvent dialogueEvent)
     {
-        Enum.TryParse(dialogueEvent.dialogueID, out DialogueID dialogueID);
-
         DialogueUIController.toggleEvent.Invoke(true);
-        DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = dialogueID });
+        DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = dialogueEvent.dialogueID });
     }
 
     private void LoadPracticeEvent(DayEvent practiceEvent)
