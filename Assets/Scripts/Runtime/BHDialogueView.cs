@@ -51,6 +51,8 @@ public class BHDialogueView : DialogueViewBase
     [Min(0)]
     public float fadeOutTime = 0.05f;
 
+    [SerializeField] private float typewriterAnimationSpeed = 1;
+
     [Header("Lines View")]
     /// <summary>
     /// The canvas group that contains the UI elements used by this Line
@@ -311,37 +313,14 @@ public class BHDialogueView : DialogueViewBase
                     yield break;
                 }
             }
+            else
+            {
+                linesCanvasGroup.alpha = 1f;
+            }
 
-            //TODO: at some point I'll add an animation here-BH
-            // If we're using the typewriter effect, start it, and wait for
-            // it to finish.
-            // if (useTypewriterEffect)
-            // {
-            //     var pauses = LineView.GetPauseDurationsInsideLine(text);
-
-            //     // setting the canvas all back to its defaults because if we didn't also fade we don't have anything visible
-            //     linesCanvasGroup.alpha = 1f;
-            //     linesCanvasGroup.interactable = true;
-            //     linesCanvasGroup.blocksRaycasts = true;
-
-            //     yield return StartCoroutine(Effects.PausableTypewriter(
-            //         lineText,
-            //         typewriterEffectSpeed,
-            //         () => onCharacterTyped.Invoke(),
-            //         () => onPauseStarted.Invoke(),
-            //         () => onPauseEnded.Invoke(),
-            //         pauses,
-            //         currentStopToken
-            //     ));
-
-            //     if (currentStopToken.WasInterrupted)
-            //     {
-            //         // The typewriter effect was interrupted. Stop this
-            //         // entire coroutine.
-            //         yield break;
-            //     }
-            // }
+            yield return StartCoroutine(WordTypewriterRoutine(lineText, typewriterAnimationSpeed));
         }
+
         currentLine = dialogueLine;
         lastSeenLine = dialogueLine;
 
@@ -548,7 +527,7 @@ public class BHDialogueView : DialogueViewBase
 
             optionButton.gameObject.SetActive(true);
             optionButton.Setup(option, palette, () =>
-            { 
+            {
                 StartCoroutine(ToggleOptionsOffRoutine(option));
             });
         }
@@ -612,11 +591,69 @@ public class BHDialogueView : DialogueViewBase
     {
         yield return Effects.FadeAlpha(canvasGroup, from, to, fadeTime);
     }
-    
+
     private IEnumerator ToggleOptionsOffRoutine(DialogueOption selectedOption)
     {
         yield return StartCoroutine(FadeOptionsGroupRoutine(optionsCanvasGroup, 1, 0, fadeOutTime));
         OnOptionSelected(selectedOption.DialogueOptionID);
+    }
+
+    private IEnumerator WordTypewriterRoutine(TextMeshProUGUI text, float lettersPerSecond)
+    {
+        // Start with everything invisible
+        text.maxVisibleCharacters = 0;
+
+        // Wait a single frame to let the text component process its
+        // content, otherwise text.textInfo.characterCount won't be
+        // accurate
+        yield return null;
+
+        // How many visible characters are present in the text?
+        int characterCount = text.textInfo.characterCount;
+
+        // Early out if letter speed is zero, text length is zero
+        if (lettersPerSecond <= 0 || characterCount == 0)
+        {
+            // Show everything and return
+            text.maxVisibleCharacters = characterCount;
+            yield break;
+        }
+
+        // Convert 'letters per second' into its inverse
+        float secondsPerLetter = 1.0f / lettersPerSecond;
+
+        // If lettersPerSecond is larger than the average framerate, we
+        // need to show more than one letter per frame, so simply
+        // adding 1 letter every secondsPerLetter won't be good enough
+        // (we'd cap out at 1 letter per frame, which could be slower
+        // than the user requested.)
+        //
+        // Instead, we'll accumulate time every frame, and display as
+        // many letters in that frame as we need to in order to achieve
+        // the requested speed.
+        float accumulator = Time.deltaTime;
+
+        int[] wordLengths = text.text.Split(" ").Select(word => word.Length).ToArray();
+        int currentWordIndex = 0;
+
+        while (text.maxVisibleCharacters < characterCount)
+        {
+            // We need to show as many letters as we have accumulated
+            // time for.
+            while (currentWordIndex < wordLengths.Length && accumulator >= secondsPerLetter * wordLengths[currentWordIndex])
+            {
+                text.maxVisibleCharacters += wordLengths[currentWordIndex]+1; // +1 for the space after the word
+                accumulator -= secondsPerLetter * wordLengths[currentWordIndex];
+                currentWordIndex++;
+            }
+            accumulator += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // We either finished displaying everything, or were
+        // interrupted. Either way, display everything now.
+        text.maxVisibleCharacters = characterCount;
     }
 
 }
