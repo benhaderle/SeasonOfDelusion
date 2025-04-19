@@ -98,7 +98,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9074907689163008048}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -162,7 +162,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9074907689163008048}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -261,6 +261,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1937823260050072541, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_text
+      value: Coach
+      objectReference: {fileID: 0}
     - target: {fileID: 4027905822723301613, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -281,6 +285,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4845813624173652887, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490435308377073433, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490435308377073433, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490435308377073433, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_ChildForceExpandHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5662515647566738225, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -300,6 +320,23 @@ PrefabInstance:
     - target: {fileID: 5662515647566738225, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6397036202076950144, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_text
+      value: 'This is the last line
+
+        This is the last line
+
+        This
+        is the last line
+
+        This is the last line
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6897892233667366067, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 7968378119343334727, guid: f97d35a5a509941e688b5aa68c271de2, type: 3}
       propertyPath: m_Pivot.x

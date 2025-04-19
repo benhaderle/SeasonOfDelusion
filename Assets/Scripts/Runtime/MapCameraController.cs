@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Shapes;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 
