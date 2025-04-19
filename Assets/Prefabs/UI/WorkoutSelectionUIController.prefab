@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 4826801587412089126}
   - component: {fileID: 4404968040185871584}
   - component: {fileID: 3537242301118673964}
+  - component: {fileID: 135291264134588894}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -294,7 +295,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -331,6 +332,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &135291264134588894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623865702541867204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 10
+  animationSpeed: 5
 --- !u!1 &2116025159292109732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1273,7 @@ GameObject:
   - component: {fileID: 6724300339587129497}
   - component: {fileID: 4291474461583013134}
   - component: {fileID: 5497902214973275159}
+  - component: {fileID: 7208194756642518834}
   m_Layer: 5
   m_Name: RosterButton
   m_TagString: Untagged
@@ -1311,7 +1329,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1348,6 +1366,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7208194756642518834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042302839308063693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 25
+  animationSpeed: 0
 --- !u!1 &5118508316544998957
 GameObject:
   m_ObjectHideFlags: 0
@@ -2247,6 +2281,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1183330394388798630}
     m_Modifications:
+    - target: {fileID: -3571465949039104912, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
       propertyPath: m_Name
       value: WorkoutSelectionButton (1)
@@ -2334,7 +2372,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2298035672676523181}
   m_SourcePrefab: {fileID: 100100000, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
 --- !u!224 &823617093663545020 stripped
 RectTransform:
@@ -2346,12 +2387,33 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6323466071592744194, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
   m_PrefabInstance: {fileID: 4828383715948741707}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6399331427134437930}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea7e54a4f58ae43b4855da2c50cb3732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6399331427134437930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+  m_PrefabInstance: {fileID: 4828383715948741707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2298035672676523181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6399331427134437930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 25
+  animationSpeed: 0
 --- !u!1001 &5272439455384618664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2553,6 +2615,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1183330394388798630}
     m_Modifications:
+    - target: {fileID: -3571465949039104912, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
       propertyPath: m_Name
       value: WorkoutSelectionButton (2)
@@ -2640,7 +2706,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8231633424805300675}
   m_SourcePrefab: {fileID: 100100000, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
 --- !u!224 &3301573535237364452 stripped
 RectTransform:
@@ -2652,12 +2721,33 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6323466071592744194, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
   m_PrefabInstance: {fileID: 7331373836245518355}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 9111176523602294386}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea7e54a4f58ae43b4855da2c50cb3732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &9111176523602294386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+  m_PrefabInstance: {fileID: 7331373836245518355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8231633424805300675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9111176523602294386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 25
+  animationSpeed: 0
 --- !u!1001 &8565675853626034524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2666,6 +2756,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1183330394388798630}
     m_Modifications:
+    - target: {fileID: -3571465949039104912, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
       propertyPath: m_Name
       value: WorkoutSelectionButton
@@ -2753,14 +2847,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4071432017579498829}
   m_SourcePrefab: {fileID: 100100000, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
 --- !u!114 &2386364840357690462 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6323466071592744194, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
   m_PrefabInstance: {fileID: 8565675853626034524}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7858860106890737469}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea7e54a4f58ae43b4855da2c50cb3732, type: 3}
@@ -2771,3 +2868,24 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5219617037347099383, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
   m_PrefabInstance: {fileID: 8565675853626034524}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7858860106890737469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
+  m_PrefabInstance: {fileID: 8565675853626034524}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4071432017579498829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858860106890737469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 25
+  animationSpeed: 0
