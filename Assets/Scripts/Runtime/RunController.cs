@@ -169,7 +169,7 @@ public class RunController : MonoBehaviour
             }
 
             // now that we have everyone's desired speed, we use a gravity model to group people
-            int numGravityIterations = 2;
+            int numGravityIterations = 5;
             for (int i = 0; i < numGravityIterations; i++)
             {
                 foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
