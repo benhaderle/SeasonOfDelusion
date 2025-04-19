@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using CreateNeptune;
 using TMPro;
+using System;
 
 public class HeaderController : MonoBehaviour
 {
@@ -54,6 +55,6 @@ public class HeaderController : MonoBehaviour
 
     private void OnDayEventLoaded(SimulationModel.DayEventLoadedEvent.Context context)
     {
-        headerText.text = $"{context.date} | {context.time}";
+        headerText.text = $"{DateTime.Parse(context.date).DayOfWeek.ToString().Substring(0,3)} {context.date} | {context.time}";
     }
 }
