@@ -13,7 +13,8 @@ public class AnimatedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private bool pointerDown;
     private Vector3 startPosition;
     private Vector3 maxOffsetPosition;
-    public void Awake()
+
+    private void Awake()
     {
         if (button == null)
         {
@@ -53,5 +54,6 @@ public class AnimatedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 	public void OnPointerUp(PointerEventData eventData)
 	{
         pointerDown = false;
+        buttonBackground.rectTransform.localPosition = startPosition;
 	}
 }

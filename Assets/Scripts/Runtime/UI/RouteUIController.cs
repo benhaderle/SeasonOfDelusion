@@ -103,8 +103,26 @@ public class RouteUIController : MonoBehaviour
 
             routeMapCardScrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
 
-            SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
-            SceneManager.sceneLoaded += OnMapSceneLoaded;
+
+            bool mapSceneLoaded = false;
+            for (int j = 0; j < SceneManager.sceneCount; j++)
+            {
+                if (SceneManager.GetSceneAt(j).buildIndex == (int)mapScene)
+                {
+                    mapSceneLoaded = true;
+                    break;
+                }
+            }
+
+            if (!mapSceneLoaded)
+            {
+                SceneManager.LoadSceneAsync((int)mapScene, LoadSceneMode.Additive);
+                SceneManager.sceneLoaded += OnMapSceneLoaded;
+            }
+            else
+            {
+                StartCoroutine(SetRouteOnRetoggleRoutine());
+            }
         }
         else
         {
@@ -120,6 +138,12 @@ public class RouteUIController : MonoBehaviour
 
         activeRouteMapCards.Clear();
         routeMapCardPool.ReturnAllToPool();
+    }
+
+    private IEnumerator SetRouteOnRetoggleRoutine()
+    {
+        yield return null;
+        SelectRoute(selectedRoute);
     }
 
     private void OnMapSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)

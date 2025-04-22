@@ -550,7 +550,7 @@ MonoBehaviour:
   button: {fileID: 0}
   buttonBackground: {fileID: 0}
   animationOffset: 25
-  animationSpeed: 5
+  animationSpeed: 0
 --- !u!1 &6115772608162782395
 GameObject:
   m_ObjectHideFlags: 0
