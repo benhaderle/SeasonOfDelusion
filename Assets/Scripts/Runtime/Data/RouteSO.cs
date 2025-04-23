@@ -1,48 +1,50 @@
-using System;
-using Shapes;
-using UnityEditor;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using Shapes;
 
-public enum SurfaceType { LargeRoad, SmallRoad, LargeTrail, SmallTrail }
-
-/// <summary>
-/// Represents a route that runners can run
-/// </summary>
-[Serializable]
-public class Route
+[CreateAssetMenu(fileName = "Route", menuName = "ScriptableObjects/Route")]
+public class Route : ScriptableObject
 {
-    public RouteSaveDataSO saveData;
+    [HideInInspector] public RouteSaveDataSO saveData;
     /// <summary>
     /// The name of this route. Can be used for player display.
     /// </summary>
-    [SerializeField] private string name;
-    public string Name => name;
-
+    [SerializeField] private string displayName;
+    public string DisplayName => displayName;
     public float Length => lineData.Length;
-
-    [SerializeField] public RouteLineData lineData;
+    public RouteLineData lineData;
     [SerializeField] private int nodeIDForUnlock = -1;
     [SerializeField] private string description;
     public string Description => description;
-
     [SerializeField] private float difficulty;
     public float Difficulty => difficulty;
-
     public bool IsNewRoute => saveData.data != null && saveData.data.numTimesRun == 0 && saveData.data.unlocked;
 
-    public void Validate()
+    public void OnValidate()
     {
+
+
 #if UNITY_EDITOR
         if (saveData == null)
         {
             saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
-            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name.Replace(" ", "")}SaveData.asset");
+            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{displayName.Replace(" ", "")}SaveData.asset");
+        }
+        else
+        {
+            if (saveData.name != $"{displayName.Replace(" ", "")}SaveData")
+            {
+                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(saveData), $"{displayName.Replace(" ", "")}SaveData");
+                AssetDatabase.SaveAssets();
+            }
         }
 #endif
 
         if (string.IsNullOrWhiteSpace(saveData.data.name))
         {
-            saveData.Initialize(name);
+            saveData.Initialize(displayName);
         }
     }
 

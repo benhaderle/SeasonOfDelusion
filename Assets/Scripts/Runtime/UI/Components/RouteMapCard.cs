@@ -17,8 +17,8 @@ public class RouteMapCard : MonoBehaviour
 
     public void Setup(Route route)
     {
-        routeName = route.Name;
-        nameText.text = route.Name;
+        routeName = route.DisplayName;
+        nameText.text = route.DisplayName;
         lengthText.text = $"{route.Length:F1} miles";
         difficultyText.text = GetDifficultyString(route.Difficulty);
         descriptionText.text = $"\"{route.Description}\"";

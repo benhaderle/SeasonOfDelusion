@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
+  m_Name: DamLoopRoute
+  m_EditorClassIdentifier: 
+  route:
+    saveData: {fileID: 11400000, guid: aea63beb3c7714cefba7c59952dcb6b7, type: 2}
+    name: Dam Loop
+    lineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
+    nodeIDForUnlock: 5756946
+    description: Loop that starts along the east side of the creek before climbing
+      steep, single-track switchbacks the descending the Dam and coming back on the
+      west side.
+    difficulty: 0.75
+  saveData: {fileID: 11400000, guid: aea63beb3c7714cefba7c59952dcb6b7, type: 2}
+  displayName: Dam Loop
+  lineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
+  nodeIDForUnlock: 5756946
+  description: Loop that starts along the east side of the creek before climbing
+    steep, single-track switchbacks the descending the Dam and coming back on the
+    west side.
+  difficulty: 0.75

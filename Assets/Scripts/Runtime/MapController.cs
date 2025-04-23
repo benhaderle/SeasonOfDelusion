@@ -114,7 +114,7 @@ public class MapController : MonoBehaviour
 
     private void OnRouteSelected(RouteUIController.RouteSelectedEvent.Context context)
     {
-        SelectLine(context.route == null ? null : activeRouteLines.First(rl => rl.RouteName == context.route.Name));
+        SelectLine(context.route == null ? null : activeRouteLines.First(rl => rl.RouteName == context.route.DisplayName));
     }
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
@@ -188,7 +188,7 @@ public class MapController : MonoBehaviour
         List<MapPoint> routePoints = lineMap.GetMapPointsFromIDs(route.lineData.pointIDs);
         List<bool> pointsDiscovered = routePoints.Select(mp => mapSaveData.mapPointDictionary[mp.id].discovered).ToList();
 
-        rl.Setup(route.Name, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
+        rl.Setup(route.DisplayName, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
         
         if (route.lineData.Length == 0)
         {

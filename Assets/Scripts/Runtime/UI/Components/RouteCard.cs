@@ -17,7 +17,7 @@ public class RouteCard : MonoBehaviour
     
     public void Setup(Route route)
     {
-        nameText.text = route.Name;
+        nameText.text = route.DisplayName;
         lengthText.text = $"{route.Length} mi";
     }
 }

@@ -32,22 +32,11 @@ public class RouteModel : Singleton<RouteModel>
 
     #endregion
 
-    public void OnValidate()
-    {
-        if (routes != null)
-        {
-            for (int i = 0; i < routes.Count; i++)
-            {
-                routes[i].Validate();
-            }
-        }
-    }
-
     protected override void OnSuccessfulAwake()
     {
         for(int i = 0; i < routes.Count; i++)
         {
-            routes[i].Validate();
+            routes[i].OnValidate();
         }
 
         routes.Sort((a, b) => { return a.Length <= b.Length ? -1 : 1; });

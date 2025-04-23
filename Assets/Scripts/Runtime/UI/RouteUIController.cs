@@ -155,7 +155,7 @@ public class RouteUIController : MonoBehaviour
                 routes = RouteModel.Instance.Routes.Where(r => r.saveData.data.unlocked).ToList()
             });
 
-            SelectRoute(RouteModel.Instance.Routes.First(r => activeRouteMapCards[0].RouteName == r.Name));
+            SelectRoute(RouteModel.Instance.Routes.First(r => activeRouteMapCards[0].RouteName == r.DisplayName));
 
             SceneManager.sceneLoaded -= OnMapSceneLoaded;
         }
@@ -168,7 +168,7 @@ public class RouteUIController : MonoBehaviour
 
     private void OnRouteLineTapped(MapCameraController.RouteLineTappedEvent.Context context)
     {
-        SelectRoute(RouteModel.Instance.Routes.First(r => r.Name == context.routeName));
+        SelectRoute(RouteModel.Instance.Routes.First(r => r.DisplayName == context.routeName));
     }
     #endregion
 
@@ -213,7 +213,7 @@ public class RouteUIController : MonoBehaviour
 
             int cardIndex = Mathf.RoundToInt((-routeMapCardScrollRect.content.anchoredPosition.x - routeMapCardLayoutGroup.padding.left) / (cardWidth + routeMapCardLayoutGroup.spacing));
 
-            SelectRoute(RouteModel.Instance.Routes.First(r => r.Name == activeRouteMapCards[cardIndex].RouteName));
+            SelectRoute(RouteModel.Instance.Routes.First(r => r.DisplayName == activeRouteMapCards[cardIndex].RouteName));
         }
     }
 
@@ -223,7 +223,7 @@ public class RouteUIController : MonoBehaviour
         {
             int cardIndex = Mathf.RoundToInt((-routeMapCardScrollRect.content.anchoredPosition.x - routeMapCardLayoutGroup.padding.left) / (cardWidth + routeMapCardLayoutGroup.spacing));
 
-            SelectRoute(RouteModel.Instance.Routes.First(r => r.Name == activeRouteMapCards[cardIndex].RouteName));
+            SelectRoute(RouteModel.Instance.Routes.First(r => r.DisplayName == activeRouteMapCards[cardIndex].RouteName));
         }
     }
 
@@ -249,7 +249,7 @@ public class RouteUIController : MonoBehaviour
         {
             CNExtensions.SafeStartCoroutine(this, ref scrollToggleRoutine, CNAction.ScaleCanvasObject(routeMapCardScrollRect.gameObject, GameManager.Instance.DefaultUIAnimationTime, Vector3.one));
 
-            RouteMapCard card = activeRouteMapCards.First(rmc => rmc.RouteName == r.Name);
+            RouteMapCard card = activeRouteMapCards.First(rmc => rmc.RouteName == r.DisplayName);
             CNExtensions.SafeStartCoroutine(this, ref scrollRoutine, ScrollToCard(card, routeMapCardScrollRect.transform.localScale.y < 1 ? 0.01f : GameManager.Instance.DefaultUIAnimationTime));
 
             confirmButton.interactable = true;
