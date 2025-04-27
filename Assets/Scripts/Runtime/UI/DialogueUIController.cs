@@ -24,7 +24,7 @@ public class DialogueUIController : MonoBehaviour
             public string dialogueID;
         }
     };
-    public static StartDialogueEvent startDialgoueEvent = new StartDialogueEvent();
+    public static StartDialogueEvent startDialogueEvent = new StartDialogueEvent();
     public class DialogueEndedEvent : UnityEvent<DialogueEndedEvent.Context> 
     {
         public class Context
@@ -43,13 +43,13 @@ public class DialogueUIController : MonoBehaviour
     private void OnEnable()
     {
         toggleEvent.AddListener(OnToggle);
-        startDialgoueEvent.AddListener(OnStartDialogue);
+        startDialogueEvent.AddListener(OnStartDialogue);
     }
 
     private void OnDisable()
     {
         toggleEvent.RemoveListener(OnToggle);
-        startDialgoueEvent.RemoveListener(OnStartDialogue);
+        startDialogueEvent.RemoveListener(OnStartDialogue);
     }
 
     #if UNITY_EDITOR
@@ -66,7 +66,7 @@ public class DialogueUIController : MonoBehaviour
     {
         if(active)
         {
-            CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
+            CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, ToggleOnRoutine());
         }
         else
         {
@@ -76,8 +76,8 @@ public class DialogueUIController : MonoBehaviour
 
     private void OnStartDialogue(StartDialogueEvent.Context context)
     {
-        currentDialogueID = context.dialogueID;
-        dialogueRunner.StartDialogue($"{context.dialogueID}Dialogue");
+        CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, StartDialogueRoutine(context.dialogueID));
+
     }
 
     public void OnDialogueCompleted()
@@ -87,6 +87,18 @@ public class DialogueUIController : MonoBehaviour
     }
 
     #region Utility Functions
+
+    private IEnumerator StartDialogueRoutine(string dialogueID)
+    {
+        yield return ToggleOnRoutine();
+        currentDialogueID = dialogueID;
+        dialogueRunner.StartDialogue($"{dialogueID}Dialogue");
+    }
+
+    private IEnumerator ToggleOnRoutine()
+    {
+        yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true);
+    }
 
     private IEnumerator ToggleOffRoutine()
     {

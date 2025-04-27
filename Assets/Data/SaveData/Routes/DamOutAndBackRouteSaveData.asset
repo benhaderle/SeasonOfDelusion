@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 128ff18f320ae46ea89f02989c8175f6, type: 3}
-  m_Name: NightRunLoopSaveData
+  m_Name: DamOutAndBackRouteSaveData
   m_EditorClassIdentifier: 
+  isUnlockedAtStart: 1
   data:
-    name: 
-    unlocked: 0
-    numTimesRun: 0
+    name: Dam Out and Back
+    unlocked: 1
+    numTimesRun: 1
+    routeDialogueSaveDatas:
+    - dialgoueID: Day1CoachThoughts
+      hasBeenSeen: 0

@@ -19,6 +19,8 @@ public class RouteModel : Singleton<RouteModel>
 
     [SerializeField] private List<RaceRoute> raceRoutes;
 
+    private bool loaded;
+
     #region Events
     public class RouteUnlockedEvent : UnityEvent<RouteUnlockedEvent.Context>
     {
@@ -34,22 +36,37 @@ public class RouteModel : Singleton<RouteModel>
 
     protected override void OnSuccessfulAwake()
     {
-        for(int i = 0; i < routes.Count; i++)
-        {
-            routes[i].OnValidate();
-        }
-
         routes.Sort((a, b) => { return a.Length <= b.Length ? -1 : 1; });
     }
 
     private void OnEnable()
     {
+        SaveDataLoadedEvent.Instance.AddListener(OnSaveDataLoaded);
         MapController.mapPointDiscoveredEvent.AddListener(OnMapNodeDiscovered);
     }
 
     private void OnDisable()
     {
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
         MapController.mapPointDiscoveredEvent.RemoveListener(OnMapNodeDiscovered);
+    }
+
+    private void Start()
+    {
+        if (!loaded && SaveData.Instance.loaded)
+        {
+            OnSaveDataLoaded();
+        }
+    }
+
+    private void OnSaveDataLoaded()
+    {
+        loaded = true;
+        for (int i = 0; i < routes.Count; i++)
+        {
+            routes[i].LoadSaveData();
+        }
+        SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
     }
 
     private void OnMapNodeDiscovered(MapController.MapPointDiscoveredEvent.Context context)

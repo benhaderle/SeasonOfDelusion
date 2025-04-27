@@ -22,6 +22,7 @@ public class RunView : MonoBehaviour
     [Header("Map View")]
     [SerializeField] private RawImage mapViewImage;
     [Header("Runner List")]
+    [SerializeField] private CanvasGroup runnerListCanvasGroup;
     [SerializeField] private PoolContext runnerSimulationCardPool;
     [SerializeField] private RectTransform runnerSimulationCardParent;
     [SerializeField] private Color lightBackgroundColor;
@@ -30,6 +31,7 @@ public class RunView : MonoBehaviour
     [SerializeField] private CanvasGroup continueButtonContainer;
 
     private IEnumerator toggleRoutine;
+    private IEnumerator runnerListToggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
 
     private bool newRouteUnlocked = false;
@@ -41,7 +43,7 @@ public class RunView : MonoBehaviour
         {
         }
     }
-    public static PostRunContinueButtonPressedEvent postRunContinueButtonPressedEvent = new ();
+    public static PostRunContinueButtonPressedEvent postRunContinueButtonPressedEvent = new();
     #endregion
 
     private void Awake()
@@ -56,6 +58,8 @@ public class RunView : MonoBehaviour
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
         RunController.runSimulationEndedEvent.AddListener(OnRunSimulationEnded);
         RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
+        DialogueUIController.startDialogueEvent.AddListener(OnStartDialogue);
+        DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
     }
 
     private void OnDisable()
@@ -64,6 +68,8 @@ public class RunView : MonoBehaviour
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
         RunController.runSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
         RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
+        DialogueUIController.startDialogueEvent.RemoveListener(OnStartDialogue);
+        DialogueUIController.dialogueEndedEvent.RemoveListener(OnDialogueEnded);
     }
 
     public void OnContinueButton()
@@ -90,22 +96,22 @@ public class RunView : MonoBehaviour
         routeText.text = $"{context.route.DisplayName} - {context.route.Length:F2} mi";
 
         easeText.text = "Coach says: ";
-        if(context.route.Difficulty <= .7f)
+        if (context.route.Difficulty <= .7f)
         {
             easeText.text += "\"Talk to the birds\"";
         }
-        else if(context.route.Difficulty <= .9f)
+        else if (context.route.Difficulty <= .9f)
         {
             easeText.text += "\"Keep it honest\"";
         }
-        else 
+        else
         {
             easeText.text += "\"Let's get it rolling today\"";
         }
 
         runnerSimulationCardParent.gameObject.SetActive(true);
-        for(int i = 0; i < context.runners.Count; i++)
-        {   
+        for (int i = 0; i < context.runners.Count; i++)
+        {
             // runner card setup
             RunnerSimulationCard card = runnerSimulationCardPool.GetPooledObject<RunnerSimulationCard>();
             card.Setup(context.runners[i], i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
@@ -121,7 +127,7 @@ public class RunView : MonoBehaviour
         orderedRunners.Sort((r1, r2) =>
         {
             if (Mathf.Approximately(context.runnerStateDictionary[r1].percentDone, context.runnerStateDictionary[r2].percentDone))
-            { 
+            {
                 return context.runnerStateDictionary[r1].timeInSeconds - context.runnerStateDictionary[r2].timeInSeconds >= 0 ? -1 : 1;
             }
             else
@@ -130,7 +136,7 @@ public class RunView : MonoBehaviour
             }
         });
 
-        for(int i = 0; i < orderedRunners.Count; i++)
+        for (int i = 0; i < orderedRunners.Count; i++)
         {
             RunnerState state = context.runnerStateDictionary[orderedRunners[i]];
 
@@ -142,7 +148,7 @@ public class RunView : MonoBehaviour
 
     private void OnRunSimulationEnded(RunController.RunSimulationEndedEvent.Context context)
     {
-        foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
+        foreach (KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
         {
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
         }
@@ -160,10 +166,21 @@ public class RunView : MonoBehaviour
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
     }
 
+    private void OnStartDialogue(DialogueUIController.StartDialogueEvent.Context context)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref runnerListToggleRoutine, ToggleRunnerListRoutine(false));
+    }
+
+    private void OnDialogueEnded(DialogueUIController.DialogueEndedEvent.Context context)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref runnerListToggleRoutine, ToggleRunnerListRoutine(true));
+    }
+
     private void Toggle(bool active)
     {
         if (active)
         {
+            CNExtensions.SafeStartCoroutine(this, ref runnerListToggleRoutine, ToggleRunnerListRoutine(true));
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
 
             Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapViewImage.rectTransform, canvas);
@@ -195,6 +212,18 @@ public class RunView : MonoBehaviour
             {
                 SceneManager.UnloadSceneAsync((int)Scene.MapScene);
             }
+        }
+    }
+
+    private IEnumerator ToggleRunnerListRoutine(bool active)
+    {
+        if (active)
+        {
+            yield return CNAction.FadeObject(runnerListCanvasGroup, GameManager.Instance.DefaultUIAnimationTime, runnerListCanvasGroup.alpha, 1, CNEase.EaseType.Linear, false, false, true);
+        }
+        else
+        {
+            yield return CNAction.FadeObject(runnerListCanvasGroup, GameManager.Instance.DefaultUIAnimationTime, runnerListCanvasGroup.alpha, 0, CNEase.EaseType.Linear, false, false, true);
         }
     }
 }

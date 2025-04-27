@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Shapes;
+using System;
 
 [CreateAssetMenu(fileName = "Route", menuName = "ScriptableObjects/Route")]
 public class Route : ScriptableObject
@@ -21,31 +22,40 @@ public class Route : ScriptableObject
     [SerializeField] private float difficulty;
     public float Difficulty => difficulty;
     public bool IsNewRoute => saveData.data != null && saveData.data.numTimesRun == 0 && saveData.data.unlocked;
-
-    public void OnValidate()
-    {
-
+    [SerializeField] private RouteDialogue[] routeDialogues;
 
 #if UNITY_EDITOR
+    public void OnValidate()
+    {
         if (saveData == null)
         {
             saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
-            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{displayName.Replace(" ", "")}SaveData.asset");
+            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name}SaveData.asset");
         }
         else
         {
-            if (saveData.name != $"{displayName.Replace(" ", "")}SaveData")
+            if (saveData.name != $"{name}SaveData")
             {
-                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(saveData), $"{displayName.Replace(" ", "")}SaveData");
+                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(saveData), $"{name}SaveData");
                 AssetDatabase.SaveAssets();
             }
         }
-#endif
 
         if (string.IsNullOrWhiteSpace(saveData.data.name))
         {
             saveData.Initialize(displayName);
         }
+    }
+#endif
+
+    public void LoadSaveData()
+    {
+        if (string.IsNullOrWhiteSpace(saveData.data.name))
+        {
+            saveData.Initialize(displayName);
+        }
+
+        saveData.LoadRouteDialogueSaveData(ref routeDialogues);
     }
 
     /// <summary>
@@ -63,4 +73,31 @@ public class Route : ScriptableObject
 
         return gotUnlocked;
     }
+
+    public string GetNextDialogueID()
+    {
+        if (routeDialogues == null)
+        {
+            return null;
+        }
+
+        for(int i = 0; i < routeDialogues.Length; i++)
+        {
+            RouteDialogue currentDialogue = routeDialogues[i];
+            RouteDialogueSaveData dialogueSaveData = saveData.data.routeDialogueSaveDatas[i];
+            if (!dialogueSaveData.hasBeenSeen && currentDialogue.numTimesRunRequired <= saveData.data.numTimesRun)
+            {
+                return currentDialogue.dialogueID;
+            }
+        }
+
+        return null;
+    }
+}
+
+[Serializable]
+public class RouteDialogue
+{
+    public string dialogueID;
+    public int numTimesRunRequired = 1;
 }

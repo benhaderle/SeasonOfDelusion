@@ -12,14 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: DamOutAndBackRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: d4e2d4187c62f4940a26fc62ad214fcf, type: 2}
-    name: Dam Out and Back
-    lineData: {fileID: 11400000, guid: 9bdc5a82150744c238790723abe92673, type: 2}
-    nodeIDForUnlock: 0
-    description: Along the forested west side of the creek to the top of the Dam
-      and back.
-    difficulty: 0.7
   saveData: {fileID: 11400000, guid: d4e2d4187c62f4940a26fc62ad214fcf, type: 2}
   displayName: Dam Out and Back
   lineData: {fileID: 11400000, guid: 9bdc5a82150744c238790723abe92673, type: 2}
@@ -27,3 +19,6 @@ MonoBehaviour:
   description: Along the forested west side of the creek to the top of the Dam and
     back.
   difficulty: 0.7
+  routeDialogues:
+  - dialogueID: Day1CoachThoughtsDialogue
+    numTimesRunRequired: 0

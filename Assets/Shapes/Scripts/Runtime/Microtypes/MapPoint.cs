@@ -94,5 +94,4 @@ namespace Shapes {
 			this.thickness = thickness;
 		}
 	}
-
 }

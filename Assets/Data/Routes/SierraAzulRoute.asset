@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: SierraAzulRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: 5f098b1a2a8e447af928cba03464d73d, type: 2}
-    name: Sierra Azul
-    lineData: {fileID: 11400000, guid: 07bd81b8ac633405ca20600f28e5abb3, type: 2}
-    nodeIDForUnlock: -1
-    description: 
-    difficulty: 1
   saveData: {fileID: 11400000, guid: 5f098b1a2a8e447af928cba03464d73d, type: 2}
   displayName: Sierra Azul
   lineData: {fileID: 11400000, guid: 07bd81b8ac633405ca20600f28e5abb3, type: 2}
   nodeIDForUnlock: -1
-  description: ' '
+  description: 
   difficulty: 1

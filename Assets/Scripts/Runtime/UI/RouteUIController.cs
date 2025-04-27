@@ -96,13 +96,12 @@ public class RouteUIController : MonoBehaviour
                 activeRouteMapCards.Add(rmc);
             }
 
-            cardWidth = routeMapCardLayoutGroup.GetComponentInChildren<LayoutElement>().preferredWidth;
+            cardWidth = activeRouteMapCards[0].GetComponent<LayoutElement>().preferredWidth;
             int horizontalPadding = (int)(routeMapCardScrollRect.GetComponent<RectTransform>().rect.width - cardWidth) / 2;
             routeMapCardLayoutGroup.padding.left = horizontalPadding;
             routeMapCardLayoutGroup.padding.right = horizontalPadding;
 
             routeMapCardScrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
-
 
             bool mapSceneLoaded = false;
             for (int j = 0; j < SceneManager.sceneCount; j++)

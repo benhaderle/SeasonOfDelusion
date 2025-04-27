@@ -46,6 +46,8 @@ public class RunController : MonoBehaviour
 
     private IEnumerator pauseRoutine;
 
+
+
     #region Events
     public class StartRunEvent : UnityEvent<StartRunEvent.Context>
     {
@@ -56,8 +58,8 @@ public class RunController : MonoBehaviour
             public RunConditions runConditions;
         }
     };
-    public static StartRunEvent startRunEvent = new ();
-    
+    public static StartRunEvent startRunEvent = new();
+
     public class RunSimulationUpdatedEvent : UnityEvent<RunSimulationUpdatedEvent.Context>
     {
         public class Context
@@ -65,7 +67,7 @@ public class RunController : MonoBehaviour
             public ReadOnlyDictionary<Runner, RunnerState> runnerStateDictionary;
         }
     }
-    public static RunSimulationUpdatedEvent runSimulationUpdatedEvent = new ();
+    public static RunSimulationUpdatedEvent runSimulationUpdatedEvent = new();
 
     public class RunSimulationEndedEvent : UnityEvent<RunSimulationEndedEvent.Context>
     {
@@ -74,7 +76,7 @@ public class RunController : MonoBehaviour
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
         }
     }
-    public static RunSimulationEndedEvent runSimulationEndedEvent = new ();
+    public static RunSimulationEndedEvent runSimulationEndedEvent = new();
 
     public class RunSimulationResumeEvent : UnityEvent<RunSimulationResumeEvent.Context>
     {
@@ -82,8 +84,16 @@ public class RunController : MonoBehaviour
         {
         }
     }
-    public static RunSimulationResumeEvent runSimulationResumeEvent = new ();
-    
+    public static RunSimulationResumeEvent runSimulationResumeEvent = new();
+
+    public class StartRunDialogueEvent : UnityEvent<StartRunDialogueEvent.Context>
+    {
+        public class Context
+        {
+            public string dialogueID;
+        }
+    }
+    public static StartRunDialogueEvent startRunDialogueEvent = new();
     #endregion
 
     private void OnEnable()
@@ -91,6 +101,7 @@ public class RunController : MonoBehaviour
         startRunEvent.AddListener(OnStartRun);
         runSimulationResumeEvent.AddListener(OnRunSimulationResume);
         RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
+        DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
     }
 
     private void OnDisable()
@@ -98,11 +109,19 @@ public class RunController : MonoBehaviour
         startRunEvent.RemoveListener(OnStartRun);
         runSimulationResumeEvent.RemoveListener(OnRunSimulationResume);
         RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
+        DialogueUIController.dialogueEndedEvent.AddListener(OnDialogueEnded);
     }
 
     private void OnStartRun(StartRunEvent.Context context)
     {
-        StartCoroutine(SimulateRunRoutine(context.runners, context.route, context.runConditions));
+        string currentRunDialogueID = SimulationModel.Instance.GetDialogueForCurrentEvent();
+        if (string.IsNullOrWhiteSpace(currentRunDialogueID))
+        {
+            currentRunDialogueID = context.route.GetNextDialogueID();
+        }
+        float dialogueActivationPercent = Random.Range(0.2f, 0.8f);
+
+        StartCoroutine(SimulateRunRoutine(context.runners, context.route, context.runConditions, currentRunDialogueID, dialogueActivationPercent));
     }
 
     private void OnRunSimulationResume(RunSimulationResumeEvent.Context context)
@@ -130,8 +149,10 @@ public class RunController : MonoBehaviour
         currentSimulationSecondsPerRealSeconds = targetSpeed;
     }
 
-    private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions)
+    private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions, string dialogueID, float dialogueActivationPercent)
     {
+        bool dialogueActivated = false;
+
         //wait a frame for the other starts to get going
         yield return null;
 
@@ -191,7 +212,7 @@ public class RunController : MonoBehaviour
             float simulationTime = simulationStep;
             while (simulationTime > 0)
             {
-                if(currentSimulationSecondsPerRealSeconds == 0)
+                if (currentSimulationSecondsPerRealSeconds == 0)
                 {
                     yield return null;
                     continue;
@@ -199,6 +220,12 @@ public class RunController : MonoBehaviour
 
                 float timePassed = currentSimulationSecondsPerRealSeconds * Time.deltaTime;
                 RunUtility.StepRunState(runnerStates, timePassed, route.Length, route.Length);
+
+                if (!string.IsNullOrWhiteSpace(dialogueID) && !dialogueActivated && runnerStates.Values.Any(state => state.percentDone > dialogueActivationPercent))
+                {
+                    dialogueActivated = true;
+                    StartDialogue(dialogueID);
+                }
 
                 runSimulationUpdatedEvent.Invoke(new RunSimulationUpdatedEvent.Context
                 {
@@ -225,5 +252,27 @@ public class RunController : MonoBehaviour
         {
             runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
         });
+    }
+
+    private void StartDialogue(string dialogueID)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref pauseRoutine, StartDialogueRoutine(dialogueID));
+    }
+
+    private IEnumerator StartDialogueRoutine(string dialogueID)
+    {
+        yield return LerpSimulationSpeed(0, pauseTime);
+
+        Debug.Log($"Starting dialogue with ID: {dialogueID}");
+
+        DialogueUIController.startDialogueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context
+        {
+            dialogueID = dialogueID
+        });
+    }
+
+    private void OnDialogueEnded(DialogueUIController.DialogueEndedEvent.Context context)
+    {
+        CNExtensions.SafeStartCoroutine(this, ref pauseRoutine, LerpSimulationSpeed(simulationSecondsPerRealSeconds, pauseTime));
     }
 }

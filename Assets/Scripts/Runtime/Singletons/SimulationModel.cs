@@ -28,7 +28,6 @@ public class SimulationModel : Singleton<SimulationModel>
     }
 
     #region Events
-
     public class DayEventLoadedEvent : UnityEvent<DayEventLoadedEvent.Context>
     {
         public class Context
@@ -106,6 +105,10 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void OnDialogueEnded(DialogueUIController.DialogueEndedEvent.Context context)
     {
+        if(days[dayIndex].events[eventIndex].type != "Dialogue")
+        {
+            return;
+        }
         LoadNextEventOrAdvanceDay();
     }
 
@@ -181,8 +184,7 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void LoadDialogueEvent(DayEvent dialogueEvent)
     {
-        DialogueUIController.toggleEvent.Invoke(true);
-        DialogueUIController.startDialgoueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = dialogueEvent.dialogueID });
+        DialogueUIController.startDialogueEvent.Invoke(new DialogueUIController.StartDialogueEvent.Context { dialogueID = dialogueEvent.dialogueID });
     }
 
     private void LoadPracticeEvent(DayEvent practiceEvent)
@@ -216,6 +218,11 @@ public class SimulationModel : Singleton<SimulationModel>
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public string GetDialogueForCurrentEvent()
+    {
+        return days[dayIndex].events[eventIndex].dialogueID;
     }
 
     private string GetDate()
