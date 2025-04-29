@@ -13,6 +13,19 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     [SerializeField] private MapSaveDataSO mapSaveData;
     [SerializeField] private RouteSaveDataSO[] routeSaveDatas;
     [SerializeField] private RunnerSaveDataSO[] playerRunnerSaveDatas;
+
+    private SerializedSaveData cachedSerializedSaveData;
+
+    private void OnEnable()
+    {
+        SimulationModel.endDayEvent.AddListener(OnEndDay);
+    }
+
+    private void OnDisable()
+    {
+        SimulationModel.endDayEvent.RemoveListener(OnEndDay);
+    }
+
     private void Start()
     {
         LoadGame();
@@ -39,6 +52,11 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         SaveGame();
     }
 
+    private void OnEndDay(SimulationModel.EndDayEvent.Context context)
+    {
+        cachedSerializedSaveData = GetSerializedSaveData();
+    }
+
     /// <summary>
     /// This function is used to reset all the values in the save data to their default values 
     /// (without clearing the loaded flag like SetDefaultValues always does)
@@ -48,11 +66,11 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         simulationSaveData.data = new();
         for (int i = 0; i < playerRunnerSaveDatas.Length; i++)
         {
-            playerRunnerSaveDatas[i].data = new();
+            playerRunnerSaveDatas[i].data.initialized = false;
         }
         for (int i = 0; i < routeSaveDatas.Length; i++)
         {
-            routeSaveDatas[i].data = new();
+            routeSaveDatas[i].data.initialized = false;
         }
         mapSaveData.data = new();
     }
@@ -64,13 +82,20 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     protected override void SetDefaultValues()
     {
         base.SetDefaultValues();
-        
+
         // Reset all of the fields to defaults.
         ResetValues();
+
+        cachedSerializedSaveData = GetSerializedSaveData();
     }
 
     protected override void Deserialize(SerializedSaveData serializedSaveData)
     {
+        if (cachedSerializedSaveData == null)
+        {
+            cachedSerializedSaveData = serializedSaveData;
+        }
+
         SafeLoadDatum(ref simulationSaveData.data, serializedSaveData.simulationSaveData);
         for (int i = 0; i < playerRunnerSaveDatas.Length; i++)
         {
@@ -84,6 +109,11 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     }
 
     protected override SerializedSaveData Serialize()
+    {
+        return cachedSerializedSaveData;
+    }
+    
+    private SerializedSaveData GetSerializedSaveData()
     {
         SerializedSaveData saveDataObject = new SerializedSaveData
         {

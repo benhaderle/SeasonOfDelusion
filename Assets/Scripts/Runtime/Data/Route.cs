@@ -8,7 +8,7 @@ using System;
 [CreateAssetMenu(fileName = "Route", menuName = "ScriptableObjects/Route")]
 public class Route : ScriptableObject
 {
-    [HideInInspector] public RouteSaveDataSO saveData;
+    public RouteSaveDataSO saveData;
     /// <summary>
     /// The name of this route. Can be used for player display.
     /// </summary>
@@ -24,33 +24,9 @@ public class Route : ScriptableObject
     public bool IsNewRoute => saveData.data != null && saveData.data.numTimesRun == 0 && saveData.data.unlocked;
     [SerializeField] private RouteDialogue[] routeDialogues;
 
-#if UNITY_EDITOR
-    public void OnValidate()
-    {
-        if (saveData == null)
-        {
-            saveData = ScriptableObject.CreateInstance<RouteSaveDataSO>();
-            AssetDatabase.CreateAsset(saveData, $"Assets/Data/SaveData/Routes/{name}SaveData.asset");
-        }
-        else
-        {
-            if (saveData.name != $"{name}SaveData")
-            {
-                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(saveData), $"{name}SaveData");
-                AssetDatabase.SaveAssets();
-            }
-        }
-
-        if (string.IsNullOrWhiteSpace(saveData.data.name))
-        {
-            saveData.Initialize(displayName);
-        }
-    }
-#endif
-
     public void LoadSaveData()
     {
-        if (string.IsNullOrWhiteSpace(saveData.data.name))
+        if (!saveData.data.initialized)
         {
             saveData.Initialize(displayName);
         }

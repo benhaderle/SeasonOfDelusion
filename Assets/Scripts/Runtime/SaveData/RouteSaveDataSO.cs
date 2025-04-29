@@ -12,7 +12,7 @@ public class RouteSaveDataSO : ScriptableObject
     public RouteSaveData data = new();
     public void Initialize(string name)
     {
-        data = new RouteSaveData();
+        data.initialized = true;
         data.name = name;
         data.unlocked = isUnlockedAtStart;
         data.numTimesRun = 0;
@@ -46,6 +46,7 @@ public class RouteSaveDataSO : ScriptableObject
 [Serializable]
 public class RouteSaveData
 {
+    public bool initialized;
     public string name;
     public bool unlocked;
     public int numTimesRun;

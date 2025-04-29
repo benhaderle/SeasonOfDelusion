@@ -12,17 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: TownLoopBigRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: 192d702ddff4f4e3e8541919ed45674f, type: 2}
-    name: Big Town Loop
-    lineData: {fileID: 11400000, guid: b4b730c59055a4e8fbc7852b9f0d3d29, type: 2}
-    nodeIDForUnlock: 219275
-    description: Heads out to the edge of town before looping back through downtown
-      along Main Street.
-    difficulty: 0.75
   saveData: {fileID: 11400000, guid: 192d702ddff4f4e3e8541919ed45674f, type: 2}
   displayName: Big Town Loop
   lineData: {fileID: 11400000, guid: b4b730c59055a4e8fbc7852b9f0d3d29, type: 2}
   nodeIDForUnlock: 219275
-  description: ' '
+  description: Heads out to the edge of town before looping back through downtown
+    along Main Street.
   difficulty: 0.75
+  routeDialogues: []

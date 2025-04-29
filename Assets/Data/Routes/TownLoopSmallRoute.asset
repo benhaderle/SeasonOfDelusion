@@ -12,16 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: TownLoopSmallRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
-    name: Small Town Loop
-    lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
-    nodeIDForUnlock: -1
-    description: Surface street loop around the core of town.
-    difficulty: 0.7
   saveData: {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
   displayName: Small Town Loop
   lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
   nodeIDForUnlock: -1
-  description: ' '
+  description: Surface street loop around the core of town.
   difficulty: 0.7
+  routeDialogues: []

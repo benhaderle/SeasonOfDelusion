@@ -20,5 +20,5 @@ MonoBehaviour:
     back.
   difficulty: 0.7
   routeDialogues:
-  - dialogueID: Day1CoachThoughtsDialogue
+  - dialogueID: Day1CoachThoughts
     numTimesRunRequired: 0

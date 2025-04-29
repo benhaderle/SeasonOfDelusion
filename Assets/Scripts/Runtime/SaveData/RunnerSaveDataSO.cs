@@ -9,7 +9,6 @@ public class RunnerSaveDataSO : ScriptableObject
     public RunnerSaveData data = new();
     public void Initialize(float minVO2Max, float minForm, float minStrength, float minNutrition, float maxShortTermCalories)
     {
-
         data.initialized = true;
 
         data.currentVO2Max = minVO2Max;
