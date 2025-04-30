@@ -49,7 +49,8 @@
                     "name": "DAY1PRACTICE",
                     "type": "Practice",
                     "timeHours": 14,
-                    "timeMinutes": 30
+                    "timeMinutes": 30,
+                    "dialogueID":"Day1CoachThoughts"
                 },
                 {
                     "name": "DIALOGUE",

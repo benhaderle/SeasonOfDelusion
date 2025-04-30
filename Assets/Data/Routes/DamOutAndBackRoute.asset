@@ -19,6 +19,4 @@ MonoBehaviour:
   description: Along the forested west side of the creek to the top of the Dam and
     back.
   difficulty: 0.7
-  routeDialogues:
-  - dialogueID: Day1CoachThoughts
-    numTimesRunRequired: 0
+  routeDialogues: []
