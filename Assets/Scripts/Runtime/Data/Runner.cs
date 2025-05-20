@@ -97,10 +97,14 @@ public class Runner
         get => runnerSaveData.data.currentNutrition;
         set => runnerSaveData.data.currentNutrition = value;
     }
-    private float grit
+    /// <summary>
+    /// A number >= 1 that represents how tough this runner is. 
+    /// Meant to be used as an exponent to make the effects of soreness and other difficulties increase gradually.
+    /// </summary>
+    public float grit
     {
         get => runnerSaveData.data.grit;
-        set => runnerSaveData.data.grit = value;
+        private set => runnerSaveData.data.grit = value;
     }
     private float school
     {
@@ -417,10 +421,12 @@ public class Runner
         float hydrationWeight = .25f;
         float calorieWeight = .25f;
 
-        return formWeight * Mathf.Sqrt(currentForm * Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus) / MAX_FORM) +
+        float economy = formWeight * Mathf.Sqrt(currentForm * Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus) / MAX_FORM) +
          strengthWeight * Mathf.Sqrt(currentStrength / MAX_STRENGTH) +
          hydrationWeight * Mathf.Clamp01(hydration) +
          calorieWeight * Mathf.Min(1, calories);
+
+        return Mathf.Pow(economy, 1 / grit);
     }
 
     /// <returns>A number between 0 and 1 representing the runner's economy under the current internal circumstances</returns>

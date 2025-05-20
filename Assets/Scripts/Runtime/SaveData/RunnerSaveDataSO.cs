@@ -20,6 +20,7 @@ public class RunnerSaveDataSO : ScriptableObject
         data.longTermCalories = 100000;
         data.shortTermCalories = maxShortTermCalories;
         data.sleepStatus = 10;
+        data.grit = 1;
     }
 
 }

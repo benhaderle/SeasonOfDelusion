@@ -105,7 +105,7 @@ public class RunUtility
         float paceChangeMeanMagnitude = .02f;
 
         // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
-        float normalizedSorenessFeel = Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness));
+        float normalizedSorenessFeel = Mathf.Pow(Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness)), runner.grit);
         // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
         // low numbers mean you can speed up and high numbers mean you gotta slow doen
         float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
