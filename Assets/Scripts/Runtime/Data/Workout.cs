@@ -1,34 +1,34 @@
 using System;
+using System.Collections.Generic;
+using Shapes;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
 /// Represents a workout that runners can run
 /// </summary>
-[Serializable]
-public class Workout
-{   
+[CreateAssetMenu(fileName = "NewWorkout", menuName = "ScriptableObjects/Workout")]
+public class Workout : ScriptableObject
+{
     //TODO: currently only distance repeats are supported
     public enum Type { DistanceRepeats = 0, TimeRepeats = 1 };
 
     /// <summary>
     /// The name of this workout. Can be used for player display.
     /// </summary>
-    [SerializeField] private string name;
-    public string Name => name;
-
+    [SerializeField] private string displayName;
+    public string DisplayName => displayName;
     [SerializeField] private Type workoutType;
     public Type WorkoutType => workoutType;
-    [SerializeField] private int numIntervals;
-    public int NumIntervals => numIntervals;
-    /// <summary>
-    /// The distance of each interval in this workout, either in minutes or miles depending on the type
-    /// </summary>
-    [SerializeField] private float intervalLength;
-    public float IntervalLength => intervalLength;
-    /// <summary>
-    /// The amount of rest between intervals in minutes
-    /// </summary>
-    [SerializeField] private float restLength;
-    public float RestLength => restLength;
+    [SerializeField] private RouteLineData routeLineData;
+    public RouteLineData RouteLineData => routeLineData;
+    public List<Interval> intervals = new();
+}
 
+[Serializable]
+public struct Interval
+{
+    public int repeats;
+    public float length;
+    public float rest;
 }

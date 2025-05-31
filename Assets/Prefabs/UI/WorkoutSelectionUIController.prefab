@@ -1729,21 +1729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workouts:
-  - name: 400m Repeats
-    workoutType: 0
-    numIntervals: 10
-    intervalLength: 0.25
-    restLength: 0
-  - name: 1000m Repeats
-    workoutType: 0
-    numIntervals: 6
-    intervalLength: 0.625
-    restLength: 1.5
-  - name: Mile Repeats
-    workoutType: 0
-    numIntervals: 4
-    intervalLength: 1
-    restLength: 2
+  - {fileID: 11400000, guid: a8263a19f6d174450bfe1974add523ee, type: 2}
   canvas: {fileID: 4544004751917469392}
   canvasGroup: {fileID: 8465950643952163891}
   workoutSelectionContainer: {fileID: 1048707908877982057}

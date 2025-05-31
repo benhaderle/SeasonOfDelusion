@@ -16,6 +16,6 @@ public class WorkoutSelectionButton : MonoBehaviour
 
     public void Setup(Workout workout)
     {
-        nameText.text = workout.Name;
+        nameText.text = workout.DisplayName;
     }
 }

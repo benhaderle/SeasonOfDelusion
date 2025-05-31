@@ -68,7 +68,7 @@ public class WorkoutView : MonoBehaviour
     {
         Toggle(true);
 
-        workoutText.text = context.workout.Name;
+        workoutText.text = context.workout.DisplayName;
 
         runnerSimulationCardParent.gameObject.SetActive(true);
         int runnerCount = 0;
