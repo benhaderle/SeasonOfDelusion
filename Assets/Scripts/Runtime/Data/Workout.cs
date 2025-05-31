@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Shapes;
 using UnityEditor;
 using UnityEngine;
@@ -23,6 +24,17 @@ public class Workout : ScriptableObject
     [SerializeField] private RouteLineData routeLineData;
     public RouteLineData RouteLineData => routeLineData;
     public List<Interval> intervals = new();
+
+    private float totalLength = -1;
+    public float GetTotalLength()
+    {
+        if (totalLength < 0)
+        {
+            totalLength = intervals.Sum(i => i.repeats * i.length);
+        }
+
+        return totalLength;
+    }
 }
 
 [Serializable]

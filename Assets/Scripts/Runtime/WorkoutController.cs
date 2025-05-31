@@ -106,76 +106,82 @@ public class WorkoutController : MonoBehaviour
             runnerStates.Add(runner, new RunnerState());
         }
 
-        // simulate each interval
-        // for (int workoutIntervalIndex = 0; workoutIntervalIndex < workout.NumIntervals; workoutIntervalIndex++)
-        // {
-        //     // reset speed and initial V02 for every runner
-        //     foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-        //     {
-        //         Runner runner = kvp.Key;
-        //         RunnerState state = kvp.Value;
+        //simulate each interval
+        for (int workoutIntervalIndex = 0; workoutIntervalIndex < workout.intervals.Count; workoutIntervalIndex++)
+        {
+            Interval interval = workout.intervals[workoutIntervalIndex];
+            
+            //each interval can be repeated
+            for (int intervalRepeatIndex = 0; intervalRepeatIndex < interval.repeats; intervalRepeatIndex++)
+            {
+                // reset speed and initial V02 for every runner
+                foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+                {
+                    Runner runner = kvp.Key;
+                    RunnerState state = kvp.Value;
 
-        //         //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
-        //         // but this should probably account for experience and soreness in some way
-        //         state.desiredVO2 = runner.currentVO2Max * group.targetVO2 / runner.currentVO2Max;
-        //         state.currentSpeed = 0;
-        //         state.desiredSpeed = 0;
-        //         state.intervalDistance = 0;
-        //     }
+                    //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
+                    // but this should probably account for experience and soreness in some way
+                    state.desiredVO2 = runner.currentVO2Max * group.targetVO2 / runner.currentVO2Max;
+                    state.currentSpeed = 0;
+                    state.desiredSpeed = 0;
+                    state.intervalDistance = 0;
+                }
 
-        //     // while all runners have not finished, simulate the run
-        //     while (runnerStates.Values.Any(state => state.intervalDistance < workout.IntervalLength))
-        //     {
-        //         // first figure out every runner's preferred speed
-        //         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-        //         {
-        //             Runner runner = kvp.Key;
-        //             RunnerState state = kvp.Value;
+                // while all runners have not finished, simulate the run
+                while (runnerStates.Values.Any(state => state.intervalDistance < interval.length))
+                {
+                    // first figure out every runner's preferred speed
+                    foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+                    {
+                        Runner runner = kvp.Key;
+                        RunnerState state = kvp.Value;
 
-        //             state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVO2 / runner.currentVO2Max, maxSoreness);
-        //             state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
-        //         }
+                        state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVO2 / runner.currentVO2Max, maxSoreness);
+                        state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
+                    }
 
-        //         // now that we have everyone's desired speed, we use a gravity model to group people
-        //         int numGravityIterations = 2;
-        //         for (int i = 0; i < numGravityIterations; i++)
-        //         {
-        //             foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
-        //             {
-        //                 Runner runner = kvp.Key;
-        //                 RunnerState state = kvp.Value;
+                    // now that we have everyone's desired speed, we use a gravity model to group people
+                    int numGravityIterations = 2;
+                    for (int i = 0; i < numGravityIterations; i++)
+                    {
+                        foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
+                        {
+                            Runner runner = kvp.Key;
+                            RunnerState state = kvp.Value;
 
-        //                 state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVO2 / runner.currentVO2Max, workout.IntervalLength);
+                            state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVO2 / runner.currentVO2Max, interval.length);
 
-        //                 // if this is the last iteration, set the current speed
-        //                 if (i == numGravityIterations - 1)
-        //                 {
-        //                     state.currentSpeed = state.desiredSpeed;
-        //                 }
-        //             }
-        //         }
+                            // if this is the last iteration, set the current speed
+                            if (i == numGravityIterations - 1)
+                            {
+                                state.currentSpeed = state.desiredSpeed;
+                            }
+                        }
+                    }
 
-        //         //then spend a second simulating before moving on to the next iteration
-        //         float simulationTime = simulationStep;
-        //         while (simulationTime > 0)
-        //         {
-        //             float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;   
-        //             RunUtility.StepRunState(runnerStates, timePassed, workout.IntervalLength, workout.IntervalLength * workout.NumIntervals);
+                    //then spend a second simulating before moving on to the next iteration
+                    float simulationTime = simulationStep;
+                    while (simulationTime > 0)
+                    {
+                        float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
+                        RunUtility.StepRunState(runnerStates, timePassed, interval.length, workout.GetTotalLength());
 
-        //             workoutSimulationUpdatedEvent.Invoke(new WorkoutSimulationUpdatedEvent.Context
-        //             {
-        //                 runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates),
-        //                 groupIndex = groupIndex
-        //             });
+                        workoutSimulationUpdatedEvent.Invoke(new WorkoutSimulationUpdatedEvent.Context
+                        {
+                            runnerStateDictionary = new ReadOnlyDictionary<Runner, RunnerState>(runnerStates),
+                            groupIndex = groupIndex
+                        });
 
-        //             yield return null;
-        //             simulationTime -= timePassed;
-        //         }
-        //     }
+                        yield return null;
+                        simulationTime -= timePassed;
+                    }
+                }
+            }
 
-        //     // rest between intervals
-        //     yield return new WaitForSeconds(workout.RestLength * 60 / simulationSecondsPerRealSeconds);
-        // }
+            // rest between intervals
+            yield return new WaitForSeconds(interval.rest * 60 / simulationSecondsPerRealSeconds);
+        }
 
 
         // post run update

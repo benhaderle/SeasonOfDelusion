@@ -14,14 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 400m Repeats
   workoutType: 1
-  routeLineData: {fileID: 11400000, guid: 7cca4ce7926b0429f8a858a0ffdda493, type: 2}
+  routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
   intervals:
-  - repeats: 1
-    length: 0
-    rest: 0
-  - repeats: 2
-    length: 0
-    rest: 0
-  - repeats: 5
-    length: 0
-    rest: 0
+  - repeats: 10
+    length: 0.25
+    rest: 1
