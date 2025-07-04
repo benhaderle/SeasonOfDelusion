@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using CreateNeptune;
 using System.Linq;
 
@@ -91,6 +92,21 @@ public class WorkoutSelectionUIController : MonoBehaviour
                 case State.Grouping: SetUpGrouping(); break;
             }
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
+
+            bool mapSceneLoaded = false;
+            for (int j = 0; j < SceneManager.sceneCount; j++)
+            {
+                if (SceneManager.GetSceneAt(j).buildIndex == (int)Scene.MapScene)
+                {
+                    mapSceneLoaded = true;
+                    break;
+                }
+            }
+
+            if (!mapSceneLoaded)
+            {
+                SceneManager.LoadSceneAsync((int)Scene.MapScene, LoadSceneMode.Additive);
+            }
         }
         else
         {

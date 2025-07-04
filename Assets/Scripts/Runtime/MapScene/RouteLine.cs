@@ -45,7 +45,6 @@ public class RouteLine : MonoBehaviour
             }
         }
 
-
         Mesh mesh = new Mesh();
         ShapesMeshGen.GenPolylineMeshWithThickness(mesh, polylinePoints, false, PolylineJoins.Simple, true, false, thickness);
         meshCollider.sharedMesh = mesh;

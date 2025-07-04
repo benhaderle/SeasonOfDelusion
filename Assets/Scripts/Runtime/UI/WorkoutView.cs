@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
@@ -15,20 +17,19 @@ public class WorkoutView : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI workoutText;
-    [Header("Completion Bar")]
-    [SerializeField] private RectTransform runCompletionBar;
-    [SerializeField] private PoolContext runnerCompletionBubblePool;
-    private List<RunnerCompletionBubble> activeGroupBubbleDictionary = new();
+    [Header("Map View")]
+    [SerializeField] private RawImage mapViewImage;
     [Header("Runner List")]
+    [SerializeField] private CanvasGroup runnerListCanvasGroup;
     [SerializeField] private PoolContext runnerSimulationCardPool;
     [SerializeField] private RectTransform runnerSimulationCardParent;
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
     private Dictionary<Runner, RunnerSimulationCard> activeRunnerCardDictionary = new();
-
     [SerializeField] private CanvasGroup continueButtonContainer;
 
     private IEnumerator toggleRoutine;
+    private IEnumerator runnerListToggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
 
     #region Events
@@ -43,11 +44,9 @@ public class WorkoutView : MonoBehaviour
 
     private void Awake()
     {
-        runnerCompletionBubblePool.Initialize();
         runnerSimulationCardPool.Initialize();
         Toggle(false);
     }
-
 
     private void OnEnable()
     {
@@ -63,10 +62,9 @@ public class WorkoutView : MonoBehaviour
         WorkoutController.workoutSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
     }
 
-
     private void OnStartWorkout(WorkoutController.StartWorkoutEvent.Context context)
     {
-        Toggle(true);
+        Toggle(true);   
 
         workoutText.text = context.workout.DisplayName;
 
@@ -74,15 +72,6 @@ public class WorkoutView : MonoBehaviour
         int runnerCount = 0;
         for (int i = 0; i < context.groups.Count; i++)
         {
-            // bubble setup
-            RunnerCompletionBubble bubble = runnerCompletionBubblePool.GetPooledObject<RunnerCompletionBubble>();
-
-            bubble.labelText.text = $"{i+1}";
-
-            SetBubblePositionAlongBar(bubble, 0f);
-
-            activeGroupBubbleDictionary.Add(bubble);
-
             for (int j = 0; j < context.groups[i].runners.Length; j++)
             {
                 // runner card setup
@@ -97,20 +86,16 @@ public class WorkoutView : MonoBehaviour
 
     private void OnRunSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
     {
-        RunnerCompletionBubble bubble = activeGroupBubbleDictionary[context.groupIndex];
-        float percentDone = context.runnerStateDictionary.Values.Min(state => state.percentDone);
-        SetBubblePositionAlongBar(bubble, percentDone);
-
         List<Runner> orderedRunners = context.runnerStateDictionary.Keys.ToList();
         orderedRunners.Sort((r1, r2) =>
         {
-            if (Mathf.Approximately(context.runnerStateDictionary[r1].percentDone, context.runnerStateDictionary[r2].percentDone))
-            { 
+            if (Mathf.Approximately(context.runnerStateDictionary[r1].totalPercentDone, context.runnerStateDictionary[r2].totalPercentDone))
+            {
                 return context.runnerStateDictionary[r1].timeInSeconds - context.runnerStateDictionary[r2].timeInSeconds >= 0 ? -1 : 1;
             }
             else
             {
-                return context.runnerStateDictionary[r1].percentDone - context.runnerStateDictionary[r2].percentDone >= 0 ? -1 : 1;
+                return context.runnerStateDictionary[r1].totalPercentDone - context.runnerStateDictionary[r2].totalPercentDone >= 0 ? -1 : 1;
             }
         });
 
@@ -158,16 +143,8 @@ public class WorkoutView : MonoBehaviour
     {
         yield return CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 0, CNEase.EaseType.Linear, false, true, true);
 
-        runnerCompletionBubblePool.ReturnAllToPool();
         runnerSimulationCardPool.ReturnAllToPool();
-        activeGroupBubbleDictionary.Clear();
         activeRunnerCardDictionary.Clear();
         runnerSimulationCardParent.gameObject.SetActive(false);
-    }
-
-    private void SetBubblePositionAlongBar(RunnerCompletionBubble bubble, float completion)
-    {
-        float bounds = runCompletionBar.rect.height * .5f;
-        bubble.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Mathf.Lerp(-bounds, bounds, completion));
     }
 }

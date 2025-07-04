@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
 using Shapes;
@@ -23,7 +25,7 @@ public class MapController : MonoBehaviour
     private List<RouteLine> activeRouteLines = new();
     [Header("Runner Bubble Variables and References")]
     [SerializeField] private PoolContext runnerBubblePool;
-    [SerializeField] private Dictionary<Runner, MapRunnerBubble> activeRunnerBubbleDictionary = new();
+    [SerializeField] private Dictionary<string, MapRunnerBubble> activeBubbleDictionary = new();
 
     #region Events
     public class ShowRoutesEvent : UnityEvent<ShowRoutesEvent.Context>
@@ -68,6 +70,8 @@ public class MapController : MonoBehaviour
         RouteUIController.routeSelectedEvent.AddListener(OnRouteSelected);
         RunController.startRunEvent.AddListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
+        WorkoutController.startWorkoutEvent.AddListener(OnStartWorkout);
+        WorkoutController.workoutSimulationUpdatedEvent.AddListener(OnWorkoutSimulationUpdated);
         RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
     }
 
@@ -78,6 +82,8 @@ public class MapController : MonoBehaviour
         RouteUIController.routeSelectedEvent.RemoveListener(OnRouteSelected);
         RunController.startRunEvent.RemoveListener(OnStartRun);
         RunController.runSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
+        WorkoutController.startWorkoutEvent.RemoveListener(OnStartWorkout);
+        WorkoutController.workoutSimulationUpdatedEvent.RemoveListener(OnWorkoutSimulationUpdated);
         RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
     }
 
@@ -119,37 +125,71 @@ public class MapController : MonoBehaviour
 
     private void OnStartRun(RunController.StartRunEvent.Context context)
     {
-        activeRouteLines.Clear();
-        polylinePool.ReturnAllToPool();
-
-        InstantiateRouteLine(context.route, false);
-
-        MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
+        OnSimulationStart(() => InstantiateRouteLine(context.route, false), () =>
         {
-            bounds = activeRouteLines[0].Polyline.GetBounds()
+            for (int i = 0; i < context.runners.Count; i++)
+            {
+                MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
+                bubble.gameObject.layer = MAP_LAYER;
+                bubble.initialsText.text = $"{context.runners[i].FirstName[0]}{context.runners[i].LastName[0]}";
+
+                SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
+
+                activeBubbleDictionary.Add(bubble.initialsText.text, bubble);
+            }
         });
-
-        for (int i = 0; i < context.runners.Count; i++)
-        {
-            MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
-            bubble.gameObject.layer = MAP_LAYER;
-            bubble.initialsText.text = $"{context.runners[i].FirstName[0]}{context.runners[i].LastName[0]}";
-
-            SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
-
-            activeRunnerBubbleDictionary.Add(context.runners[i], bubble);
-        }
     }
 
     private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
     {
         foreach(KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
         {
-            MapRunnerBubble bubble = activeRunnerBubbleDictionary[keyValuePair.Key];
-            float positionAlongLine = keyValuePair.Value.percentDone;
+            Runner runner = keyValuePair.Key;
+            MapRunnerBubble bubble = activeBubbleDictionary[$"{runner.FirstName[0]}{runner.LastName[0]}"];
+            float positionAlongLine = keyValuePair.Value.totalPercentDone;
 
             SetBubblePositionAlongLine(activeRouteLines[0], bubble, positionAlongLine);
         }
+    }
+
+    private void OnStartWorkout(WorkoutController.StartWorkoutEvent.Context context)
+    {
+        OnSimulationStart(() => InstantiateRouteLine(context.workout.RouteLineData, context.workout.DisplayName, false), () =>
+        {
+            for (int i = 0; i < context.groups.Count; i++)
+            {
+                MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
+                bubble.gameObject.layer = MAP_LAYER;
+                bubble.initialsText.text = $"{i+1}";
+
+                SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
+
+                activeBubbleDictionary.Add(bubble.initialsText.text, bubble);
+            }
+        });
+    }
+
+    private void OnWorkoutSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
+    {
+        MapRunnerBubble bubble = activeBubbleDictionary[$"{context.groupIndex + 1}"];
+        float positionAlongLine = context.runnerStateDictionary.Values.Min(state => state.intervalPercentDone);
+        SetBubblePositionAlongLine(activeRouteLines[0], bubble, positionAlongLine);
+    }
+
+    private void OnSimulationStart(Action setupRouteLineAction, Action setUpBubblesAction)
+    {
+        activeRouteLines.Clear();
+        polylinePool.ReturnAllToPool();
+
+        setupRouteLineAction();
+
+        setUpBubblesAction();
+
+        MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
+        {
+            bounds = activeRouteLines[0].Polyline.GetBounds()
+        });
+
     }
 
     private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
@@ -183,16 +223,21 @@ public class MapController : MonoBehaviour
 
     private void InstantiateRouteLine(Route route, bool showNewRouteText)
     {
+        InstantiateRouteLine(route.lineData, route.DisplayName, showNewRouteText);
+    }
+
+    private void InstantiateRouteLine(RouteLineData routeLineData, string routeName, bool showNewRouteText)
+    {
         RouteLine rl = polylinePool.GetPooledObject<RouteLine>();
 
-        List<MapPoint> routePoints = lineMap.GetMapPointsFromIDs(route.lineData.pointIDs);
+        List<MapPoint> routePoints = lineMap.GetMapPointsFromIDs(routeLineData.pointIDs);
         List<bool> pointsDiscovered = routePoints.Select(mp => mapSaveData.mapPointDictionary[mp.id].discovered).ToList();
 
-        rl.Setup(route.DisplayName, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
+        rl.Setup(routeName, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
         
-        if (route.lineData.Length == 0)
+        if (routeLineData.Length == 0)
         {
-            route.lineData.SetLength(rl.Polyline.points);
+            routeLineData.SetLength(rl.Polyline.points);
         }
         activeRouteLines.Add(rl);
     }

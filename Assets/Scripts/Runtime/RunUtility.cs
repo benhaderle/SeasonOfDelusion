@@ -211,12 +211,14 @@ public class RunUtility
                 state.intervalDistance += state.currentSpeed * timePassed;
                 state.intervalDistance = Mathf.Min(state.intervalDistance, intervalLength);
 
+                state.intervalPercentDone = state.intervalDistance / intervalLength;
+
                 state.totalDistance += state.currentSpeed * timePassed;
                 state.totalDistance = Mathf.Min(state.totalDistance, totalLength);
 
                 state.timeInSeconds += timePassed;
 
-                state.percentDone = state.totalDistance / totalLength;
+                state.totalPercentDone = state.totalDistance / totalLength;
 
                 state.distanceTimeSimulationIntervalList.Add((state.totalDistance, state.timeInSeconds));
 

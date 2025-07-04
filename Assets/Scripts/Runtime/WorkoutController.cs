@@ -97,7 +97,7 @@ public class WorkoutController : MonoBehaviour
         yield return null;
 
         // space each coroutine/group out by 5 seconds
-        yield return new WaitForSeconds(groupIndex * 5);
+        yield return new WaitForSeconds(groupIndex * 60 / simulationSecondsPerRealSeconds);
 
         // go through each runner and initialize their state for this workout
         Dictionary<Runner, RunnerState> runnerStates = new();

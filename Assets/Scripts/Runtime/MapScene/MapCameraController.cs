@@ -77,6 +77,14 @@ public class MapCameraController : MonoBehaviour
         }
     };
     public static FocusOnBoundsEvent focusOnBoundsEvent = new();
+    public class OnFocusedOnBoundsEvent : UnityEvent<OnFocusedOnBoundsEvent.Context>
+    {
+        public class Context
+        {
+            public float cameraZoom;
+        }
+    };
+    public static OnFocusedOnBoundsEvent onFocusedOnBoundsEvent = new();
     #endregion
 
     private void Awake()
@@ -186,6 +194,11 @@ public class MapCameraController : MonoBehaviour
         }
         targetZoom *= 2f;
         targetZoom = Mathf.Clamp(targetZoom, zoomMin, zoomMax);
+
+        onFocusedOnBoundsEvent.Invoke(new OnFocusedOnBoundsEvent.Context
+        {
+            cameraZoom = targetZoom
+        });
     }
 
     private void SetTargetPosition(Vector3 newTargetPos)

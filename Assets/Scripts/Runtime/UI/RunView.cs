@@ -126,13 +126,13 @@ public class RunView : MonoBehaviour
         List<Runner> orderedRunners = context.runnerStateDictionary.Keys.ToList();
         orderedRunners.Sort((r1, r2) =>
         {
-            if (Mathf.Approximately(context.runnerStateDictionary[r1].percentDone, context.runnerStateDictionary[r2].percentDone))
+            if (Mathf.Approximately(context.runnerStateDictionary[r1].totalPercentDone, context.runnerStateDictionary[r2].totalPercentDone))
             {
                 return context.runnerStateDictionary[r1].timeInSeconds - context.runnerStateDictionary[r2].timeInSeconds >= 0 ? -1 : 1;
             }
             else
             {
-                return context.runnerStateDictionary[r1].percentDone - context.runnerStateDictionary[r2].percentDone <= 0 ? -1 : 1;
+                return context.runnerStateDictionary[r1].totalPercentDone - context.runnerStateDictionary[r2].totalPercentDone <= 0 ? -1 : 1;
             }
         });
 

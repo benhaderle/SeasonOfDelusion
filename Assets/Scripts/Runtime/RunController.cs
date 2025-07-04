@@ -221,7 +221,7 @@ public class RunController : MonoBehaviour
                 float timePassed = currentSimulationSecondsPerRealSeconds * Time.deltaTime;
                 RunUtility.StepRunState(runnerStates, timePassed, route.Length, route.Length);
 
-                if (!string.IsNullOrWhiteSpace(dialogueID) && !dialogueActivated && runnerStates.Values.Any(state => state.percentDone > dialogueActivationPercent))
+                if (!string.IsNullOrWhiteSpace(dialogueID) && !dialogueActivated && runnerStates.Values.Any(state => state.totalPercentDone > dialogueActivationPercent))
                 {
                     dialogueActivated = true;
                     StartDialogue(dialogueID);

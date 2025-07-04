@@ -33,13 +33,18 @@ public class RunnerState
     /// </summary>
     public float intervalDistance;
     /// <summary>
+    /// How far along the runner is in a given interval in miles
+    /// For normal runs and races, this is the same as totalDistance, but for workouts with intervals it is the distance through the current interval
+    /// </summary>
+    public float intervalPercentDone;
+    /// <summary>
     /// How far along the runner is in the run overall in miles
     /// </summary>
     public float totalDistance;
     /// <summary>
     /// Percent done with the run overall
     /// </summary>
-    public float percentDone;
+    public float totalPercentDone;
     /// <summary>
     /// Time spent in this run in seconds
     /// </summary>
@@ -67,7 +72,7 @@ public class RunnerState
         currentSpeed = 0;
         intervalDistance = 0;
         totalDistance = 0;
-        percentDone = 0;
+        totalPercentDone = 0;
         shortTermSoreness = 0;
         hydrationCost = 0;
         calorieCost = 0;

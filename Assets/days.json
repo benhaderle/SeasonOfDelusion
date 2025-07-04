@@ -29,6 +29,17 @@
     "days": 
     [
         {
+            "date": "1/1/11",
+            "events":[
+                {
+                    "name": "WORKOUT",
+                    "type": "Workout",
+                    "timeHours": 14,
+                    "timeMinutes": 30
+                }
+            ]
+        },
+        {
             "date": "8/13/12",
             "events":[
                 {
