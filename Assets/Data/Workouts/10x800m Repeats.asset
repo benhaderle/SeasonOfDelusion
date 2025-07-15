@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58702ab47afbb4321b4e26d1bf6d3f05, type: 3}
+  m_Name: 10x800m Repeats
+  m_EditorClassIdentifier: 
+  displayName: 10x800m Repeats
+  workoutType: 0
+  routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
+  intervals:
+  - repeats: 10
+    length: 0.5
+    rest: 1.5
+  effects:
+  - type: 1
+    amount: 1
+  - type: 0
+    amount: 2

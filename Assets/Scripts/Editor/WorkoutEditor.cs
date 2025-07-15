@@ -12,6 +12,7 @@ public class WorkoutEditor : Editor
     SerializedProperty propType;
     SerializedProperty propRouteLineData;
     SerializedProperty propIntervals;
+    SerializedProperty propEffects;
     ReorderableList intervalsList;
 
     protected void OnEnable()
@@ -20,6 +21,7 @@ public class WorkoutEditor : Editor
         propType = serializedObject.FindProperty("workoutType");
         propRouteLineData = serializedObject.FindProperty("routeLineData");
         propIntervals = serializedObject.FindProperty("intervals");
+        propEffects = serializedObject.FindProperty("effects");
 
         intervalsList = new ReorderableList(serializedObject, propIntervals, true, true, true, true)
         {
@@ -30,11 +32,13 @@ public class WorkoutEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.TextField("Display Name", propDisplayName.stringValue);
+        propDisplayName.stringValue = EditorGUILayout.TextField("Display Name", propDisplayName.stringValue);
         EditorGUILayout.PropertyField(propType);
         EditorGUILayout.PropertyField(propRouteLineData);
 
         intervalsList.DoLayoutList();
+
+        EditorGUILayout.PropertyField(propEffects);
 
         serializedObject.ApplyModifiedProperties();
     }

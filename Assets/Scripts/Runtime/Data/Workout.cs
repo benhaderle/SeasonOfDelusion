@@ -24,6 +24,7 @@ public class Workout : ScriptableObject
     [SerializeField] private RouteLineData routeLineData;
     public RouteLineData RouteLineData => routeLineData;
     public List<Interval> intervals = new();
+    [SerializeField] private WorkoutEffect[] effects;
 
     private float totalLength = -1;
     public float GetTotalLength()
@@ -43,4 +44,12 @@ public struct Interval
     public int repeats;
     public float length;
     public float rest;
+}
+
+[Serializable]
+public struct WorkoutEffect
+{
+    public enum Type { VO2 = 0, Strength = 1, Form = 2, Grit = 3 };
+    public Type type;
+    public float amount;
 }

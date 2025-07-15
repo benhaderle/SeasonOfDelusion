@@ -1730,8 +1730,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workouts:
   - {fileID: 11400000, guid: a8263a19f6d174450bfe1974add523ee, type: 2}
-  - {fileID: 11400000, guid: 5af90ac9933524d54966ae12ae0140f3, type: 2}
-  - {fileID: 11400000, guid: 765f6222aae474fefa7c0c09209565c6, type: 2}
+  - {fileID: 11400000, guid: d422b8bcce67f44989c74a09ed9e5550, type: 2}
+  - {fileID: 11400000, guid: 89b1d98b7fbb34c83a86e2106fe0e535, type: 2}
   canvas: {fileID: 4544004751917469392}
   canvasGroup: {fileID: 8465950643952163891}
   workoutSelectionContainer: {fileID: 1048707908877982057}
