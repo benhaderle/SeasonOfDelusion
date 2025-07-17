@@ -44,9 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663876af9ea814786bfd1fee621a104f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulationSecondsPerRealSeconds: 100
-  simulationStep: 60
-  maxDeviation: 0.1
-  experienceCap: 1000000
+  simulationSecondsPerRealSeconds: 30
+  simulationStep: 10
   maxSoreness: 500
-  sorenessEffect: 0.1

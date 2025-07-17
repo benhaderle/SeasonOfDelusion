@@ -21,6 +21,6 @@ MonoBehaviour:
     rest: 1.5
   effects:
   - type: 1
-    amount: 1
+    amount: 3
   - type: 0
-    amount: 1
+    amount: 3

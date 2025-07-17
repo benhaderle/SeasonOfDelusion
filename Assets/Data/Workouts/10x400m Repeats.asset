@@ -21,4 +21,4 @@ MonoBehaviour:
     rest: 1
   effects:
   - type: 1
-    amount: 1
+    amount: 3

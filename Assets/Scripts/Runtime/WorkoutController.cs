@@ -122,7 +122,7 @@ public class WorkoutController : MonoBehaviour
 
                     //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
                     // but this should probably account for experience and soreness in some way
-                    state.desiredVO2 = runner.currentVO2Max * group.targetVO2 / runner.currentVO2Max;
+                    state.desiredVO2 = group.targetVO2;
                     state.currentSpeed = 0;
                     state.desiredSpeed = 0;
                     state.intervalDistance = 0;
@@ -184,13 +184,19 @@ public class WorkoutController : MonoBehaviour
         }
 
 
+        Debug.Log($"Target VO2:{group.targetVO2}");
         // post run update
         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            RunnerUpdateRecord record = runner.PostRunUpdate(state);
+            float milesPerSecond = state.totalDistance / state.timeInSeconds;
+            float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / runner.CalculateRunEconomy(state);
+            Debug.Log($"{runner.Name} Run VO2: {runVO2}");
+
+            
+            RunnerUpdateRecord record = runner.PostWorkoutUpdate(state, workout, group.targetVO2);
             runnerUpdateDictionary.Add(runner, record);
         }
 

@@ -1986,14 +1986,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorkoutController
       objectReference: {fileID: 0}
-    - target: {fileID: 8837831922190808945, guid: 0da5ab6998f60481a844e15aedb91bd0, type: 3}
-      propertyPath: simulationStep
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8837831922190808945, guid: 0da5ab6998f60481a844e15aedb91bd0, type: 3}
-      propertyPath: simulationSecondsPerRealSeconds
-      value: 30
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

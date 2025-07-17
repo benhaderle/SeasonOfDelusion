@@ -24,7 +24,7 @@ public class Workout : ScriptableObject
     [SerializeField] private RouteLineData routeLineData;
     public RouteLineData RouteLineData => routeLineData;
     public List<Interval> intervals = new();
-    [SerializeField] private WorkoutEffect[] effects;
+    public WorkoutEffect[] effects;
 
     private float totalLength = -1;
     public float GetTotalLength()

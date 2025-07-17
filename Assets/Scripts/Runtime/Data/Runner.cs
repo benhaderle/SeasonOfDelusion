@@ -217,6 +217,78 @@ public class Runner
         };
     }
 
+
+    /// <summary>
+    /// Updates this Runner's stats given the information in runState. Assumes the run is done.
+    /// </summary>
+    /// <param name="runState">The state of this Runner after a run is finished.</param>
+    public RunnerUpdateRecord PostWorkoutUpdate(RunnerState runState, Workout workout, float targetVO2)
+    {
+        // register the old values so we can show how much they changed
+        float oldVO2 = currentVO2Max;
+        float oldStrength = currentStrength;
+        float oldGrit = grit;
+        float oldForm = currentForm;
+
+        // update hydration and calories
+        hydrationStatus -= runState.hydrationCost;
+        float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
+        shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
+        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
+
+        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
+        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        float timeInMinutes = runState.timeInSeconds / 60f;
+
+        for (int i = 0; i < workout.effects.Length; i++)
+        {
+            // this gives the full effect of the workout the closer you are to your max VO2
+            // this is crude and really there should be a target VO2 or other benchmark to hit for each workout to get the effect
+            // the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
+            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, runVO2 / currentVO2Max), 32);
+
+            switch (workout.effects[i].type)
+            {
+                case WorkoutEffect.Type.VO2:
+                    currentVO2Max += currentVO2Max * effectAmount;
+                    Debug.Log($"{Name} Old VO2:{oldVO2} New VO2:{currentVO2Max}");
+                    break;
+                case WorkoutEffect.Type.Strength:
+                    currentStrength += currentStrength * effectAmount;
+                    Debug.Log($"{Name} Old Strength:{oldStrength} New Strength:{currentStrength}");
+                    break;
+                case WorkoutEffect.Type.Grit:
+                    grit += grit * effectAmount;
+                    Debug.Log($"{Name} Old Grit:{oldGrit} New Grit:{grit}");
+                    break;
+                case WorkoutEffect.Type.Form:
+                    currentForm += currentForm * effectAmount;
+                    Debug.Log($"{Name} Old Form:{oldForm} New Form:{currentForm}");
+                    break;
+            }
+        }
+
+        // experience is a function of cumulative miles run
+        UpdateexperiencePostRun(runState.totalDistance);
+
+        // VO2 is moved up or down depending on how far away you were from 90% of your VO2
+        UpdateVO2PostRun(runVO2, timeInMinutes);
+
+        // exhaustion changes based off of how far away you were from your recovery VO2
+        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
+
+        // strength rate is moved up or down depending on how far away you were from 75% of your VO2
+        UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
+
+        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+
+        return new RunnerUpdateRecord
+        {
+            vo2Change = currentVO2Max - oldVO2,
+            strengthChange = currentStrength - oldStrength
+        };
+    }
+
     /// <summary>
     /// Updates the Runner's VO2Max with the given runVO2 and time it was run for
     /// </summary>
