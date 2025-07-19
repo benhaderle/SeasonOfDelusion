@@ -274,7 +274,8 @@ public class RaceController : MonoBehaviour
         {
             RunnerState state = runnerStates[runner];
 
-            RunnerUpdateRecord record = runner.PostRunUpdate(state);
+            //FIXME: jsut threw a new Route in here, but should be use RaceRoute
+            RunnerUpdateRecord record = runner.PostRunUpdate(state, new Route());
             runnerUpdateDictionary.Add(runner, record);
         }
 

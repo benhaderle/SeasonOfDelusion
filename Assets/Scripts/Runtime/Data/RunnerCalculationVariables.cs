@@ -8,6 +8,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newRunnerVariables", menuName = "ScriptableObjects/RunnerCalculationVariables")]
 public class RunnerCalculationVariables : ScriptableObject
 {
+    public int[] levelExperienceThresholds;
+    
     [Header("Post-Run VO2 Update Variables")]
     /// <summary>
     /// The percent of VO2 that a runner must run to improve their VO2

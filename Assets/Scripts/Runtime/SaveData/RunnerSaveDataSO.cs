@@ -10,7 +10,8 @@ public class RunnerSaveDataSO : ScriptableObject
     public void Initialize(float minVO2Max, float minForm, float minStrength, float minNutrition, float maxShortTermCalories)
     {
         data.initialized = true;
-
+        
+        data.level = 1;
         data.currentVO2Max = minVO2Max;
         data.currentForm = minForm + 10;
         data.currentStrength = minStrength + 10;
@@ -32,13 +33,14 @@ public class RunnerSaveData
     public string firstName;
     public string lastName;
     public string teamName;
+    public int level;
+    public int experience;
     public float weight;
     public float currentVO2Max;
     public float currentStrength;
     public float strengthChangeRate;
     public float currentForm;
     public int daysSinceFormPractice;
-    public float experience;
     public float currentNutrition;
     public float recovery;
     public float grit;

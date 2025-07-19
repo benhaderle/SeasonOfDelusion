@@ -24,9 +24,19 @@ public class Runner
     public string LastName => lastName;
     /// <value>User facing string formatted as "FirstName LastName"</value>
     public string Name => $"{firstName} {lastName}";
-
     private string teamName;
     public string TeamName => teamName;
+
+    public int level
+    {
+        get => runnerSaveData.data.level;
+        private set => runnerSaveData.data.level = value;
+    }
+    public int experience
+    {
+        get => runnerSaveData.data.experience;
+        private set => runnerSaveData.data.experience = value;
+    }
 #region Stats
     [SerializeField] private RunnerSaveDataSO runnerSaveData;
     /// <summary>
@@ -83,14 +93,6 @@ public class Runner
     {
         get => runnerSaveData.data.daysSinceFormPractice;
         set => runnerSaveData.data.daysSinceFormPractice = value;
-    }
-    /// <summary>
-    /// A number >= 0 that roughly represents cumulative lifetime miles for this runner
-    /// </summary>
-    public float experience
-    {
-        get => runnerSaveData.data.experience;
-        private set => runnerSaveData.data.experience = value;
     }
     private float currentNutrition
     {
@@ -180,41 +182,60 @@ public class Runner
     /// Updates this Runner's stats given the information in runState. Assumes the run is done.
     /// </summary>
     /// <param name="runState">The state of this Runner after a run is finished.</param>
-    public RunnerUpdateRecord PostRunUpdate(RunnerState runState)
+    public RunnerUpdateRecord PostRunUpdate(RunnerState runState, Route route)
     {
-        // register the old values so we can show how much they changed
-        float oldVO2 = currentVO2Max;
-        float oldStrength = currentStrength;
-
-        // update hydration and calories
-        hydrationStatus -= runState.hydrationCost;
-        float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
-        shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
-        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
-
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
         float timeInMinutes = runState.timeInSeconds / 60f;
 
-        // experience is a function of cumulative miles run
-        UpdateexperiencePostRun(runState.totalDistance);
+        float vo2ImprovementGap = (runVO2 / (currentVO2Max * (.02f * level + .58f))) - 1f;
 
-        // VO2 is moved up or down depending on how far away you were from 90% of your VO2
-        UpdateVO2PostRun(runVO2, timeInMinutes);
+        float experienceChange = vo2ImprovementGap * timeInMinutes * route.Difficulty;
+        experience += Mathf.CeilToInt(experienceChange);
+        experience = Mathf.Max(0, experience);
 
-        // exhaustion changes based off of how far away you were from your recovery VO2
-        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
-
-        // strength rate is moved up or down depending on how far away you were from 75% of your VO2
-        UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
-
-        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
-
-        return new RunnerUpdateRecord
+        if (experience >= variables.levelExperienceThresholds[level - 1])
         {
-            vo2Change = currentVO2Max - oldVO2,
-            strengthChange = currentStrength - oldStrength
-        };
+            // do a level up
+        }
+
+        Debug.Log($"Name: {Name} \tExperience Change: {experienceChange}\t Experience: {experience}");
+
+        return new RunnerUpdateRecord { };
+
+        // register the old values so we can show how much they changed
+        // float oldVO2 = currentVO2Max;
+        // float oldStrength = currentStrength;
+
+        // // update hydration and calories
+        // hydrationStatus -= runState.hydrationCost;
+        // float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
+        // shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
+        // longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
+
+        // float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
+        // float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        // float timeInMinutes = runState.timeInSeconds / 60f;
+
+        // // experience is a function of cumulative miles run
+        // UpdateExperiencePostRun(runState.totalDistance);
+
+        // // VO2 is moved up or down depending on how far away you were from 90% of your VO2
+        // UpdateVO2PostRun(runVO2, timeInMinutes);
+
+        // // exhaustion changes based off of how far away you were from your recovery VO2
+        // UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
+
+        // // strength rate is moved up or down depending on how far away you were from 75% of your VO2
+        // UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
+
+        // Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+
+        // return new RunnerUpdateRecord
+        // {
+        //     vo2Change = currentVO2Max - oldVO2,
+        //     strengthChange = currentStrength - oldStrength
+        // };
     }
 
 
@@ -269,7 +290,7 @@ public class Runner
         }
 
         // experience is a function of cumulative miles run
-        UpdateexperiencePostRun(runState.totalDistance);
+        UpdateExperiencePostRun((int)runState.totalDistance);
 
         // VO2 is moved up or down depending on how far away you were from 90% of your VO2
         UpdateVO2PostRun(runVO2, timeInMinutes);
@@ -322,7 +343,7 @@ public class Runner
     /// Increases experience by the amount provided
     /// </summary>
     /// <param name="exp">The amount of experience to add</param>
-    private void UpdateexperiencePostRun(float exp)
+    private void UpdateExperiencePostRun(int exp)
     {
         experience += exp;
     }

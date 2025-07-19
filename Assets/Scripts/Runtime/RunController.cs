@@ -244,7 +244,7 @@ public class RunController : MonoBehaviour
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            RunnerUpdateRecord record = runner.PostRunUpdate(state);
+            RunnerUpdateRecord record = runner.PostRunUpdate(state, route);
             runnerUpdateDictionary.Add(runner, record);
         }
 
