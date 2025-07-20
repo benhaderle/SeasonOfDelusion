@@ -46,17 +46,12 @@ public class Runner
     /// <summary>
     /// This runner's minVO2Max. currentVO2Max will never go below this.
     /// </summary>
-    [SerializeField] private float minVO2Max;
-    /// <summary>
-    /// The runner's maxVO2Max. currentVO2Max will never go above this.
-    /// </summary> 
-    [SerializeField] private float maxVO2Max;
-    [SerializeField] private float minStrength;
-    [SerializeField] private float maxStrength;
+    [SerializeField] private float initialVO2Max = 50;
+    [SerializeField] private float vo2ImprovementMagnitude = .15f;
+    [SerializeField] private float initialStrength;
+    [SerializeField] private float strengthImprovementMagnitude;
     [SerializeField] private float minForm;
-    [SerializeField] private float maxForm;
     [SerializeField] private float minNutrition;
-    [SerializeField] private float maxNutrition;
     [SerializeField] private float recovery;
     public float weight
 {
@@ -76,23 +71,10 @@ public class Runner
         get => runnerSaveData.data.currentStrength;
         private set => runnerSaveData.data.currentStrength = value;
     }
-    /// <summary>
-    /// The current rate of strength change. Changes depending on run performance
-    /// </summary>
-    private float strengthChangeRate
-    {
-        get => runnerSaveData.data.strengthChangeRate;
-        set => runnerSaveData.data.strengthChangeRate = value;
-    }
     private float currentForm
     {
         get => runnerSaveData.data.currentForm;
         set => runnerSaveData.data.currentForm = value;
-    }
-    private int daysSinceFormPractice
-    {
-        get => runnerSaveData.data.daysSinceFormPractice;
-        set => runnerSaveData.data.daysSinceFormPractice = value;
     }
     private float currentNutrition
     {
@@ -168,7 +150,7 @@ public class Runner
 
         if (!runnerSaveData.data.initialized)
         {
-            runnerSaveData.Initialize(minVO2Max, minForm, minStrength, minNutrition, MAX_SHORT_TERM_CALORIES);
+            runnerSaveData.Initialize(initialVO2Max, minForm, initialStrength, minNutrition, MAX_SHORT_TERM_CALORIES);
         }
         
         runnerSaveData.data.firstName = firstName;
@@ -186,58 +168,47 @@ public class Runner
     {
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
-        float timeInMinutes = runState.timeInSeconds / 60f;
 
-        float vo2ImprovementGap = (runVO2 / (currentVO2Max * (.02f * level + .58f))) - 1f;
+        UpdateStatusPostRun(runState, runVO2);
 
-        float experienceChange = vo2ImprovementGap * timeInMinutes * route.Difficulty;
-        experience += Mathf.CeilToInt(experienceChange);
-        experience = Mathf.Max(0, experience);
-
-        if (experience >= variables.levelExperienceThresholds[level - 1])
-        {
-            // do a level up
-        }
-
-        Debug.Log($"Name: {Name} \tExperience Change: {experienceChange}\t Experience: {experience}");
+        UpdateExperience(runVO2, route.Length * route.Difficulty);
 
         return new RunnerUpdateRecord { };
-
-        // register the old values so we can show how much they changed
-        // float oldVO2 = currentVO2Max;
-        // float oldStrength = currentStrength;
-
-        // // update hydration and calories
-        // hydrationStatus -= runState.hydrationCost;
-        // float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
-        // shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
-        // longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
-
-        // float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        // float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
-        // float timeInMinutes = runState.timeInSeconds / 60f;
-
-        // // experience is a function of cumulative miles run
-        // UpdateExperiencePostRun(runState.totalDistance);
-
-        // // VO2 is moved up or down depending on how far away you were from 90% of your VO2
-        // UpdateVO2PostRun(runVO2, timeInMinutes);
-
-        // // exhaustion changes based off of how far away you were from your recovery VO2
-        // UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
-
-        // // strength rate is moved up or down depending on how far away you were from 75% of your VO2
-        // UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
-
-        // Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
-
-        // return new RunnerUpdateRecord
-        // {
-        //     vo2Change = currentVO2Max - oldVO2,
-        //     strengthChange = currentStrength - oldStrength
-        // };
     }
 
+    private void UpdateExperience(float runVO2, float runDifficultyMultiplier)
+    {
+        float vo2ImprovementGap = (runVO2 / (currentVO2Max * (.02f * level + .58f))) - 1f;
+
+        float experienceChange = vo2ImprovementGap * runDifficultyMultiplier;
+        experience += Mathf.CeilToInt(experienceChange);
+        experience = Mathf.Max(0, experience);
+        Debug.Log($"Name: {Name} \tExperience Change: {experienceChange}\t Experience: {experience}");
+
+        while (experience >= variables.levelExperienceThresholds[level - 1])
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        // register the old values so we can show how much they changed
+        float oldVO2 = currentVO2Max;
+        float oldStrength = currentStrength;
+
+        float normalizedLevel = Mathf.InverseLerp(1, 20, level);
+
+        // update our stats
+        currentVO2Max *= 1 + (variables.vo2ImprovementCurve.Evaluate(normalizedLevel) * vo2ImprovementMagnitude);
+        currentStrength *= 1 + (variables.strengthImprovementCurve.Evaluate(normalizedLevel) * strengthImprovementMagnitude);
+
+        experience -= variables.levelExperienceThresholds[level - 1];
+        level++;
+
+        Debug.Log($"LEVEL UP! Name: {Name}\t Level {level}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+
+    }
 
     /// <summary>
     /// Updates this Runner's stats given the information in runState. Assumes the run is done.
@@ -251,21 +222,16 @@ public class Runner
         float oldGrit = grit;
         float oldForm = currentForm;
 
-        // update hydration and calories
-        hydrationStatus -= runState.hydrationCost;
-        float longTermCalorieCost = Mathf.Max(0, runState.calorieCost - shortTermCalories);
-        shortTermCalories = Mathf.Max(0, shortTermCalories - runState.calorieCost);
-        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
-
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
-        float timeInMinutes = runState.timeInSeconds / 60f;
+
+        UpdateStatusPostRun(runState, runVO2);
 
         for (int i = 0; i < workout.effects.Length; i++)
         {
             // this gives the full effect of the workout the closer you are to your max VO2
             // this is crude and really there should be a target VO2 or other benchmark to hit for each workout to get the effect
-            // the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
+            // TODO: the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
             float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, runVO2 / currentVO2Max), 32);
 
             switch (workout.effects[i].type)
@@ -289,63 +255,27 @@ public class Runner
             }
         }
 
-        // experience is a function of cumulative miles run
-        UpdateExperiencePostRun((int)runState.totalDistance);
-
-        // VO2 is moved up or down depending on how far away you were from 90% of your VO2
-        UpdateVO2PostRun(runVO2, timeInMinutes);
-
-        // exhaustion changes based off of how far away you were from your recovery VO2
-        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
-
-        // strength rate is moved up or down depending on how far away you were from 75% of your VO2
-        UpdateStrengthPostRun(runState.distanceTimeSimulationIntervalList);
+        UpdateExperience(runVO2, workout.GetTotalLength() * targetVO2 / currentVO2Max);
 
         Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
         return new RunnerUpdateRecord
         {
-            vo2Change = currentVO2Max - oldVO2,
-            strengthChange = currentStrength - oldStrength
         };
     }
 
-    /// <summary>
-    /// Updates the Runner's VO2Max with the given runVO2 and time it was run for
-    /// </summary>
-    /// <param name="runVO2">The VO2 in mL/kg/min for the last run</param>
-    /// <param name="timeInMinutes">The length of the run in minutes</param> 
-    private void UpdateVO2PostRun(float runVO2, float timeInMinutes)
+    private void UpdateStatusPostRun(RunnerState state, float runVO2)
     {
-        // the percent away from the improvement threshold
-        float vo2ImprovementGap = (runVO2 / (currentVO2Max * variables.VO2ImprovementThreshold)) - 1f;
+        float timeInMinutes = state.timeInSeconds / 60f;
 
-        // go look at desmos if you want to see the shape of this graph
-        // basic idea is that VO2 goes up if you ran harder or longer, goes down if you ran slower or shorter
-        float vo2Update = (variables.CubicVO2Slope * timeInMinutes * Mathf.Pow(vo2ImprovementGap, 3))
-            + (variables.LinearVO2Slope * timeInMinutes * (vo2ImprovementGap + variables.LinearVO2Offset))
-            + variables.ConstantVO2Offset;
+        // update hydration and calories
+        hydrationStatus -= state.hydrationCost;
+        float longTermCalorieCost = Mathf.Max(0, state.calorieCost - shortTermCalories);
+        shortTermCalories = Mathf.Max(0, shortTermCalories - state.calorieCost);
+        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
 
-        // one last linear tune
-        vo2Update *= variables.VO2UpdateFactor;
-
-        // get the slope of change given the Runner's current VO2
-        // VO2 changes are more sensitive when the Runner's VO2 is lower
-        float normalizedVO2 = Mathf.InverseLerp(minVO2Max, maxVO2Max, currentVO2Max);
-        float slope = -10f * Mathf.Pow(normalizedVO2 - 1, 9);
-
-        // final add and clamp
-        currentVO2Max += vo2Update * slope;
-        currentVO2Max = Mathf.Clamp(currentVO2Max, minVO2Max, maxVO2Max);
-    }
-
-    /// <summary>
-    /// Increases experience by the amount provided
-    /// </summary>
-    /// <param name="exp">The amount of experience to add</param>
-    private void UpdateExperiencePostRun(int exp)
-    {
-        experience += exp;
+        // exhaustion changes based off of how far away you were from your recovery VO2
+        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
     }
 
     // <summary>
@@ -358,53 +288,6 @@ public class Runner
         longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
     }
 
-    /// <summary>
-    /// Uses the list of interval distances and times to update the strengthChangeRate and then uses the strengthChangeRate to update currentStrength
-    /// </summary>
-    /// <param name="distanceTimeSimulationIntervalList">The list of distance-time intervals for the run</param>
-    private void UpdateStrengthPostRun(List<(float, float)> distanceTimeSimulationIntervalList)
-    {
-        // the percent threshold of VO2 at which strength starts increasing
-        float strengthUtilisationVO2Threshold = .9f;
-
-        // running sums so we can get an average utilisation for all intervals
-        float strengthUtilisationSum = 0;
-        float timeSum = 0;
-        
-        // go through each interval and add the utilisation to the sum
-        for (int i = 0; i < distanceTimeSimulationIntervalList.Count - 1; i++)
-        {
-            float intervalDistance = distanceTimeSimulationIntervalList[i + 1].Item1 - distanceTimeSimulationIntervalList[i].Item1;
-            float intervalTime = distanceTimeSimulationIntervalList[i + 1].Item2 - distanceTimeSimulationIntervalList[i].Item2;
-
-            float intervalVO2 = RunUtility.SpeedToOxygenCost(intervalDistance / intervalTime);
-
-            //TODO: this should take into account elevation in the future
-            float intervalStrengthUtilisation = intervalVO2 / (strengthUtilisationVO2Threshold * currentVO2Max);
-            // if we used strength past the VO2 threhsold, make the utilisation exponential
-            // else, make the decrease slowly linear
-            if (intervalStrengthUtilisation > 1)
-            {
-                intervalStrengthUtilisation *= intervalStrengthUtilisation;
-            }
-            else
-            {
-                intervalStrengthUtilisation = (.1f * intervalStrengthUtilisation) + .9f;
-            }
-
-            // add to the weighted sum
-            strengthUtilisationSum += intervalStrengthUtilisation * intervalTime;
-            timeSum += intervalTime;
-        }
-
-        // lerp the rate towards today's rate
-        strengthChangeRate = Mathf.Lerp(strengthChangeRate, strengthUtilisationSum / timeSum, 1/3f);
-
-        // update strength
-        currentStrength *= strengthChangeRate;
-        currentStrength = Mathf.Clamp(currentStrength, minStrength, maxStrength);
-    }
-
     #endregion
 
     #region End of Day Functions
@@ -414,8 +297,6 @@ public class Runner
     /// </summary>
     public void OnEndDay()
     {
-        UpdateFormEOD();
-
         // nutrition roll effects hydration and calorie recovery
         float nutritionRoll = CNExtensions.RandGaussian(currentNutrition, 10);
 
@@ -450,26 +331,6 @@ public class Runner
         // in addition to the linear amount lost, there's also a constant amount lost
         longTermSoreness = (linearRecoverySlope * longTermSoreness) - variables.DayEndLongTermSorenessRecovery;
         longTermSoreness = Mathf.Max(0, longTermSoreness);
-    }
-
-    /// <summary>
-    /// Updates form and form related stats at the end of the day
-    /// </summary> 
-    private void UpdateFormEOD()
-    {
-        // decrement form based on how long it's been since we practiced
-        currentForm -= daysSinceFormPractice;
-        currentForm = Mathf.Max(currentForm, minForm);
-
-        // increment the counter for how long it's been since we practiced
-        daysSinceFormPractice++;
-
-        // if we're 90% of our maxForm, we get to raise the floor of our form potential
-        if (currentForm - minForm >= (maxForm - minForm) * .9f)
-        {
-            minForm++;
-            minForm = Mathf.Min(minForm, maxForm - 1);
-        }
     }
 
     #endregion

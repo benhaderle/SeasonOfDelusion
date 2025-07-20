@@ -7,16 +7,17 @@ using UnityEngine;
 public class RunnerSaveDataSO : ScriptableObject
 {
     public RunnerSaveData data = new();
-    public void Initialize(float minVO2Max, float minForm, float minStrength, float minNutrition, float maxShortTermCalories)
+    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float initialNutrition, float maxShortTermCalories)
     {
         data.initialized = true;
         
         data.level = 1;
-        data.currentVO2Max = minVO2Max;
-        data.currentForm = minForm + 10;
-        data.currentStrength = minStrength + 10;
-        data.strengthChangeRate = 1;
-        data.currentNutrition = minNutrition + 10;
+        data.experience = 0;
+
+        data.currentVO2Max = initialVO2Max;
+        data.currentStrength = initialStrength;
+        data.currentForm = initialForm + 10;
+        data.currentNutrition = initialNutrition + 10;
         data.hydrationStatus = 4f;
         data.longTermCalories = 100000;
         data.shortTermCalories = maxShortTermCalories;
@@ -38,9 +39,7 @@ public class RunnerSaveData
     public float weight;
     public float currentVO2Max;
     public float currentStrength;
-    public float strengthChangeRate;
     public float currentForm;
-    public int daysSinceFormPractice;
     public float currentNutrition;
     public float recovery;
     public float grit;

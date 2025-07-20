@@ -51,50 +51,42 @@ MonoBehaviour:
     - firstName: Clark
       lastName: Faster
       runnerSaveData: {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
-      minVO2Max: 50
-      maxVO2Max: 75
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.025
+      initialStrength: 30
+      strengthImprovementMagnitude: 0.07
       minForm: 50
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 60
     - firstName: James
       lastName: Treau
       runnerSaveData: {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
-      minVO2Max: 50
-      maxVO2Max: 67
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.02
+      initialStrength: 30
+      strengthImprovementMagnitude: 0.06
       minForm: 30
-      maxForm: 90
       minNutrition: 50
-      maxNutrition: 100
       recovery: 65
     - firstName: Rico
       lastName: Ready
       runnerSaveData: {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
-      minVO2Max: 50
-      maxVO2Max: 63
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.02
+      initialStrength: 30
+      strengthImprovementMagnitude: 0.05
       minForm: 30
-      maxForm: 80
       minNutrition: 20
-      maxNutrition: 100
       recovery: 50
     - firstName: Ryan
       lastName: Walker
       runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.02
+      initialStrength: 30
+      strengthImprovementMagnitude: 0.07
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
   otherTeams:
   - name: Saratoga
@@ -102,343 +94,287 @@ MonoBehaviour:
     - firstName: A
       lastName: A
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 75
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 50
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 60
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 67
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 90
       minNutrition: 50
-      maxNutrition: 100
       recovery: 65
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 63
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 80
       minNutrition: 20
-      maxNutrition: 100
       recovery: 50
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
   - name: Lynbrook
     runners:
     - firstName: A
       lastName: A
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 75
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 50
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 60
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 67
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 90
       minNutrition: 50
-      maxNutrition: 100
       recovery: 65
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 63
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 80
       minNutrition: 20
-      maxNutrition: 100
       recovery: 50
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
   - name: Los Altos
     runners:
     - firstName: A
       lastName: A
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 75
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 50
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 60
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 67
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 90
       minNutrition: 50
-      maxNutrition: 100
       recovery: 65
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 63
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 80
       minNutrition: 20
-      maxNutrition: 100
       recovery: 50
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
   - name: St. Francis
     runners:
     - firstName: A
       lastName: A
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 75
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 50
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 60
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 67
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 90
       minNutrition: 50
-      maxNutrition: 100
       recovery: 65
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 63
-      minStrength: 20
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 30
-      maxForm: 80
       minNutrition: 20
-      maxNutrition: 100
       recovery: 50
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
-      minVO2Max: 50
-      maxVO2Max: 65
-      minStrength: 30
-      maxStrength: 100
+      initialVO2Max: 50
+      vo2ImprovementMagnitude: 0.25
+      initialStrength: 0
+      strengthImprovementMagnitude: 0
       minForm: 40
-      maxForm: 100
       minNutrition: 30
-      maxNutrition: 100
       recovery: 55
   variables: {fileID: 11400000, guid: 09eb7807c1f0346588187fe975d00147, type: 2}

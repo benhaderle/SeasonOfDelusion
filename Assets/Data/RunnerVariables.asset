@@ -12,12 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9042261971344f12a5c9a86b13008f1, type: 3}
   m_Name: RunnerVariables
   m_EditorClassIdentifier: 
-  vo2ImprovementThreshold: 0.7
-  cubicVO2Slope: 3.5
-  linearVO2Slope: 3
-  linearVO2Offset: 0.15
-  constantVO2Offset: 20
-  vo2UpdateFactor: 0.001
+  levelExperienceThresholds: 0100000002000000040000000600000007000000090000000b0000000d00000010000000120000001400000016000000190000001b0000001e00000020000000230000002500000028000000
+  vo2ImprovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.010482206
+      outSlope: -0.010482206
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.225
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.9002695
+      outSlope: -1.9002695
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.058333337
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  strengthImprovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.33333334
+      value: 1
+      inSlope: -0.007922365
+      outSlope: -0.007922365
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.49661127
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   longTermSorenessVO2Threshold: 0.6
   cubicLongTermSorenessSlope: 3.5
   linearLongTermSorenessSlope: 3
