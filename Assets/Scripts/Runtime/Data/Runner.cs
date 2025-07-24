@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CreateNeptune;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 /// <summary>
 /// Holds variables and functionality relevant to runners
@@ -85,7 +86,7 @@ public class Runner
     /// A number >= 1 that represents how tough this runner is. 
     /// Meant to be used as an exponent to make the effects of soreness and other difficulties increase gradually.
     /// </summary>
-    public float grit
+    public float currentGrit
     {
         get => runnerSaveData.data.grit;
         private set => runnerSaveData.data.grit = value;
@@ -172,7 +173,6 @@ public class Runner
             startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
         };
 
-
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
 
@@ -188,6 +188,99 @@ public class Runner
         }
 
         return updateRecord; 
+    }
+
+    
+
+    /// <summary>
+    /// Updates this Runner's stats given the information in runState. Assumes the run is done.
+    /// </summary>
+    /// <param name="runState">The state of this Runner after a run is finished.</param>
+    public RunnerUpdateRecord PostWorkoutUpdate(RunnerState runState, Workout workout, float targetVO2)
+    {
+        RunnerUpdateRecord updateRecord = new RunnerUpdateRecord
+        {
+            startingExperience = experience,
+            startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
+        };
+
+        // register the old values so we can show how much they changed
+        float oldVO2 = currentVO2Max;
+        float oldStrength = currentStrength;
+        float oldGrit = currentGrit;
+        float oldForm = currentForm;
+
+        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
+        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+
+        UpdateStatusPostRun(runState, runVO2);
+
+        updateRecord.statUpRecords = new();
+        for (int i = 0; i < workout.effects.Length; i++)
+        {
+            // this gives the full effect of the workout the closer you are to your max VO2
+            // this is crude and really there should be a target VO2 or other benchmark to hit for each workout to get the effect
+            // TODO: the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
+            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, runVO2 / currentVO2Max), 32);
+
+            StatUpRecord statUpRecord = new StatUpRecord
+            {
+                statName = workout.effects[i].type.ToString()
+            };
+
+            switch (workout.effects[i].type)
+            {
+                case WorkoutEffect.Type.VO2: currentVO2Max = UpdateStat(currentVO2Max, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Strength: currentStrength = UpdateStat(currentStrength, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Grit: currentGrit = UpdateStat(currentGrit, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Form: currentForm = UpdateStat(currentForm, effectAmount, ref statUpRecord); break;
+            }
+
+            updateRecord.statUpRecords.Add(statUpRecord);
+        }
+
+        updateRecord.experienceChange = UpdateExperience(runVO2, workout.GetTotalLength() * targetVO2 / currentVO2Max);
+        while (experience >= variables.levelExperienceThresholds[level - 1])
+        {
+            LevelUpRecord record = LevelUp();
+            updateRecord.levelUpRecords.Add(record);
+        }
+
+        return updateRecord;
+    }
+
+    private float UpdateStat(float currentStat, float effectAmount, ref StatUpRecord statUpRecord)
+    {
+        statUpRecord.oldValue = currentStat;
+        statUpRecord.newValue = currentStat * effectAmount;
+
+        Debug.Log($"{Name} Old {statUpRecord.statName}:{statUpRecord.oldValue} New {statUpRecord.statName}:{statUpRecord.newValue}");
+
+        return statUpRecord.newValue;
+    }
+
+    private void UpdateStatusPostRun(RunnerState state, float runVO2)
+    {
+        float timeInMinutes = state.timeInSeconds / 60f;
+
+        // update hydration and calories
+        hydrationStatus -= state.hydrationCost;
+        float longTermCalorieCost = Mathf.Max(0, state.calorieCost - shortTermCalories);
+        shortTermCalories = Mathf.Max(0, shortTermCalories - state.calorieCost);
+        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
+
+        // exhaustion changes based off of how far away you were from your recovery VO2
+        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
+    }
+
+    // <summary>
+    /// Updates the Runner's Exhaustion with the given runVO2 and time it was run for
+    /// </summary>
+    /// <param name="runVO2">The VO2 in mL/kg/min for the last run</param>
+    /// <param name="timeInMinutes">The length of the run in minutes</param> 
+    private void UpdateLongTermSorenessPostRun(float runVO2, float timeInMinutes)
+    {
+        longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
     }
 
     private int UpdateExperience(float runVO2, float runDifficultyMultiplier)
@@ -228,84 +321,6 @@ public class Runner
             oldStrength = oldStrength,
             newStrength = currentStrength
         };
-    }
-
-    /// <summary>
-    /// Updates this Runner's stats given the information in runState. Assumes the run is done.
-    /// </summary>
-    /// <param name="runState">The state of this Runner after a run is finished.</param>
-    public RunnerUpdateRecord PostWorkoutUpdate(RunnerState runState, Workout workout, float targetVO2)
-    {
-        // register the old values so we can show how much they changed
-        float oldVO2 = currentVO2Max;
-        float oldStrength = currentStrength;
-        float oldGrit = grit;
-        float oldForm = currentForm;
-
-        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
-
-        UpdateStatusPostRun(runState, runVO2);
-
-        for (int i = 0; i < workout.effects.Length; i++)
-        {
-            // this gives the full effect of the workout the closer you are to your max VO2
-            // this is crude and really there should be a target VO2 or other benchmark to hit for each workout to get the effect
-            // TODO: the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
-            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, runVO2 / currentVO2Max), 32);
-
-            switch (workout.effects[i].type)
-            {
-                case WorkoutEffect.Type.VO2:
-                    currentVO2Max += currentVO2Max * effectAmount;
-                    Debug.Log($"{Name} Old VO2:{oldVO2} New VO2:{currentVO2Max}");
-                    break;
-                case WorkoutEffect.Type.Strength:
-                    currentStrength += currentStrength * effectAmount;
-                    Debug.Log($"{Name} Old Strength:{oldStrength} New Strength:{currentStrength}");
-                    break;
-                case WorkoutEffect.Type.Grit:
-                    grit += grit * effectAmount;
-                    Debug.Log($"{Name} Old Grit:{oldGrit} New Grit:{grit}");
-                    break;
-                case WorkoutEffect.Type.Form:
-                    currentForm += currentForm * effectAmount;
-                    Debug.Log($"{Name} Old Form:{oldForm} New Form:{currentForm}");
-                    break;
-            }
-        }
-
-        UpdateExperience(runVO2, workout.GetTotalLength() * targetVO2 / currentVO2Max);
-
-        Debug.Log($"Name: {Name}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
-
-        return new RunnerUpdateRecord
-        {
-        };
-    }
-
-    private void UpdateStatusPostRun(RunnerState state, float runVO2)
-    {
-        float timeInMinutes = state.timeInSeconds / 60f;
-
-        // update hydration and calories
-        hydrationStatus -= state.hydrationCost;
-        float longTermCalorieCost = Mathf.Max(0, state.calorieCost - shortTermCalories);
-        shortTermCalories = Mathf.Max(0, shortTermCalories - state.calorieCost);
-        longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
-
-        // exhaustion changes based off of how far away you were from your recovery VO2
-        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
-    }
-
-    // <summary>
-    /// Updates the Runner's Exhaustion with the given runVO2 and time it was run for
-    /// </summary>
-    /// <param name="runVO2">The VO2 in mL/kg/min for the last run</param>
-    /// <param name="timeInMinutes">The length of the run in minutes</param> 
-    private void UpdateLongTermSorenessPostRun(float runVO2, float timeInMinutes)
-    {
-        longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
     }
 
     #endregion
@@ -400,7 +415,7 @@ public class Runner
          hydrationWeight * Mathf.Clamp01(hydration) +
          calorieWeight * Mathf.Min(1, calories);
 
-        return Mathf.Pow(economy, 1 / grit);
+        return Mathf.Pow(economy, 1 / currentGrit);
     }
 
     /// <returns>A number between 0 and 1 representing the runner's economy under the current internal circumstances</returns>
@@ -442,6 +457,7 @@ public struct RunnerUpdateRecord
     public int startingLevelExperienceThreshold;
     public int experienceChange;
     public List<LevelUpRecord> levelUpRecords;
+    public List<StatUpRecord> statUpRecords;
 }
 
 public struct LevelUpRecord
@@ -452,4 +468,11 @@ public struct LevelUpRecord
     public float newVO2;
     public float oldStrength;
     public float newStrength;
+}
+
+public struct StatUpRecord
+{
+    public string statName;
+    public float oldValue;
+    public float newValue;
 }
