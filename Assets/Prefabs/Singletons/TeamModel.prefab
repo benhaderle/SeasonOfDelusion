@@ -51,7 +51,7 @@ MonoBehaviour:
     - firstName: Clark
       lastName: Faster
       runnerSaveData: {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
-      initialVO2Max: 50
+      initialVO2Max: 52
       vo2ImprovementMagnitude: 0.025
       initialStrength: 30
       strengthImprovementMagnitude: 0.07
@@ -62,7 +62,7 @@ MonoBehaviour:
       lastName: Treau
       runnerSaveData: {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
       initialVO2Max: 50
-      vo2ImprovementMagnitude: 0.02
+      vo2ImprovementMagnitude: 0.021
       initialStrength: 30
       strengthImprovementMagnitude: 0.06
       minForm: 30
@@ -71,10 +71,10 @@ MonoBehaviour:
     - firstName: Rico
       lastName: Ready
       runnerSaveData: {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
-      initialVO2Max: 50
+      initialVO2Max: 48
       vo2ImprovementMagnitude: 0.02
-      initialStrength: 30
-      strengthImprovementMagnitude: 0.05
+      initialStrength: 35
+      strengthImprovementMagnitude: 0.02
       minForm: 30
       minNutrition: 20
       recovery: 50
@@ -83,8 +83,8 @@ MonoBehaviour:
       runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
       initialVO2Max: 50
       vo2ImprovementMagnitude: 0.02
-      initialStrength: 30
-      strengthImprovementMagnitude: 0.07
+      initialStrength: 35
+      strengthImprovementMagnitude: 0.04
       minForm: 40
       minNutrition: 30
       recovery: 55

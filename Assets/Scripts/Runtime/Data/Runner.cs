@@ -166,32 +166,43 @@ public class Runner
     /// <param name="runState">The state of this Runner after a run is finished.</param>
     public RunnerUpdateRecord PostRunUpdate(RunnerState runState, Route route)
     {
+        RunnerUpdateRecord updateRecord = new RunnerUpdateRecord
+        {
+            startingExperience = experience,
+            startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
+        };
+
+
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
 
         UpdateStatusPostRun(runState, runVO2);
 
-        UpdateExperience(runVO2, route.Length * route.Difficulty);
+        updateRecord.experienceChange = UpdateExperience(runVO2, route.Length * route.Difficulty);
 
-        return new RunnerUpdateRecord { };
+        updateRecord.levelUpRecords = new();
+        while (experience >= variables.levelExperienceThresholds[level - 1])
+        {
+            LevelUpRecord record = LevelUp();
+            updateRecord.levelUpRecords.Add(record);
+        }
+
+        return updateRecord; 
     }
 
-    private void UpdateExperience(float runVO2, float runDifficultyMultiplier)
+    private int UpdateExperience(float runVO2, float runDifficultyMultiplier)
     {
         float vo2ImprovementGap = (runVO2 / (currentVO2Max * (.02f * level + .58f))) - 1f;
 
-        float experienceChange = vo2ImprovementGap * runDifficultyMultiplier;
-        experience += Mathf.CeilToInt(experienceChange);
-        experience = Mathf.Max(0, experience);
+        int experienceChange = Mathf.CeilToInt(vo2ImprovementGap * runDifficultyMultiplier);
+        experienceChange = Mathf.Max(experienceChange, -experience);
+        experience += experienceChange;
         Debug.Log($"Name: {Name} \tExperience Change: {experienceChange}\t Experience: {experience}");
 
-        while (experience >= variables.levelExperienceThresholds[level - 1])
-        {
-            LevelUp();
-        }
+        return experienceChange;
     }
 
-    private void LevelUp()
+    private LevelUpRecord LevelUp()
     {
         // register the old values so we can show how much they changed
         float oldVO2 = currentVO2Max;
@@ -208,6 +219,15 @@ public class Runner
 
         Debug.Log($"LEVEL UP! Name: {Name}\t Level {level}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
 
+        return new LevelUpRecord
+        {
+            newLevel = level,
+            newLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1],
+            oldVO2 = oldVO2,
+            newVO2 = currentVO2Max,
+            oldStrength = oldStrength,
+            newStrength = currentStrength
+        };
     }
 
     /// <summary>
@@ -418,6 +438,18 @@ public class Runner
 
 public struct RunnerUpdateRecord
 {
-    public float vo2Change;
-    public float strengthChange;
+    public int startingExperience;
+    public int startingLevelExperienceThreshold;
+    public int experienceChange;
+    public List<LevelUpRecord> levelUpRecords;
+}
+
+public struct LevelUpRecord
+{
+    public int newLevel;
+    public int newLevelExperienceThreshold;
+    public float oldVO2;
+    public float newVO2;
+    public float oldStrength;
+    public float newStrength;
 }
