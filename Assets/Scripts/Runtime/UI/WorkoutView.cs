@@ -25,12 +25,13 @@ public class WorkoutView : MonoBehaviour
     [SerializeField] private RectTransform runnerSimulationCardParent;
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
+    [SerializeField] private float levelUpAnimationSpeed = 1;
     private Dictionary<Runner, RunnerSimulationCard> activeRunnerCardDictionary = new();
     [SerializeField] private CanvasGroup continueButtonContainer;
 
     private IEnumerator toggleRoutine;
-    private IEnumerator runnerListToggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
+    private IEnumerator levelUpRoutine;
 
     #region Events
     public class PostWorkoutContinueButtonPressedEvent : UnityEvent<PostWorkoutContinueButtonPressedEvent.Context>
@@ -113,9 +114,28 @@ public class WorkoutView : MonoBehaviour
 
     private void OnRunSimulationEnded(WorkoutController.WorkoutSimulationEndedEvent.Context context)
     {
+        float countUpTime = 0;
         foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
         {
+            countUpTime = Mathf.Max(countUpTime, kvp.Value.experienceChange * levelUpAnimationSpeed);
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
+        }
+
+        CNExtensions.SafeStartCoroutine(this, ref levelUpRoutine, LevelUpModalRoutine(context.runnerUpdateDictionary, countUpTime + .5f));
+    }
+
+    private IEnumerator LevelUpModalRoutine(System.Collections.ObjectModel.ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary, float waitTime)
+    {
+        List<KeyValuePair<Runner, RunnerUpdateRecord>> leveledUpRunners = runnerUpdateDictionary.Where(kvp => kvp.Value.levelUpRecords.Count > 0).ToList();
+
+        if (leveledUpRunners.Count > 0)
+        {
+            yield return new WaitForSeconds(waitTime);
+
+            LevelUpModalController.levelUpEvent.Invoke(new LevelUpModalController.LevelUpEvent.Context
+            {
+                runnerUpdateRecords = leveledUpRunners
+            });
         }
 
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));

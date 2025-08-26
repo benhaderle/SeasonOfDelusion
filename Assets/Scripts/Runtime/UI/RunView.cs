@@ -157,7 +157,7 @@ public class RunView : MonoBehaviour
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value, levelUpAnimationSpeed);
         }
 
-        CNExtensions.SafeStartCoroutine(this, ref levelUpRoutine, LevelUpModalRoutine(context.runnerUpdateDictionary, countUpTime));
+        CNExtensions.SafeStartCoroutine(this, ref levelUpRoutine, LevelUpModalRoutine(context.runnerUpdateDictionary, countUpTime + .5f));
     }
 
     private IEnumerator LevelUpModalRoutine(System.Collections.ObjectModel.ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary, float waitTime)

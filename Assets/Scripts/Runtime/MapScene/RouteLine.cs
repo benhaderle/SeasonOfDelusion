@@ -16,7 +16,20 @@ public class RouteLine : MonoBehaviour
     public string RouteName => routeName;
     [SerializeField] private MeshCollider meshCollider;
     private float length;
-    
+    private float lengthInMiles;
+    public float LengthInMiles
+    {
+        get
+        {
+            //if we haven't calculated the length of the polyline yet, calculate it and cache it now
+            if (length <= 0)
+            {
+                CalculateLength();
+            }
+            return lengthInMiles;
+        }
+    }
+
     public void Setup(string routeName, List<MapPoint> points, List<bool> pointsDiscovered, bool showNewRouteText, Color color, float thickness)
     {
         this.routeName = routeName;
@@ -62,10 +75,7 @@ public class RouteLine : MonoBehaviour
         //if we haven't calculated the length of the polyline yet, calculate it and cache it now
         if (length <= 0)
         {
-            for (int i = 0; i < polyline.points.Count - 1; i++)
-            {
-                length += Vector3.Distance(polyline.points[i].point, polyline.points[i + 1].point);
-            }
+            CalculateLength();
         }
 
         float normalizedSegmentEnd = 0;
@@ -85,5 +95,14 @@ public class RouteLine : MonoBehaviour
 
         closestPointID = mapPointIDs[mapPointIDs.Count - 1];
         return polyline.points[polyline.points.Count - 1].point;
+    }
+
+    private void CalculateLength()
+    {
+        for (int i = 0; i < polyline.points.Count - 1; i++)
+        {
+            length += Vector3.Distance(polyline.points[i].point, polyline.points[i + 1].point);
+        }
+        lengthInMiles = length * RouteLineData.UNITY_UNITS_TO_MILES;
     }
 }

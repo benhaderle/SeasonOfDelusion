@@ -172,7 +172,7 @@ public class MapController : MonoBehaviour
     private void OnWorkoutSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
     {
         MapRunnerBubble bubble = activeBubbleDictionary[$"{context.groupIndex + 1}"];
-        float positionAlongLine = context.runnerStateDictionary.Values.Min(state => state.intervalPercentDone);
+        float positionAlongLine = context.runnerStateDictionary.Values.Min(state => state.intervalDistance) % activeRouteLines[0].LengthInMiles / activeRouteLines[0].LengthInMiles;
         SetBubblePositionAlongLine(activeRouteLines[0], bubble, positionAlongLine);
     }
 

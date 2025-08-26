@@ -201,7 +201,9 @@ public class Runner
         RunnerUpdateRecord updateRecord = new RunnerUpdateRecord
         {
             startingExperience = experience,
-            startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
+            startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1],
+            statUpRecords = new(),
+            levelUpRecords = new()
         };
 
         // register the old values so we can show how much they changed
@@ -215,7 +217,6 @@ public class Runner
 
         UpdateStatusPostRun(runState, runVO2);
 
-        updateRecord.statUpRecords = new();
         for (int i = 0; i < workout.effects.Length; i++)
         {
             // this gives the full effect of the workout the closer you are to your max VO2
@@ -252,7 +253,7 @@ public class Runner
     private float UpdateStat(float currentStat, float effectAmount, ref StatUpRecord statUpRecord)
     {
         statUpRecord.oldValue = currentStat;
-        statUpRecord.newValue = currentStat * effectAmount;
+        statUpRecord.newValue = currentStat * (1 + effectAmount);
 
         Debug.Log($"{Name} Old {statUpRecord.statName}:{statUpRecord.oldValue} New {statUpRecord.statName}:{statUpRecord.newValue}");
 
@@ -289,7 +290,13 @@ public class Runner
 
         int experienceChange = Mathf.CeilToInt(vo2ImprovementGap * runDifficultyMultiplier);
         experienceChange = Mathf.Max(experienceChange, -experience);
+        if (level == 20)
+        {
+            experienceChange = Mathf.Min(experienceChange, 0);
+        }
+
         experience += experienceChange;
+
         Debug.Log($"Name: {Name} \tExperience Change: {experienceChange}\t Experience: {experience}");
 
         return experienceChange;

@@ -6,7 +6,7 @@ namespace Shapes
 {
     public class RouteLineData : ScriptableObject
     {
-        private const float UNITY_UNITS_TO_MILES = .1f;
+        public static readonly float UNITY_UNITS_TO_MILES = .1f;
 
         [SerializeField] private string displayName;
         [SerializeField] private float length;
