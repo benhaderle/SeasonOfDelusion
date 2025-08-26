@@ -38,7 +38,7 @@ public class RunnerSimulationCard : MonoBehaviour
         backgroundImage.color = backgroundColor;
     }
 
-    public void ShowPostRunUpdate(Runner runner, RunnerUpdateRecord record)
+    public void ShowPostRunUpdate(Runner runner, RunnerUpdateRecord record, float animationSpeed = 1)
     {
         paceText.gameObject.SetActive(false);
 
@@ -49,13 +49,11 @@ public class RunnerSimulationCard : MonoBehaviour
         experienceText.text = $"{record.startingExperience} / {record.startingLevelExperienceThreshold}";
         experienceBarFill.fillAmount = (float)record.startingExperience / record.startingLevelExperienceThreshold;
 
-        CNExtensions.SafeStartCoroutine(this, ref postRunUpdateRoutine, PostRunUpdateRoutine(record));
+        CNExtensions.SafeStartCoroutine(this, ref postRunUpdateRoutine, PostRunUpdateRoutine(record, animationSpeed));
     }
 
-    private IEnumerator PostRunUpdateRoutine(RunnerUpdateRecord record)
+    private IEnumerator PostRunUpdateRoutine(RunnerUpdateRecord record, float animationSpeed)
     {
-        float animationSpeed = 1;
-
         float experienceToAdd = record.experienceChange;
         float currentExperience = record.startingExperience;
         int currentLevelExperienceThreshold = record.startingLevelExperienceThreshold;
@@ -85,7 +83,7 @@ public class RunnerSimulationCard : MonoBehaviour
             }
 
             // update the UI
-            experienceText.text = $"{(int)currentExperience} / {currentLevelExperienceThreshold}";
+            experienceText.text = $"{Mathf.RoundToInt(currentExperience)} / {currentLevelExperienceThreshold}";
             experienceBarFill.fillAmount = currentExperience / currentLevelExperienceThreshold;
 
             yield return null;
