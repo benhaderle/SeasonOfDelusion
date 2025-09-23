@@ -20,7 +20,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform workoutSelectionContainer;
     [SerializeField] private RectTransform groupingContainer;
-    [SerializeField] private WorkoutSelectionButton[] workoutSelectionButtons;
+    [SerializeField] private PoolContext workoutSelectionButtonPoolContext;
     [SerializeField] private WorkoutGroupRow[] workoutGroupRows;
     [SerializeField] private PoolContext workoutRunnerCardPoolContext;
 
@@ -62,6 +62,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
     private void Awake()
     {
         currentState = State.WorkoutSelection;
+        workoutSelectionButtonPoolContext.Initialize();
         workoutRunnerCardPoolContext.Initialize();
         OnToggle(false);
     }
@@ -226,12 +227,13 @@ public class WorkoutSelectionUIController : MonoBehaviour
         }
 
         // set up each of the workout selection buttons with today's workouts
-        for (int i = 0; i < workoutSelectionButtons.Length; i++)
+        for (int i = 0; i < todaysWorkouts.Length; i++)
         {
             Workout w = todaysWorkouts[i];
-            workoutSelectionButtons[i].Setup(w);
-            workoutSelectionButtons[i].Button.onClick.RemoveAllListeners();
-            workoutSelectionButtons[i].Button.onClick.AddListener(() => OnWorkoutSelectionButton(w));
+            WorkoutSelectionButton button = workoutSelectionButtonPoolContext.GetPooledObject<WorkoutSelectionButton>();
+            button.Setup(w);
+            button.Button.onClick.RemoveAllListeners();
+            button.Button.onClick.AddListener(() => OnWorkoutSelectionButton(w));
         }
     }
 
