@@ -382,7 +382,7 @@ public class Runner
     /// <returns>The amount of short term soreness for this run segment</returns>
     public float CalculateShortTermSoreness(float runVO2, float timeInMinutes)
     {
-        float value = Mathf.Pow(500, runVO2 / (currentVO2Max * .9f)-1) * 5 * timeInMinutes;
+        float value = Mathf.Pow(timeInMinutes, (runVO2 / (currentVO2Max * .7f) - 1) * 3);
         return value;
     }
 

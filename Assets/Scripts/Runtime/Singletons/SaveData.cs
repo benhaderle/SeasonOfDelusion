@@ -8,10 +8,10 @@ using System.Linq;
 public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
 {
     [SerializeField] private bool shouldSaveLoadOnPause;
-    private string userID;
     [SerializeField] private SimulationSaveDataSO simulationSaveData;
     [SerializeField] private MapSaveDataSO mapSaveData;
     [SerializeField] private RouteSaveDataSO[] routeSaveDatas;
+    [SerializeField] private WorkoutSaveDataSO[] workoutSaveDatas;
     [SerializeField] private RunnerSaveDataSO[] playerRunnerSaveDatas;
 
     private SerializedSaveData cachedSerializedSaveData;
@@ -72,6 +72,10 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             routeSaveDatas[i].data.initialized = false;
         }
+        for (int i = 0; i < workoutSaveDatas.Length; i++)
+        {
+            workoutSaveDatas[i].data.initialized = false;
+        }
         mapSaveData.data = new();
     }
 
@@ -105,6 +109,10 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             SafeLoadDatum(ref routeSaveDatas[i].data, serializedSaveData.routeSaveDatas.ToList().Find(d => d.name == routeSaveDatas[i].data.name));
         }
+        for (int i = 0; i < workoutSaveDatas.Length; i++)
+        {
+            SafeLoadDatum(ref workoutSaveDatas[i].data, serializedSaveData.workoutSaveDatas.ToList().Find(d => d.name == workoutSaveDatas[i].data.name));
+        }
         SafeLoadDatum(ref mapSaveData.data, serializedSaveData.mapSaveData);
     }
 
@@ -112,16 +120,16 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     {
         return cachedSerializedSaveData;
     }
-    
+
     private SerializedSaveData GetSerializedSaveData()
     {
         SerializedSaveData saveDataObject = new SerializedSaveData
         {
-            userID = userID,
             timestamp = DateTime.UtcNow.ToString(),
             simulationSaveData = simulationSaveData.data,
             playerRunnerSaveDatas = playerRunnerSaveDatas.Select(so => so.data).ToArray(),
             routeSaveDatas = routeSaveDatas.Select(so => so.data).ToArray(),
+            workoutSaveDatas = workoutSaveDatas.Select(so => so.data).ToArray(),
             mapSaveData = mapSaveData.data
         };
 

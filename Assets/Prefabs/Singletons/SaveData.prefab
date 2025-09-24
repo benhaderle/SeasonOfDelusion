@@ -59,6 +59,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05631114f9bd743c6a4eba99ce75047c, type: 2}
   - {fileID: 11400000, guid: 0c09adeda2fa74ba5b9cf5f5757e409d, type: 2}
   - {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
+  workoutSaveDatas:
+  - {fileID: 11400000, guid: e3f980ada7d4a454fa7d2f65813b65fb, type: 2}
+  - {fileID: 11400000, guid: d282b642a00e04667823352c958e8cc5, type: 2}
+  - {fileID: 11400000, guid: 3cc0ae2a23ec744348e593b467fe18ae, type: 2}
+  - {fileID: 11400000, guid: acde69392dec44c4297a8adf04cb8532, type: 2}
+  - {fileID: 11400000, guid: c34a39d6df85e47ccb5f8de839d7be0b, type: 2}
+  - {fileID: 11400000, guid: dbb5eefbabc0644988f7c5858396f609, type: 2}
+  - {fileID: 11400000, guid: 8be2e2e458c174bfe8fc5cb226294333, type: 2}
+  - {fileID: 11400000, guid: 34dfe0cd0f29e43dd9e0b2040604b38d, type: 2}
   playerRunnerSaveDatas:
   - {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
   - {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}

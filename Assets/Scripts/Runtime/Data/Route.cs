@@ -19,6 +19,7 @@ public class Route : ScriptableObject
     [SerializeField] private int nodeIDForUnlock = -1;
     [SerializeField] private string description;
     public string Description => description;
+    // TODO: right now difficulty is just the desired vo2 target for the route, but this should change when I add elevation. all normal runs should be at the same vo2 target
     [SerializeField] private float difficulty;
     public float Difficulty => difficulty;
     public bool IsNewRoute => saveData.data != null && saveData.data.numTimesRun == 0 && saveData.data.unlocked;

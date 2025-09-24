@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58702ab47afbb4321b4e26d1bf6d3f05, type: 3}
-  m_Name: 10x800m Repeats
+  m_Name: 6 Mile Tempo
   m_EditorClassIdentifier: 
-  saveData: {fileID: 11400000, guid: 8be2e2e458c174bfe8fc5cb226294333, type: 2}
-  displayName: 10x800m Repeats
+  saveData: {fileID: 11400000, guid: acde69392dec44c4297a8adf04cb8532, type: 2}
+  displayName: 5xMile Repeats
   workoutType: 0
   routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
-  goalVO2: 1
+  goalVO2: 0.75
   intervals:
-  - repeats: 10
-    length: 0.5
-    rest: 1.5
+  - repeats: 1
+    length: 6
+    rest: 0
   effects:
-  - type: 1
-    amount: 3
   - type: 0
-    amount: 6
+    amount: 4
+  - type: 3
+    amount: 4

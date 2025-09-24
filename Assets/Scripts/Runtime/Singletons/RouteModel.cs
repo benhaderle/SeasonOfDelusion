@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
 using Shapes;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,7 +17,8 @@ public class RouteModel : Singleton<RouteModel>
     public ReadOnlyCollection<Route> Routes => routes.AsReadOnly();
 
     [SerializeField] private List<RaceRoute> raceRoutes;
-
+    [SerializeField] private List<Workout> workouts;
+    public ReadOnlyCollection<Workout> Workouts => workouts.AsReadOnly();
     private bool loaded;
 
     #region Events
@@ -65,6 +65,10 @@ public class RouteModel : Singleton<RouteModel>
         for (int i = 0; i < routes.Count; i++)
         {
             routes[i].LoadSaveData();
+        }
+        for (int i = 0; i < workouts.Count; i++)
+        {
+            workouts[i].LoadSaveData();
         }
         SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
     }

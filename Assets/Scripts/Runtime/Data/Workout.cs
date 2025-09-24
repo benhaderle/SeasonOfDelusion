@@ -14,6 +14,7 @@ public class Workout : ScriptableObject
     //TODO: currently only distance repeats are supported
     public enum Type { DistanceRepeats = 0, TimeRepeats = 1 };
 
+    public WorkoutSaveDataSO saveData;
     /// <summary>
     /// The name of this workout. Can be used for player display.
     /// </summary>
@@ -29,6 +30,15 @@ public class Workout : ScriptableObject
     public WorkoutEffect[] effects;
 
     private float totalLength = -1;
+
+    public void LoadSaveData()
+    {
+        if (!saveData.data.initialized)
+        {
+            saveData.Initialize(displayName);
+        }
+    }
+
     public float GetTotalLength()
     {
         if (totalLength < 0)

@@ -64,3 +64,12 @@ MonoBehaviour:
     - 0.5
     - 1.5
     - 2.5
+  workouts:
+  - {fileID: 11400000, guid: df1bb5c7a8be245b499e936e13cc4609, type: 2}
+  - {fileID: 11400000, guid: b2a097a6478954150b783fadf0687a56, type: 2}
+  - {fileID: 11400000, guid: 89b1d98b7fbb34c83a86e2106fe0e535, type: 2}
+  - {fileID: 11400000, guid: bf40040f5903142678bfcaa9a458ea10, type: 2}
+  - {fileID: 11400000, guid: d422b8bcce67f44989c74a09ed9e5550, type: 2}
+  - {fileID: 11400000, guid: a8263a19f6d174450bfe1974add523ee, type: 2}
+  - {fileID: 11400000, guid: f5fe4c3345e334109ab8268d8b6be468, type: 2}
+  - {fileID: 11400000, guid: 9855c513eb04745b4830000152697ba3, type: 2}

@@ -10,8 +10,6 @@ public class WorkoutSelectionUIController : MonoBehaviour
 {
     private const int NUM_SLOTS_PER_GROUP = 3;
 
-    [Header("Data")]
-    [SerializeField] private Workout[] workouts;
     private Workout[] todaysWorkouts;
     private Workout selectedWorkout;
 
@@ -208,22 +206,11 @@ public class WorkoutSelectionUIController : MonoBehaviour
         workoutSelectionContainer.gameObject.SetActive(true);
         groupingContainer.gameObject.SetActive(false);
 
-        // set up today's workouts if necessary
-        // TODO: right now this is totally random but should be done with some sense later
+        // today's workouts are just the unlocked workouts
+        // maybe in the future we will only show a subset or have sorting options at the very least
         if (todaysWorkouts == null)
         {
-            todaysWorkouts = new Workout[3];
-            for (int i = 0; i < todaysWorkouts.Length; i++)
-            {
-                Workout w;
-                do
-                {
-                    w = workouts[Random.Range(0, workouts.Length)];
-                }
-                while (todaysWorkouts.Contains(w));
-
-                todaysWorkouts[i] = w;
-            }
+            todaysWorkouts = RouteModel.Instance.Workouts.Where(w => w.saveData.data.unlocked).ToArray();
         }
 
         // set up each of the workout selection buttons with today's workouts

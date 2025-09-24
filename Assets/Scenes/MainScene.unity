@@ -1499,6 +1499,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: df1bb5c7a8be245b499e936e13cc4609, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b2a097a6478954150b783fadf0687a56, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 89b1d98b7fbb34c83a86e2106fe0e535, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: bf40040f5903142678bfcaa9a458ea10, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: d422b8bcce67f44989c74a09ed9e5550, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8263a19f6d174450bfe1974add523ee, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: f5fe4c3345e334109ab8268d8b6be468, type: 2}
+    - target: {fileID: 8533836044446591374, guid: f01b6105f72cb4d6384cd1579e9d1afd, type: 3}
+      propertyPath: workouts.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9855c513eb04745b4830000152697ba3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

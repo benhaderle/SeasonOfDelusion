@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58702ab47afbb4321b4e26d1bf6d3f05, type: 3}
   m_Name: 5x1600m Repeats
   m_EditorClassIdentifier: 
+  saveData: {fileID: 11400000, guid: 3cc0ae2a23ec744348e593b467fe18ae, type: 2}
   displayName: 5xMile Repeats
   workoutType: 0
   routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
@@ -22,8 +23,8 @@ MonoBehaviour:
     rest: 1.5
   effects:
   - type: 1
-    amount: 3
+    amount: 6
   - type: 0
-    amount: 3
+    amount: 6
   - type: 3
     amount: 3
