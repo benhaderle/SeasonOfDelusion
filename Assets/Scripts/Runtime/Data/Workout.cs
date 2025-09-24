@@ -23,6 +23,8 @@ public class Workout : ScriptableObject
     public Type WorkoutType => workoutType;
     [SerializeField] private RouteLineData routeLineData;
     public RouteLineData RouteLineData => routeLineData;
+    [SerializeField] private float goalVO2 = .9f;
+    public float GoalVO2 => goalVO2;
     public List<Interval> intervals = new();
     public WorkoutEffect[] effects;
 
@@ -35,6 +37,20 @@ public class Workout : ScriptableObject
         }
 
         return totalLength;
+    }
+
+    public string GetDifficultyString()
+    {
+        GetTotalLength();
+
+        float difficulty = totalLength * goalVO2;
+
+        if (difficulty <= 2)        return "Gentle";
+        else if (difficulty <= 4)   return "Chill";
+        else if (difficulty <= 6)   return "Moderate";
+        else if (difficulty <= 8)   return "Challenging";
+        else if (difficulty <= 10)  return "Aggressive";
+        else                        return "Difficult";
     }
 }
 

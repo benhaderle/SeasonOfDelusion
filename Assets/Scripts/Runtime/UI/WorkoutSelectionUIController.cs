@@ -248,7 +248,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
 
         for (int i = 0; i < workoutGroupRows.Length; i++)
         {
-            workoutGroupRows[i].Initialize(i);
+            workoutGroupRows[i].Initialize(i, selectedWorkout.GoalVO2);
         }
 
         int groupIndex = 0;

@@ -219,10 +219,8 @@ public class Runner
 
         for (int i = 0; i < workout.effects.Length; i++)
         {
-            // this gives the full effect of the workout the closer you are to your max VO2
-            // this is crude and really there should be a target VO2 or other benchmark to hit for each workout to get the effect
-            // TODO: the benchmark needs to also take into account runner stats (ie fast runner can't get the full effect bc he hit a slow group's benchmark)
-            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, runVO2 / currentVO2Max), 32);
+            // this gives the full effect of the workout the closer you are to the goal vo2 of the workout
+            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVO2 / currentVO2Max) - workout.GoalVO2)), 32);
 
             StatUpRecord statUpRecord = new StatUpRecord
             {

@@ -20,12 +20,17 @@ public class WorkoutSelectionButton : MonoBehaviour
     public void Setup(Workout workout)
     {
         nameText.text = workout.DisplayName;
+
+        difficultyText.text = workout.GetDifficultyString();
+
+        // set up active status effects
         for (int i = 0; i < Mathf.Min(statusEffectTexts.Length, workout.effects.Length); i++)
         {
             statusEffectTexts[i].gameObject.SetActive(true);
             statusEffectTexts[i].text = $"+{workout.effects[i].amount} {workout.effects[i].type}";
         }
 
+        // turn off any unused status texts
         for (int i = workout.effects.Length; i < statusEffectTexts.Length; i++)
         {
             statusEffectTexts[i].gameObject.SetActive(false);

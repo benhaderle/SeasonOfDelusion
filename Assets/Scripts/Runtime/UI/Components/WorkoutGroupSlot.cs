@@ -39,20 +39,20 @@ public class WorkoutGroupSlot : MonoBehaviour
         return runner;
     }
 
-    public void UpdateIntensityText(float groupVO2)
+    public void UpdateIntensityText(float groupVO2, float goalVO2)
     {
         if (runnerCard == null)
             return;
 
-        float thresholdVO2 = runnerCard.Runner.currentVO2Max;
+        float thresholdVO2 = runnerCard.Runner.currentVO2Max * goalVO2;
 
         float percentOfGroup = groupVO2 / thresholdVO2;
 
-        if(percentOfGroup <= .8f)
+        if(percentOfGroup <= .9f)
         {
             intensityText.text = "Comfortable";
         }
-        else if(percentOfGroup <= .9f)
+        else if(percentOfGroup <= .95f)
         {
             intensityText.text = "Confident";
         }
@@ -60,11 +60,11 @@ public class WorkoutGroupSlot : MonoBehaviour
         {
             intensityText.text = "Determined";
         }
-        else if(percentOfGroup <= 1.1f)
+        else if(percentOfGroup <= 1.5f)
         {
             intensityText.text = "Nervous";
         }
-        else if(percentOfGroup <= 1.2f)
+        else if(percentOfGroup <= 1.1f)
         {
             intensityText.text = "Fearful";
         }

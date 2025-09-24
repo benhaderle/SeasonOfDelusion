@@ -9,6 +9,7 @@ using UnityEditorInternal;
 public class WorkoutEditor : Editor
 {
     SerializedProperty propDisplayName;
+    SerializedProperty propGoalVO2;
     SerializedProperty propType;
     SerializedProperty propRouteLineData;
     SerializedProperty propIntervals;
@@ -18,6 +19,7 @@ public class WorkoutEditor : Editor
     protected void OnEnable()
     {
         propDisplayName = serializedObject.FindProperty("displayName");
+        propGoalVO2 = serializedObject.FindProperty("goalVO2");
         propType = serializedObject.FindProperty("workoutType");
         propRouteLineData = serializedObject.FindProperty("routeLineData");
         propIntervals = serializedObject.FindProperty("intervals");
@@ -35,6 +37,7 @@ public class WorkoutEditor : Editor
         propDisplayName.stringValue = EditorGUILayout.TextField("Display Name", propDisplayName.stringValue);
         EditorGUILayout.PropertyField(propType);
         EditorGUILayout.PropertyField(propRouteLineData);
+        propGoalVO2.floatValue = EditorGUILayout.FloatField("Goal VO2", propGoalVO2.floatValue);
 
         intervalsList.DoLayoutList();
 
