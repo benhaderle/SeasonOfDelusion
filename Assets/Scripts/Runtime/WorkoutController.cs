@@ -99,6 +99,8 @@ public class WorkoutController : MonoBehaviour
         // space each coroutine/group out by 5 seconds
         yield return new WaitForSeconds(groupIndex * 60 / simulationSecondsPerRealSeconds);
 
+        group.targetVO2 *= workout.GoalVO2;
+
         // go through each runner and initialize their state for this workout
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach (Runner runner in group.runners)

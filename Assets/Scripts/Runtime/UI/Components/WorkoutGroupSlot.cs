@@ -39,14 +39,14 @@ public class WorkoutGroupSlot : MonoBehaviour
         return runner;
     }
 
-    public void UpdateIntensityText(float groupVO2, float goalVO2)
+    public void UpdateIntensityText(float averageGroupVO2)
     {
         if (runnerCard == null)
             return;
 
-        float thresholdVO2 = runnerCard.Runner.currentVO2Max * goalVO2;
+        float thresholdVO2 = runnerCard.Runner.currentVO2Max;
 
-        float percentOfGroup = groupVO2 / thresholdVO2;
+        float percentOfGroup = averageGroupVO2 / thresholdVO2;
 
         if(percentOfGroup <= .9f)
         {
@@ -60,7 +60,7 @@ public class WorkoutGroupSlot : MonoBehaviour
         {
             intensityText.text = "Determined";
         }
-        else if(percentOfGroup <= 1.5f)
+        else if(percentOfGroup <= 1.05f)
         {
             intensityText.text = "Nervous";
         }
@@ -73,7 +73,7 @@ public class WorkoutGroupSlot : MonoBehaviour
             intensityText.text = "Upset";
         }
 
-        Debug.Log($"Group VO2: {groupVO2}, ThresholdV02: {thresholdVO2}, Intensity: {intensityText.text}");
+        Debug.Log($"Group VO2: {averageGroupVO2}, ThresholdV02: {thresholdVO2}, Intensity: {intensityText.text}");
     }
 
     public void OnSlotClicked()

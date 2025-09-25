@@ -15,7 +15,6 @@ public class WorkoutGroupRow : MonoBehaviour
     [SerializeField] private Slider intensitySlider;
     [SerializeField] private TextMeshProUGUI intensityText;
     private float groupIntensity = .9f;
-    private float goalVO2;
 
     public void Initialize(int groupIndex, float goalVO2)
     {
@@ -24,8 +23,6 @@ public class WorkoutGroupRow : MonoBehaviour
             slots[i].Initialize(groupIndex, i);
         }
         intensitySlider.value = 2;
-
-        this.goalVO2 = goalVO2;
     }
 
     public void AddRunnerToSlot(WorkoutRunnerCard card, int slotIndex)
@@ -82,7 +79,7 @@ public class WorkoutGroupRow : MonoBehaviour
         float workoutIntensity = vo2MaxSum / numSlotsFilled; // * groupIntensity
         for(int i = 0; i < slots.Length; i++)
         {
-            slots[i].UpdateIntensityText(workoutIntensity, goalVO2);
+            slots[i].UpdateIntensityText(workoutIntensity);
         }
     }
 
@@ -92,7 +89,7 @@ public class WorkoutGroupRow : MonoBehaviour
         {
             runners = new Runner[numSlotsFilled],
             intensity = groupIntensity,
-            targetVO2 = vo2MaxSum / numSlotsFilled * goalVO2 //* groupIntensity
+            targetVO2 = vo2MaxSum / numSlotsFilled //* groupIntensity
         };
 
         int slotIndex = 0;
