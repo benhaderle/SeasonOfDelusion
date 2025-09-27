@@ -25,9 +25,14 @@ public class WorkoutView : MonoBehaviour
     [SerializeField] private RectTransform runnerSimulationCardParent;
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
-    [SerializeField] private float levelUpAnimationSpeed = 1;
     private Dictionary<Runner, RunnerSimulationCard> activeRunnerCardDictionary = new();
+    [Header("Workout Summary")]
+    [SerializeField] private CanvasGroup workoutSummaryCanvasGroup;
+    [SerializeField] private WorkoutSummaryGroup[] workoutSummaryGroups;
+    [SerializeField] private float levelUpAnimationSpeed = 1;
+    [Header("Continue Button")]
     [SerializeField] private CanvasGroup continueButtonContainer;
+    [SerializeField] private Button continueButton;
 
     private IEnumerator toggleRoutine;
     private IEnumerator continueButtonToggleRoutine;
@@ -52,20 +57,26 @@ public class WorkoutView : MonoBehaviour
     private void OnEnable()
     {
         WorkoutController.startWorkoutEvent.AddListener(OnStartWorkout);
-        WorkoutController.workoutSimulationUpdatedEvent.AddListener(OnRunSimulationUpdated);
-        WorkoutController.workoutSimulationEndedEvent.AddListener(OnRunSimulationEnded);
+        WorkoutController.workoutSimulationUpdatedEvent.AddListener(OnWorkoutSimulationUpdated);
+        WorkoutController.workoutSimulationEndedEvent.AddListener(OnWorkoutSimulationEnded);
     }
 
     private void OnDisable()
     {
         WorkoutController.startWorkoutEvent.RemoveListener(OnStartWorkout);
-        WorkoutController.workoutSimulationUpdatedEvent.RemoveListener(OnRunSimulationUpdated);
-        WorkoutController.workoutSimulationEndedEvent.RemoveListener(OnRunSimulationEnded);
+        WorkoutController.workoutSimulationUpdatedEvent.RemoveListener(OnWorkoutSimulationUpdated);
+        WorkoutController.workoutSimulationEndedEvent.RemoveListener(OnWorkoutSimulationEnded);
     }
 
     private void OnStartWorkout(WorkoutController.StartWorkoutEvent.Context context)
     {
-        Toggle(true);   
+        Toggle(true);
+
+        workoutSummaryCanvasGroup.alpha = 0;
+        workoutSummaryCanvasGroup.gameObject.SetActive(false);
+
+        runnerListCanvasGroup.alpha = 1;
+        runnerListCanvasGroup.gameObject.SetActive(true);
 
         workoutText.text = context.workout.DisplayName;
 
@@ -85,7 +96,7 @@ public class WorkoutView : MonoBehaviour
         }
     }
 
-    private void OnRunSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
+    private void OnWorkoutSimulationUpdated(WorkoutController.WorkoutSimulationUpdatedEvent.Context context)
     {
         List<Runner> orderedRunners = context.runnerStateDictionary.Keys.ToList();
         orderedRunners.Sort((r1, r2) =>
@@ -112,16 +123,49 @@ public class WorkoutView : MonoBehaviour
         }
     }
 
-    private void OnRunSimulationEnded(WorkoutController.WorkoutSimulationEndedEvent.Context context)
+    private void OnWorkoutSimulationEnded(WorkoutController.WorkoutSimulationEndedEvent.Context context)
     {
+        runnerListCanvasGroup.alpha = 0;
+        runnerListCanvasGroup.gameObject.SetActive(false);
+
+        workoutSummaryCanvasGroup.alpha = 1;
+        workoutSummaryCanvasGroup.gameObject.SetActive(true);
+
+        for (int i = 0; i < Mathf.Min(context.groups.Count, workoutSummaryGroups.Length); i++)
+        {
+            workoutSummaryGroups[i].Setup(context.groups[i], context.runnerUpdateDictionary.Where(kvp => context.groups[i].runners.Contains(kvp.Key)).ToList());
+        }
+
+        for (int i = context.groups.Count; i < workoutSummaryGroups.Length; i++)
+        {
+            workoutSummaryGroups[i].gameObject.SetActive(false);
+        }
+
+        CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
+
+        continueButton.onClick.AddListener(() => ShowLevelUpUpdate(context.runnerUpdateDictionary));
+    }
+
+    private void ShowLevelUpUpdate(System.Collections.ObjectModel.ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary)
+    {
+        continueButton.onClick.RemoveAllListeners();
+        continueButton.enabled = false;
+
+        runnerListCanvasGroup.alpha = 1;
+        runnerListCanvasGroup.gameObject.SetActive(true);
+
+        workoutSummaryCanvasGroup.alpha = 0;
+        workoutSummaryCanvasGroup.gameObject.SetActive(false);
+
+
         float countUpTime = 0;
-        foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in context.runnerUpdateDictionary)
+        foreach(KeyValuePair<Runner, RunnerUpdateRecord> kvp in runnerUpdateDictionary)
         {
             countUpTime = Mathf.Max(countUpTime, kvp.Value.experienceChange * levelUpAnimationSpeed);
             activeRunnerCardDictionary[kvp.Key].ShowPostRunUpdate(kvp.Key, kvp.Value);
         }
 
-        CNExtensions.SafeStartCoroutine(this, ref levelUpRoutine, LevelUpModalRoutine(context.runnerUpdateDictionary, countUpTime + .5f));
+        CNExtensions.SafeStartCoroutine(this, ref levelUpRoutine, LevelUpModalRoutine(runnerUpdateDictionary, countUpTime + .5f));
     }
 
     private IEnumerator LevelUpModalRoutine(System.Collections.ObjectModel.ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary, float waitTime)
@@ -138,12 +182,8 @@ public class WorkoutView : MonoBehaviour
             });
         }
 
-        CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));
-    }
-    
-    public void OnContinueButton()
-    {
-        postWorkoutContinueButtonPressedEvent.Invoke(new PostWorkoutContinueButtonPressedEvent.Context { });
+        continueButton.onClick.AddListener(() => postWorkoutContinueButtonPressedEvent.Invoke(new PostWorkoutContinueButtonPressedEvent.Context { }));
+        continueButton.enabled = true;
     }
 
     private void Toggle(bool active)

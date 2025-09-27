@@ -75,7 +75,7 @@ public struct Interval
 [Serializable]
 public struct WorkoutEffect
 {
-    public enum Type { VO2 = 0, Strength = 1, Form = 2, Grit = 3 };
+    public enum Type { Aero = 0, Strength = 1, Form = 2, Grit = 3 };
     public Type type;
     public float amount;
 }

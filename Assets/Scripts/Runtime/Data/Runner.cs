@@ -175,6 +175,7 @@ public class Runner
 
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);
 
@@ -214,6 +215,7 @@ public class Runner
 
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
         float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);
 
@@ -224,12 +226,12 @@ public class Runner
 
             StatUpRecord statUpRecord = new StatUpRecord
             {
-                statName = workout.effects[i].type.ToString()
+                statType = workout.effects[i].type
             };
 
             switch (workout.effects[i].type)
             {
-                case WorkoutEffect.Type.VO2: currentVO2Max = UpdateStat(currentVO2Max, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Aero: currentVO2Max = UpdateStat(currentVO2Max, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Strength: currentStrength = UpdateStat(currentStrength, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Grit: currentGrit = UpdateStat(currentGrit, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Form: currentForm = UpdateStat(currentForm, effectAmount, ref statUpRecord); break;
@@ -253,7 +255,7 @@ public class Runner
         statUpRecord.oldValue = currentStat;
         statUpRecord.newValue = currentStat * (1 + effectAmount);
 
-        Debug.Log($"{Name} Old {statUpRecord.statName}:{statUpRecord.oldValue} New {statUpRecord.statName}:{statUpRecord.newValue}");
+        Debug.Log($"{Name} Old {statUpRecord.statType}:{statUpRecord.oldValue} New {statUpRecord.statType}:{statUpRecord.newValue}");
 
         return statUpRecord.newValue;
     }
@@ -463,6 +465,7 @@ public struct RunnerUpdateRecord
     public int experienceChange;
     public List<LevelUpRecord> levelUpRecords;
     public List<StatUpRecord> statUpRecords;
+    public float runVO2;
 }
 
 public struct LevelUpRecord
@@ -477,7 +480,7 @@ public struct LevelUpRecord
 
 public struct StatUpRecord
 {
-    public string statName;
+    public WorkoutEffect.Type statType;
     public float oldValue;
     public float newValue;
 }

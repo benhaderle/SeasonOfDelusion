@@ -27,7 +27,7 @@ public class WorkoutSelectionButton : MonoBehaviour
         for (int i = 0; i < Mathf.Min(statusEffectTexts.Length, workout.effects.Length); i++)
         {
             statusEffectTexts[i].gameObject.SetActive(true);
-            statusEffectTexts[i].text = $"+{workout.effects[i].amount} {workout.effects[i].type}";
+            statusEffectTexts[i].text = $"+{workout.effects[i].amount}% {workout.effects[i].type}";
         }
 
         // turn off any unused status texts

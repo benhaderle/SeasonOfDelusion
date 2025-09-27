@@ -27,6 +27,8 @@ public class WorkoutController : MonoBehaviour
     /// </summary>
     [SerializeField] private float maxSoreness = 500f;
     private Dictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary = new();
+    private List<WorkoutGroup> groups;
+    int numGroupsActive;
 
     #region Events
     public class StartWorkoutEvent : UnityEvent<StartWorkoutEvent.Context>
@@ -55,7 +57,7 @@ public class WorkoutController : MonoBehaviour
         public class Context
         {
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
-            public WorkoutGroup group;
+            public List<WorkoutGroup> groups;
         }
     }
     public static WorkoutSimulationEndedEvent workoutSimulationEndedEvent = new ();
@@ -76,6 +78,9 @@ public class WorkoutController : MonoBehaviour
     {
         int numGroups = context.groups.Count;
 
+        // save the list of groups for the end simulation event
+        groups = context.groups;
+
         // start a routine for each workout group
         IEnumerator[] groupWorkoutRoutines = new IEnumerator[context.groups.Count];
         for (int i = 0; i < context.groups.Count; i++)
@@ -83,6 +88,8 @@ public class WorkoutController : MonoBehaviour
             groupWorkoutRoutines[i] = SimulateWorkoutRoutine(context.groups[i], context.workout, i);
             StartCoroutine(groupWorkoutRoutines[i]);
         }
+
+        numGroupsActive = context.groups.Count;
     }
 
     /// <summary>
@@ -203,12 +210,13 @@ public class WorkoutController : MonoBehaviour
         }
 
         //if this is the last group to finish, send the ended event
-        groupIndex--;
-        if (groupIndex == 0)
+        numGroupsActive--;
+        if (numGroupsActive == 0)
         {
             workoutSimulationEndedEvent.Invoke(new WorkoutSimulationEndedEvent.Context()
             {
-                runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary)
+                runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary),
+                groups = groups
             });
         }
     }
