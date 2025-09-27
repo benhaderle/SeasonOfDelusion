@@ -21,6 +21,7 @@ public class RunnerSaveDataSO : ScriptableObject
         data.hydrationStatus = 4f;
         data.longTermCalories = 100000;
         data.shortTermCalories = maxShortTermCalories;
+        data.longTermSoreness = 0;
         data.sleepStatus = 10;
         data.grit = 1;
     }
