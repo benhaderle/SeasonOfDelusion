@@ -12,16 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: VasonaLoopRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: 095d3b766c1ff49b8a032fa0c970f03a, type: 2}
-    name: Lake Loop
-    lineData: {fileID: 11400000, guid: 491b0becf8b074a0c917c391cd15a39b, type: 2}
-    nodeIDForUnlock: 36266230
-    description: 'Flat, idyllic loop around the Lake. '
-    difficulty: 0.7
   saveData: {fileID: 11400000, guid: 095d3b766c1ff49b8a032fa0c970f03a, type: 2}
   displayName: Lake Loop
   lineData: {fileID: 11400000, guid: 491b0becf8b074a0c917c391cd15a39b, type: 2}
   nodeIDForUnlock: 36266230
-  description: ' '
+  description: Along the creek and around the lake. Mostly flat and serene.
   difficulty: 0.7
+  routeDialogues: []

@@ -182,7 +182,11 @@ public class WorkoutView : MonoBehaviour
             });
         }
 
-        continueButton.onClick.AddListener(() => postWorkoutContinueButtonPressedEvent.Invoke(new PostWorkoutContinueButtonPressedEvent.Context { }));
+        continueButton.onClick.AddListener(() =>
+        {
+            Toggle(false);
+            postWorkoutContinueButtonPressedEvent.Invoke(new PostWorkoutContinueButtonPressedEvent.Context { });
+        });
         continueButton.enabled = true;
     }
 

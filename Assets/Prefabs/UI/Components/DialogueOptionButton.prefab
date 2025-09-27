@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3594624985163429415}
   - component: {fileID: 5234888800252468931}
   - component: {fileID: 1521288654886423877}
+  - component: {fileID: 5913978662346450201}
   m_Layer: 5
   m_Name: ButtonShadow
   m_TagString: Untagged
@@ -75,6 +76,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5913978662346450201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120055727921056193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1390377436879168518
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,12 +126,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5022716802933368567}
+  m_Father: {fileID: 7487575215038331780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: -30, y: -30}
+  m_AnchoredPosition: {x: 35, y: -20}
+  m_SizeDelta: {x: -70, y: -40.32998}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1704380256702531393
 CanvasRenderer:
@@ -221,6 +242,7 @@ GameObject:
   - component: {fileID: 2528467594971061537}
   - component: {fileID: 7055277298682463491}
   - component: {fileID: 4290631144363270218}
+  - component: {fileID: 5278325545803511508}
   m_Layer: 5
   m_Name: DialogueOptionButton
   m_TagString: Untagged
@@ -242,6 +264,7 @@ RectTransform:
   m_Children:
   - {fileID: 3594624985163429415}
   - {fileID: 5022716802933368567}
+  - {fileID: 5883766488909076789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -276,7 +299,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -315,6 +338,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 7055277298682463491}
   optionText: {fileID: 4111726449226701049}
+--- !u!114 &5278325545803511508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767780717362599698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67df8636edef24391ab16ff42f743067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  buttonBackground: {fileID: 0}
+  animationOffset: 25
+  animationSpeed: 0
 --- !u!1 &7622494297994706343
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +365,7 @@ GameObject:
   - component: {fileID: 5022716802933368567}
   - component: {fileID: 5985077470264960779}
   - component: {fileID: 4591132048308635053}
+  - component: {fileID: 5137922629200539364}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -344,8 +384,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5883766488909076789}
+  m_Children: []
   m_Father: {fileID: 7487575215038331780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -391,3 +430,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5137922629200539364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622494297994706343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

@@ -29,17 +29,6 @@
     "days": 
     [
         {
-            "date": "1/1/11",
-            "events":[
-                {
-                    "name": "WORKOUT",
-                    "type": "Workout",
-                    "timeHours": 14,
-                    "timeMinutes": 30
-                }
-            ]
-        },
-        {
             "date": "8/13/12",
             "events":[
                 {
@@ -133,6 +122,13 @@
                     "cutsceneID": "Preday"
                 },
                 {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day4Pre"
+                },
+                {
                     "name": "NORMALPRACTICE",
                     "type": "Practice",
                     "timeHours": 14,
@@ -151,10 +147,24 @@
                     "cutsceneID": "Preday"
                 },
                 {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 14,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day5Pre"
+                },
+                {
                     "name": "WORKOUT",
                     "type": "Workout",
                     "timeHours": 14,
                     "timeMinutes": 30
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 15,
+                    "timeMinutes": 20,
+                    "dialogueID": "Day5Post"
                 }
             ]
         },

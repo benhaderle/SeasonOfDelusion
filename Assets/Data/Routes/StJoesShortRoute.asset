@@ -12,17 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b76ce4112654317a623946972ea65c, type: 3}
   m_Name: StJoesShortRoute
   m_EditorClassIdentifier: 
-  route:
-    saveData: {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
-    name: 'St. Joe''s (Short) '
-    lineData: {fileID: 11400000, guid: ed2d10cbc7ff245b0a25d5bba6e46fef, type: 2}
-    nodeIDForUnlock: 8567129
-    description: A stepped climb along exposed fire roads with wide views at the
-      top.
-    difficulty: 0.9
   saveData: {fileID: 11400000, guid: 4db9749b68c384b8581e856300603a5f, type: 2}
   displayName: 'St. Joe''s (Short) '
   lineData: {fileID: 11400000, guid: ed2d10cbc7ff245b0a25d5bba6e46fef, type: 2}
   nodeIDForUnlock: 8567129
-  description: ' '
+  description: The short way up to the top Mt. St. Joseph. No easier than the long
+    way up.
   difficulty: 0.9
+  routeDialogues: []
