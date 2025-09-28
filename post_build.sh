@@ -1,7 +1,5 @@
 #!/bin/bash
 echo "Uploading IPA to App Store Connect..."
-KEY_WITH_NEWLINES=$(echo $CONNECT_API_KEY | jq '.private_key |= sub(" (?!PRIVATE|KEY)"; "\n"; "g")' -c -j)
-echo $KEY_WITH_NEWLINES > YOUR_AUTH_KEY.p8
 if [ ! -f YOUR_AUTH_KEY.p8 ]; then
 echo "Key File not found!"
 fi
