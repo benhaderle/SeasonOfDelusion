@@ -16,6 +16,6 @@ MonoBehaviour:
   displayName: Small Town Loop
   lineData: {fileID: 11400000, guid: 607fa5feeb2ed4e13abb1c2d1c487940, type: 2}
   nodeIDForUnlock: -1
-  description: Surface street loop around the core of town.
+  description: 'Surface street loop around the core of town. '
   difficulty: 0.7
   routeDialogues: []
