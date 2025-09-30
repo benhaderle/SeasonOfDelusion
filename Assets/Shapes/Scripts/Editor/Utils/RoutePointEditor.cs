@@ -224,14 +224,15 @@ namespace Shapes
 				}
 
 				if (routeLineData.pointIDs.Count < 2)
-					{
-						routePolyline.Mesh.Clear();
-					}
-					else if (routeChanged)
-					{
-						routePolyline.SetPoints(lineMap.GetMapPointsFromIDs(routeLineData.pointIDs).Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray());
-						routeLineData.SetLength(routePolyline.points);
-					}
+				{
+					routePolyline.Mesh.Clear();
+				}
+				else if (routeChanged)
+				{
+					routePolyline.SetPoints(lineMap.GetMapPointsFromIDs(routeLineData.pointIDs).Select(mp => new PolylinePoint() { point = mp.point, color = Color.white, thickness = mp.thickness }).ToArray());
+					routeLineData.SetLength(routePolyline.points);
+					routeLineData.SetElevationCurve(routePolyline.points);
+				}
 			}
 
 			return routeLineData;

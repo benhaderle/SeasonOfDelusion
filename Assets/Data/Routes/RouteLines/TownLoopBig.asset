@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
   m_Name: TownLoopBig
   m_EditorClassIdentifier: 
-  displayName: 
   length: 6.2321095
   pointIDs: 0106370004d10b008b580300e5ec7f0184188201833d070001063700
+  elvationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

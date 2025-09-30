@@ -239,6 +239,11 @@ public class MapController : MonoBehaviour
         {
             routeLineData.SetLength(rl.Polyline.points);
         }
+        if (true || routeLineData.ElevationCurve == null || routeLineData.ElevationCurve.length == 0)
+        {
+            routeLineData.SetElevationCurve(rl.Polyline.points);
+        }
+        
         activeRouteLines.Add(rl);
     }
 
