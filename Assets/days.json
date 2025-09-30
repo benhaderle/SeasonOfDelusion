@@ -29,6 +29,32 @@
     "days": 
     [
         {
+            "date": "8/18/12",
+            "events":[
+                {
+                    "name": "PREDAYCUTSCENE",
+                    "type": "Cutscene",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "cutsceneID": "Preday"
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "dialogueID": "Day6Pre"
+                },
+                {
+                    "name": "NORMALPRACTICE",
+                    "type": "Practice",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "routeID": "Kennedy"
+                }
+            ]
+        },
+        {
             "date": "8/13/12",
             "events":[
                 {
@@ -179,10 +205,18 @@
                     "cutsceneID": "Preday"
                 },
                 {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 10,
+                    "timeMinutes": 0,
+                    "dialogueID": "Day6Pre"
+                },
+                {
                     "name": "NORMALPRACTICE",
                     "type": "Practice",
                     "timeHours": 10,
-                    "timeMinutes": 0
+                    "timeMinutes": 0,
+                    "routeID": "Kennedy"
                 }
             ]
         },
@@ -498,7 +532,7 @@
                 {
                     "name": "RACE1",
                     "type": "Race",
-                    "raceRouteID": "CrystalSprings",
+                    "routeID": "CrystalSprings",
                     "timeHours": 14,
                     "timeMinutes": 30
                 }
@@ -707,9 +741,9 @@
             "date": "9/21/12",
             "events":[
                 {
-                    "name": "RACE1",
+                    "name": "RACE2",
                     "type": "Race",
-                    "raceRouteID": "CrystalSprings",
+                    "routeID": "CrystalSprings",
                     "timeHours": 14,
                     "timeMinutes": 30
                 }

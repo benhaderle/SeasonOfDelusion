@@ -26,6 +26,7 @@ public class MapController : MonoBehaviour
     [Header("Runner Bubble Variables and References")]
     [SerializeField] private PoolContext runnerBubblePool;
     [SerializeField] private Dictionary<string, MapRunnerBubble> activeBubbleDictionary = new();
+    private bool maxBoundsSet;
 
     #region Events
     public class ShowRoutesEvent : UnityEvent<ShowRoutesEvent.Context>
@@ -89,10 +90,7 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
-        MapCameraController.setMaxBoundsEvent.Invoke(new MapCameraController.SetMaxBoundsEvent.Context
-        {
-            maxBounds = lineMap.GetBounds()
-        });
+        SetMaxBounds();
     }
 
     #region Event Listeners
@@ -111,8 +109,8 @@ public class MapController : MonoBehaviour
     private void OnToggleRoutes()
     {
         activeRouteLines.ForEach(rl => rl.gameObject.SetActive(!rl.gameObject.activeSelf));
-        
-        if(!activeRouteLines[0].gameObject.activeSelf)
+
+        if (!activeRouteLines[0].gameObject.activeSelf)
         {
             MapCameraController.mapUnselectedEvent.Invoke();
         }
@@ -142,7 +140,7 @@ public class MapController : MonoBehaviour
 
     private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
     {
-        foreach(KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
+        foreach (KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
         {
             Runner runner = keyValuePair.Key;
             MapRunnerBubble bubble = activeBubbleDictionary[$"{runner.FirstName[0]}{runner.LastName[0]}"];
@@ -160,7 +158,7 @@ public class MapController : MonoBehaviour
             {
                 MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
                 bubble.gameObject.layer = MAP_LAYER;
-                bubble.initialsText.text = $"{i+1}";
+                bubble.initialsText.text = $"{i + 1}";
 
                 SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
 
@@ -178,6 +176,8 @@ public class MapController : MonoBehaviour
 
     private void OnSimulationStart(Action setupRouteLineAction, Action setUpBubblesAction)
     {
+        SetMaxBounds();
+
         activeRouteLines.Clear();
         polylinePool.ReturnAllToPool();
 
@@ -234,7 +234,7 @@ public class MapController : MonoBehaviour
         List<bool> pointsDiscovered = routePoints.Select(mp => mapSaveData.mapPointDictionary[mp.id].discovered).ToList();
 
         rl.Setup(routeName, routePoints, pointsDiscovered, showNewRouteText, unselectedLineColor, unselectedLineThickness);
-        
+
         if (routeLineData.Length == 0)
         {
             routeLineData.SetLength(rl.Polyline.points);
@@ -257,5 +257,18 @@ public class MapController : MonoBehaviour
         pos.z -= 1;
 
         bubble.transform.position = pos;
+    }
+
+    private void SetMaxBounds()
+    {
+        if (!maxBoundsSet)
+        {
+            maxBoundsSet = true;
+
+            MapCameraController.setMaxBoundsEvent.Invoke(new MapCameraController.SetMaxBoundsEvent.Context
+            {
+                maxBounds = lineMap.GetBounds()
+            });
+        }
     }
 }

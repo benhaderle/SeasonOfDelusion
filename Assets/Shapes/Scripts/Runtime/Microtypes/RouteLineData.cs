@@ -7,8 +7,6 @@ namespace Shapes
     public class RouteLineData : ScriptableObject
     {
         public static readonly float UNITY_UNITS_TO_MILES = .1f;
-
-        [SerializeField] private string displayName;
         [SerializeField] private float length;
         public float Length => length;
         public List<int> pointIDs = new();

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using CreateNeptune;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 /// <summary>
 /// Model for the day to day simulation. (Not the run simulation)
@@ -189,8 +190,47 @@ public class SimulationModel : Singleton<SimulationModel>
 
     private void LoadPracticeEvent(DayEvent practiceEvent)
     {
+        if (!string.IsNullOrWhiteSpace(practiceEvent.routeID))
+        {
+            try
+            {
+                Route route = RouteModel.Instance.Routes.First(r => r.DisplayName == practiceEvent.routeID);
+                route.saveData.data.numTimesRun++;
+
+                SceneManager.LoadSceneAsync((int)Scene.MapScene, LoadSceneMode.Additive);
+
+                void OnMapSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
+                {
+                    if (scene.buildIndex == (int)Scene.MapScene)
+                    {
+                        RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
+                        {
+                            runners = TeamModel.Instance.PlayerRunners.ToList(),
+                            route = route,
+                            runConditions = new RunConditions { }
+                        });
+
+                        SceneManager.sceneLoaded -= OnMapSceneLoaded;
+                    }
+                }
+
+                SceneManager.sceneLoaded += OnMapSceneLoaded;
+
+                return;
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.LogWarning($"No route with name \"{practiceEvent.routeID}\" exists in RouteModel. Letting player pick route.");
+            }
+        }
+
         RouteUIController.toggleEvent.Invoke(true);
-        BackgroundController.toggleEvent.Invoke(true);
+        BackgroundController.toggleEvent.Invoke(true);   
+    }
+
+    private void OnMapSceneLoaded()
+    {
+        
     }
 
     private void LoadWorkoutEvent(DayEvent workoutEvent)
@@ -204,7 +244,7 @@ public class SimulationModel : Singleton<SimulationModel>
         RaceController.startRaceEvent.Invoke(new RaceController.StartRaceEvent.Context
         {
             teams = TeamModel.Instance.GetAllTeams(),
-            raceRoute = RouteModel.Instance.GetRaceRoute(raceEvent.raceRouteID)
+            raceRoute = RouteModel.Instance.GetRaceRoute(raceEvent.routeID)
         });
         CutsceneUIController.toggleEvent.Invoke(false);
         BackgroundController.toggleEvent.Invoke(true);

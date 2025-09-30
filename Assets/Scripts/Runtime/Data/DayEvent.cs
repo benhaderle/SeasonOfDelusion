@@ -31,7 +31,7 @@ public class DayEvent
     /// </summary>
     public string dialogueID;
     /// <summary>
-    /// If applicable, the ID of the race route attached to this event
+    /// If applicable, the ID of the route attached to this event
     /// </summary>
-    public string raceRouteID;
+    public string routeID;
 }

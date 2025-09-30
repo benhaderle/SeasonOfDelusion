@@ -56,6 +56,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88418d01d61624234a5bbc7c24c1ed2b, type: 2}
   - {fileID: 11400000, guid: 010d1c3d4760942e7ad5a166c46e0944, type: 2}
   - {fileID: 11400000, guid: 40bad2c73ba1f4bc2a61f397bc63611a, type: 2}
+  - {fileID: 11400000, guid: 8fc2a8e252e0942448d9fe3e3182fa52, type: 2}
+  - {fileID: 11400000, guid: 7565bbf1529a54e819fa6ba371095cfd, type: 2}
   raceRoutes:
   - id: CrystalSprings
     name: Crystal Springs
