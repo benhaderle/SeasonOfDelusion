@@ -10,10 +10,12 @@ namespace Shapes
         public static readonly float UNITY_UNITS_TO_MILES = .1f;
         public static readonly float ELVEVATION_SCALE = 1156.46f * 3.281f;
         public static readonly float ELVEVATION_BASE = 0 * 3.281f;
+        public static readonly float FEET_PER_MILE = 5280f;
 
         [SerializeField] private float length;
         public float Length => length;
         public List<int> pointIDs = new();
+        [SerializeField] private bool isLoop;
         [SerializeField] private AnimationCurve elevationCurve;
         public AnimationCurve ElevationCurve => elevationCurve;
 
@@ -26,6 +28,34 @@ namespace Shapes
             }
 
             length *= UNITY_UNITS_TO_MILES;
+        }
+
+        public float GetGrade(float totalDistanceAlongRoute, float sampleDistance = .1f)
+        {
+            float leftSamplePoint = Mathf.Max(0, totalDistanceAlongRoute - sampleDistance * .5f);
+            float rightSamplePoint = totalDistanceAlongRoute + sampleDistance * .5f;
+
+            float run;
+
+            if (isLoop)
+            {
+                run = rightSamplePoint - leftSamplePoint;
+                leftSamplePoint %= length;
+                rightSamplePoint %= length;
+            }
+            else
+            {
+                rightSamplePoint = Mathf.Min(length, rightSamplePoint);
+                run = rightSamplePoint - leftSamplePoint;
+            }
+
+            leftSamplePoint /= length;
+            rightSamplePoint /= length;
+
+            float rise = elevationCurve.Evaluate(rightSamplePoint) - elevationCurve.Evaluate(leftSamplePoint);
+            rise /= FEET_PER_MILE;
+
+            return rise / run;
         }
 
         public void SetElevationCurve(List<PolylinePoint> points)

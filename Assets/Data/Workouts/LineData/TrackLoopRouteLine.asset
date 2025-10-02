@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b7436c2fc3b41bca532487db498d10, type: 3}
   m_Name: TrackLoopRouteLine
   m_EditorClassIdentifier: 
-  displayName: 
   length: 0.31295875
   pointIDs: e0baba036efbbb03e05dbc0374b5bc033826bd038ab6bd03d6f8bd03b217bf037e02c003ea47c0039f97c003c300c203e0baba03
+  isLoop: 1
+  elevationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

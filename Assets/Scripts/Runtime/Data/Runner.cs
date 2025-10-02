@@ -174,7 +174,7 @@ public class Runner
         };
 
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond, 0) / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);
@@ -214,7 +214,7 @@ public class Runner
         float oldForm = currentForm;
 
         float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond) / CalculateRunEconomy();
+        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond, 0) / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);

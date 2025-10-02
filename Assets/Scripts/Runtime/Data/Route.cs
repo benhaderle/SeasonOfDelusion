@@ -58,7 +58,7 @@ public class Route : ScriptableObject
             return null;
         }
 
-        for(int i = 0; i < routeDialogues.Length; i++)
+        for (int i = 0; i < routeDialogues.Length; i++)
         {
             RouteDialogue currentDialogue = routeDialogues[i];
             RouteDialogueSaveData dialogueSaveData = saveData.data.routeDialogueSaveDatas[i];

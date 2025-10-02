@@ -24,6 +24,8 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     [SerializeField] private float defaultUIAnimationTime;
     public float DefaultUIAnimationTime => defaultUIAnimationTime;
+    [SerializeField] private AnimationCurve gradeAdjustedPaceCurve;
+    public AnimationCurve GradeAdjustedPaceCurve => gradeAdjustedPaceCurve;
     protected override void OnSuccessfulAwake()
     {
         QualitySettings.vSyncCount = 1;

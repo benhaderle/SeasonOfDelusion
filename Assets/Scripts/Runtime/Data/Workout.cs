@@ -55,12 +55,12 @@ public class Workout : ScriptableObject
 
         float difficulty = totalLength * goalVO2;
 
-        if (difficulty <= 2)        return "Gentle";
-        else if (difficulty <= 4)   return "Chill";
-        else if (difficulty <= 6)   return "Moderate";
-        else if (difficulty <= 8)   return "Challenging";
-        else if (difficulty <= 10)  return "Aggressive";
-        else                        return "Difficult";
+        if (difficulty <= 2) return "Gentle";
+        else if (difficulty <= 4) return "Chill";
+        else if (difficulty <= 6) return "Moderate";
+        else if (difficulty <= 8) return "Challenging";
+        else if (difficulty <= 10) return "Aggressive";
+        else return "Difficult";
     }
 }
 

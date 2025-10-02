@@ -186,7 +186,7 @@ public class RunController : MonoBehaviour
                 RunnerState state = kvp.Value;
 
                 state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, route.Difficulty, maxSoreness);
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
             }
 
             // now that we have everyone's desired speed, we use a gravity model to group people
@@ -219,7 +219,7 @@ public class RunController : MonoBehaviour
                 }
 
                 float timePassed = currentSimulationSecondsPerRealSeconds * Time.deltaTime;
-                RunUtility.StepRunState(runnerStates, timePassed, route.Length, route.Length);
+                RunUtility.StepRunState(runnerStates, route.lineData, timePassed, route.Length, route.Length);
 
                 if (!string.IsNullOrWhiteSpace(dialogueID) && !dialogueActivated && runnerStates.Values.Any(state => state.totalPercentDone > dialogueActivationPercent))
                 {

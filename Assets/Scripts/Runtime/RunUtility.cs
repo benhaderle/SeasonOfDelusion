@@ -4,6 +4,7 @@ using UnityEngine;
 using CreateNeptune;
 using Unity.VisualScripting;
 using System.Linq;
+using Shapes;
 
 /// <summary>
 /// Responsible for static variables and functions relevant to run functionality
@@ -17,7 +18,7 @@ public class RunUtility
     /// </summary>
     /// <param name="o2Cost">in mL/kg/min</param>
     /// <returns>Speed in miles per sec</returns>
-    public static float CaclulateSpeedFromOxygenCost(float o2Cost)
+    public static float CaclulateSpeedFromOxygenCost(float o2Cost, float grade)
     {
         const float a = 0.000104f;
         const float b = 0.182258f;
@@ -26,7 +27,7 @@ public class RunUtility
         float four_a_c = 4 * a * c;
         const float two_a = 2 * a;
 
-        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f);
+        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f) * GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade);
     }
 
     /// <summary>
@@ -34,13 +35,14 @@ public class RunUtility
     /// </summary>
     /// <param name="speed">in miles per sec</param>
     /// <returns>in mL/kg/min</returns>
-    public static float SpeedToOxygenCost(float speed)
+    public static float SpeedToOxygenCost(float speed, float grade)
     {
         const float a = 0.000104f;
         const float b = 0.182258f;
         const float c = -4.6f;
 
-        speed = speed * METERS_PER_MILE * 60f;
+        speed = speed / GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade) * METERS_PER_MILE * 60f;
+
         return a * Mathf.Pow(speed, 2) + b * speed + c;
     }
 
@@ -194,7 +196,7 @@ public class RunUtility
     /// <param name="intervalLength">The length of the current interval</param>
     /// <param name="totalLength">The total length of the currrent run. This will be the same as intervalLength for non-interval workout runs.</param>
     /// <returns>The updated state dictionary</returns>
-    public static Dictionary<Runner, RunnerState> StepRunState(Dictionary<Runner, RunnerState> runnerStates, float timePassed, float intervalLength, float totalLength)
+    public static Dictionary<Runner, RunnerState> StepRunState(Dictionary<Runner, RunnerState> runnerStates, RouteLineData lineData, float timePassed, float intervalLength, float totalLength)
     {
         string stateString = "";
 
@@ -204,6 +206,8 @@ public class RunUtility
         {
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
+
+            float grade = 0;
 
             //if a runner is not done, keep incrementing them along the route
             if (state.intervalDistance < intervalLength)
@@ -228,7 +232,8 @@ public class RunUtility
                 float simulationIntervalTimeInSeconds = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item2 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item2;
                 float simulationIntervalTimeInMinutes = simulationIntervalTimeInSeconds / 60f;
                 float simulationIntervalMilesPerSecond = simulationIntervalDistance / simulationIntervalTimeInSeconds;
-                float simulationIntervalVO2 = SpeedToOxygenCost(simulationIntervalMilesPerSecond);
+                grade = lineData.GetGrade(state.totalDistance, simulationIntervalDistance);
+                float simulationIntervalVO2 = SpeedToOxygenCost(simulationIntervalMilesPerSecond, grade);
 
                 state.lastSimulationIntervalVO2 = simulationIntervalVO2;
                 state.shortTermSoreness += runner.CalculateShortTermSoreness(simulationIntervalVO2, simulationIntervalTimeInMinutes);
@@ -236,7 +241,7 @@ public class RunUtility
                 state.calorieCost += runner.CalculateCalorieCost(simulationIntervalVO2, simulationIntervalTimeInMinutes);
             }
 
-            stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tSpeed: {SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
+            stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tGrade: {grade}\tSpeed: {SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";
         }
         Debug.Log(stateString);
 

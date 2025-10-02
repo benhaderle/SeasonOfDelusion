@@ -161,7 +161,8 @@ public class RaceController : MonoBehaviour
                 RunnerState state = kvp.Value;
 
                 state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, targetVO2Percent, maxSoreness);
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state));
+                //TODO: calculate grade from routeline once that is ready-BH
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), 0);
             }
 
             // now that we have everyone's desired speed, we use a gravity model to group people
@@ -188,7 +189,7 @@ public class RaceController : MonoBehaviour
             while (simulationTime > 0)
             {
                 float timePassed = simulationSecondsPerRealSeconds * Time.deltaTime;
-                RunUtility.StepRunState(runnerStates, timePassed, raceRoute.Length, raceRoute.Length);
+                RunUtility.StepRunState(runnerStates, null, timePassed, raceRoute.Length, raceRoute.Length);
 
                 float opportunityZoneThreshold = .05f;
                 //if we've got a runner within the next opporunity threshold, trigger the opportunity flow
