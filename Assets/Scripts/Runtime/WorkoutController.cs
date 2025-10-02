@@ -192,7 +192,6 @@ public class WorkoutController : MonoBehaviour
             yield return new WaitForSeconds(interval.rest * 60 / simulationSecondsPerRealSeconds);
         }
 
-
         Debug.Log($"Target VO2:{group.targetVO2}");
         // post run update
         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
@@ -200,8 +199,7 @@ public class WorkoutController : MonoBehaviour
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            float milesPerSecond = state.totalDistance / state.timeInSeconds;
-            float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond, 0) / runner.CalculateRunEconomy(state);
+            float runVO2 = state.GetAverageVO2() / runner.CalculateRunEconomy(state);
             Debug.Log($"{runner.Name} Run VO2: {runVO2}");
 
             

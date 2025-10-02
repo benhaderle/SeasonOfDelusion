@@ -114,7 +114,7 @@ public class RunUtility
 
         // number that represents the percentile of the last interval's VO2 usage
         // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
-        float intervalVO2Percent = state.lastSimulationIntervalVO2 / runner.currentVO2Max;
+        float intervalVO2Percent = state.simulationIntervalList[state.simulationIntervalList.Count - 1].vo2 / runner.currentVO2Max;
         // how far off the last interval was from coach's guidance in percent of VO2
         // low numbers mean you're slow and high numbers mean you're fast
         float vo2PaceChangeFactor = intervalVO2Percent - targetVO2;
@@ -224,21 +224,26 @@ public class RunUtility
 
                 state.totalPercentDone = state.totalDistance / totalLength;
 
-                state.distanceTimeSimulationIntervalList.Add((state.totalDistance, state.timeInSeconds));
-
                 // calculating simulation interval data so we can update soreness, hydration, and calories
-                int latestIntervalIndex = state.distanceTimeSimulationIntervalList.Count - 1;
-                float simulationIntervalDistance = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item1 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item1;
-                float simulationIntervalTimeInSeconds = state.distanceTimeSimulationIntervalList[latestIntervalIndex].Item2 - state.distanceTimeSimulationIntervalList[latestIntervalIndex - 1].Item2;
+                int latestIntervalIndex = state.simulationIntervalList.Count - 1;
+                float simulationIntervalDistance = state.totalDistance - state.simulationIntervalList[latestIntervalIndex].distanceInMiles;
+                float simulationIntervalTimeInSeconds = state.timeInSeconds - state.simulationIntervalList[latestIntervalIndex].timeInSeconds;
                 float simulationIntervalTimeInMinutes = simulationIntervalTimeInSeconds / 60f;
                 float simulationIntervalMilesPerSecond = simulationIntervalDistance / simulationIntervalTimeInSeconds;
+
                 grade = lineData.GetGrade(state.totalDistance, simulationIntervalDistance);
                 float simulationIntervalVO2 = SpeedToOxygenCost(simulationIntervalMilesPerSecond, grade);
 
-                state.lastSimulationIntervalVO2 = simulationIntervalVO2;
                 state.shortTermSoreness += runner.CalculateShortTermSoreness(simulationIntervalVO2, simulationIntervalTimeInMinutes);
                 state.hydrationCost += runner.CalculateHydrationCost(simulationIntervalVO2, simulationIntervalTimeInMinutes);
                 state.calorieCost += runner.CalculateCalorieCost(simulationIntervalVO2, simulationIntervalTimeInMinutes);
+                
+                state.simulationIntervalList.Add(new SimulationIntervalData
+                {
+                    distanceInMiles = state.totalDistance,
+                    timeInSeconds = state.timeInSeconds,
+                    vo2 = simulationIntervalVO2
+                });
             }
 
             stateString += $"Name: {runner.Name}\tDistance: {state.totalDistance}\tGrade: {grade}\tSpeed: {SpeedToMilePaceString(state.currentSpeed)}\tSoreness: {state.shortTermSoreness + runner.longTermSoreness} ({state.shortTermSoreness},{runner.longTermSoreness})\n";

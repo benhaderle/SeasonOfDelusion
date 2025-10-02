@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -10,15 +11,11 @@ public class RunnerState
     /// <summary>
     /// a list of incremental distance and time markings
     /// </summary>
-    public List<(float, float)> distanceTimeSimulationIntervalList;
+    public List<SimulationIntervalData> simulationIntervalList;
     /// <summary>
     /// The VO2 the runner currently desires to run at, not taking run economy into account
     /// </summary>
     public float desiredVO2;
-    /// <summary>
-    /// The VO2 of the last simulation interval
-    /// </summary>
-    public float lastSimulationIntervalVO2;
     /// <summary>
     /// The current speed
     /// </summary>
@@ -64,10 +61,17 @@ public class RunnerState
 
     public RunnerState()
     {
-        //initialize this list with a marker for the beginning of the simulation
-        distanceTimeSimulationIntervalList = new() {(0,0)};
+        // initialize this list with a marker for the beginning of the simulation
+        simulationIntervalList = new()
+        {
+            new SimulationIntervalData
+            {
+                timeInSeconds = 0,
+                distanceInMiles = 0,
+                vo2 = 0
+            }
+        };
         desiredVO2 = 0;
-        lastSimulationIntervalVO2 = 0;
         desiredSpeed = 0;
         currentSpeed = 0;
         intervalDistance = 0;
@@ -77,4 +81,16 @@ public class RunnerState
         hydrationCost = 0;
         calorieCost = 0;
     }
+
+    public float GetAverageVO2()
+    {
+        return simulationIntervalList.Average(d => d.vo2);
+    }
+}
+
+public struct SimulationIntervalData
+{
+    public float timeInSeconds;
+    public float distanceInMiles;
+    public float vo2;
 }

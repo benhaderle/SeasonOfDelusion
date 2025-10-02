@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using CreateNeptune;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 /// <summary>
 /// Holds variables and functionality relevant to runners
@@ -173,8 +172,7 @@ public class Runner
             startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
         };
 
-        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond, 0) / CalculateRunEconomy();
+        float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);
@@ -213,8 +211,7 @@ public class Runner
         float oldGrit = currentGrit;
         float oldForm = currentForm;
 
-        float milesPerSecond = runState.totalDistance / runState.timeInSeconds;
-        float runVO2 = RunUtility.SpeedToOxygenCost(milesPerSecond, 0) / CalculateRunEconomy();
+        float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
         UpdateStatusPostRun(runState, runVO2);
