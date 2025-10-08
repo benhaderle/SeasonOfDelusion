@@ -24,6 +24,7 @@ public class Runner
     public string LastName => lastName;
     /// <value>User facing string formatted as "FirstName LastName"</value>
     public string Name => $"{firstName} {lastName}";
+    public string Initials => $"{firstName[0]}{lastName[0]}";
     private string teamName;
     public string TeamName => teamName;
 
@@ -177,7 +178,7 @@ public class Runner
 
         UpdateStatusPostRun(runState, runVO2);
 
-        updateRecord.experienceChange = UpdateExperience(runVO2, route.Length * route.Difficulty);
+        updateRecord.experienceChange = UpdateExperience(runVO2, route.Length + route.ElevationGain * .001f);
 
         updateRecord.levelUpRecords = new();
         while (experience >= variables.levelExperienceThresholds[level - 1])

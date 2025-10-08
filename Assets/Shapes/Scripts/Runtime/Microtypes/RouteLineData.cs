@@ -14,6 +14,8 @@ namespace Shapes
 
         [SerializeField] private float length;
         public float Length => length;
+        [SerializeField] private float elevationGain;
+        public float ElevationGain => elevationGain;
         public List<int> pointIDs = new();
         [SerializeField] private bool isLoop;
         [SerializeField] private AnimationCurve elevationCurve;
@@ -62,12 +64,14 @@ namespace Shapes
         {
             elevationCurve = new AnimationCurve();
 
-            float totalClimbing = 0;
+            elevationGain = 0;
 
             int nextPointIndex = 1;
             Vector3 currentLocation = points[0].point;
 
             float stepAmountInMiles = .1f;
+
+            elevationCurve.AddKey(0, GetElevationAtPoint(currentLocation));
 
             int numIterations = (int)(length / stepAmountInMiles);
             for (int i = 0; i < numIterations; i++)
@@ -83,11 +87,13 @@ namespace Shapes
 
                 currentLocation += (points[nextPointIndex].point - currentLocation).normalized * stepInUnits;
 
-                elevationCurve.AddKey((float)i / numIterations, GetElevationAtPoint(currentLocation));
-                totalClimbing += Mathf.Max(0, elevationCurve[elevationCurve.length - 1].value - elevationCurve[Mathf.Max(elevationCurve.length - 2, 0)].value);
+                elevationCurve.AddKey((float)(i + 1) / (numIterations + 2), GetElevationAtPoint(currentLocation));
+                elevationGain += Mathf.Max(0, elevationCurve[elevationCurve.length - 1].value - elevationCurve[Mathf.Max(elevationCurve.length - 2, 0)].value);
             }
 
-            Debug.Log($"{name} - {totalClimbing}ft");
+            elevationCurve.AddKey(1, GetElevationAtPoint(points[points.Count - 1].point));
+
+            Debug.Log($"{name} - {elevationGain}ft");
         }
 
         private float GetElevationAtPoint(Vector3 worldPoint)

@@ -7,6 +7,7 @@ using TMPro;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor.Rendering.LookDev;
 
 /// <summary>
 /// The view for the run simulation
@@ -20,7 +21,10 @@ public class RunView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI easeText;
     [SerializeField] private TextMeshProUGUI newRouteText;
     [Header("Map View")]
+    [SerializeField] private float timeOnView;
+    private float lastViewSwitchTime;
     [SerializeField] private RawImage mapViewImage;
+    [SerializeField] private ElevationGraphView elevationGraphView;
     [Header("Runner List")]
     [SerializeField] private CanvasGroup runnerListCanvasGroup;
     [SerializeField] private PoolContext runnerSimulationCardPool;
@@ -98,11 +102,11 @@ public class RunView : MonoBehaviour
         routeText.text = $"{context.route.DisplayName} - {context.route.Length:F2} mi";
 
         easeText.text = "Coach says: ";
-        if (context.route.Difficulty <= .7f)
+        if (context.route.Length <= 6f)
         {
             easeText.text += "\"Talk to the birds\"";
         }
-        else if (context.route.Difficulty <= .9f)
+        else if (context.route.Length <= 10)
         {
             easeText.text += "\"Keep it honest\"";
         }
@@ -110,6 +114,13 @@ public class RunView : MonoBehaviour
         {
             easeText.text += "\"Let's get it rolling today\"";
         }
+
+        mapViewImage.gameObject.SetActive(true);
+        elevationGraphView.SetElevationLine(context.route.lineData.ElevationCurve);
+        elevationGraphView.InitializeRunnerMarkers(context.runners);
+        elevationGraphView.gameObject.SetActive(false);
+
+        lastViewSwitchTime = Time.time;
 
         runnerSimulationCardParent.gameObject.SetActive(true);
         for (int i = 0; i < context.runners.Count; i++)
@@ -125,6 +136,18 @@ public class RunView : MonoBehaviour
 
     private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
     {
+        if (lastViewSwitchTime > 0)
+        {
+            lastViewSwitchTime -= Time.deltaTime;
+        }
+        else
+        {
+            lastViewSwitchTime = timeOnView;
+
+            mapViewImage.gameObject.SetActive(!mapViewImage.isActiveAndEnabled);
+            elevationGraphView.gameObject.SetActive(!elevationGraphView.isActiveAndEnabled);
+        }
+
         List<Runner> orderedRunners = context.runnerStateDictionary.Keys.ToList();
         orderedRunners.Sort((r1, r2) =>
         {
@@ -146,6 +169,8 @@ public class RunView : MonoBehaviour
             card.UpdatePace(state);
             card.UpdateListPosition(orderedRunners.Count - 1 - i, i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
         }
+        
+        elevationGraphView.UpdateRunners(context.runnerStateDictionary);
     }
 
     private void OnRunSimulationEnded(RunController.RunSimulationEndedEvent.Context context)
@@ -182,6 +207,10 @@ public class RunView : MonoBehaviour
         easeText.gameObject.SetActive(false);
         routeText.gameObject.SetActive(false);
         newRouteText.gameObject.SetActive(true);
+
+        mapViewImage.gameObject.SetActive(true);
+        elevationGraphView.gameObject.SetActive(false);
+        lastViewSwitchTime = timeOnView;
 
         newRouteUnlocked = true;
         CNExtensions.SafeStartCoroutine(this, ref continueButtonToggleRoutine, CNAction.FadeObject(continueButtonContainer.gameObject, GameManager.Instance.DefaultUIAnimationTime, 0, 1, true, false, true));

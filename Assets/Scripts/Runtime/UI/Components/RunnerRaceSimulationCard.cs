@@ -47,14 +47,6 @@ public class RunnerRaceSimulationCard : MonoBehaviour
         paceText.gameObject.SetActive(false);
 
         aeroStat.gameObject.SetActive(true);
-        string colorString = regressionColor.ToHexString();
-        string prefix = "";
-        // if(record.vo2Change >= 0)
-        // {
-        //     colorString = improvementColor.ToHexString();
-        //     prefix = "+";
-        // } 
-        // aeroStat.Setup(Mathf.FloorToInt(runner.currentVO2Max * 10).ToString(), $"<color=#{colorString}>{prefix}{Mathf.FloorToInt(record.vo2Change * 10)}</color>");
         
         statusContainer.gameObject.SetActive(true);
         statusText.text = RunUtility.ExhaustionToStatusString(runner.longTermSoreness);

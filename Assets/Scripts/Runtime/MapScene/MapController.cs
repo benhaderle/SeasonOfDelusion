@@ -129,7 +129,7 @@ public class MapController : MonoBehaviour
             {
                 MapRunnerBubble bubble = runnerBubblePool.GetPooledObject<MapRunnerBubble>();
                 bubble.gameObject.layer = MAP_LAYER;
-                bubble.initialsText.text = $"{context.runners[i].FirstName[0]}{context.runners[i].LastName[0]}";
+                bubble.initialsText.text = context.runners[i].Initials;
 
                 SetBubblePositionAlongLine(activeRouteLines[0], bubble, 0);
 
@@ -143,7 +143,7 @@ public class MapController : MonoBehaviour
         foreach (KeyValuePair<Runner, RunnerState> keyValuePair in context.runnerStateDictionary)
         {
             Runner runner = keyValuePair.Key;
-            MapRunnerBubble bubble = activeBubbleDictionary[$"{runner.FirstName[0]}{runner.LastName[0]}"];
+            MapRunnerBubble bubble = activeBubbleDictionary[runner.Initials];
             float positionAlongLine = keyValuePair.Value.totalPercentDone;
 
             SetBubblePositionAlongLine(activeRouteLines[0], bubble, positionAlongLine);

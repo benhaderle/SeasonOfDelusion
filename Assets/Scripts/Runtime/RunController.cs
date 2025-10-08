@@ -151,6 +151,8 @@ public class RunController : MonoBehaviour
 
     private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions, string dialogueID, float dialogueActivationPercent)
     {
+        float targetVO2 = .65f;
+
         bool dialogueActivated = false;
 
         //wait a frame for the other starts to get going
@@ -172,7 +174,7 @@ public class RunController : MonoBehaviour
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
             RunnerState state = new RunnerState();
-            state.desiredVO2 = runner.currentVO2Max * route.Difficulty + roll;
+            state.desiredVO2 = runner.currentVO2Max * targetVO2 + roll;
             runnerStates.Add(runner, state);
         }
 
@@ -185,7 +187,7 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, route.Difficulty, maxSoreness);
+                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, targetVO2, maxSoreness);
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
             }
 
@@ -198,7 +200,7 @@ public class RunController : MonoBehaviour
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
 
-                    state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, route.Difficulty, route.Length);
+                    state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, targetVO2, route.Length);
 
                     // if this is the last iteration, set the current speed
                     if (i == numGravityIterations - 1)

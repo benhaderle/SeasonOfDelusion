@@ -218,7 +218,7 @@ public class SimulationModel : Singleton<SimulationModel>
 
                 return;
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 Debug.LogWarning($"No route with name \"{practiceEvent.routeID}\" exists in RouteModel. Letting player pick route.");
             }

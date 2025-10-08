@@ -12,6 +12,7 @@ public class RouteMapCard : MonoBehaviour
     public string RouteName => routeName;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI lengthText;
+    [SerializeField] private TextMeshProUGUI elevationText;
     [SerializeField] private TextMeshProUGUI difficultyText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
@@ -20,17 +21,20 @@ public class RouteMapCard : MonoBehaviour
         routeName = route.DisplayName;
         nameText.text = route.DisplayName;
         lengthText.text = $"{route.Length:F1} miles";
-        difficultyText.text = GetDifficultyString(route.Difficulty);
+        elevationText.text = $"{(int)route.ElevationGain} ' climbing";
+        difficultyText.text = GetDifficultyString(route.Length, route.ElevationGain);
         descriptionText.text = $"\"{route.Description}\"";
     }
 
-    private string GetDifficultyString(float difficulty)
+    private string GetDifficultyString(float length, float elevation)
     {
-        if (difficulty <= 0.7f)         return "Gentle";
-        else if (difficulty <= 0.75f)   return "Chill";
-        else if (difficulty <= 0.85f)   return "Moderate";
-        else if (difficulty <= 0.9f)    return "Challenging";
-        else if (difficulty <= 0.95f)   return "Aggressive";
-        else                            return "Difficult";
+        float difficulty = length + elevation / 1000f;
+
+        if (difficulty <= 4.5f) return "Gentle";
+        else if (difficulty <= 6.5f) return "Chill";
+        else if (difficulty <= 8f) return "Moderate";
+        else if (difficulty <= 10f) return "Challenging";
+        else if (difficulty <= 12f) return "Aggressive";
+        else return "Difficult";
     }
 }
