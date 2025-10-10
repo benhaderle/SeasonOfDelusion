@@ -328,8 +328,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -50, y: -50}
+  m_AnchoredPosition: {x: 0, y: 367.50012}
+  m_SizeDelta: {x: -50, y: -784.9998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7222272659556308497
 CanvasRenderer:
@@ -364,7 +364,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2.13
+    width: 1
     height: 1
 --- !u!114 &6830785578337220764
 MonoBehaviour:
@@ -1861,6 +1861,7 @@ MonoBehaviour:
   canvas: {fileID: 7445691476009143532}
   canvasGroup: {fileID: 4853741229461421631}
   mapDislayImage: {fileID: 1370843371065942797}
+  mapRenderTexture: {fileID: 8400000, guid: 5ea01773215064133897bd97cd996a9e, type: 2}
   mapScene: 2
   routeMapCardScrollRect: {fileID: 5078547490302413545}
   scrollRectSnapVelocityThreshold: 10000

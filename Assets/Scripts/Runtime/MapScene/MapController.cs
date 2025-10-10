@@ -185,9 +185,12 @@ public class MapController : MonoBehaviour
 
         setUpBubblesAction();
 
+
+        Bounds b = activeRouteLines[0].Polyline.GetBounds();
+
         MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
         {
-            bounds = activeRouteLines[0].Polyline.GetBounds()
+            bounds = b
         });
 
     }
@@ -214,9 +217,11 @@ public class MapController : MonoBehaviour
         if (selectedLine != null)
         {
             selectedLine.SetLineStyle(selectedLineColor, selectedLineThickness, 1);
+
+            Bounds b = selectedLine.Polyline.GetBounds();
             MapCameraController.focusOnBoundsEvent.Invoke(new MapCameraController.FocusOnBoundsEvent.Context
             {
-                bounds = selectedLine.Polyline.GetBounds()
+                bounds = b
             });
         }
     }

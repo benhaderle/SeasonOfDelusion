@@ -237,10 +237,11 @@ public class RunView : MonoBehaviour
             mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
             mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
 
-            Rect mapUVRect = new Rect(0, 0, mapPixelRect.width / mapViewImage.texture.width, mapPixelRect.height / mapViewImage.texture.height);
-            mapUVRect.x = (1 - mapUVRect.width) / 2f;
-            mapUVRect.y = (1 - mapUVRect.height) / 2f;
-            mapViewImage.uvRect = mapUVRect;
+            MapCameraController.changeMapRenderResolutionEvent.Invoke(new MapCameraController.ChangeMapRenderResolutionEvent.Context
+            {
+                width = (int)mapPixelRect.width,
+                height = (int)mapPixelRect.height
+            });
         }
         else
         {

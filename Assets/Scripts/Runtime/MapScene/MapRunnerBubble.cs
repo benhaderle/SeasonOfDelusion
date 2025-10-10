@@ -9,15 +9,15 @@ public class MapRunnerBubble : MonoBehaviour
 
     private void OnEnable()
     {
-        MapCameraController.onFocusedOnBoundsEvent.AddListener(OnFocusedOnBounds);
+        MapCameraController.focusedOnBoundsEvent.AddListener(OnFocusedOnBounds);
     }
 
     private void OnDisable()
     {
-        MapCameraController.onFocusedOnBoundsEvent.RemoveListener(OnFocusedOnBounds);
+        MapCameraController.focusedOnBoundsEvent.RemoveListener(OnFocusedOnBounds);
     }
 
-    private void OnFocusedOnBounds(MapCameraController.OnFocusedOnBoundsEvent.Context context)
+    private void OnFocusedOnBounds(MapCameraController.FocusedOnBoundsEvent.Context context)
     {
         transform.localScale = Vector3.one * context.cameraZoom / 10f;
     }

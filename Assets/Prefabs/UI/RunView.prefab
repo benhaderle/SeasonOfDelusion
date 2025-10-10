@@ -2564,7 +2564,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7352268394187697349}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -2618,7 +2618,7 @@ MonoBehaviour:
   routeText: {fileID: 3172079155982972986}
   easeText: {fileID: 2537619359906238817}
   newRouteText: {fileID: 2036947039503054917}
-  timeOnView: 5
+  timeOnView: 2
   mapViewImage: {fileID: 1549429451234795996}
   elevationGraphView: {fileID: 4369383931733749315}
   runnerListCanvasGroup: {fileID: 4081343551172568494}

@@ -130,10 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 321908652290751511, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
-      propertyPath: timeOnView
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2857001050702803051, guid: bf7a3d5b4adb2430f8ff771e51f05e14, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1197,10 +1193,6 @@ PrefabInstance:
     - target: {fileID: 8321686252629559000, guid: 5cc45dcbd73524b7baa684ac0865dad8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8321686252629559000, guid: 5cc45dcbd73524b7baa684ac0865dad8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.00060381216
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

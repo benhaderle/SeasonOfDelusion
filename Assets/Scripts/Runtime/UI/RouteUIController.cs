@@ -17,6 +17,7 @@ public class RouteUIController : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RawImage mapDislayImage;
+    [SerializeField] private RenderTexture mapRenderTexture;
     [SerializeField] private Scene mapScene;
     [SerializeField] private CarouselScrollRect routeMapCardScrollRect;
     [SerializeField] private float scrollRectSnapVelocityThreshold = 10000f;
@@ -79,15 +80,6 @@ public class RouteUIController : MonoBehaviour
         {
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
 
-            Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
-            mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
-            mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
-
-            Rect mapUVRect = new Rect(0, 0, mapPixelRect.width / mapDislayImage.texture.width, mapPixelRect.height / mapDislayImage.texture.height);
-            mapUVRect.x = (1 - mapUVRect.width) / 2f;
-            mapUVRect.y = (1 - mapUVRect.height) / 2f;
-            mapDislayImage.uvRect = mapUVRect;
-
             Route[] routes = RouteModel.Instance.Routes.Where(r => r.saveData.data.unlocked).ToArray();
             for (int i = 0; i < routes.Length; i++)
             {
@@ -149,6 +141,16 @@ public class RouteUIController : MonoBehaviour
     {
         if (scene.buildIndex == (int)mapScene)
         {
+            Rect mapPixelRect = RectTransformUtility.PixelAdjustRect(mapDislayImage.rectTransform, canvas);
+            mapPixelRect.width = mapPixelRect.width * canvas.scaleFactor;
+            mapPixelRect.height = mapPixelRect.height * canvas.scaleFactor;
+
+            MapCameraController.changeMapRenderResolutionEvent.Invoke(new MapCameraController.ChangeMapRenderResolutionEvent.Context
+            {
+                width = (int)mapPixelRect.width,
+                height = (int)mapPixelRect.height
+            });
+
             MapController.showRoutesEvent.Invoke(new MapController.ShowRoutesEvent.Context
             {
                 routes = RouteModel.Instance.Routes.Where(r => r.saveData.data.unlocked).ToList()

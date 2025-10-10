@@ -14,6 +14,7 @@ public class MapCameraController : MonoBehaviour
     [SerializeField] private float simulationDampingTime = .5f;
     private float currentDampingTime;
     [SerializeField] private float maxBoundsPadding = 5f;
+    [SerializeField] private float routeUnlockedBoundsSize = 5;
     [SerializeField] private LayerMask tappingLayerMask;
     private Vector3 lastDragViewportPosition;
     private Vector3 targetPosition;
@@ -77,14 +78,23 @@ public class MapCameraController : MonoBehaviour
         }
     };
     public static FocusOnBoundsEvent focusOnBoundsEvent = new();
-    public class OnFocusedOnBoundsEvent : UnityEvent<OnFocusedOnBoundsEvent.Context>
+    public class FocusedOnBoundsEvent : UnityEvent<FocusedOnBoundsEvent.Context>
     {
         public class Context
         {
             public float cameraZoom;
         }
     };
-    public static OnFocusedOnBoundsEvent onFocusedOnBoundsEvent = new();
+    public static FocusedOnBoundsEvent focusedOnBoundsEvent = new();
+    public class ChangeMapRenderResolutionEvent : UnityEvent<ChangeMapRenderResolutionEvent.Context>
+    {
+        public class Context
+        {
+            public int width;
+            public int height;
+        }
+    };
+    public static ChangeMapRenderResolutionEvent changeMapRenderResolutionEvent = new();
     #endregion
 
     private void Awake()
@@ -98,6 +108,7 @@ public class MapCameraController : MonoBehaviour
         zoomEvent.AddListener(OnZoom);
         tapEvent.AddListener(OnTap);
         focusOnBoundsEvent.AddListener(OnFocusOnBounds);
+        changeMapRenderResolutionEvent.AddListener(OnChangeMapRenderResolution);
         RouteModel.routeUnlockedEvent.AddListener(OnRouteUnlocked);
         RunController.runSimulationResumeEvent.AddListener(OnRunSimulationResume);
     }
@@ -109,6 +120,7 @@ public class MapCameraController : MonoBehaviour
         zoomEvent.RemoveListener(OnZoom);
         tapEvent.RemoveListener(OnTap);
         focusOnBoundsEvent.RemoveListener(OnFocusOnBounds);
+        changeMapRenderResolutionEvent.RemoveListener(OnChangeMapRenderResolution);
         RouteModel.routeUnlockedEvent.RemoveListener(OnRouteUnlocked);
         RunController.runSimulationResumeEvent.RemoveListener(OnRunSimulationResume);
     }
@@ -123,8 +135,6 @@ public class MapCameraController : MonoBehaviour
     private void OnSetMaxBounds(SetMaxBoundsEvent.Context context)
     {
         maxBounds = context.maxBounds;
-        SetTargetPosition(transform.position);
-        targetZoom = camera.orthographicSize;
     }
 
     private void OnDrag(DragEvent.Context context)
@@ -169,10 +179,19 @@ public class MapCameraController : MonoBehaviour
         currentRouteBounds = context.bounds;
     }
 
+    private void OnChangeMapRenderResolution(ChangeMapRenderResolutionEvent.Context context)
+    {
+        camera.targetTexture.Release();
+        camera.targetTexture.width = context.width;
+        camera.targetTexture.height = context.height;
+        camera.targetTexture.Create();
+        camera.ResetAspect();
+    }
+
     private void OnRouteUnlocked(RouteModel.RouteUnlockedEvent.Context context)
     {
         currentDampingTime = simulationDampingTime;
-        FocusOnBounds(new Bounds(new Vector3(context.unlockedPoint.point.x, context.unlockedPoint.point.y), new Vector3(1, 1)));
+        FocusOnBounds(new Bounds(new Vector3(context.unlockedPoint.point.x, context.unlockedPoint.point.y), Vector3.one * routeUnlockedBoundsSize));
     }
 
     private void OnRunSimulationResume(RunController.RunSimulationResumeEvent.Context context)
@@ -192,10 +211,10 @@ public class MapCameraController : MonoBehaviour
         {
             targetZoom = Mathf.Abs(bounds.size.y) / 2f;
         }
-        targetZoom *= 2f;
+        targetZoom *= 1.5f;
         targetZoom = Mathf.Clamp(targetZoom, zoomMin, zoomMax);
 
-        onFocusedOnBoundsEvent.Invoke(new OnFocusedOnBoundsEvent.Context
+        focusedOnBoundsEvent.Invoke(new FocusedOnBoundsEvent.Context
         {
             cameraZoom = targetZoom
         });
