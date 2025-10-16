@@ -101,10 +101,10 @@ public class Runner
         get => runnerSaveData.data.sleepStatus;
         set => runnerSaveData.data.sleepStatus = value;
     }
-    private float shortTermCalories
+    public float shortTermCalories
     {
         get => runnerSaveData.data.shortTermCalories;
-        set => runnerSaveData.data.shortTermCalories = value;
+        private set => runnerSaveData.data.shortTermCalories = value;
     }
     public float longTermCalories
     {

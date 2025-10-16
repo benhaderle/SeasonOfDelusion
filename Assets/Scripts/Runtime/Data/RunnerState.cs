@@ -17,11 +17,11 @@ public class RunnerState
     /// </summary>
     public float desiredVO2;
     /// <summary>
-    /// The current speed
+    /// The current speed in miles per sec
     /// </summary>
     public float currentSpeed;
     /// <summary>
-    /// The desired speed
+    /// The desired speed in miles per sec
     /// </summary>
     public float desiredSpeed;
     /// <summary>

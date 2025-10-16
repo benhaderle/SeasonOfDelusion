@@ -148,6 +148,8 @@ public class WorkoutController : MonoBehaviour
 
                         state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVO2 / runner.currentVO2Max, maxSoreness);
                         state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), workout.RouteLineData.GetGrade(state.totalDistance));
+
+                        state.currentSpeed = state.desiredSpeed;
                     }
 
                     // now that we have everyone's desired speed, we use a gravity model to group people
@@ -159,13 +161,7 @@ public class WorkoutController : MonoBehaviour
                             Runner runner = kvp.Key;
                             RunnerState state = kvp.Value;
 
-                            state.desiredSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVO2 / runner.currentVO2Max, interval.length);
-
-                            // if this is the last iteration, set the current speed
-                            if (i == numGravityIterations - 1)
-                            {
-                                state.currentSpeed = state.desiredSpeed;
-                            }
+                            state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVO2 / runner.currentVO2Max, interval.length);
                         }
                     }
 

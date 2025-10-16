@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using CreateNeptune;
+using System.Linq;
 
 /// <summary>
 /// One of the UI cards representing one Runner on the Run screen
@@ -32,6 +33,74 @@ public class RunnerSimulationCard : MonoBehaviour
         paceText.text = RunUtility.SpeedToMilePaceString(runnerState.currentSpeed);
     }
 
+    public void UpdateStatusText(Runner runner, RunnerState runnerState)
+    {
+        List<string> possibleStateStrings = new();
+
+        if (runnerState.totalPercentDone < .05f)
+        {
+            possibleStateStrings.Add("Starting Off");
+        }
+        else if (runnerState.totalPercentDone > .95f)
+        {
+            possibleStateStrings.Add("Finishing Up");
+        }
+
+        float shortTermCalorieDeficit = runner.shortTermCalories - runnerState.calorieCost;
+        if (shortTermCalorieDeficit < -500)
+        {
+            if (runner.longTermCalories + shortTermCalorieDeficit > 1000)
+            {
+                possibleStateStrings.Add("Burning Fat");
+            }
+            else
+            {
+                possibleStateStrings.Add("Shutting Down");
+            }
+        }
+        else if (shortTermCalorieDeficit < 0)
+        {
+            possibleStateStrings.Add("Running on Empty");
+        }
+        else if (shortTermCalorieDeficit < 500)
+        {
+            possibleStateStrings.Add("Getting Hungry");
+        }
+
+        float currentDesiredSpeedDifference = runnerState.currentSpeed - runnerState.desiredSpeed;
+        if (currentDesiredSpeedDifference > .15f)
+        {
+            possibleStateStrings.Add("Getting Dragged");
+        }
+        else if (currentDesiredSpeedDifference > -.15f)
+        {
+            possibleStateStrings.Add("Holding in the Group");
+        }
+        else
+        {
+            possibleStateStrings.Add("Pace Pushing");
+        }
+
+        float averageVO2 = runnerState.GetAverageVO2();
+        float currentVO2 = runnerState.simulationIntervalList.Last().vo2;
+        float currentAverageVO2Difference = currentVO2 - averageVO2;
+        if (currentAverageVO2Difference > 1.5f)
+        {
+            possibleStateStrings.Add("Making a Move");
+        }
+        else if (currentAverageVO2Difference > -1.5f)
+        {
+            possibleStateStrings.Add("Holding Steady");
+        }
+        else
+        {
+            possibleStateStrings.Add("Holding Back");
+        }
+
+        statusText.text = possibleStateStrings[Random.Range(0, possibleStateStrings.Count)];
+
+    }
+
     public void UpdateListPosition(int orderInList, Color backgroundColor)
     {
         transform.SetSiblingIndex(orderInList);
@@ -43,7 +112,7 @@ public class RunnerSimulationCard : MonoBehaviour
         paceText.gameObject.SetActive(false);
 
         statusText.gameObject.SetActive(true);
-        statusText.text = RunUtility.ExhaustionToStatusString(runner.longTermSoreness);
+        statusText.text = RunUtility.SorenessToStatusString(runner.longTermSoreness);
 
         experienceContainer.SetActive(true);
         experienceText.text = $"{record.startingExperience} / {record.startingLevelExperienceThreshold}";

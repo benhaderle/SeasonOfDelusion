@@ -7,7 +7,6 @@ using TMPro;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEditor.Rendering.LookDev;
 
 /// <summary>
 /// The view for the run simulation
@@ -31,6 +30,8 @@ public class RunView : MonoBehaviour
     [SerializeField] private RectTransform runnerSimulationCardParent;
     [SerializeField] private Color lightBackgroundColor;
     [SerializeField] private Color darkBackgroundColor;
+    [SerializeField] private float statusTextUpdateTime = 1f;
+    private float statusTextUpdateTimer;
     [SerializeField] private float levelUpAnimationSpeed = 1;
     private Dictionary<Runner, RunnerSimulationCard> activeRunnerCardDictionary = new();
     [SerializeField] private CanvasGroup continueButtonContainer;
@@ -136,6 +137,7 @@ public class RunView : MonoBehaviour
 
     private void OnRunSimulationUpdated(RunController.RunSimulationUpdatedEvent.Context context)
     {
+        // switch the view between the map and the elevation graph every once in a while
         if (lastViewSwitchTime > 0)
         {
             lastViewSwitchTime -= Time.deltaTime;
@@ -161,14 +163,25 @@ public class RunView : MonoBehaviour
             }
         });
 
-        for (int i = 0; i < orderedRunners.Count; i++)
+        bool updateStatusText = Time.time - statusTextUpdateTimer > statusTextUpdateTime;
+        if (updateStatusText)
         {
-            RunnerState state = context.runnerStateDictionary[orderedRunners[i]];
-
-            RunnerSimulationCard card = activeRunnerCardDictionary[orderedRunners[i]];
-            card.UpdatePace(state);
-            card.UpdateListPosition(orderedRunners.Count - 1 - i, i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
+            statusTextUpdateTimer = Time.time;
         }
+
+        for (int i = 0; i < orderedRunners.Count; i++)
+            {
+                RunnerState state = context.runnerStateDictionary[orderedRunners[i]];
+
+                RunnerSimulationCard card = activeRunnerCardDictionary[orderedRunners[i]];
+                card.UpdatePace(state);
+                card.UpdateListPosition(orderedRunners.Count - 1 - i, i % 2 == 0 ? lightBackgroundColor : darkBackgroundColor);
+
+                if (updateStatusText)
+                {
+                    card.UpdateStatusText(orderedRunners[i], state);
+                }
+            }
         
         elevationGraphView.UpdateRunners(context.runnerStateDictionary);
     }

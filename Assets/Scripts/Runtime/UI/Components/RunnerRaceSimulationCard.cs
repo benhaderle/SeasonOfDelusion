@@ -49,6 +49,6 @@ public class RunnerRaceSimulationCard : MonoBehaviour
         aeroStat.gameObject.SetActive(true);
         
         statusContainer.gameObject.SetActive(true);
-        statusText.text = RunUtility.ExhaustionToStatusString(runner.longTermSoreness);
+        statusText.text = RunUtility.SorenessToStatusString(runner.longTermSoreness);
     }
 }

@@ -63,7 +63,7 @@ public class RunUtility
         }
     }
 
-    public static string ExhaustionToStatusString(float exhaustion)
+    public static string SorenessToStatusString(float exhaustion)
     {
         string status;
         if (exhaustion < 200)
@@ -156,7 +156,7 @@ public class RunUtility
         // if this runner is done, continue
         if (state.intervalDistance >= intervalLength)
         {
-            return state.desiredSpeed;
+            return state.currentSpeed;
         }
 
         float runningAverage = 0f;
@@ -171,10 +171,10 @@ public class RunUtility
             }
 
             // use a gravity model so runners closer together effect each other more than runners far away
-            float difference = Mathf.Abs(otherKvp.Value.desiredSpeed - state.desiredSpeed) + Mathf.Abs(otherKvp.Value.totalDistance - state.totalDistance);
+            float difference = Mathf.Abs(otherKvp.Value.currentSpeed - state.currentSpeed) + Mathf.Abs(otherKvp.Value.totalDistance - state.totalDistance);
             // if the difference between the runners is super small, cap weight at a high amount
             float weight = (difference < .001f) ? 1000000f : 1f / Mathf.Max(Mathf.Pow(difference, 2), Mathf.Epsilon);
-            runningAverage += weight * otherKvp.Value.desiredSpeed;
+            runningAverage += weight * otherKvp.Value.currentSpeed;
             weightTotal += weight;
         }
 
@@ -182,10 +182,10 @@ public class RunUtility
         // the last runner left on the route will not be effected by anyone so they just run at their desired speed
         if (weightTotal > 0)
         {
-            state.desiredSpeed = Mathf.Lerp(state.desiredSpeed, runningAverage / weightTotal, 1f - (.75f * targetVO2));
+            state.currentSpeed = Mathf.Lerp(state.currentSpeed, runningAverage / weightTotal, 1f - (.75f * targetVO2));
         }
 
-        return state.desiredSpeed;
+        return state.currentSpeed;
     }
 
     /// <summary>

@@ -20,7 +20,7 @@ public class RunnerRosterCard : MonoBehaviour
         nameText.text = runner.Name;
         vo2MaxStat.SetValueText(Mathf.FloorToInt(runner.currentVO2Max * 10).ToString());
         strengthStat.SetValueText(Mathf.FloorToInt(runner.currentStrength * 10).ToString());
-        statusText.text = RunUtility.ExhaustionToStatusString(runner.longTermSoreness);
+        statusText.text = RunUtility.SorenessToStatusString(runner.longTermSoreness);
         backgroundImage.color = backgroundColor;
     }
 }
