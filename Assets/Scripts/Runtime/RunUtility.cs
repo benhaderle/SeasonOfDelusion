@@ -109,8 +109,10 @@ public class RunUtility
         // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
         float normalizedSorenessFeel = Mathf.Pow(Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness)), runner.currentGrit);
         // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
-        // low numbers mean you can speed up and high numbers mean you gotta slow doen
+        // low numbers mean you can speed up and high numbers mean you gotta slow down
         float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
+        float sorenessConfidenceModifier = runner.currentConfidence * .025f;
+        sorenessPaceChangeFactor -= sorenessConfidenceModifier;
 
         // number that represents the percentile of the last interval's VO2 usage
         // example: runner VO2 = 50, last interval was at 45 V02 pace, intervalVO2Percent would then be .9
@@ -118,6 +120,8 @@ public class RunUtility
         // how far off the last interval was from coach's guidance in percent of VO2
         // low numbers mean you're slow and high numbers mean you're fast
         float vo2PaceChangeFactor = intervalVO2Percent - targetVO2;
+        float vo2ConfidenceModifier = runner.currentConfidence * .01f;
+        vo2PaceChangeFactor -= vo2ConfidenceModifier;
 
         // these if statements check if there are extremes being hit with soreness and pace
         // if there are, then roll to change pace will be affected

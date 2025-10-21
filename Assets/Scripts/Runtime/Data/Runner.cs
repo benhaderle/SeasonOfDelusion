@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using CreateNeptune;
 using UnityEngine;
@@ -38,7 +37,7 @@ public class Runner
         get => runnerSaveData.data.experience;
         private set => runnerSaveData.data.experience = value;
     }
-#region Stats
+    #region Initialization + Calculation Variables
     [SerializeField] private RunnerSaveDataSO runnerSaveData;
     /// <summary>
     /// An SO with shared variables between all runners
@@ -51,14 +50,16 @@ public class Runner
     [SerializeField] private float vo2ImprovementMagnitude = .15f;
     [SerializeField] private float initialStrength;
     [SerializeField] private float strengthImprovementMagnitude;
-    [SerializeField] private float minForm;
-    [SerializeField] private float minNutrition;
-    [SerializeField] private float recovery;
-    public float weight
-{
-    get => runnerSaveData.data.weight;
-    private set => runnerSaveData.data.weight = value;
-}
+    [SerializeField] private float initialForm;
+    [SerializeField] private float initialGrit = 1;
+    [SerializeField] private float initialRecovery;
+    //TODO: get rid of this when recovery fully replaces nutrition
+    [SerializeField] private float initialNutrition;
+    [SerializeField] private float initialConfidence = 0;
+    #endregion
+
+    // Stats change with each level + are more "permanent"
+    #region Stats
     /// <summary>
     /// The runner's current VO2Max.
     /// </summary>    
@@ -72,15 +73,10 @@ public class Runner
         get => runnerSaveData.data.currentStrength;
         private set => runnerSaveData.data.currentStrength = value;
     }
-    private float currentForm
+    public float currentForm
     {
         get => runnerSaveData.data.currentForm;
-        set => runnerSaveData.data.currentForm = value;
-    }
-    private float currentNutrition
-    {
-        get => runnerSaveData.data.currentNutrition;
-        set => runnerSaveData.data.currentNutrition = value;
+        private set => runnerSaveData.data.currentForm = value;
     }
     /// <summary>
     /// A number >= 1 that represents how tough this runner is. 
@@ -88,13 +84,33 @@ public class Runner
     /// </summary>
     public float currentGrit
     {
-        get => runnerSaveData.data.grit;
-        private set => runnerSaveData.data.grit = value;
+        get => runnerSaveData.data.currentGrit;
+        private set => runnerSaveData.data.currentGrit = value;
     }
-    private float school
+    public float currentConfidence
     {
-        get => runnerSaveData.data.school;
-        set => runnerSaveData.data.school = value;
+        get => runnerSaveData.data.confidence;
+        private set => runnerSaveData.data.confidence = value;
+    }
+    public float currentRecovery
+    {
+        get => runnerSaveData.data.currentRecovery;
+        private set => runnerSaveData.data.currentRecovery = value;
+    }
+    //TODO: this stat is to be merged with recovery
+    public float currentNutrition
+    {
+        get => runnerSaveData.data.currentNutrition;
+        private set => runnerSaveData.data.currentNutrition = value;
+    }
+    #endregion
+
+    // Statuses can change at anytime and are more day to day
+    #region Status
+    public float weight
+    {
+        get => runnerSaveData.data.weight;
+        private set => runnerSaveData.data.weight = value;
     }
     private float sleepStatus
     {
@@ -121,6 +137,11 @@ public class Runner
         get => runnerSaveData.data.longTermSoreness;
         private set => runnerSaveData.data.longTermSoreness = value;
     }
+    public float confidence
+    {
+        get => runnerSaveData.data.confidence;
+        private set => runnerSaveData.data.confidence = value;
+    }
 
     // TODO: impromptu list of stats that might get implemented at some point
     // public int wit { get; private set; }
@@ -130,6 +151,7 @@ public class Runner
     // private float emotion;
     // private float intuition;
     #endregion
+
     public Runner()
     {
     }
@@ -151,7 +173,7 @@ public class Runner
 
         if (!runnerSaveData.data.initialized)
         {
-            runnerSaveData.Initialize(initialVO2Max, minForm, initialStrength, minNutrition, MAX_SHORT_TERM_CALORIES);
+            runnerSaveData.Initialize(initialVO2Max, initialForm, initialStrength, initialNutrition, MAX_SHORT_TERM_CALORIES, initialConfidence, initialGrit, initialRecovery);
         }
         
         runnerSaveData.data.firstName = firstName;
@@ -176,7 +198,7 @@ public class Runner
         float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
-        UpdateStatusPostRun(runState, runVO2);
+        UpdateStatusPostRun(runState, runVO2, RunController.NORMAL_RUN_TARGET_VO2);
 
         updateRecord.experienceChange = UpdateExperience(runVO2, route.Length + route.ElevationGain * .001f);
 
@@ -206,21 +228,17 @@ public class Runner
             levelUpRecords = new()
         };
 
-        // register the old values so we can show how much they changed
-        float oldVO2 = currentVO2Max;
-        float oldStrength = currentStrength;
-        float oldGrit = currentGrit;
-        float oldForm = currentForm;
-
         float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
         updateRecord.runVO2 = runVO2;
 
-        UpdateStatusPostRun(runState, runVO2);
+        UpdateStatusPostRun(runState, runVO2, targetVO2);
+
+        // this gives the full effect of the workout the closer you are to the goal vo2 of the workout
+        float workoutEffectiveness = .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVO2 / currentVO2Max) - workout.GoalVO2)), 32);
 
         for (int i = 0; i < workout.effects.Length; i++)
         {
-            // this gives the full effect of the workout the closer you are to the goal vo2 of the workout
-            float effectAmount = workout.effects[i].amount * .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVO2 / currentVO2Max) - workout.GoalVO2)), 32);
+            float effectAmount = workout.effects[i].amount * workoutEffectiveness;
 
             StatUpRecord statUpRecord = new StatUpRecord
             {
@@ -258,7 +276,7 @@ public class Runner
         return statUpRecord.newValue;
     }
 
-    private void UpdateStatusPostRun(RunnerState state, float runVO2)
+    private void UpdateStatusPostRun(RunnerState state, float runVO2, float goalVO2)
     {
         float timeInMinutes = state.timeInSeconds / 60f;
 
@@ -269,17 +287,9 @@ public class Runner
         longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
 
         // exhaustion changes based off of how far away you were from your recovery VO2
-        UpdateLongTermSorenessPostRun(runVO2, timeInMinutes);
-    }
-
-    // <summary>
-    /// Updates the Runner's Exhaustion with the given runVO2 and time it was run for
-    /// </summary>
-    /// <param name="runVO2">The VO2 in mL/kg/min for the last run</param>
-    /// <param name="timeInMinutes">The length of the run in minutes</param> 
-    private void UpdateLongTermSorenessPostRun(float runVO2, float timeInMinutes)
-    {
         longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
+
+        confidence += (runVO2 / currentVO2Max) - goalVO2;
     }
 
     private int UpdateExperience(float runVO2, float runDifficultyMultiplier)
@@ -358,7 +368,7 @@ public class Runner
         }
 
         // recovery roll effects sleep and soreness
-        float recoveryRoll = CNExtensions.RandGaussian(recovery, 10);
+        float recoveryRoll = CNExtensions.RandGaussian(currentRecovery, 10);
         // use the roll to approximate how many hours fo sleep you have
         float hoursOfSleep = recoveryRoll * .1f - 6;
         // recover sleep and clamp between reasonable values

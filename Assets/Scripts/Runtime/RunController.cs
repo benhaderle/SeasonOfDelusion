@@ -12,6 +12,8 @@ using UnityEngine.Events;
 /// </summary>
 public class RunController : MonoBehaviour
 {
+    public static readonly float NORMAL_RUN_TARGET_VO2 = .65f;
+
     /// <summary>
     /// How fast the simulation should run at
     /// </summary>
@@ -151,8 +153,6 @@ public class RunController : MonoBehaviour
 
     private IEnumerator SimulateRunRoutine(List<Runner> runners, Route route, RunConditions conditions, string dialogueID, float dialogueActivationPercent)
     {
-        float targetVO2 = .65f;
-
         bool dialogueActivated = false;
 
         //wait a frame for the other starts to get going
@@ -174,7 +174,7 @@ public class RunController : MonoBehaviour
             Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
 
             RunnerState state = new RunnerState();
-            state.desiredVO2 = runner.currentVO2Max * targetVO2 + roll;
+            state.desiredVO2 = runner.currentVO2Max * NORMAL_RUN_TARGET_VO2 + roll;
             runnerStates.Add(runner, state);
         }
 
@@ -187,7 +187,7 @@ public class RunController : MonoBehaviour
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
 
-                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, targetVO2, maxSoreness);
+                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, NORMAL_RUN_TARGET_VO2, maxSoreness);
                 state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
 
                 state.currentSpeed = state.desiredSpeed;
@@ -202,7 +202,7 @@ public class RunController : MonoBehaviour
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
 
-                    state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, targetVO2, route.Length);
+                    state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, NORMAL_RUN_TARGET_VO2, route.Length);
                 }
             }
 

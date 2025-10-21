@@ -1,29 +1,30 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewRunnerSaveData", menuName = "ScriptableObjects/RunnerSaveData")]
 public class RunnerSaveDataSO : ScriptableObject
 {
     public RunnerSaveData data = new();
-    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float initialNutrition, float maxShortTermCalories)
+    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float initialNutrition, float maxShortTermCalories, float initialConfidence, float initialGrit, float initialRecovery)
     {
         data.initialized = true;
-        
+
         data.level = 1;
         data.experience = 0;
 
         data.currentVO2Max = initialVO2Max;
         data.currentStrength = initialStrength;
-        data.currentForm = initialForm + 10;
-        data.currentNutrition = initialNutrition + 10;
+        data.currentForm = initialForm;
+        data.currentNutrition = initialNutrition;
+        data.currentGrit = initialGrit;
+        data.currentRecovery = initialRecovery;
+
         data.hydrationStatus = 4f;
         data.longTermCalories = 100000;
         data.shortTermCalories = maxShortTermCalories;
         data.longTermSoreness = 0;
         data.sleepStatus = 10;
-        data.grit = 1;
+        data.confidence = initialConfidence;
     }
 
 }
@@ -42,12 +43,13 @@ public class RunnerSaveData
     public float currentStrength;
     public float currentForm;
     public float currentNutrition;
-    public float recovery;
-    public float grit;
+    public float currentRecovery;
+    public float currentGrit;
     public float school;
     public float sleepStatus;
     public float hydrationStatus;
     public float shortTermCalories;
     public float longTermCalories;
     public float longTermSoreness;
+    public float confidence;
 }

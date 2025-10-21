@@ -55,9 +55,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.025
       initialStrength: 30
       strengthImprovementMagnitude: 0.07
-      minForm: 50
-      minNutrition: 30
-      recovery: 60
+      initialForm: 50
+      initialGrit: 1
+      initialRecovery: 60
+      initialNutrition: 50
+      initialConfidence: -0.5
     - firstName: James
       lastName: Treau
       runnerSaveData: {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
@@ -65,9 +67,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.021
       initialStrength: 30
       strengthImprovementMagnitude: 0.06
-      minForm: 30
-      minNutrition: 50
-      recovery: 65
+      initialForm: 40
+      initialGrit: 1
+      initialRecovery: 65
+      initialNutrition: 60
+      initialConfidence: 0.5
     - firstName: Rico
       lastName: Ready
       runnerSaveData: {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
@@ -75,9 +79,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.02
       initialStrength: 35
       strengthImprovementMagnitude: 0.02
-      minForm: 30
-      minNutrition: 20
-      recovery: 50
+      initialForm: 40
+      initialGrit: 1
+      initialRecovery: 50
+      initialNutrition: 30
+      initialConfidence: 1
     - firstName: Ryan
       lastName: Walker
       runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
@@ -85,9 +91,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.02
       initialStrength: 35
       strengthImprovementMagnitude: 0.04
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 50
+      initialGrit: 1
+      initialRecovery: 55
+      initialNutrition: 40
+      initialConfidence: 0
   otherTeams:
   - name: Saratoga
     runners:
@@ -98,9 +106,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 50
-      minNutrition: 30
-      recovery: 60
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
@@ -108,9 +118,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 50
-      recovery: 65
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
@@ -118,9 +130,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 20
-      recovery: 50
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -128,9 +142,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -138,9 +154,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -148,9 +166,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -158,9 +178,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
   - name: Lynbrook
     runners:
     - firstName: A
@@ -170,9 +192,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 50
-      minNutrition: 30
-      recovery: 60
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
@@ -180,9 +204,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 50
-      recovery: 65
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
@@ -190,9 +216,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 20
-      recovery: 50
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -200,9 +228,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -210,9 +240,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -220,9 +252,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -230,9 +264,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
   - name: Los Altos
     runners:
     - firstName: A
@@ -242,9 +278,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 50
-      minNutrition: 30
-      recovery: 60
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
@@ -252,9 +290,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 50
-      recovery: 65
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
@@ -262,9 +302,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 20
-      recovery: 50
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -272,9 +314,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -282,9 +326,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -292,9 +338,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -302,9 +350,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
   - name: St. Francis
     runners:
     - firstName: A
@@ -314,9 +364,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 50
-      minNutrition: 30
-      recovery: 60
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: B
       lastName: B
       runnerSaveData: {fileID: 0}
@@ -324,9 +376,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 50
-      recovery: 65
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: C
       lastName: C
       runnerSaveData: {fileID: 0}
@@ -334,9 +388,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 30
-      minNutrition: 20
-      recovery: 50
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -344,9 +400,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -354,9 +412,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -364,9 +424,11 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
     - firstName: D
       lastName: D
       runnerSaveData: {fileID: 0}
@@ -374,7 +436,9 @@ MonoBehaviour:
       vo2ImprovementMagnitude: 0.25
       initialStrength: 0
       strengthImprovementMagnitude: 0
-      minForm: 40
-      minNutrition: 30
-      recovery: 55
+      initialForm: 0
+      initialGrit: 0
+      initialRecovery: 0
+      initialNutrition: 0
+      initialConfidence: 0
   variables: {fileID: 11400000, guid: 09eb7807c1f0346588187fe975d00147, type: 2}
