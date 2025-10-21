@@ -5,7 +5,7 @@ using UnityEngine;
 public class RunnerSaveDataSO : ScriptableObject
 {
     public RunnerSaveData data = new();
-    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float initialNutrition, float maxShortTermCalories, float initialConfidence, float initialGrit, float initialRecovery)
+    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float maxShortTermCalories, float initialConfidence, float initialGrit, float initialRecovery)
     {
         data.initialized = true;
 
@@ -15,7 +15,6 @@ public class RunnerSaveDataSO : ScriptableObject
         data.currentVO2Max = initialVO2Max;
         data.currentStrength = initialStrength;
         data.currentForm = initialForm;
-        data.currentNutrition = initialNutrition;
         data.currentGrit = initialGrit;
         data.currentRecovery = initialRecovery;
 
@@ -42,7 +41,6 @@ public class RunnerSaveData
     public float currentVO2Max;
     public float currentStrength;
     public float currentForm;
-    public float currentNutrition;
     public float currentRecovery;
     public float currentGrit;
     public float school;

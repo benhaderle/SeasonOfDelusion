@@ -53,8 +53,6 @@ public class Runner
     [SerializeField] private float initialForm;
     [SerializeField] private float initialGrit = 1;
     [SerializeField] private float initialRecovery;
-    //TODO: get rid of this when recovery fully replaces nutrition
-    [SerializeField] private float initialNutrition;
     [SerializeField] private float initialConfidence = 0;
     #endregion
 
@@ -96,12 +94,6 @@ public class Runner
     {
         get => runnerSaveData.data.currentRecovery;
         private set => runnerSaveData.data.currentRecovery = value;
-    }
-    //TODO: this stat is to be merged with recovery
-    public float currentNutrition
-    {
-        get => runnerSaveData.data.currentNutrition;
-        private set => runnerSaveData.data.currentNutrition = value;
     }
     #endregion
 
@@ -173,7 +165,7 @@ public class Runner
 
         if (!runnerSaveData.data.initialized)
         {
-            runnerSaveData.Initialize(initialVO2Max, initialForm, initialStrength, initialNutrition, MAX_SHORT_TERM_CALORIES, initialConfidence, initialGrit, initialRecovery);
+            runnerSaveData.Initialize(initialVO2Max, initialForm, initialStrength, MAX_SHORT_TERM_CALORIES, initialConfidence, initialGrit, initialRecovery);
         }
         
         runnerSaveData.data.firstName = firstName;
@@ -211,8 +203,6 @@ public class Runner
 
         return updateRecord; 
     }
-
-    
 
     /// <summary>
     /// Updates this Runner's stats given the information in runState. Assumes the run is done.
@@ -348,7 +338,7 @@ public class Runner
     public void OnEndDay()
     {
         // nutrition roll effects hydration and calorie recovery
-        float nutritionRoll = CNExtensions.RandGaussian(currentNutrition, 10);
+        float nutritionRoll = CNExtensions.RandGaussian(currentRecovery, 10);
 
         // hydration updates linearly based on the roll
         hydrationStatus += 2f * Mathf.Clamp(nutritionRoll / 50f, 0, 2);

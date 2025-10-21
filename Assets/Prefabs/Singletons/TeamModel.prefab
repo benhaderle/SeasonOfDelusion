@@ -57,8 +57,7 @@ MonoBehaviour:
       strengthImprovementMagnitude: 0.07
       initialForm: 50
       initialGrit: 1
-      initialRecovery: 60
-      initialNutrition: 50
+      initialRecovery: 55
       initialConfidence: -0.5
     - firstName: James
       lastName: Treau
@@ -69,8 +68,7 @@ MonoBehaviour:
       strengthImprovementMagnitude: 0.06
       initialForm: 40
       initialGrit: 1
-      initialRecovery: 65
-      initialNutrition: 60
+      initialRecovery: 62
       initialConfidence: 0.5
     - firstName: Rico
       lastName: Ready
@@ -81,8 +79,7 @@ MonoBehaviour:
       strengthImprovementMagnitude: 0.02
       initialForm: 40
       initialGrit: 1
-      initialRecovery: 50
-      initialNutrition: 30
+      initialRecovery: 40
       initialConfidence: 1
     - firstName: Ryan
       lastName: Walker
@@ -93,8 +90,7 @@ MonoBehaviour:
       strengthImprovementMagnitude: 0.04
       initialForm: 50
       initialGrit: 1
-      initialRecovery: 55
-      initialNutrition: 40
+      initialRecovery: 47
       initialConfidence: 0
   otherTeams:
   - name: Saratoga
@@ -109,7 +105,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: B
       lastName: B
@@ -121,7 +116,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: C
       lastName: C
@@ -133,7 +127,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -145,7 +138,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -157,7 +149,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -169,7 +160,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -181,7 +171,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
   - name: Lynbrook
     runners:
@@ -195,7 +184,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: B
       lastName: B
@@ -207,7 +195,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: C
       lastName: C
@@ -219,7 +206,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -231,7 +217,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -243,7 +228,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -255,7 +239,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -267,7 +250,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
   - name: Los Altos
     runners:
@@ -281,7 +263,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: B
       lastName: B
@@ -293,7 +274,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: C
       lastName: C
@@ -305,7 +285,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -317,7 +296,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -329,7 +307,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -341,7 +318,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -353,7 +329,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
   - name: St. Francis
     runners:
@@ -367,7 +342,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: B
       lastName: B
@@ -379,7 +353,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: C
       lastName: C
@@ -391,7 +364,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -403,7 +375,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -415,7 +386,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -427,7 +397,6 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
     - firstName: D
       lastName: D
@@ -439,6 +408,5 @@ MonoBehaviour:
       initialForm: 0
       initialGrit: 0
       initialRecovery: 0
-      initialNutrition: 0
       initialConfidence: 0
   variables: {fileID: 11400000, guid: 09eb7807c1f0346588187fe975d00147, type: 2}
