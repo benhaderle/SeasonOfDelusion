@@ -86,7 +86,7 @@ public class TeamModel : Singleton<TeamModel>
 
         if (initializationSO != null)
         {
-            playerTeam.AddRunner(initializationSO, variables);
+            playerTeam.InitializeRunner(runnerName, initializationSO, variables);
         }
     }
 }

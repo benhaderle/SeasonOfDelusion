@@ -12,8 +12,6 @@ namespace Shapes
 	[AddComponentMenu("Shapes/LineMap")]
 	public class LineMap : ShapeRenderer
 	{
-		/// <summary>IMPORTANT: if you modify this list, you need to set meshOutOfDate to true, otherwise your changes won't apply</summary>
-		// [SerializeField] public List<MapPoint> points = new();
 		[SerializeField] public List<MapPointStyle> pointStyles = new();
 		[SerializeField, SerializeReference] public MapPointDictionary points = new();
 		[SerializeField] public Polyline routePolyline;

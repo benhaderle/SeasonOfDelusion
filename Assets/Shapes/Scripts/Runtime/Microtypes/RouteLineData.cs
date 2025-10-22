@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -85,6 +88,11 @@ namespace Shapes
                     nextPointIndex++;
                 }
 
+                if(nextPointIndex == points.Count)
+                {
+                    break;
+                }
+
                 currentLocation += (points[nextPointIndex].point - currentLocation).normalized * stepInUnits;
 
                 elevationCurve.AddKey((float)(i + 1) / (numIterations + 2), GetElevationAtPoint(currentLocation));
@@ -94,6 +102,10 @@ namespace Shapes
             elevationCurve.AddKey(1, GetElevationAtPoint(points[points.Count - 1].point));
 
             Debug.Log($"{name} - {elevationGain}ft");
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
         }
 
         private float GetElevationAtPoint(Vector3 worldPoint)
