@@ -13,6 +13,7 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     [SerializeField] private RouteSaveDataSO[] routeSaveDatas;
     [SerializeField] private WorkoutSaveDataSO[] workoutSaveDatas;
     [SerializeField] private RunnerSaveDataSO[] playerRunnerSaveDatas;
+    [SerializeField] private TeamSaveDataSO playerTeamSaveData;
 
     private SerializedSaveData cachedSerializedSaveData;
 
@@ -64,6 +65,9 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
     public void ResetValues()
     {
         simulationSaveData.data = new();
+        mapSaveData.data = new();
+        playerTeamSaveData.data.initialized = false;
+
         for (int i = 0; i < playerRunnerSaveDatas.Length; i++)
         {
             playerRunnerSaveDatas[i].data.initialized = false;
@@ -76,7 +80,6 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             workoutSaveDatas[i].data.initialized = false;
         }
-        mapSaveData.data = new();
     }
 
     /// <summary>
@@ -101,6 +104,9 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         }
 
         SafeLoadDatum(ref simulationSaveData.data, serializedSaveData.simulationSaveData);
+        SafeLoadDatum(ref mapSaveData.data, serializedSaveData.mapSaveData);
+        SafeLoadDatum(ref playerTeamSaveData.data, serializedSaveData.playerTeamSaveData);
+
         for (int i = 0; i < playerRunnerSaveDatas.Length; i++)
         {
             SafeLoadDatum(ref playerRunnerSaveDatas[i].data, serializedSaveData.playerRunnerSaveDatas.ToList().Find(d => d.firstName == playerRunnerSaveDatas[i].data.firstName));
@@ -113,7 +119,6 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             SafeLoadDatum(ref workoutSaveDatas[i].data, serializedSaveData.workoutSaveDatas.ToList().Find(d => d.name == workoutSaveDatas[i].data.name));
         }
-        SafeLoadDatum(ref mapSaveData.data, serializedSaveData.mapSaveData);
     }
 
     protected override SerializedSaveData Serialize()
@@ -127,10 +132,11 @@ public class SaveData : SaveDataSingleton<SaveData, SerializedSaveData>
         {
             timestamp = DateTime.UtcNow.ToString(),
             simulationSaveData = simulationSaveData.data,
+            mapSaveData = mapSaveData.data,
+            playerTeamSaveData = playerTeamSaveData.data,
             playerRunnerSaveDatas = playerRunnerSaveDatas.Select(so => so.data).ToArray(),
             routeSaveDatas = routeSaveDatas.Select(so => so.data).ToArray(),
-            workoutSaveDatas = workoutSaveDatas.Select(so => so.data).ToArray(),
-            mapSaveData = mapSaveData.data
+            workoutSaveDatas = workoutSaveDatas.Select(so => so.data).ToArray()
         };
 
         return saveDataObject;

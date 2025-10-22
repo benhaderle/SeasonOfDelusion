@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be931c00e54fe47218752c2e824125d2, type: 3}
+  m_Name: EthanDortler
+  m_EditorClassIdentifier: 
+  firstName: 
+  lastName: 
+  teamName: 
+  weight: 0
+  currentVO2Max: 0
+  currentStrength: 0
+  strengthChangeRate: 0
+  currentForm: 0
+  daysSinceFormPractice: 0
+  experience: 0
+  currentNutrition: 0
+  recovery: 0
+  grit: 0
+  school: 0
+  sleepStatus: 0
+  hydrationStatus: 0
+  shortTermCalories: 0
+  longTermCalories: 0
+  longTermSoreness: 0

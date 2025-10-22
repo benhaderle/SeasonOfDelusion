@@ -5,25 +5,33 @@ using UnityEngine;
 public class RunnerSaveDataSO : ScriptableObject
 {
     public RunnerSaveData data = new();
-    public void Initialize(float initialVO2Max, float initialForm, float initialStrength, float maxShortTermCalories, float initialConfidence, float initialGrit, float initialRecovery)
+
+    public void Initialize(RunnerInitializationSO initializationSO, float maxShortTermCalories, string teamName)
     {
         data.initialized = true;
 
-        data.level = 1;
+        data.firstName = initializationSO.firstName;
+        data.lastName = initializationSO.lastName;
+        data.teamName = teamName;
+
+        data.level = initializationSO.level;
         data.experience = 0;
 
-        data.currentVO2Max = initialVO2Max;
-        data.currentStrength = initialStrength;
-        data.currentForm = initialForm;
-        data.currentGrit = initialGrit;
-        data.currentRecovery = initialRecovery;
+        data.currentVO2Max = initializationSO.initialVO2Max;
+        data.currentStrength = initializationSO.initialStrength;
+        data.currentForm = initializationSO.initialForm;
+        data.currentGrit = initializationSO.initialGrit;
+        data.currentRecovery = initializationSO.initialRecovery;
+
+        data.vo2ImprovementMagnitude = initializationSO.vo2ImprovementMagnitude;
+        data.strengthImprovementMagnitude = initializationSO.strengthImprovementMagnitude;
 
         data.hydrationStatus = 4f;
         data.longTermCalories = 100000;
         data.shortTermCalories = maxShortTermCalories;
         data.longTermSoreness = 0;
         data.sleepStatus = 10;
-        data.confidence = initialConfidence;
+        data.confidence = initializationSO.initialConfidence;
     }
 
 }
@@ -32,22 +40,31 @@ public class RunnerSaveDataSO : ScriptableObject
 public class RunnerSaveData
 {
     public bool initialized;
+
     public string firstName;
     public string lastName;
     public string teamName;
+
     public int level;
     public int experience;
+
     public float weight;
     public float currentVO2Max;
     public float currentStrength;
     public float currentForm;
     public float currentRecovery;
     public float currentGrit;
-    public float school;
+
+    public float vo2ImprovementMagnitude;
+    public float strengthImprovementMagnitude;
+
     public float sleepStatus;
     public float hydrationStatus;
     public float shortTermCalories;
     public float longTermCalories;
     public float longTermSoreness;
     public float confidence;
+    
+
+    // public float school;
 }

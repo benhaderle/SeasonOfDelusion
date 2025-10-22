@@ -6,14 +6,30 @@ using UnityEngine;
 [Serializable]
 public class Team
 {
+    [SerializeField] private TeamSaveDataSO saveData;
     [SerializeField] private string name;
     public string Name => name;
-    [SerializeField] private List<Runner> runners;
+    private List<Runner> runners = new();
     public ReadOnlyCollection<Runner> Runners => runners.AsReadOnly();
 
-    public void Initialize(RunnerCalculationVariables variables)
+    public void Initialize(List<string> runnerNames)
     {
-        runners.ForEach(r => r.Initialize(variables, name));
+        if (saveData != null && !saveData.data.initialized)
+        {
+            saveData.Initialize(name, runnerNames);
+        }
+    }
+
+    public void AddRunner(RunnerInitializationSO initializationSO, RunnerCalculationVariables variables)
+    {
+        Runner r = new();
+        r.Initialize(initializationSO, variables, name);
+        runners.Add(r);        
+    }
+
+    public List<string> GetSavedRosterNames()
+    {
+        return saveData.data.roster;
     }
 
     public void OnEndDay()

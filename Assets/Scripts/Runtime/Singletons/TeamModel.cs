@@ -11,8 +11,10 @@ using UnityEngine;
 /// </summary>
 public class TeamModel : Singleton<TeamModel>
 {
+    [SerializeField] private List<RunnerInitializationSO> playerTeamRunnerInitializationSOs;
     [SerializeField] private Team playerTeam;
     public string PlayerTeamName => playerTeam.Name;
+    [SerializeField] private List<string> startingRosterNames;
     [SerializeField] private List<Team> otherTeams;
     [SerializeField] private RunnerCalculationVariables variables;
     public ReadOnlyCollection<Runner> PlayerRunners => playerTeam.Runners;
@@ -48,8 +50,15 @@ public class TeamModel : Singleton<TeamModel>
     {
         loaded = true;
 
-        playerTeam.Initialize(variables);
-        otherTeams.ForEach(team => team.Initialize(variables));
+        playerTeam.Initialize(startingRosterNames);
+
+        foreach (string runnerName in playerTeam.GetSavedRosterNames())
+        {
+            AddRunnerToTeam(runnerName);
+        }
+
+        //TODO: when we loop back to races, I'll have to figure this whole initialization thing out
+        //otherTeams.ForEach(team => team.Initialize(variables));
 
         SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
     }
@@ -69,5 +78,15 @@ public class TeamModel : Singleton<TeamModel>
         allTeams.AddRange(otherTeams);
 
         return allTeams;
+    }
+
+    public void AddRunnerToTeam(string runnerName)
+    {
+        RunnerInitializationSO initializationSO = playerTeamRunnerInitializationSOs.Find(so => $"{so.firstName}{so.lastName}" == runnerName);
+
+        if (initializationSO != null)
+        {
+            playerTeam.AddRunner(initializationSO, variables);
+        }
     }
 }

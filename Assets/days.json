@@ -191,6 +191,13 @@
                     "timeHours": 10,
                     "timeMinutes": 0,
                     "routeID": "Kennedy"
+                },
+                {
+                    "name": "DIALOGUE",
+                    "type": "Dialogue",
+                    "timeHours": 11,
+                    "timeMinutes": 0,
+                    "dialogueID": "Day6Post"
                 }
             ]
         },

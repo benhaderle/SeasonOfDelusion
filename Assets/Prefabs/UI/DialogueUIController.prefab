@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 8169096657689173254}
   - component: {fileID: 9022565372403306927}
   - component: {fileID: 1313726058707560783}
+  - component: {fileID: 5890070691394131456}
   - component: {fileID: 6893116652557665124}
   m_Layer: 5
   m_Name: DialogueUIController
@@ -181,6 +182,19 @@ MonoBehaviour:
   dialogueRunner: {fileID: 6893116652557665124}
   canvas: {fileID: 6008217409328385938}
   canvasGroup: {fileID: 9022565372403306927}
+--- !u!114 &5890070691394131456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9074907689163008048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81eae7263fea549da81ac1154b38f693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueRunner: {fileID: 6893116652557665124}
 --- !u!114 &6893116652557665124
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,16 @@
+﻿title: Day8PreDialogue
+tags:
+---
+Coach: Look what we got here- fresh meat!
+Dortler: Hey. I'm Ethan, but everyone calls me by last name, Dortler.
+Coach: Nice, welcome to the team. It sounds like you know the guys already so we don't need to do intros.
+Coach: Before we get started today, I gotta go over some events that are happening this week.
+Coach: On Wednesday, the school is doing a recruiting event, so hopefully a couple of you will come to collect some more bodies for us.
+Coach: On Friday, we'll have our second workout and I'll have the race schedule ironed out. Any quesiton on either of those?
+Rico: Who do you want to come with to the recruiting event?
+Coach:
+-> Juniors: Rico & Ryan
+-> Sophomores: James & Clark
+-> Mix: Rico & James
+Coach: Sound good? Alright let's get to the main event.
+===

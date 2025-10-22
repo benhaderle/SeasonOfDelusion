@@ -6,7 +6,6 @@ using UnityEngine;
 /// <summary>
 /// Holds variables and functionality relevant to runners
 /// </summary>
-[Serializable]
 public class Runner
 {
     /// <summary>
@@ -17,15 +16,17 @@ public class Runner
     private const float MAX_SLEEP = 10;
     private const float MIN_SLEEP = 0;
     private const float MAX_SHORT_TERM_CALORIES = 3000;
-    [SerializeField] private string firstName;
-    public string FirstName => firstName;
-    [SerializeField] private string lastName;
-    public string LastName => lastName;
+    /// <summary>
+    /// An SO with shared variables between all runners
+    /// </summary>
+    private RunnerCalculationVariables variables;
+    private RunnerSaveDataSO runnerSaveData;
+    public string FirstName => runnerSaveData.data.firstName;
+    public string LastName => runnerSaveData.data.lastName;
     /// <value>User facing string formatted as "FirstName LastName"</value>
-    public string Name => $"{firstName} {lastName}";
-    public string Initials => $"{firstName[0]}{lastName[0]}";
-    private string teamName;
-    public string TeamName => teamName;
+    public string Name => $"{FirstName} {LastName}";
+    public string Initials => $"{FirstName[0]}{LastName[0]}";
+    public string TeamName => runnerSaveData.data.teamName;
 
     public int level
     {
@@ -37,25 +38,7 @@ public class Runner
         get => runnerSaveData.data.experience;
         private set => runnerSaveData.data.experience = value;
     }
-    #region Initialization + Calculation Variables
-    [SerializeField] private RunnerSaveDataSO runnerSaveData;
-    /// <summary>
-    /// An SO with shared variables between all runners
-    /// </summary>
-    private RunnerCalculationVariables variables;
-    /// <summary>
-    /// This runner's minVO2Max. currentVO2Max will never go below this.
-    /// </summary>
-    [SerializeField] private float initialVO2Max = 50;
-    [SerializeField] private float vo2ImprovementMagnitude = .15f;
-    [SerializeField] private float initialStrength;
-    [SerializeField] private float strengthImprovementMagnitude;
-    [SerializeField] private float initialForm;
-    [SerializeField] private float initialGrit = 1;
-    [SerializeField] private float initialRecovery;
-    [SerializeField] private float initialConfidence = 0;
-    #endregion
-
+    
     // Stats change with each level + are more "permanent"
     #region Stats
     /// <summary>
@@ -95,6 +78,12 @@ public class Runner
         get => runnerSaveData.data.currentRecovery;
         private set => runnerSaveData.data.currentRecovery = value;
     }
+    #endregion
+
+    // Variables used when leveling up
+    #region Improvement Variables
+    private float vo2ImprovementMagnitude => runnerSaveData.data.vo2ImprovementMagnitude;
+    private float strengthImprovementMagnitude=> runnerSaveData.data.strengthImprovementMagnitude;
     #endregion
 
     // Statuses can change at anytime and are more day to day
@@ -152,11 +141,10 @@ public class Runner
     /// Initializes this Runner with a new RunnerSaveData object with default values
     /// </summary>
     /// <param name="variables">The variables to use for calculating updates to Runner stats</param> 
-    public void Initialize(RunnerCalculationVariables variables, string teamName)
+    public void Initialize(RunnerInitializationSO initializationSO, RunnerCalculationVariables variables, string teamName)
     {
         this.variables = variables;
-
-        this.teamName = teamName;
+        runnerSaveData = initializationSO.runnerSaveData;
 
         if (runnerSaveData == null)
         {
@@ -165,12 +153,8 @@ public class Runner
 
         if (!runnerSaveData.data.initialized)
         {
-            runnerSaveData.Initialize(initialVO2Max, initialForm, initialStrength, MAX_SHORT_TERM_CALORIES, initialConfidence, initialGrit, initialRecovery);
+            runnerSaveData.Initialize(initializationSO, MAX_SHORT_TERM_CALORIES, teamName);
         }
-        
-        runnerSaveData.data.firstName = firstName;
-        runnerSaveData.data.lastName = lastName;
-        runnerSaveData.data.teamName = teamName;
     }
 
     #region Post Run Functions

@@ -73,3 +73,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
   - {fileID: 11400000, guid: 6125c78c805c446a88810df569c65155, type: 2}
   - {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
+  - {fileID: 11400000, guid: c6760b2b834e749d28d41b2341946402, type: 2}
+  playerTeamSaveData: {fileID: 11400000, guid: e851489b0911a4d2e854b080d08fbf6f, type: 2}

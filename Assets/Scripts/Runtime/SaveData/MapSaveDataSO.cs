@@ -10,7 +10,7 @@ public class MapSaveDataSO : ScriptableObject
 {
     private const int START_ID = 3606017;
     public MapSaveData data = new();
-    //runtime dictionary for easy acces to savedata
+    // runtime dictionary for easy access to savedata
     public Dictionary<int, MapPointSaveData> mapPointDictionary = new();
     /// <summary>
     /// Initializes map save data with the given points. Should be called the first time we load the map scene.

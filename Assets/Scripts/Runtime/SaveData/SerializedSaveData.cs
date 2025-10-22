@@ -8,8 +8,9 @@ public class SerializedSaveData
     public string timestamp;
 
     public SimulationSaveData simulationSaveData;
+    public MapSaveData mapSaveData;
+    public TeamSaveData playerTeamSaveData;
     public RunnerSaveData[] playerRunnerSaveDatas;
     public RouteSaveData[] routeSaveDatas;
     public WorkoutSaveData[] workoutSaveDatas;
-    public MapSaveData mapSaveData;
 }
