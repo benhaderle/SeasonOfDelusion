@@ -203,6 +203,7 @@ public class SimulationModel : Singleton<SimulationModel>
                 {
                     if (scene.buildIndex == (int)Scene.MapScene)
                     {
+                        CutsceneUIController.toggleEvent.Invoke(false);
                         RunController.startRunEvent.Invoke(new RunController.StartRunEvent.Context
                         {
                             runners = TeamModel.Instance.PlayerRunners.ToList(),

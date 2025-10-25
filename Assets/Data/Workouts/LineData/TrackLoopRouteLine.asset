@@ -13,11 +13,48 @@ MonoBehaviour:
   m_Name: TrackLoopRouteLine
   m_EditorClassIdentifier: 
   length: 0.31295875
+  elevationGain: 14.879822
   pointIDs: e0baba036efbbb03e05dbc0374b5bc033826bd038ab6bd03d6f8bd03b217bf037e02c003ea47c0039f97c003c300c203e0baba03
   isLoop: 1
   elevationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 342.23505
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 342.23505
+      inSlope: 37.199554
+      outSlope: 37.199554
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 357.11487
+      inSlope: 24.799704
+      outSlope: 24.799704
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 342.23505
+      inSlope: -24.799702
+      outSlope: -24.799702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

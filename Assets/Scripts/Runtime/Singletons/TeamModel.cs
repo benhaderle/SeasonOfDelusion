@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CreateNeptune;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Model for the list of teams
@@ -19,6 +20,18 @@ public class TeamModel : Singleton<TeamModel>
     [SerializeField] private RunnerCalculationVariables variables;
     public ReadOnlyCollection<Runner> PlayerRunners => playerTeam.Runners;
     private bool loaded;
+
+    #region Events
+    public class NewTeammateAddedEvent : UnityEvent<NewTeammateAddedEvent.Context>
+    {
+        public class Context
+        {
+            public Runner runner;
+        }
+    };
+    public static NewTeammateAddedEvent newTeammateAddedEvent = new();
+
+    #endregion
 
     protected override void OnSuccessfulAwake()
     {
@@ -54,7 +67,7 @@ public class TeamModel : Singleton<TeamModel>
 
         foreach (string runnerName in playerTeam.GetSavedRosterNames())
         {
-            AddRunnerToTeam(runnerName);
+            AddRunnerToTeam(runnerName, false);
         }
 
         //TODO: when we loop back to races, I'll have to figure this whole initialization thing out
@@ -80,13 +93,22 @@ public class TeamModel : Singleton<TeamModel>
         return allTeams;
     }
 
-    public void AddRunnerToTeam(string runnerName)
+    public void AddRunnerToTeam(string runnerName, bool sendEvent = true)
     {
         RunnerInitializationSO initializationSO = playerTeamRunnerInitializationSOs.Find(so => $"{so.firstName}{so.lastName}" == runnerName);
 
         if (initializationSO != null)
         {
-            playerTeam.InitializeRunner(runnerName, initializationSO, variables);
+            Runner r = playerTeam.InitializeRunner(runnerName, initializationSO, variables);
+
+            if (sendEvent)
+            {
+                newTeammateAddedEvent.Invoke(new NewTeammateAddedEvent.Context
+                {
+                   runner = r 
+                });
+            }
+
         }
     }
 }

@@ -16,5 +16,6 @@ public class RunnerInitializationSO : ScriptableObject
     public float initialForm;
     public float initialGrit = 1;
     public float initialRecovery;
+    public float initialAcademics;
     public float initialConfidence = 0;
 }

@@ -22,6 +22,7 @@ public class RunnerSaveDataSO : ScriptableObject
         data.currentForm = initializationSO.initialForm;
         data.currentGrit = initializationSO.initialGrit;
         data.currentRecovery = initializationSO.initialRecovery;
+        data.currentAcademics = initializationSO.initialAcademics;
 
         data.vo2ImprovementMagnitude = initializationSO.vo2ImprovementMagnitude;
         data.strengthImprovementMagnitude = initializationSO.strengthImprovementMagnitude;
@@ -54,6 +55,7 @@ public class RunnerSaveData
     public float currentForm;
     public float currentRecovery;
     public float currentGrit;
+    public float currentAcademics;
 
     public float vo2ImprovementMagnitude;
     public float strengthImprovementMagnitude;

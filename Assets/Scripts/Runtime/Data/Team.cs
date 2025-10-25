@@ -20,7 +20,7 @@ public class Team
         }
     }
 
-    public void InitializeRunner(string runnerName, RunnerInitializationSO initializationSO, RunnerCalculationVariables variables)
+    public Runner InitializeRunner(string runnerName, RunnerInitializationSO initializationSO, RunnerCalculationVariables variables)
     {
         if (saveData != null && saveData.data != null && !saveData.data.roster.Contains(runnerName))
         {
@@ -29,7 +29,9 @@ public class Team
 
         Runner r = new();
         r.Initialize(initializationSO, variables, name);
-        runners.Add(r);        
+        runners.Add(r);
+
+        return r;    
     }
 
     public List<string> GetSavedRosterNames()

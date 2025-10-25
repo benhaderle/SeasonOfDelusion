@@ -78,6 +78,11 @@ public class Runner
         get => runnerSaveData.data.currentRecovery;
         private set => runnerSaveData.data.currentRecovery = value;
     }
+    public float currentAcademics
+    {
+        get => runnerSaveData.data.currentAcademics;
+        private set => runnerSaveData.data.currentAcademics = value;
+    }
     #endregion
 
     // Variables used when leveling up
