@@ -55,10 +55,10 @@ MonoBehaviour:
     saveData: {fileID: 11400000, guid: e851489b0911a4d2e854b080d08fbf6f, type: 2}
     name: Los Gatos
   startingRosterNames:
-  - ClarkFaster
-  - JamesTreau
-  - RicoReady
-  - RyanWalker
+  - Clark Faster
+  - James Treau
+  - Rico Ready
+  - Ryan Walker
   otherTeams:
   - saveData: {fileID: 0}
     name: Saratoga

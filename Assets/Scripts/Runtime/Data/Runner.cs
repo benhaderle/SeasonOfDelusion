@@ -162,6 +162,20 @@ public class Runner
         }
     }
 
+    public void ChangeStatFromDialogue(string statName, float changeAmount)
+    {
+        switch (statName)
+        {
+            case "Aerobics": currentVO2Max += changeAmount; break;
+            case "Strength": currentStrength += changeAmount; break;
+            case "Form": currentForm += changeAmount; break;
+            case "Grit": currentGrit += changeAmount; break;
+            case "Recovery": currentRecovery += changeAmount; break;
+            case "Academics": currentAcademics += changeAmount; break;
+            case "Confidence": currentConfidence += changeAmount; break;
+        }
+    }
+
     #region Post Run Functions
 
     /// <summary>

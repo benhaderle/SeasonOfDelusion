@@ -30,7 +30,16 @@ public class TeamModel : Singleton<TeamModel>
         }
     };
     public static NewTeammateAddedEvent newTeammateAddedEvent = new();
-
+    public class StatChangedFromDialogueEvent : UnityEvent<StatChangedFromDialogueEvent.Context>
+    {
+        public class Context
+        {
+            public string runnerName;
+            public string statName;
+            public float statChange;
+        }
+    };
+    public static StatChangedFromDialogueEvent statChangedFromDialogueEvent = new();
     #endregion
 
     protected override void OnSuccessfulAwake()
@@ -95,7 +104,7 @@ public class TeamModel : Singleton<TeamModel>
 
     public void AddRunnerToTeam(string runnerName, bool sendEvent = true)
     {
-        RunnerInitializationSO initializationSO = playerTeamRunnerInitializationSOs.Find(so => $"{so.firstName}{so.lastName}" == runnerName);
+        RunnerInitializationSO initializationSO = playerTeamRunnerInitializationSOs.Find(so => $"{so.firstName} {so.lastName}" == runnerName);
 
         if (initializationSO != null)
         {
@@ -105,10 +114,34 @@ public class TeamModel : Singleton<TeamModel>
             {
                 newTeammateAddedEvent.Invoke(new NewTeammateAddedEvent.Context
                 {
-                   runner = r 
+                    runner = r
                 });
             }
 
         }
     }
+
+    public void ChangeRunnerStatFromDialogue(string runnerName, string statName, float changeAmount)
+    {
+        if (runnerName == "All")
+        {
+            foreach (Runner runner in PlayerRunners)
+            {
+                runner.ChangeStatFromDialogue(statName, changeAmount);
+            }
+        }
+        else
+        {
+            Runner r = PlayerRunners.First(r => r.Name == runnerName);
+
+            r.ChangeStatFromDialogue(statName, changeAmount);
+        }
+
+        statChangedFromDialogueEvent.Invoke(new StatChangedFromDialogueEvent.Context
+        {
+            runnerName = runnerName,
+            statName = statName,
+            statChange = changeAmount
+        });
+    } 
 }

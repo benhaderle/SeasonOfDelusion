@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: PlayerTeamSaveData
   m_EditorClassIdentifier: 
   data:
-    initialized: 0
-    name: 
-    roster: []
+    initialized: 1
+    name: Los Gatos
+    roster:
+    - Clark Faster
+    - James Treau
+    - Rico Ready
+    - Ryan Walker
