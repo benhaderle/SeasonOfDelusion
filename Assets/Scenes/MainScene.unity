@@ -488,28 +488,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66ca6bedb6ff54c6a9c8c923052d1126, type: 3}
---- !u!1 &1020474782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3837415721953670591, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
-  m_PrefabInstance: {fileID: 3185200764347106896}
-  m_PrefabAsset: {fileID: 0}
---- !u!320 &1020474785
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020474782}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 86cd0c68094ed4203bdf633b1c3a562a, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 0
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings: []
-  m_ExposedReferences:
-    m_References: []
 --- !u!1001 &1607652417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1023,6 +1001,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6292459471679100632, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7377846192015393789, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1470,10 +1452,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3837415721953670591, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1020474785}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
 --- !u!1001 &3665716385450290937
 PrefabInstance:

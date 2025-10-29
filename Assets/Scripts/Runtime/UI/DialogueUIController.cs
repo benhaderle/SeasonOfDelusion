@@ -57,7 +57,7 @@ public class DialogueUIController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && dialogueRunner.IsDialogueRunning)
         {
-            dialogueRunner.Stop();
+            ((BHDialogueView)dialogueRunner.dialogueViews[0]).SkipToOptions();
         }
     }
     #endif

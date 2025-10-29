@@ -387,6 +387,22 @@ public class BHDialogueView : DialogueViewBase
         UserRequestedViewAdvancement();
     }
 
+    public void SkipToOptions()
+    {
+        while (currentLine != null)
+        {
+            string d = currentLine.RawText;
+            if (currentLine.Metadata != null && currentLine.Metadata.Length > 0)
+            {
+                foreach (string s in currentLine.Metadata)
+                {
+                    d += $" \"{s}\"";
+                }
+            }
+            UserRequestedViewAdvancement();
+        }
+    }
+
     /// <inheritdoc />
     /// <remarks>
     /// If a line is still being shown dismisses it.
