@@ -5,11 +5,13 @@ using UnityEngine.Events;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
+using UnityEngine.Playables;
 
 public class LevelUpModalController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private PlayableDirector playableDirector;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI preAerobicText;
@@ -64,6 +66,8 @@ public class LevelUpModalController : MonoBehaviour
 
         runnerUpdateRecords = context.runnerUpdateRecords;
         SetModalValues(0);
+
+        playableDirector.Play();
     }
 
     private void SetModalValues(int newRunnerIndex)

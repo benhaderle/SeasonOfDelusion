@@ -16,7 +16,6 @@ public class StatChangeEffectController : MonoBehaviour
     private IEnumerator toggleRoutine;
     private IEnumerator effectRoutine;
 
-
     private void Awake()
     {
         effectTextPool.Initialize();

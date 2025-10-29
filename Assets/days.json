@@ -29,31 +29,6 @@
     "days": 
     [
         {
-            "date": "8/15/12",
-            "events":[
-                {
-                    "name": "PREDAYCUTSCENE",
-                    "type": "Cutscene",
-                    "timeHours": 14,
-                    "timeMinutes": 20,
-                    "cutsceneID": "Preday"
-                },
-                {
-                    "name": "DIALOGUE",
-                    "type": "Dialogue",
-                    "timeHours": 14,
-                    "timeMinutes": 20,
-                    "dialogueID": "Day3Pre"
-                },
-                {
-                    "name": "NORMALPRACTICE",
-                    "type": "Practice",
-                    "timeHours": 14,
-                    "timeMinutes": 30
-                }
-            ]
-        },
-        {
             "date": "8/13/12",
             "events":[
                 {
