@@ -2564,7 +2564,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7352268394187697349}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -2629,6 +2629,7 @@ MonoBehaviour:
   runnerSimulationCardParent: {fileID: 1751274852359225162}
   lightBackgroundColor: {r: 0.94117653, g: 0.90196085, b: 0.63529414, a: 1}
   darkBackgroundColor: {r: 0.8, g: 0.7666667, b: 0.54, a: 1}
+  statusTextUpdateTime: 1
   levelUpAnimationSpeed: 1
   continueButtonContainer: {fileID: 5784892479986203575}
 --- !u!1 &8756621225486851858
@@ -2679,6 +2680,38 @@ PrefabInstance:
     - target: {fileID: 2834254978053280640, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
       propertyPath: m_Name
       value: ElevationView
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -225
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 325
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006522485599361958, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 5279023766141673271, guid: 1a2b3a4f351fc4f86af117a94fd8df23, type: 3}
       propertyPath: m_Pivot.x
