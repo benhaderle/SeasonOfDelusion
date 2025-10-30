@@ -269,6 +269,7 @@ public class RunView : MonoBehaviour
         runnerSimulationCardPool.ReturnAllToPool();
         activeRunnerCardDictionary.Clear();
         runnerSimulationCardParent.gameObject.SetActive(false);
+        elevationGraphView.CleanUp();
 
         for (int i = 0; i < SceneManager.loadedSceneCount; i++)
         {

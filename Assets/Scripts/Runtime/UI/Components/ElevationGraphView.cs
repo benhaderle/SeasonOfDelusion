@@ -17,6 +17,7 @@ public class ElevationGraphView : MonoBehaviour
     private void Awake()
     {
         runnerMarkerPoolContext.Initialize();
+        elevationLine.gameObject.SetActive(false);
     }
 
     public void SetElevationLine(AnimationCurve elevationCurve)
@@ -32,6 +33,7 @@ public class ElevationGraphView : MonoBehaviour
 
             elevationLine.AddPoint(position);
         }
+        elevationLine.gameObject.SetActive(true);
     }
 
     public void InitializeRunnerMarkers(List<Runner> runners)
@@ -44,6 +46,13 @@ public class ElevationGraphView : MonoBehaviour
             runnerMarker.anchoredPosition = GetCanvasPositionAlongLine(0);
             activeRunnerMarkerDictionary.Add(runners[i].Initials, runnerMarker.gameObject);
         }
+    }
+
+    public void CleanUp()
+    {
+        runnerMarkerPoolContext.ReturnAllToPool();
+        activeRunnerMarkerDictionary.Clear();
+        elevationLine.gameObject.SetActive(false);
     }
 
     public void UpdateRunners(ReadOnlyDictionary<Runner, RunnerState> runnerStateDictionary)

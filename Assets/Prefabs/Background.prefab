@@ -120,3 +120,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 1999808211069784708}
+  normalBackgroundColor: {r: 0.49019608, g: 0.08627451, b: 0.1882353, a: 1}
+  normalScrollSpeed: 0.25
+  dayTransitionGradient:
+    serializedVersion: 2
+    key0: {r: 0.49019608, g: 0.09019608, b: 0.1882353, a: 1}
+    key1: {r: 0.7924528, g: 0.37753648, b: 0.5733852, a: 1}
+    key2: {r: 0.3716969, g: 0.09019609, b: 0.49019608, a: 0}
+    key3: {r: 0.08704498, g: 0.071258925, b: 0.347, a: 0}
+    key4: {r: 0.089335516, g: 0.0922125, b: 0.35411474, a: 0}
+    key5: {r: 0.12599997, g: 0.42761463, b: 0.468, a: 0}
+    key6: {r: 0.4979405, g: 0.59599996, b: 0.20263997, a: 0}
+    key7: {r: 0.49019608, g: 0.09019608, b: 0.1882353, a: 0}
+    ctime0: 0
+    ctime1: 7517
+    ctime2: 13107
+    ctime3: 19661
+    ctime4: 32768
+    ctime5: 39321
+    ctime6: 49151
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  dayTransitionScrollSpeed: 8
+  dayTransitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dayTranstionLength: 5

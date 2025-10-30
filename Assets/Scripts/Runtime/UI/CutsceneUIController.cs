@@ -41,14 +41,12 @@ public class CutsceneUIController : MonoBehaviour
     {
         toggleEvent.AddListener(OnToggle);
         startCutsceneEvent.AddListener(OnStartCutscene);
-        SimulationModel.endDayEvent.AddListener(OnEndDay);
     }
 
     private void OnDisable()
     {
         toggleEvent.RemoveListener(OnToggle);
         startCutsceneEvent.RemoveListener(OnStartCutscene);
-        SimulationModel.endDayEvent.RemoveListener(OnEndDay);
     }
 
     private void OnToggle(bool active)
@@ -79,14 +77,6 @@ public class CutsceneUIController : MonoBehaviour
         {
             activeSceneIndex = (int)cutscene.scene;
             SceneManager.LoadSceneAsync(activeSceneIndex, LoadSceneMode.Additive);
-        }
-    }
-
-    private void OnEndDay(SimulationModel.EndDayEvent.Context context)
-    {
-        if (activeSceneIndex != -1)
-        {
-            SceneManager.UnloadSceneAsync(activeSceneIndex);
         }
     }
 

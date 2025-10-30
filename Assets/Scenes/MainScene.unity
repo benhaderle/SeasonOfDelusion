@@ -747,6 +747,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4764519314065263625, guid: 805b25be66f164567af00bf85223ec5f, type: 3}
+      propertyPath: dayTranstionLength
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6141058921768590062, guid: 805b25be66f164567af00bf85223ec5f, type: 3}
       propertyPath: m_Name
       value: Background
@@ -999,10 +1003,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5980998905081534396, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6292459471679100632, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7377846192015393789, guid: e171b6b78c8be4e6ca0c7551af199d7b, type: 3}

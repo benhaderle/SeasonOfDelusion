@@ -61,6 +61,7 @@ public class SimulationModel : Singleton<SimulationModel>
         RunView.postRunContinueButtonPressedEvent.AddListener(OnPostRunContinueButtonPressed);
         WorkoutView.postWorkoutContinueButtonPressedEvent.AddListener(OnPostWorkoutContinueButtonPressed);
         RaceResultsView.postRaceContinueButtonPressedEvent.AddListener(OnPostRaceContinueButtonPressed);
+        BackgroundController.dayTransitionEndedEvent.AddListener(OnDayTransitionEnded);
     }
 
     private void OnDisable()
@@ -71,6 +72,7 @@ public class SimulationModel : Singleton<SimulationModel>
         RunView.postRunContinueButtonPressedEvent.RemoveListener(OnPostRunContinueButtonPressed);
         WorkoutView.postWorkoutContinueButtonPressedEvent.RemoveListener(OnPostWorkoutContinueButtonPressed);
         RaceResultsView.postRaceContinueButtonPressedEvent.RemoveListener(OnPostRaceContinueButtonPressed);
+        BackgroundController.dayTransitionEndedEvent.RemoveListener(OnDayTransitionEnded);
     }
 
     private void Start()
@@ -88,12 +90,6 @@ public class SimulationModel : Singleton<SimulationModel>
         StartDay(dayIndex);
 
         SaveDataLoadedEvent.Instance.RemoveListener(OnSaveDataLoaded);
-    }
-
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
-    {
-        StartDay(dayIndex);
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnCutsceneEnded(CutsceneController.CutsceneEndedEvent.Context context)
@@ -128,8 +124,15 @@ public class SimulationModel : Singleton<SimulationModel>
         LoadNextEventOrAdvanceDay();
     }
 
+    private void OnDayTransitionEnded()
+    {
+        StartDay(dayIndex);
+    }
+    
     private void StartDay(int index)
     {
+        HeaderController.toggleEvent.Invoke(true);
+        
         dayIndex = index;
         eventIndex = 0;
 
@@ -229,11 +232,6 @@ public class SimulationModel : Singleton<SimulationModel>
         BackgroundController.toggleEvent.Invoke(true);   
     }
 
-    private void OnMapSceneLoaded()
-    {
-        
-    }
-
     private void LoadWorkoutEvent(DayEvent workoutEvent)
     {
         WorkoutSelectionUIController.toggleEvent.Invoke(true);
@@ -251,14 +249,12 @@ public class SimulationModel : Singleton<SimulationModel>
         BackgroundController.toggleEvent.Invoke(true);
     }
 
-    public void AdvanceDay()
+    private void AdvanceDay()
     {
         endDayEvent.Invoke(new EndDayEvent.Context());
+        HeaderController.toggleEvent.Invoke(false);
 
         dayIndex++;
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public string GetDialogueForCurrentEvent()
