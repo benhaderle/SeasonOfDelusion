@@ -28,6 +28,8 @@ public class Runner
     public string Initials => $"{FirstName[0]}{LastName[0]}";
     public string TeamName => runnerSaveData.data.teamName;
 
+    private Sprite[] characterSprites;
+
     public int level
     {
         get => runnerSaveData.data.level;
@@ -88,7 +90,7 @@ public class Runner
     // Variables used when leveling up
     #region Improvement Variables
     private float vo2ImprovementMagnitude => runnerSaveData.data.vo2ImprovementMagnitude;
-    private float strengthImprovementMagnitude=> runnerSaveData.data.strengthImprovementMagnitude;
+    private float strengthImprovementMagnitude => runnerSaveData.data.strengthImprovementMagnitude;
     #endregion
 
     // Statuses can change at anytime and are more day to day
@@ -150,6 +152,7 @@ public class Runner
     {
         this.variables = variables;
         runnerSaveData = initializationSO.runnerSaveData;
+        characterSprites = initializationSO.characterSprites;
 
         if (runnerSaveData == null)
         {
@@ -454,6 +457,22 @@ public class Runner
     {
         // 10 is the amount of calories burned per minute at 70% of VO2Max
         return runVO2 / (currentVO2Max * .7f) * timeInMinutes * 10f;
+    }
+
+    public int GetCurrentLevelExperienceThreshold()
+    {
+        return variables.levelExperienceThresholds[level - 1];
+    }
+
+    public Sprite GetCurrentConfidenceSprite()
+    {
+        // TODO: we just return the first sprite for now, but this should return the appropriate sprite when I have them made up
+        if (characterSprites != null)
+        {
+            return characterSprites[0];
+        }
+
+        return null;
     }
 
     #endregion

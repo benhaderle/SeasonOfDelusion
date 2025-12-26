@@ -15,6 +15,8 @@ MonoBehaviour:
   firstName: Ryan
   lastName: Walker
   level: 1
+  characterSprites:
+  - {fileID: 3834598072086167891, guid: 4a63a843e272444a8909771b2157e2a1, type: 3}
   runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
   initialVO2Max: 50
   vo2ImprovementMagnitude: 0.02
@@ -23,4 +25,5 @@ MonoBehaviour:
   initialForm: 50
   initialGrit: 1
   initialRecovery: 47
+  initialAcademics: 0
   initialConfidence: 0

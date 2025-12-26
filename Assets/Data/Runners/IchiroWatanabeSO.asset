@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e62bc06e503646f3990522323903c99, type: 3}
-  m_Name: ClarkFasterSO
+  m_Name: IchiroWatanabeSO
   m_EditorClassIdentifier: 
-  firstName: Clark
-  lastName: Faster
+  firstName: Ichiro
+  lastName: Watanabe
   level: 1
-  characterSprites:
-  - {fileID: 21300000, guid: e3d9f360857de475e94ee252cc333364, type: 3}
-  runnerSaveData: {fileID: 11400000, guid: 863963b1223f448aead45125422c3dd4, type: 2}
-  initialVO2Max: 52
-  vo2ImprovementMagnitude: 0.025
+  runnerSaveData: {fileID: 11400000, guid: 0f5cbab1f51954cb3ab03a6b8d44f671, type: 2}
+  initialVO2Max: 50
+  vo2ImprovementMagnitude: 0.021
   initialStrength: 30
-  strengthImprovementMagnitude: 0.07
-  initialForm: 50
+  strengthImprovementMagnitude: 0.06
+  initialForm: 40
   initialGrit: 1
-  initialRecovery: 55
+  initialRecovery: 62
   initialAcademics: 0
-  initialConfidence: -0.5
+  initialConfidence: 0.5

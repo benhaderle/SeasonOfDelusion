@@ -1,0 +1,34 @@
+﻿title: Day10RecruitingEventDialogue
+tags:
+---
+Coach: Thanks for coming you guys.
+Rico: No problem boss.
+James: So uh, how's this gonna go? I just showed up when I was a freshman, there wasn't any recruiting event.
+Coach: Well I think Ms. Edwards will say something, then people will circulate around the tables and we'll get to pitch them.
+Coach: Looks like she's starting now.
+Ms. Edwards: Hi everyone, thanks for coming. Athletics are so important to this school and this community so I'm thrilled to see all the new faces here today to continue on the fields, courts, and pools.
+Rico: She forgot the track...
+Ms. Edwards: I'll keep it brief, but I want to thank you all for showing up and dedicating yourself to excellence. Please go find a table and team that interests you.
+Pat: Hey this is cross country right?
+James: Yeah! I'm James, a sophomore on the team. This is Rico and this is our coach.
+Pat: I'm Pat. I just moved to town from further up the coast. I ran in middle school.
+James: Nice! We definitely need more bodies out there. What were your times?
+Pat: 5:08 in the mile and 2:25 in the 800.
+Coach: Well we can work with that!! Practice is everyday 20 minutes after school gets out. Come by tomorrow.
+Pat: Sweet! I'll see ya then.
+<<AddRunnerToTeam "Pat Pickle">>
+Ichiro: Hi. Runners?
+Rico: Yeah boss. I'm Rico, what's your name?
+Ichiro: Ichiro.
+Rico: Nice dude. So you looking to run?
+Ichiro: I run.
+Rico: Sick, you're in the right place.
+Ichiro: I run.
+Rico: Uhhhhh
+Coach: Oh! Ms. Edwards told me about this kid. His family just moved from Tokyo.
+Coach: Ichiro, practice is everyday at 2:20. We'd lvoe to have you.
+Ichiro: Practice 2:20.
+Coach: Exactly! See you then.
+<<AddRunnerToTeam "Ichiro Watanabe">>
+Coach: Well that was a pretty good haul boys. Excited to get to work with them tomorrow. See you!
+===

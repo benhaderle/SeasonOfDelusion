@@ -9,18 +9,35 @@ using UnityEngine.UI;
 /// </summary> 
 public class RunnerRosterCard : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private RunnerRosterCardStat vo2MaxStat;
-    [SerializeField] private RunnerRosterCardStat strengthStat;
-    [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image portraitImage;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image experienceBarFill;
+    [SerializeField] private TextMeshProUGUI experienceText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Image thirstSprite;
+    [SerializeField] private Image hungerSprite;
+    [SerializeField] private Image sleepSprite;
+    [SerializeField] private Image sorenessSprite;
+    [SerializeField] private Image academicSprite;
 
     public void Setup(Runner runner, Color backgroundColor)
     {
-        nameText.text = runner.Name;
-        vo2MaxStat.SetValueText(Mathf.FloorToInt(runner.currentVO2Max * 10).ToString());
-        strengthStat.SetValueText(Mathf.FloorToInt(runner.currentStrength * 10).ToString());
-        statusText.text = RunUtility.SorenessToStatusString(runner.longTermSoreness);
+        portraitImage.sprite = runner.GetCurrentConfidenceSprite();
+
+        nameText.text = $"{runner.FirstName}\n{runner.LastName}";
+
+        experienceBarFill.fillAmount = (float)runner.experience / runner.GetCurrentLevelExperienceThreshold();
+        experienceText.text = $"{runner.experience} / {runner.GetCurrentLevelExperienceThreshold()}";
+
+        levelText.text = $"LV {runner.level}";
+
         backgroundImage.color = backgroundColor;
+
+        thirstSprite.gameObject.SetActive(false);
+        hungerSprite.gameObject.SetActive(false);
+        sleepSprite.gameObject.SetActive(false);
+        sorenessSprite.gameObject.SetActive(false);
+        academicSprite.gameObject.SetActive(false);
     }
 }

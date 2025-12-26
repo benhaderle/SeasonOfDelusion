@@ -51,6 +51,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c2adde3b8151c4bd2b24d145945e302c, type: 2}
   - {fileID: 11400000, guid: c00bf1e71e55344e6a4f43325a608a8f, type: 2}
   - {fileID: 11400000, guid: 1b58b5c74ac944784bdbad971451ba86, type: 2}
+  - {fileID: 11400000, guid: 29dbe973a128c49828388a409c8b9165, type: 2}
+  - {fileID: 11400000, guid: 41e8ea8cb21004f3f9c1615b32db5c54, type: 2}
   playerTeam:
     saveData: {fileID: 11400000, guid: e851489b0911a4d2e854b080d08fbf6f, type: 2}
     name: Los Gatos

@@ -15,6 +15,8 @@ MonoBehaviour:
   firstName: Rico
   lastName: Ready
   level: 1
+  characterSprites:
+  - {fileID: -4505708207287690633, guid: 8e406a42af8914185be729b4eff0e036, type: 3}
   runnerSaveData: {fileID: 11400000, guid: 512b5cc11ef904d818d154419d6d4996, type: 2}
   initialVO2Max: 48
   vo2ImprovementMagnitude: 0.02
@@ -23,4 +25,5 @@ MonoBehaviour:
   initialForm: 40
   initialGrit: 1
   initialRecovery: 40
+  initialAcademics: 0
   initialConfidence: 1

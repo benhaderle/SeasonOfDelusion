@@ -24,6 +24,18 @@
                     "timeMinutes": 30
                 }
             ]
+        },
+        {
+            "date": "1/1/11",
+            "events":[
+                {
+                    "name": "DAY10RECRUITING",
+                    "type": "Dialogue",
+                    "timeHours": 17,
+                    "timeMinutes": 0,
+                    "dialogueID": "Day10RecruitingEvent"
+                }
+            ]
         }
     ],
     "days": 
@@ -252,6 +264,13 @@
                     "type": "Practice",
                     "timeHours": 14,
                     "timeMinutes": 30
+                },
+                {
+                    "name": "DAY10RECRUITING",
+                    "type": "Dialogue",
+                    "timeHours": 17,
+                    "timeMinutes": 0,
+                    "dialogueID": "Day10RecruitingEvent"
                 }
             ]
         },

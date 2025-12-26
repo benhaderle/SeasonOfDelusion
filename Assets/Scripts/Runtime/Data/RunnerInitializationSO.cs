@@ -8,6 +8,7 @@ public class RunnerInitializationSO : ScriptableObject
     public string firstName;
     public  string lastName;
     public int level = 1;
+    public Sprite[] characterSprites;
     public RunnerSaveDataSO runnerSaveData;
     public float initialVO2Max = 50;
     public float vo2ImprovementMagnitude = .15f;
