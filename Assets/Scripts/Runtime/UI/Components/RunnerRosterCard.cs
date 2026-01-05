@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 /// <summary>
 /// One of the UI cards representing one Runner on the Roster screen
 /// </summary> 
 public class RunnerRosterCard : MonoBehaviour
 {
+    [SerializeField] private Button button;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Image portraitImage;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -21,8 +23,12 @@ public class RunnerRosterCard : MonoBehaviour
     [SerializeField] private Image sorenessSprite;
     [SerializeField] private Image academicSprite;
 
-    public void Setup(Runner runner, Color backgroundColor)
+
+    public void Setup(Runner runner, Color backgroundColor, UnityAction buttonAction)
     {
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(buttonAction);
+
         portraitImage.sprite = runner.GetCurrentConfidenceSprite();
 
         nameText.text = $"{runner.FirstName}\n{runner.LastName}";

@@ -28,7 +28,7 @@ public class RunnerSaveDataSO : ScriptableObject
         data.strengthImprovementMagnitude = initializationSO.strengthImprovementMagnitude;
 
         data.hydrationStatus = 4f;
-        data.longTermCalories = 100000;
+        data.longTermCalories = Runner.INIT_LONG_TERM_CALORIES;
         data.shortTermCalories = maxShortTermCalories;
         data.longTermSoreness = 0;
         data.sleepStatus = 10;

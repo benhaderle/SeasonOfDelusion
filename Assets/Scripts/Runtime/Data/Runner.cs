@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CreateNeptune;
+using Unity.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +17,7 @@ public class Runner
     private const float MAX_SLEEP = 10;
     private const float MIN_SLEEP = 0;
     private const float MAX_SHORT_TERM_CALORIES = 3000;
+    public static readonly float INIT_LONG_TERM_CALORIES = 10000;
     /// <summary>
     /// An SO with shared variables between all runners
     /// </summary>
@@ -100,10 +102,10 @@ public class Runner
         get => runnerSaveData.data.weight;
         private set => runnerSaveData.data.weight = value;
     }
-    private float sleepStatus
+    public float sleepStatus
     {
         get => runnerSaveData.data.sleepStatus;
-        set => runnerSaveData.data.sleepStatus = value;
+        private set => runnerSaveData.data.sleepStatus = value;
     }
     public float shortTermCalories
     {
@@ -115,10 +117,10 @@ public class Runner
         get => runnerSaveData.data.longTermCalories;
         private set => runnerSaveData.data.longTermCalories = value;
     }
-    private float hydrationStatus
+    public float hydrationStatus
     {
         get => runnerSaveData.data.hydrationStatus;
-        set => runnerSaveData.data.hydrationStatus = value;
+        private set => runnerSaveData.data.hydrationStatus = value;
     }
     public float longTermSoreness
     {
@@ -475,6 +477,28 @@ public class Runner
         return null;
     }
 
+    public float GetDisplayableCurrentSoreness()
+    {
+        // go look at the graph on desmos for what the shape of the curve looks like
+        // but the general idea is that we want to diplay a number between 0 and 10
+        // that gets exponentially bigger the more sore you are
+        // this is calibrated around 500 being the max soreness
+        return Mathf.Pow(longTermSoreness, 1.00318f) - longTermSoreness;
+    }
+
+    public float GetDisplayableCurrentSleep()
+    {
+        return 10 * (1f - Mathf.InverseLerp(MIN_SLEEP, MAX_SLEEP, sleepStatus));
+    }
+    public float GetDisplayableCurrentNutrition()
+    {
+        return 10f - (shortTermCalories / MAX_SHORT_TERM_CALORIES * 2f) - (longTermCalories / INIT_LONG_TERM_CALORIES * 8f);
+    }
+
+    public float GetDisplayableCurrentHydration()
+    {
+        return Mathf.Min(Mathf.Pow(hydrationStatus, -2), 10f);
+    }
     #endregion
 }
 

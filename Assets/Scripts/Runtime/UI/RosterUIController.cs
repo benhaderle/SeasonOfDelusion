@@ -4,6 +4,7 @@ using UnityEngine;
 using CreateNeptune;
 using UnityEngine.Events;
 using System;
+using UnityEngine.UI;
 
 /// <summary>
 /// Controls the roster screen.
@@ -12,6 +13,8 @@ public class RosterUIController : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RosterRunnerPage rosterRunnerPage;
+    [SerializeField] private GameObject rosterListPage;
     [SerializeField] private PoolContext runnerCardPool;
     [SerializeField] private Color lightCardColor;
     [SerializeField] private Color darkCardColor;
@@ -28,6 +31,7 @@ public class RosterUIController : MonoBehaviour
     {
         runnerCardPool.Initialize();
         OnToggle(false, null);
+        rosterRunnerPage.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -51,7 +55,11 @@ public class RosterUIController : MonoBehaviour
             for (int i = 0; i < TeamModel.Instance.PlayerRunners.Count; i++)
             {
                 RunnerRosterCard card = runnerCardPool.GetPooledObject<RunnerRosterCard>();
-                card.Setup(TeamModel.Instance.PlayerRunners[i], i % 2 == 0 ? lightCardColor : darkCardColor);
+                Runner r = TeamModel.Instance.PlayerRunners[i];
+                card.Setup(r, i % 2 == 0 ? lightCardColor : darkCardColor, () =>
+                {
+                    ShowRosterRunnerPage(r);
+                });
             }
             CNExtensions.SafeStartCoroutine(this, ref toggleRoutine, CNAction.FadeObject(canvas, GameManager.Instance.DefaultUIAnimationTime, canvasGroup.alpha, 1, CNEase.EaseType.Linear, true, false, true));
         }
@@ -70,14 +78,31 @@ public class RosterUIController : MonoBehaviour
     #endregion
 
     #region Button Callbacks
-    
+
     public void OnBackButton()
     {
-        if (onBackButtonAction != null)
+        if (rosterRunnerPage.gameObject.activeSelf)
         {
-            onBackButtonAction();
+            rosterRunnerPage.gameObject.SetActive(false);
+            rosterListPage.SetActive(true);
         }
-        OnToggle(false, null);
+        else
+        {
+            if (onBackButtonAction != null)
+            {
+                onBackButtonAction();
+            }
+            OnToggle(false, null);
+        }
+    }
+    
+    private void ShowRosterRunnerPage(Runner r)
+    {
+        rosterRunnerPage.gameObject.SetActive(true);
+        rosterListPage.SetActive(false);
+
+        rosterRunnerPage.SetUp(r);
+        
     }
 
     #endregion
