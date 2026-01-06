@@ -1096,6 +1096,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.00021362305
       objectReference: {fileID: 0}
+    - target: {fileID: 9216292043438711486, guid: aaacf23ef4f7c4a47b7796f36e89fcc9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1601,9 +1605,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3473085971386938332, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473085971386938332, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473085971386938332, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473085971386938332, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473085971386938332, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3837415721953670591, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
       propertyPath: m_Name
       value: LevelUpModalController
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436171618132962543, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436171618132962543, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436171618132962543, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436171618132962543, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436171618132962543, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5596448180932006359, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1622,6 +1666,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5596448180932006359, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114908188984043282, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114908188984043282, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114908188984043282, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114908188984043282, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114908188984043282, guid: cb0b9a61e5c544cb79b3bd5cd2c173ca, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -2009,26 +2073,6 @@ PrefabInstance:
     - target: {fileID: 7878190080861268900, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
       propertyPath: m_Name
       value: NewTeammateModalController
-      objectReference: {fileID: 0}
-    - target: {fileID: 7946078021995023523, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7946078021995023523, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7946078021995023523, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7946078021995023523, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7946078021995023523, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8475472512587924633, guid: 1886fd6edef864d1fb0547ee38818c76, type: 3}
       propertyPath: m_AnchorMax.y
