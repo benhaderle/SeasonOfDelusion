@@ -34,7 +34,6 @@ public class RunnerSaveDataSO : ScriptableObject
         data.sleepStatus = 10;
         data.confidence = initializationSO.initialConfidence;
     }
-
 }
 
 [Serializable]
