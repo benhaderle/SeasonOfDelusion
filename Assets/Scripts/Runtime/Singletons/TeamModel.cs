@@ -144,4 +144,9 @@ public class TeamModel : Singleton<TeamModel>
             statChange = changeAmount
         });
     } 
+
+    public Sprite GetPortrait(string name, string tag = "")
+    {
+        return PlayerRunners.First(r => r.FirstName == name)?.GetCurrentConfidenceSprite();
+    }
 }

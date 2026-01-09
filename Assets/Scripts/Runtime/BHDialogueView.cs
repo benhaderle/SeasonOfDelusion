@@ -72,21 +72,6 @@ public class BHDialogueView : DialogueViewBase
     /// </summary>
     public TextMeshProUGUI lineText = null;
 
-    /// <summary>
-    /// Controls whether the <see cref="lineText"/> object will show the
-    /// character name present in the line or not.
-    /// </summary>
-    /// <remarks>
-    /// <para style="note">This value is only used if <see
-    /// cref="characterNameText"/> is <see langword="null"/>.</para>
-    /// <para>If this value is <see langword="true"/>, any character names
-    /// present in a line will be shown in the <see cref="lineText"/>
-    /// object.</para>
-    /// <para>If this value is <see langword="false"/>, character names will
-    /// not be shown in the <see cref="lineText"/> object.</para>
-    /// </remarks>
-    [UnityEngine.Serialization.FormerlySerializedAs("showCharacterName")]
-    public bool showCharacterNameInLineView = true;
 
     /// <summary>
     /// The <see cref="TextMeshProUGUI"/> object that displays the character
@@ -97,6 +82,7 @@ public class BHDialogueView : DialogueViewBase
     /// a character name, this object will be left blank.
     /// </remarks>
     public TextMeshProUGUI characterNameText = null;
+    public Image characterPortraitImage = null;
 
     /// <summary>
     /// The gameobject that holds the <see cref="characterNameText"/> textfield.
@@ -139,6 +125,7 @@ public class BHDialogueView : DialogueViewBase
     [SerializeField] private TextMeshProUGUI lastLineText;
     [SerializeField] private GameObject lastLineContainer;
     [SerializeField] private TextMeshProUGUI lastLineCharacterNameText;
+    [SerializeField] private Image lastLineCharacterPortraitImage;
     [SerializeField] private GameObject lastLineCharacterNameContainer;
 
     // A cached pool of OptionView objects so that we can reuse them
@@ -205,27 +192,11 @@ public class BHDialogueView : DialogueViewBase
         lineText.gameObject.SetActive(true);
         linesCanvasGroup.gameObject.SetActive(true);
 
-        int length;
-
-        if (characterNameText == null)
-        {
-            if (showCharacterNameInLineView)
-            {
-                lineText.text = dialogueLine.Text.Text;
-                length = dialogueLine.Text.Text.Length;
-            }
-            else
-            {
-                lineText.text = dialogueLine.TextWithoutCharacterName.Text;
-                length = dialogueLine.TextWithoutCharacterName.Text.Length;
-            }
-        }
-        else
-        {
-            characterNameText.text = dialogueLine.CharacterName;
-            lineText.text = dialogueLine.TextWithoutCharacterName.Text;
-            length = dialogueLine.TextWithoutCharacterName.Text.Length;
-        }
+        characterNameText.text = dialogueLine.CharacterName;
+        characterPortraitImage.sprite = DialoguePortraitModel.Instance.GetPortrait(dialogueLine.CharacterName);
+        lineText.text = dialogueLine.TextWithoutCharacterName.Text;
+        int length = dialogueLine.TextWithoutCharacterName.Text.Length;
+        
 
         // Show the entire line's text immediately.
         lineText.maxVisibleCharacters = length;
@@ -265,32 +236,20 @@ public class BHDialogueView : DialogueViewBase
             }
 
             Yarn.Markup.MarkupParseResult text = dialogueLine.TextWithoutCharacterName;
-            if (characterNameContainer != null && characterNameText != null)
+            // we are set up to show a character name, but there isn't one
+            // so just hide the container
+            if (string.IsNullOrWhiteSpace(dialogueLine.CharacterName))
             {
-                // we are set up to show a character name, but there isn't one
-                // so just hide the container
-                if (string.IsNullOrWhiteSpace(dialogueLine.CharacterName))
-                {
-                    characterNameContainer.SetActive(false);
-                }
-                else
-                {
-                    // we have a character name text view, show the character name
-                    characterNameText.text = dialogueLine.CharacterName;
-                    characterNameContainer.SetActive(true);
-                }
+                characterNameContainer.SetActive(false);
             }
             else
             {
-                // We don't have a character name text view. Should we show
-                // the character name in the main text view?
-                if (showCharacterNameInLineView)
-                {
-                    // Yep! Show the entire text.
-                    text = dialogueLine.Text;
-                }
+                // we have a character name text view, show the character name
+                characterNameText.text = dialogueLine.CharacterName;
+                characterPortraitImage.sprite = DialoguePortraitModel.Instance.GetPortrait(dialogueLine.CharacterName);
+                characterNameContainer.SetActive(true);
             }
-
+            
             // if we have a palette file need to add those colours into the text
             if (palette != null)
             {
@@ -573,6 +532,7 @@ public class BHDialogueView : DialogueViewBase
                         line = lastSeenLine.TextWithoutCharacterName;
                         lastLineCharacterNameContainer.SetActive(true);
                         lastLineCharacterNameText.text = lastSeenLine.CharacterName;
+                        lastLineCharacterPortraitImage.sprite = DialoguePortraitModel.Instance.GetPortrait(lastSeenLine.CharacterName);
                     }
                 }
 
