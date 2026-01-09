@@ -58,6 +58,9 @@ public class RunnerSaveData
 
     public float vo2ImprovementMagnitude;
     public float strengthImprovementMagnitude;
+    public float formImprovementMagnitude;
+    public float gritImprovementMagnitude;
+    public float recoveryImprovementMagnitude;
 
     public float sleepStatus;
     public float hydrationStatus;

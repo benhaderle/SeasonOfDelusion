@@ -93,6 +93,9 @@ public class Runner
     #region Improvement Variables
     private float vo2ImprovementMagnitude => runnerSaveData.data.vo2ImprovementMagnitude;
     private float strengthImprovementMagnitude => runnerSaveData.data.strengthImprovementMagnitude;
+    private float formImprovementMagnitude => runnerSaveData.data.strengthImprovementMagnitude;
+    private float gritImprovementMagnitude => runnerSaveData.data.strengthImprovementMagnitude;
+    private float recoveryImprovementMagnitude => runnerSaveData.data.strengthImprovementMagnitude;
     #endregion
 
     // Statuses can change at anytime and are more day to day
@@ -313,17 +316,23 @@ public class Runner
         // register the old values so we can show how much they changed
         float oldVO2 = currentVO2Max;
         float oldStrength = currentStrength;
+        float oldForm = currentForm;
+        float oldGrit = currentGrit;
+        float oldRecovery = currentRecovery;
 
         float normalizedLevel = Mathf.InverseLerp(1, 20, level);
 
         // update our stats
         currentVO2Max *= 1 + (variables.vo2ImprovementCurve.Evaluate(normalizedLevel) * vo2ImprovementMagnitude);
         currentStrength *= 1 + (variables.strengthImprovementCurve.Evaluate(normalizedLevel) * strengthImprovementMagnitude);
+        currentForm *= 1 + (variables.formImprovementCurve.Evaluate(normalizedLevel) * formImprovementMagnitude);
+        currentGrit *= 1 + (variables.gritImprovementCurve.Evaluate(normalizedLevel) * gritImprovementMagnitude);
+        currentRecovery *= 1 + (variables.recoveryImprovementCurve.Evaluate(normalizedLevel) * recoveryImprovementMagnitude);
 
         experience -= variables.levelExperienceThresholds[level - 1];
         level++;
 
-        Debug.Log($"LEVEL UP! Name: {Name}\t Level {level}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\tShort Term Calories: {shortTermCalories}\t Long Term Calories: {longTermCalories}");
+        Debug.Log($"LEVEL UP! Name: {Name}\t Level {level}\tOld VO2: {oldVO2}\tNew VO2: {currentVO2Max}\tOld Strength: {oldStrength}\tNew Strength: {currentStrength}\t");
 
         return new LevelUpRecord
         {
@@ -332,7 +341,13 @@ public class Runner
             oldVO2 = oldVO2,
             newVO2 = currentVO2Max,
             oldStrength = oldStrength,
-            newStrength = currentStrength
+            newStrength = currentStrength,
+            oldForm = oldForm,
+            newForm = currentForm,
+            oldGrit = oldGrit,
+            newGrit = currentGrit,
+            oldRecovery = oldRecovery,
+            newRecovery = currentRecovery 
         };
     }
 
@@ -520,6 +535,12 @@ public struct LevelUpRecord
     public float newVO2;
     public float oldStrength;
     public float newStrength;
+    public float oldForm;
+    public float newForm;
+    public float oldGrit;
+    public float newGrit;
+    public float oldRecovery;
+    public float newRecovery;
 }
 
 public struct StatUpRecord

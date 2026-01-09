@@ -18,6 +18,12 @@ public class LevelUpModalController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI postAerobicText;
     [SerializeField] private TextMeshProUGUI preStrengthText;
     [SerializeField] private TextMeshProUGUI postStrengthText;
+    [SerializeField] private TextMeshProUGUI preFormText;
+    [SerializeField] private TextMeshProUGUI postFormText;
+    [SerializeField] private TextMeshProUGUI preGritText;
+    [SerializeField] private TextMeshProUGUI postGritText;
+    [SerializeField] private TextMeshProUGUI preRecoveryText;
+    [SerializeField] private TextMeshProUGUI postRecoveryText;
     private int runnerIndex;
     private List<KeyValuePair<Runner, RunnerUpdateRecord>> runnerUpdateRecords;
     private IEnumerator toggleRoutine;
@@ -82,6 +88,12 @@ public class LevelUpModalController : MonoBehaviour
         postAerobicText.text = r.newVO2.ToString("0.0");
         preStrengthText.text = r.oldStrength.ToString("0.0");
         postStrengthText.text = r.newStrength.ToString("0.0");
+        preFormText.text = r.oldForm.ToString("0.0");
+        postFormText.text = r.newForm.ToString("0.0");
+        preGritText.text = r.oldGrit.ToString("0.0");
+        postGritText.text = r.newGrit.ToString("0.0");
+        preRecoveryText.text = r.oldRecovery.ToString("0.0");
+        postRecoveryText.text = r.newRecovery.ToString("0.0");
     }
 
     private void Toggle(bool active)

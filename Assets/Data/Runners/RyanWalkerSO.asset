@@ -16,14 +16,17 @@ MonoBehaviour:
   lastName: Walker
   level: 1
   characterSprites:
-  - {fileID: 3834598072086167891, guid: 4a63a843e272444a8909771b2157e2a1, type: 3}
+  - {fileID: 21300000, guid: e2a23393db90342d99d038c927c65f48, type: 3}
   runnerSaveData: {fileID: 11400000, guid: 96c2a4ca5c88c4ca788a2dc4a81cbe98, type: 2}
   initialVO2Max: 50
   vo2ImprovementMagnitude: 0.02
   initialStrength: 35
   strengthImprovementMagnitude: 0.04
   initialForm: 50
+  formImprovementMagnitude: 0.075
   initialGrit: 1
+  gritImprovementMagnitude: 0.55
   initialRecovery: 47
+  recoveryImprovementMagnitude: 0.15
   initialAcademics: 0
   initialConfidence: 0

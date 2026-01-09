@@ -23,7 +23,10 @@ MonoBehaviour:
   initialStrength: 30
   strengthImprovementMagnitude: 0.07
   initialForm: 50
+  formImprovementMagnitude: 0.075
   initialGrit: 1
+  gritImprovementMagnitude: 0.55
   initialRecovery: 55
+  recoveryImprovementMagnitude: 0.15
   initialAcademics: 0
   initialConfidence: -0.5

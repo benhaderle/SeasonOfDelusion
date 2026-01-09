@@ -11,6 +11,9 @@ public class RunnerCalculationVariables : ScriptableObject
     public int[] levelExperienceThresholds;
     public AnimationCurve vo2ImprovementCurve;
     public AnimationCurve strengthImprovementCurve;
+    public AnimationCurve formImprovementCurve;
+    public AnimationCurve gritImprovementCurve;
+    public AnimationCurve recoveryImprovementCurve;
 
     [Header("Long Term Soreness Update Variables")]
     /// <summary>

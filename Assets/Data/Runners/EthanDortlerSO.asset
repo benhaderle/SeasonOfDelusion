@@ -15,12 +15,17 @@ MonoBehaviour:
   firstName: Ethan
   lastName: Dortler
   level: 1
+  characterSprites: []
   runnerSaveData: {fileID: 11400000, guid: c6760b2b834e749d28d41b2341946402, type: 2}
   initialVO2Max: 48
   vo2ImprovementMagnitude: 0.02
   initialStrength: 35
   strengthImprovementMagnitude: 0.02
   initialForm: 35
+  formImprovementMagnitude: 0.075
   initialGrit: 4
+  gritImprovementMagnitude: 0.55
   initialRecovery: 40
+  recoveryImprovementMagnitude: 0.15
+  initialAcademics: 0
   initialConfidence: -0.5
