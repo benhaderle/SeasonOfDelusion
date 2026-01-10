@@ -56,7 +56,6 @@ MonoBehaviour:
   typewriterAnimationSpeed: 50
   linesCanvasGroup: {fileID: 4124002446801597058}
   lineText: {fileID: 6695464646708286905}
-  showCharacterNameInLineView: 1
   characterNameText: {fileID: 4969904948263263585}
   characterPortraitImage: {fileID: 4739165934822434941}
   characterNameContainer: {fileID: 1812065303722000910}
@@ -549,7 +548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1390.1, y: 0}
+  m_AnchoredPosition: {x: 1390.1, y: -45}
   m_SizeDelta: {x: 1780.2, y: 571.26}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7772526526353997287
@@ -903,8 +902,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 234.84262, y: -10}
-  m_SizeDelta: {x: -509.6854, y: -10}
+  m_AnchoredPosition: {x: 234.84265, y: -45}
+  m_SizeDelta: {x: -509.6854, y: -44.99991}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4626487830118857576
 CanvasRenderer:

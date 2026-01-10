@@ -12,6 +12,7 @@ using System.Linq;
 public class RunnerSimulationCard : MonoBehaviour
 {
     [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image portraitImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI paceText;
     [SerializeField] private TextMeshProUGUI statusText;
@@ -21,9 +22,15 @@ public class RunnerSimulationCard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI experienceText;
     private IEnumerator postRunUpdateRoutine;
 
+    private void Awake()
+    {
+        experienceContainer.SetActive(false);
+    }
+
     public void Setup(Runner runner, Color backgroundColor)
     {
         nameText.text = runner.Name;
+        portraitImage.sprite = runner.GetCurrentConfidenceSprite();
         backgroundImage.color = backgroundColor;
         levelText.text = $"LV {runner.level}";
     }

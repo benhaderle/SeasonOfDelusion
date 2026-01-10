@@ -6,6 +6,7 @@ using CreateNeptune;
 using TMPro;
 using System.Linq;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class LevelUpModalController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class LevelUpModalController : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private PlayableDirector playableDirector;
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image runnnerPortrait;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI preAerobicText;
     [SerializeField] private TextMeshProUGUI postAerobicText;
@@ -81,6 +83,8 @@ public class LevelUpModalController : MonoBehaviour
         runnerIndex = newRunnerIndex;
 
         nameText.text = runnerUpdateRecords[runnerIndex].Key.Name;
+        runnnerPortrait.sprite = runnerUpdateRecords[runnerIndex].Key.GetCurrentConfidenceSprite();
+        
         LevelUpRecord r = runnerUpdateRecords[runnerIndex].Value.levelUpRecords.Last();
 
         levelText.text = $"LV {r.newLevel}";

@@ -6,6 +6,7 @@ using CreateNeptune;
 using TMPro;
 using System.Linq;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class NewTeammateModalController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class NewTeammateModalController : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private PlayableDirector playableDirector;
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image portraitImage;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI aerobicStatText;
     [SerializeField] private TextMeshProUGUI strengthStatText;
@@ -48,6 +50,7 @@ public class NewTeammateModalController : MonoBehaviour
 
         // set values
         nameText.text = context.runner.Name;
+        portraitImage.sprite = context.runner.GetCurrentConfidenceSprite();
         levelText.text = $"lv {context.runner.level}";
 
         aerobicStatText.text = context.runner.currentVO2Max.ToString("0.0");
