@@ -18,7 +18,7 @@ public class RunUtility
     /// </summary>
     /// <param name="o2Cost">in mL/kg/min</param>
     /// <returns>Speed in miles per sec</returns>
-    public static float CaclulateSpeedFromVDOT(float o2Cost, float grade)
+    public static float VDOTToSpeed(float o2Cost, float grade)
     {
         const float a = 0.000104f;
         const float b = 0.182258f;
@@ -27,7 +27,7 @@ public class RunUtility
         float four_a_c = 4 * a * c;
         const float two_a = 2 * a;
 
-        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f) * GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade);
+        return (-b + Mathf.Sqrt(b_squared - four_a_c)) / (two_a * METERS_PER_MILE * 60f) / GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class RunUtility
         const float b = 0.182258f;
         const float c = -4.6f;
 
-        speed = speed / GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade) * METERS_PER_MILE * 60f;
+        speed = speed * GameManager.Instance.GradeAdjustedPaceCurve.Evaluate(grade) * METERS_PER_MILE * 60f;
 
         return a * Mathf.Pow(speed, 2) + b * speed + c;
     }
@@ -106,18 +106,19 @@ public class RunUtility
             return state.desiredVO2;
         }
 
+        //TODO need to make this more responsive overall or just make it more responsive when the grade is going nuts! FIXME
         // std dev for the roll for how much pace will change in percent of current run VO2
         float paceChangeStdDev = .02f;
         // the base mean for the roll for how much pace will change in percent of current run VO2
         // example: paceMeanMagnitude = .02 and the roll comes up on the mean(disregarding other factors), pace will increase by 2% 
-        float paceChangeMeanMagnitude = .1f;
+        float paceChangeMeanMagnitude = .5f;
 
         // a number between 0 and 1 that shows how sore we are, 0 = not sore, 1 = most sore
         float normalizedSorenessFeel = Mathf.Pow(Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, state.shortTermSoreness + runner.longTermSoreness)), runner.currentGrit);
         // a smoothed number between -1 and 1 that represents the magnitude and direction of the soreness effect on pace
         // low numbers mean you can speed up and high numbers mean you gotta slow down
         float sorenessPaceChangeFactor = Mathf.Pow(Mathf.Lerp(-1, 1, normalizedSorenessFeel), 5);
-        float sorenessConfidenceModifier = runner.currentConfidence * .01f;
+        float sorenessConfidenceModifier = runner.currentConfidence * .1f;
         sorenessPaceChangeFactor -= sorenessConfidenceModifier;
 
         // number that represents the percentile of the last interval's VO2 usage
@@ -126,31 +127,31 @@ public class RunUtility
         float intervalVDOTPercent = lastIntervalData.vdot / runner.GetCurrentVDOTMax();
         // how far off the last interval was from coach's guidance in percent of VO2
         // low numbers mean you're slow and high numbers mean you're fast
-        float vo2PaceChangeFactor = intervalVDOTPercent - targetVDOTPercent;
-        float vo2ConfidenceModifier = runner.currentConfidence * .01f;
-        vo2PaceChangeFactor -= vo2ConfidenceModifier;
+        float vdotPaceChangeFactor = intervalVDOTPercent - targetVDOTPercent;
+        float vdotConfidenceModifier = runner.currentConfidence * .01f;
+        vdotPaceChangeFactor -= vdotConfidenceModifier;
 
         // these if statements check if there are extremes being hit with soreness and pace
         // if there are, then roll to change pace will be affected
         // if both of them are in the middle, then pace change will be somewhat random
         float paceChangeMean = 0;
         // if soreness is high and pace is not too slow, then slow down
-        if (sorenessPaceChangeFactor > .1f && vo2PaceChangeFactor > -.05f)
+        if (sorenessPaceChangeFactor > .1f && vdotPaceChangeFactor > -.05f)
         {
             // the mean here will be somewhere between -paceChangeMeanMagnitude and -.1 * paceChangeMeanMagnitude
             paceChangeMean = -sorenessPaceChangeFactor * paceChangeMeanMagnitude;
         }
         // if soreness is low and pace is not too fast, then speed up
-        else if (sorenessPaceChangeFactor < -.1f && vo2PaceChangeFactor < .05f)
+        else if (sorenessPaceChangeFactor < -.1f && vdotPaceChangeFactor < .05f)
         {
             // the mean here will be somewhere between 0 and ~.5 * paceChangeMeanMagnitude
-            paceChangeMean = (-vo2PaceChangeFactor + .05f) * paceChangeMeanMagnitude;
+            paceChangeMean = (-vdotPaceChangeFactor + .05f) * paceChangeMeanMagnitude;
         }
 
         // do the roll then adjust vo2
         float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
 
-        Debug.Log($"Runner:{runner.Name}\tTarget VDOT:{targetVDOTPercent}\tCurrent VDOT:{intervalVDOTPercent}\tNext VDOT:{(lastIntervalData.vdot + roll * runner.GetCurrentVDOTMax()) / runner.GetCurrentVDOTMax()}\tRoll:{roll}");
+        Debug.Log($"Runner:{runner.Name}\tSoreness Factor:{sorenessPaceChangeFactor}\tVDOT Factor:{vdotPaceChangeFactor}\tTarget VDOT:{targetVDOTPercent}\tCurrent VDOT:{intervalVDOTPercent}\tNext VDOT:{(lastIntervalData.vdot + roll * runner.GetCurrentVDOTMax()) / runner.GetCurrentVDOTMax()}\tRoll:{roll}");
 
         return (lastIntervalData.vdot + roll * runner.GetCurrentVDOTMax()) / lastIntervalData.economy;
     }
@@ -245,18 +246,18 @@ public class RunUtility
                 float simulationIntervalMilesPerSecond = simulationIntervalDistance / simulationIntervalTimeInSeconds;
 
                 grade = lineData.GetGrade(state.totalDistance, simulationIntervalDistance);
-                float simulationIntervalVO2 = SpeedToVDOT(simulationIntervalMilesPerSecond, grade);
+                float simulationIntervalVDOT = SpeedToVDOT(simulationIntervalMilesPerSecond, grade);
                 float simulationIntervalEconomy = runner.CalculateRunEconomy(state);
 
-                state.shortTermSoreness += runner.CalculateShortTermSoreness(simulationIntervalVO2, simulationIntervalTimeInMinutes);
-                state.hydrationCost += runner.CalculateHydrationCost(simulationIntervalVO2, simulationIntervalTimeInMinutes);
-                state.calorieCost += runner.CalculateCalorieCost(simulationIntervalVO2, simulationIntervalTimeInMinutes);
+                state.shortTermSoreness += runner.CalculateShortTermSoreness(simulationIntervalVDOT, simulationIntervalTimeInMinutes);
+                state.hydrationCost += runner.CalculateHydrationCost(simulationIntervalVDOT, simulationIntervalTimeInMinutes);
+                state.calorieCost += runner.CalculateCalorieCost(simulationIntervalVDOT, simulationIntervalTimeInMinutes);
                 
                 state.simulationIntervalList.Add(new SimulationIntervalData
                 {
                     distanceInMiles = state.totalDistance,
                     timeInSeconds = state.timeInSeconds,
-                    vdot = simulationIntervalVO2,
+                    vdot = simulationIntervalVDOT,
                     economy = simulationIntervalEconomy
                 });
             }

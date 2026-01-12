@@ -138,7 +138,7 @@ public class Runner
 
     public float GetCurrentVDOTMax()
     {
-        return currentVO2Max * CalculateRunEconomy(0, 0);
+        return currentVO2Max * CalculateRunEconomy(1, 1);
     }
 
     // TODO: impromptu list of stats that might get implemented at some point
@@ -206,7 +206,7 @@ public class Runner
         float runVDOT = runState.GetAverageVDOT();
         updateRecord.runVDOT = runVDOT;
 
-        UpdateStatusPostRun(runState, runVDOT, RunController.NORMAL_RUN_TARGET_VO2);
+        UpdateStatusPostRun(runState, runVDOT, RunController.NORMAL_RUN_TARGET_VDOT);
 
         updateRecord.experienceChange = UpdateExperience(runVDOT, route.Length + route.ElevationGain * .001f);
 
@@ -296,12 +296,12 @@ public class Runner
         // exhaustion changes based off of how far away you were from your recovery VO2
         longTermSoreness += CalculateLongTermSoreness(runVDOT, timeInMinutes);
 
-        confidence += (runVDOT / currentVO2Max) - goalVDOT;
+        confidence += (runVDOT / GetCurrentVDOTMax()) - goalVDOT;
     }
 
     private int UpdateExperience(float runVO2, float runDifficultyMultiplier)
     {
-        float vo2ImprovementGap = (runVO2 / (currentVO2Max * (.02f * level + .58f))) - 1f;
+        float vo2ImprovementGap = (runVO2 / (GetCurrentVDOTMax() * (.02f * level + .58f))) - 1f;
 
         int experienceChange = Mathf.CeilToInt(vo2ImprovementGap * runDifficultyMultiplier);
         experienceChange = Mathf.Max(experienceChange, -experience);
@@ -406,12 +406,12 @@ public class Runner
 
     #region Calculation Methods
 
-    /// <param name="runVO2">The VO2 for a segment of running</param>
+    /// <param name="runVDOT">The VO2 for a segment of running</param>
     /// <param name="timeInMinutes">The amount of time spent running for a segment</param>
     /// <returns>The amount of short term soreness for this run segment</returns>
-    public float CalculateShortTermSoreness(float runVO2, float timeInMinutes)
+    public float CalculateShortTermSoreness(float runVDOT, float timeInMinutes)
     {
-        float value = timeInMinutes * Mathf.Pow(20 * Mathf.Max(runVO2 / (currentVO2Max * .65f), 1) - 20, 2) + timeInMinutes;
+        float value = timeInMinutes * Mathf.Pow(runVDOT / (GetCurrentVDOTMax() * .65f), 4);
         return value;
     }
 

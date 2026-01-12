@@ -33,6 +33,7 @@ public class RunnerSimulationCard : MonoBehaviour
         portraitImage.sprite = runner.GetCurrentConfidenceSprite();
         backgroundImage.color = backgroundColor;
         levelText.text = $"LV {runner.level}";
+        experienceContainer.SetActive(false);
     }
 
     public void UpdatePace(RunnerState runnerState)

@@ -12,7 +12,7 @@ using UnityEngine.Events;
 /// </summary>
 public class RunController : MonoBehaviour
 {
-    public static readonly float NORMAL_RUN_TARGET_VO2 = .65f;
+    public static readonly float NORMAL_RUN_TARGET_VDOT = .67f;
 
     /// <summary>
     /// How fast the simulation should run at
@@ -171,10 +171,10 @@ public class RunController : MonoBehaviour
             float statusDeviation = Mathf.Clamp((1 - (runner.experience / experienceCap)) * maxDeviation, 0, maxDeviation);
             float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
 
-            Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}");
+            Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}\tCurrent VDOT MAX:{runner.CalculateRunEconomy()}");
 
             RunnerState state = new RunnerState();
-            state.desiredVO2 = runner.currentVO2Max * NORMAL_RUN_TARGET_VO2 + roll;
+            state.desiredVO2 = runner.GetCurrentVDOTMax() * NORMAL_RUN_TARGET_VDOT / runner.CalculateRunEconomy();
             runnerStates.Add(runner, state);
         }
 
@@ -186,9 +186,15 @@ public class RunController : MonoBehaviour
             {
                 Runner runner = kvp.Key;
                 RunnerState state = kvp.Value;
+    
+                string log = $"Runner:{runner.FirstName}\tLast VDOT:{state.simulationIntervalList[state.simulationIntervalList.Count - 1].vdot}\tLast Speed:{RunUtility.SpeedToMilePaceString(state.currentSpeed)}";
+    
+                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, NORMAL_RUN_TARGET_VDOT, maxSoreness);
+                state.desiredSpeed = RunUtility.VDOTToSpeed(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
 
-                state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, NORMAL_RUN_TARGET_VO2, maxSoreness);
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromVDOT(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
+                log += $"Next VDOT:{state.desiredVO2 * runner.CalculateRunEconomy(state)}\tNext Speed:{RunUtility.SpeedToMilePaceString(state.desiredSpeed)}";
+                Debug.Log(log);
+
 
                 state.currentSpeed = state.desiredSpeed;
             }
@@ -202,7 +208,7 @@ public class RunController : MonoBehaviour
                     Runner runner = kvp.Key;
                     RunnerState state = kvp.Value;
 
-                    state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, NORMAL_RUN_TARGET_VO2, route.Length);
+                    state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, NORMAL_RUN_TARGET_VDOT, route.Length);
                 }
             }
 

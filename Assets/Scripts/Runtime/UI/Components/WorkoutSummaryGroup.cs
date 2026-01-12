@@ -12,14 +12,14 @@ public class WorkoutSummaryGroup : MonoBehaviour
     public void Setup(WorkoutGroup group, List<KeyValuePair<Runner, RunnerUpdateRecord>> runnerUpdateRecords)
     {
         //TODO: this needs to take grade into account
-        targetRow.timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.CaclulateSpeedFromVDOT(group.targetVDOT, 0));
+        targetRow.timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.VDOTToSpeed(group.targetVDOT, 0));
 
         for (int i = 0; i < Mathf.Min(runnerUpdateRecords.Count, runnerRows.Length); i++)
         {
             runnerRows[i].gameObject.SetActive(true);
             runnerRows[i].labelText.text = runnerUpdateRecords[i].Key.FirstName;
             //TODO: this needs to take grade into account
-            runnerRows[i].timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.CaclulateSpeedFromVDOT(runnerUpdateRecords[i].Value.runVDOT, 0));
+            runnerRows[i].timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.VDOTToSpeed(runnerUpdateRecords[i].Value.runVDOT, 0));
 
             for (int j = 0; j < runnerUpdateRecords[i].Value.statUpRecords.Count; j++)
             {

@@ -162,7 +162,7 @@ public class RaceController : MonoBehaviour
 
                 state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, targetVO2Percent, maxSoreness);
                 //TODO: calculate grade from routeline once that is ready-BH
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromVDOT(state.desiredVO2 * runner.CalculateRunEconomy(state), 0);
+                state.desiredSpeed = RunUtility.VDOTToSpeed(state.desiredVO2 * runner.CalculateRunEconomy(state), 0);
 
                 state.currentSpeed = state.desiredSpeed;
             }

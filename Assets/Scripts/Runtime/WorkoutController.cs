@@ -147,10 +147,9 @@ public class WorkoutController : MonoBehaviour
 
                         string log = $"Runner:{runner.FirstName}\tLast VDOT:{state.simulationIntervalList[state.simulationIntervalList.Count - 1].vdot}\tLast Speed:{RunUtility.SpeedToMilePaceString(state.currentSpeed)}";
                         state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVDOT / runner.GetCurrentVDOTMax(), maxSoreness);
-                        state.desiredSpeed = RunUtility.CaclulateSpeedFromVDOT(state.desiredVO2 * runner.CalculateRunEconomy(state), workout.RouteLineData.GetGrade(state.totalDistance));
+                        state.desiredSpeed = RunUtility.VDOTToSpeed(state.desiredVO2 * runner.CalculateRunEconomy(state), workout.RouteLineData.GetGrade(state.totalDistance));
 
                         log += $"Next VDOT:{state.desiredVO2 * runner.CalculateRunEconomy(state)}\tNext Speed:{RunUtility.SpeedToMilePaceString(state.desiredSpeed)}";
-
                         Debug.Log(log);
 
                         state.currentSpeed = state.desiredSpeed;
