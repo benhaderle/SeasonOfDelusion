@@ -22,7 +22,9 @@ MonoBehaviour:
     length: 0.5
     rest: 1.5
   effects:
-  - type: 1
-    amount: 3
   - type: 0
     amount: 6
+  - type: 1
+    amount: 3
+  - type: 2
+    amount: 3

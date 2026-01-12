@@ -24,7 +24,5 @@ MonoBehaviour:
   effects:
   - type: 1
     amount: 6
-  - type: 0
-    amount: 3
   - type: 2
-    amount: 3
+    amount: 6

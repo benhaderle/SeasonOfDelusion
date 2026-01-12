@@ -131,11 +131,13 @@ public class WorkoutView : MonoBehaviour
         workoutSummaryCanvasGroup.alpha = 1;
         workoutSummaryCanvasGroup.gameObject.SetActive(true);
 
+        // set up group objects
         for (int i = 0; i < Mathf.Min(context.groups.Count, workoutSummaryGroups.Length); i++)
         {
             workoutSummaryGroups[i].Setup(context.groups[i], context.runnerUpdateDictionary.Where(kvp => context.groups[i].runners.Contains(kvp.Key)).ToList());
         }
 
+        // turn off any unused group objects
         for (int i = context.groups.Count; i < workoutSummaryGroups.Length; i++)
         {
             workoutSummaryGroups[i].gameObject.SetActive(false);

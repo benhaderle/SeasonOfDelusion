@@ -56,6 +56,7 @@ public class WorkoutController : MonoBehaviour
     {
         public class Context
         {
+            public Workout workout;
             public ReadOnlyDictionary<Runner, RunnerUpdateRecord> runnerUpdateDictionary;
             public List<WorkoutGroup> groups;
         }
@@ -76,8 +77,6 @@ public class WorkoutController : MonoBehaviour
 
     private void OnStartWorkout(StartWorkoutEvent.Context context)
     {
-        int numGroups = context.groups.Count;
-
         // save the list of groups for the end simulation event
         groups = context.groups;
 
@@ -106,7 +105,7 @@ public class WorkoutController : MonoBehaviour
         // space each coroutine/group out by 5 seconds
         yield return new WaitForSeconds(groupIndex * 60 / simulationSecondsPerRealSeconds);
 
-        group.targetVO2 *= workout.GoalVO2;
+        group.targetVDOT *= workout.GoalVDOT;
 
         // go through each runner and initialize their state for this workout
         Dictionary<Runner, RunnerState> runnerStates = new();
@@ -131,7 +130,7 @@ public class WorkoutController : MonoBehaviour
 
                     //TODO: this sets the V02 perfectly at the start of each interval bc the other way with rolls was too random
                     // but this should probably account for experience and soreness in some way
-                    state.desiredVO2 = group.targetVO2;
+                    state.desiredVO2 = group.targetVDOT / runner.CalculateRunEconomy(); 
                     state.currentSpeed = 0;
                     state.desiredSpeed = 0;
                     state.intervalDistance = 0;
@@ -146,8 +145,13 @@ public class WorkoutController : MonoBehaviour
                         Runner runner = kvp.Key;
                         RunnerState state = kvp.Value;
 
-                        state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVO2 / runner.currentVO2Max, maxSoreness);
-                        state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), workout.RouteLineData.GetGrade(state.totalDistance));
+                        string log = $"Runner:{runner.FirstName}\tLast VDOT:{state.simulationIntervalList[state.simulationIntervalList.Count - 1].vdot}\tLast Speed:{RunUtility.SpeedToMilePaceString(state.currentSpeed)}";
+                        state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, group.targetVDOT / runner.GetCurrentVDOTMax(), maxSoreness);
+                        state.desiredSpeed = RunUtility.CaclulateSpeedFromVDOT(state.desiredVO2 * runner.CalculateRunEconomy(state), workout.RouteLineData.GetGrade(state.totalDistance));
+
+                        log += $"Next VDOT:{state.desiredVO2 * runner.CalculateRunEconomy(state)}\tNext Speed:{RunUtility.SpeedToMilePaceString(state.desiredSpeed)}";
+
+                        Debug.Log(log);
 
                         state.currentSpeed = state.desiredSpeed;
                     }
@@ -156,13 +160,17 @@ public class WorkoutController : MonoBehaviour
                     int numGravityIterations = 2;
                     for (int i = 0; i < numGravityIterations; i++)
                     {
+                        string log = "Gravity Speed Changes:";
                         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
                         {
                             Runner runner = kvp.Key;
                             RunnerState state = kvp.Value;
 
-                            state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVO2 / runner.currentVO2Max, interval.length);
+                            state.currentSpeed = RunUtility.RunGravityModel(runner, state, runnerStates, group.targetVDOT / runner.GetCurrentVDOTMax(), interval.length);
+
+                            log += $"\t{runner.FirstName}: {RunUtility.SpeedToMilePaceString(state.desiredSpeed)} -> {RunUtility.SpeedToMilePaceString(state.currentSpeed)}";
                         }
+                        Debug.Log(log);
                     }
 
                     //then spend a second simulating before moving on to the next iteration
@@ -188,18 +196,18 @@ public class WorkoutController : MonoBehaviour
             yield return new WaitForSeconds(interval.rest * 60 / simulationSecondsPerRealSeconds);
         }
 
-        Debug.Log($"Target VO2:{group.targetVO2}");
+        Debug.Log($"Target VO2:{group.targetVDOT}");
         // post run update
         foreach (KeyValuePair<Runner, RunnerState> kvp in runnerStates)
         {
             Runner runner = kvp.Key;
             RunnerState state = kvp.Value;
 
-            float runVO2 = state.GetAverageVO2() / runner.CalculateRunEconomy(state);
+            float runVO2 = state.GetAverageVDOT();
             Debug.Log($"{runner.Name} Run VO2: {runVO2}");
 
             
-            RunnerUpdateRecord record = runner.PostWorkoutUpdate(state, workout, group.targetVO2);
+            RunnerUpdateRecord record = runner.PostWorkoutUpdate(state, workout, group.targetVDOT);
             runnerUpdateDictionary.Add(runner, record);
         }
 
@@ -209,6 +217,7 @@ public class WorkoutController : MonoBehaviour
         {
             workoutSimulationEndedEvent.Invoke(new WorkoutSimulationEndedEvent.Context()
             {
+                workout = workout,
                 runnerUpdateDictionary = new ReadOnlyDictionary<Runner, RunnerUpdateRecord>(runnerUpdateDictionary),
                 groups = groups
             });

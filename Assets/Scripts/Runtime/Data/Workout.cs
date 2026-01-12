@@ -25,7 +25,7 @@ public class Workout : ScriptableObject
     [SerializeField] private RouteLineData routeLineData;
     public RouteLineData RouteLineData => routeLineData;
     [SerializeField] private float goalVO2 = .9f;
-    public float GoalVO2 => goalVO2;
+    public float GoalVDOT => goalVO2;
     public List<Interval> intervals = new();
     public WorkoutEffect[] effects;
 
@@ -75,7 +75,7 @@ public struct Interval
 [Serializable]
 public struct WorkoutEffect
 {
-    public enum Type { Aero = 0, Strength = 1, Form = 2, Grit = 3 };
+    public enum Type { Aerobic = 0, Strength = 1, Form = 2, Grit = 3, Recovery = 4 };
     public Type type;
     public float amount;
 }

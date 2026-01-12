@@ -136,6 +136,11 @@ public class Runner
         private set => runnerSaveData.data.confidence = value;
     }
 
+    public float GetCurrentVDOTMax()
+    {
+        return currentVO2Max * CalculateRunEconomy(0, 0);
+    }
+
     // TODO: impromptu list of stats that might get implemented at some point
     // public int wit { get; private set; }
     // public int spirit { get; private set; }
@@ -198,12 +203,12 @@ public class Runner
             startingLevelExperienceThreshold = variables.levelExperienceThresholds[level - 1]
         };
 
-        float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
-        updateRecord.runVO2 = runVO2;
+        float runVDOT = runState.GetAverageVDOT();
+        updateRecord.runVDOT = runVDOT;
 
-        UpdateStatusPostRun(runState, runVO2, RunController.NORMAL_RUN_TARGET_VO2);
+        UpdateStatusPostRun(runState, runVDOT, RunController.NORMAL_RUN_TARGET_VO2);
 
-        updateRecord.experienceChange = UpdateExperience(runVO2, route.Length + route.ElevationGain * .001f);
+        updateRecord.experienceChange = UpdateExperience(runVDOT, route.Length + route.ElevationGain * .001f);
 
         updateRecord.levelUpRecords = new();
         while (experience >= variables.levelExperienceThresholds[level - 1])
@@ -219,7 +224,7 @@ public class Runner
     /// Updates this Runner's stats given the information in runState. Assumes the run is done.
     /// </summary>
     /// <param name="runState">The state of this Runner after a run is finished.</param>
-    public RunnerUpdateRecord PostWorkoutUpdate(RunnerState runState, Workout workout, float targetVO2)
+    public RunnerUpdateRecord PostWorkoutUpdate(RunnerState runState, Workout workout, float groupTargetVDOT)
     {
         RunnerUpdateRecord updateRecord = new RunnerUpdateRecord
         {
@@ -229,13 +234,13 @@ public class Runner
             levelUpRecords = new()
         };
 
-        float runVO2 = runState.GetAverageVO2() / CalculateRunEconomy();
-        updateRecord.runVO2 = runVO2;
+        float runVDOT = runState.GetAverageVDOT();
+        updateRecord.runVDOT = runVDOT;
 
-        UpdateStatusPostRun(runState, runVO2, targetVO2);
+        UpdateStatusPostRun(runState, runVDOT, groupTargetVDOT);
 
         // this gives the full effect of the workout the closer you are to the goal vo2 of the workout
-        float workoutEffectiveness = .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVO2 / currentVO2Max) - workout.GoalVO2)), 32);
+        float workoutEffectiveness = .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVDOT / GetCurrentVDOTMax()) - workout.GoalVDOT)), 32);
 
         for (int i = 0; i < workout.effects.Length; i++)
         {
@@ -248,16 +253,17 @@ public class Runner
 
             switch (workout.effects[i].type)
             {
-                case WorkoutEffect.Type.Aero: currentVO2Max = UpdateStat(currentVO2Max, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Aerobic: currentVO2Max = UpdateStat(currentVO2Max, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Strength: currentStrength = UpdateStat(currentStrength, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Grit: currentGrit = UpdateStat(currentGrit, effectAmount, ref statUpRecord); break;
                 case WorkoutEffect.Type.Form: currentForm = UpdateStat(currentForm, effectAmount, ref statUpRecord); break;
+                case WorkoutEffect.Type.Recovery: currentRecovery = UpdateStat(currentRecovery, effectAmount, ref statUpRecord); break;
             }
 
             updateRecord.statUpRecords.Add(statUpRecord);
         }
 
-        updateRecord.experienceChange = UpdateExperience(runVO2, workout.GetTotalLength() * targetVO2 / currentVO2Max);
+        updateRecord.experienceChange = UpdateExperience(runVDOT, workout.GetTotalLength() * groupTargetVDOT / currentVO2Max);
         while (experience >= variables.levelExperienceThresholds[level - 1])
         {
             LevelUpRecord record = LevelUp();
@@ -277,7 +283,7 @@ public class Runner
         return statUpRecord.newValue;
     }
 
-    private void UpdateStatusPostRun(RunnerState state, float runVO2, float goalVO2)
+    private void UpdateStatusPostRun(RunnerState state, float runVDOT, float goalVDOT)
     {
         float timeInMinutes = state.timeInSeconds / 60f;
 
@@ -288,9 +294,9 @@ public class Runner
         longTermCalories = Mathf.Max(0, longTermCalories - longTermCalorieCost);
 
         // exhaustion changes based off of how far away you were from your recovery VO2
-        longTermSoreness += CalculateLongTermSoreness(runVO2, timeInMinutes);
+        longTermSoreness += CalculateLongTermSoreness(runVDOT, timeInMinutes);
 
-        confidence += (runVO2 / currentVO2Max) - goalVO2;
+        confidence += (runVDOT / currentVO2Max) - goalVDOT;
     }
 
     private int UpdateExperience(float runVO2, float runDifficultyMultiplier)
@@ -524,7 +530,7 @@ public struct RunnerUpdateRecord
     public int experienceChange;
     public List<LevelUpRecord> levelUpRecords;
     public List<StatUpRecord> statUpRecords;
-    public float runVO2;
+    public float runVDOT;
 }
 
 public struct LevelUpRecord

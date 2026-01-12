@@ -88,8 +88,8 @@ public class RunnerSimulationCard : MonoBehaviour
             possibleStateStrings.Add("Pace Pushing");
         }
 
-        float averageVO2 = runnerState.GetAverageVO2();
-        float currentVO2 = runnerState.simulationIntervalList.Last().vo2;
+        float averageVO2 = runnerState.GetAverageVDOT();
+        float currentVO2 = runnerState.simulationIntervalList.Last().vdot;
         float currentAverageVO2Difference = currentVO2 - averageVO2;
         if (currentAverageVO2Difference > 1.5f)
         {

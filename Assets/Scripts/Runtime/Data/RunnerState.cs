@@ -68,7 +68,8 @@ public class RunnerState
             {
                 timeInSeconds = 0,
                 distanceInMiles = 0,
-                vo2 = 0
+                vdot = 0,
+                economy = 1
             }
         };
         desiredVO2 = 0;
@@ -82,9 +83,9 @@ public class RunnerState
         calorieCost = 0;
     }
 
-    public float GetAverageVO2()
+    public float GetAverageVDOT()
     {
-        return simulationIntervalList.Average(d => d.vo2);
+        return simulationIntervalList.Average(d => d.vdot);
     }
 }
 
@@ -92,5 +93,6 @@ public struct SimulationIntervalData
 {
     public float timeInSeconds;
     public float distanceInMiles;
-    public float vo2;
+    public float vdot;
+    public float economy;
 }

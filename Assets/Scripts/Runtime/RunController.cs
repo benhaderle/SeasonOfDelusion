@@ -188,7 +188,7 @@ public class RunController : MonoBehaviour
                 RunnerState state = kvp.Value;
 
                 state.desiredVO2 = RunUtility.StepRunnerVO2(runner, state, NORMAL_RUN_TARGET_VO2, maxSoreness);
-                state.desiredSpeed = RunUtility.CaclulateSpeedFromOxygenCost(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
+                state.desiredSpeed = RunUtility.CaclulateSpeedFromVDOT(state.desiredVO2 * runner.CalculateRunEconomy(state), route.lineData.GetGrade(state.totalDistance));
 
                 state.currentSpeed = state.desiredSpeed;
             }

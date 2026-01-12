@@ -9,7 +9,7 @@ public class WorkoutGroupRow : MonoBehaviour
 {
     [SerializeField] private WorkoutGroupSlot[] slots;
 
-    private float vo2MaxSum;
+    private float vdotMaxSum;
     private int numSlotsFilled;
 
     [SerializeField] private Slider intensitySlider;
@@ -29,7 +29,7 @@ public class WorkoutGroupRow : MonoBehaviour
     {
         slots[slotIndex].SetRunnerCardToSlot(card);
 
-        vo2MaxSum += card.Runner.currentVO2Max;
+        vdotMaxSum += card.Runner.GetCurrentVDOTMax();
         numSlotsFilled++;
         UpdateRunnerIntensities();
     }
@@ -39,7 +39,7 @@ public class WorkoutGroupRow : MonoBehaviour
         Runner runnerRemoved = slots[slotIndex].RemoveCardFromSlot();
         if(runnerRemoved != null)
         {
-            vo2MaxSum -= runnerRemoved.currentVO2Max;
+            vdotMaxSum -= runnerRemoved.GetCurrentVDOTMax();
             numSlotsFilled--;
             UpdateRunnerIntensities();
         }
@@ -76,7 +76,7 @@ public class WorkoutGroupRow : MonoBehaviour
 
     private void UpdateRunnerIntensities()
     {
-        float workoutIntensity = vo2MaxSum / numSlotsFilled; // * groupIntensity
+        float workoutIntensity = vdotMaxSum / numSlotsFilled; // * groupIntensity
         for(int i = 0; i < slots.Length; i++)
         {
             slots[i].UpdateIntensityText(workoutIntensity);
@@ -89,7 +89,7 @@ public class WorkoutGroupRow : MonoBehaviour
         {
             runners = new Runner[numSlotsFilled],
             intensity = groupIntensity,
-            targetVO2 = vo2MaxSum / numSlotsFilled //* groupIntensity
+            targetVDOT = vdotMaxSum / numSlotsFilled //* groupIntensity
         };
 
         int slotIndex = 0;
@@ -114,5 +114,5 @@ public class WorkoutGroup
     public Runner[] runners;
 
     public float intensity;
-    public float targetVO2;
+    public float targetVDOT;
 }
