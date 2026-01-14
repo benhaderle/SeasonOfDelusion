@@ -1870,6 +1870,7 @@ MonoBehaviour:
     prefab: {fileID: 2003859320029101665, guid: 61c83c6c28a4347b2af1fae5720fe4c4, type: 3}
     parent: {fileID: 8321686252629559000}
     initPoolSize: 5
+  iconSpriteLibrary: {fileID: 7108339969198208228, guid: 7626f86bddb864904831ec9d63547914, type: 3}
   workoutGroupRows:
   - {fileID: 3393349648952445030}
   - {fileID: 9080196241113691174}

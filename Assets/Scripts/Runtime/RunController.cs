@@ -33,10 +33,6 @@ public class RunController : MonoBehaviour
     /// </summary>
     [SerializeField] private float maxDeviation = .1f;
     /// <summary>
-    /// The max amount of experience before we consider a runner "fully experienced"
-    /// </summary>
-    [SerializeField] private float experienceCap = 1000000f;
-    /// <summary>
     /// The amount of soreness at which point additional soreness no longer impacts performance
     /// </summary>
     [SerializeField] private float maxSoreness = 500f;
@@ -165,14 +161,6 @@ public class RunController : MonoBehaviour
         Dictionary<Runner, RunnerState> runnerStates = new();
         foreach (Runner runner in runners)
         {
-            // TODO: if the coach guidance is slow already, should heavy soreness make you go slower?
-            // TODO: thinkin that maybe this is too random
-            float statusMean = -Mathf.Clamp01(Mathf.InverseLerp(0, maxSoreness, runner.longTermSoreness)) * sorenessEffect;
-            float statusDeviation = Mathf.Clamp((1 - (runner.experience / experienceCap)) * maxDeviation, 0, maxDeviation);
-            float roll = CNExtensions.RandGaussian(statusMean, statusDeviation);
-
-            Debug.Log($"Name: {runner.Name}\tMean: {statusMean}\tDeviation: {statusDeviation}\tRoll: {roll}\tCurrent VDOT MAX:{runner.CalculateRunEconomy()}");
-
             RunnerState state = new RunnerState();
             state.desiredVO2 = runner.GetCurrentVDOTMax() * NORMAL_RUN_TARGET_VDOT / runner.CalculateRunEconomy();
             runnerStates.Add(runner, state);

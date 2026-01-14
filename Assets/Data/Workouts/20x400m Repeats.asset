@@ -16,13 +16,13 @@ MonoBehaviour:
   displayName: 20x400m Repeats
   workoutType: 1
   routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
-  goalVO2: 1.1
+  goalVO2: 1.25
   intervals:
   - repeats: 20
     length: 0.25
     rest: 1
   effects:
   - type: 1
-    amount: 6
+    amount: 3
   - type: 2
-    amount: 6
+    amount: 3

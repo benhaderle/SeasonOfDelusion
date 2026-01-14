@@ -2489,6 +2489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 3930899888020737482}
   canvasGroup: {fileID: 75564838498439358}
+  iconLibrary: {fileID: 7108339969198208228, guid: 7626f86bddb864904831ec9d63547914, type: 3}
   workoutText: {fileID: 5509115502964696111}
   mapViewImage: {fileID: 9063375940177519900}
   runnerListCanvasGroup: {fileID: 4196368570646061571}

@@ -101,7 +101,7 @@ public class RunUtility
     public static float StepRunnerVO2(Runner runner, RunnerState state, float targetVDOTPercent, float maxSoreness)
     {
         // if we're not past the very first step of the simulation, just return the current desired VO2 and we'll update from there
-        if (state.simulationIntervalList.Count <= 1)
+        if (state.intervalDistance == 0)
         {
             return state.desiredVO2;
         }
@@ -131,22 +131,10 @@ public class RunUtility
         float vdotConfidenceModifier = runner.currentConfidence * .01f;
         vdotPaceChangeFactor -= vdotConfidenceModifier;
 
-        // these if statements check if there are extremes being hit with soreness and pace
-        // if there are, then roll to change pace will be affected
-        // if both of them are in the middle, then pace change will be somewhat random
-        float paceChangeMean = 0;
-        // if soreness is high and pace is not too slow, then slow down
-        if (sorenessPaceChangeFactor > .1f && vdotPaceChangeFactor > -.05f)
-        {
-            // the mean here will be somewhere between -paceChangeMeanMagnitude and -.1 * paceChangeMeanMagnitude
-            paceChangeMean = -sorenessPaceChangeFactor * paceChangeMeanMagnitude;
-        }
-        // if soreness is low and pace is not too fast, then speed up
-        else if (sorenessPaceChangeFactor < -.1f && vdotPaceChangeFactor < .05f)
-        {
-            // the mean here will be somewhere between 0 and ~.5 * paceChangeMeanMagnitude
-            paceChangeMean = (-vdotPaceChangeFactor + .05f) * paceChangeMeanMagnitude;
-        }
+        // you can go look at desmos for the shape of what this is trying to do
+        // but the general idea is that vdot will pll you in the opposite direction of where you are relative to the goal pace
+        // and soreness will not influence you at all if you're not that sore, but then cubicly try to make you slower as you get more sore
+        float paceChangeMean = paceChangeMeanMagnitude * (-.45f * Mathf.Pow(sorenessPaceChangeFactor + .35f, 3) + -2.2f * vdotPaceChangeFactor);
 
         // do the roll then adjust vo2
         float roll = CNExtensions.RandGaussian(paceChangeMean, paceChangeStdDev);
@@ -226,14 +214,15 @@ public class RunUtility
             //if a runner is not done, keep incrementing them along the route
             if (state.intervalDistance < intervalLength)
             {
+                float lastIntervalDistance = state.intervalDistance;
                 state.intervalDistance += state.currentSpeed * timePassed;
                 state.intervalDistance = Mathf.Min(state.intervalDistance, intervalLength);
 
                 state.intervalPercentDone = state.intervalDistance / intervalLength;
 
-                state.totalDistance += state.currentSpeed * timePassed;
+                state.totalDistance += state.intervalDistance - lastIntervalDistance;
                 state.totalDistance = Mathf.Min(state.totalDistance, totalLength);
-
+                
                 state.timeInSeconds += timePassed;
 
                 state.totalPercentDone = state.totalDistance / totalLength;

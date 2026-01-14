@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using CreateNeptune;
 using System.Linq;
+using UnityEngine.U2D.Animation;
 
 public class WorkoutSelectionUIController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
     [SerializeField] private RectTransform workoutSelectionContainer;
     [SerializeField] private RectTransform groupingContainer;
     [SerializeField] private PoolContext workoutSelectionButtonPoolContext;
+    [SerializeField] private SpriteLibraryAsset iconSpriteLibrary;
     [SerializeField] private WorkoutGroupRow[] workoutGroupRows;
     [SerializeField] private PoolContext workoutRunnerCardPoolContext;
 
@@ -218,7 +220,7 @@ public class WorkoutSelectionUIController : MonoBehaviour
         {
             Workout w = todaysWorkouts[i];
             WorkoutSelectionButton button = workoutSelectionButtonPoolContext.GetPooledObject<WorkoutSelectionButton>();
-            button.Setup(w);
+            button.Setup(w, iconSpriteLibrary);
             button.Button.onClick.RemoveAllListeners();
             button.Button.onClick.AddListener(() => OnWorkoutSelectionButton(w));
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class WorkoutSummaryGroup : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class WorkoutSummaryGroup : MonoBehaviour
     [SerializeField] private WorkoutSummaryRow targetRow;
     [SerializeField] private WorkoutSummaryRow[] runnerRows;
 
-    public void Setup(WorkoutGroup group, List<KeyValuePair<Runner, RunnerUpdateRecord>> runnerUpdateRecords)
+    public void Setup(WorkoutGroup group, List<KeyValuePair<Runner, RunnerUpdateRecord>> runnerUpdateRecords, SpriteLibraryAsset spriteLibraryAsset)
     {
         //TODO: this needs to take grade into account
         targetRow.timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.VDOTToSpeed(group.targetVDOT, 0));
@@ -17,25 +18,23 @@ public class WorkoutSummaryGroup : MonoBehaviour
         for (int i = 0; i < Mathf.Min(runnerUpdateRecords.Count, runnerRows.Length); i++)
         {
             runnerRows[i].gameObject.SetActive(true);
+
+            runnerRows[i].runnerPortraitImage.sprite = runnerUpdateRecords[i].Key.GetCurrentConfidenceSprite();
             runnerRows[i].labelText.text = runnerUpdateRecords[i].Key.FirstName;
             //TODO: this needs to take grade into account
             runnerRows[i].timeText.text = RunUtility.SpeedToMilePaceString(RunUtility.VDOTToSpeed(runnerUpdateRecords[i].Value.runVDOT, 0));
 
             for (int j = 0; j < runnerUpdateRecords[i].Value.statUpRecords.Count; j++)
             {
-                TextMeshProUGUI statText;
-                switch (runnerUpdateRecords[i].Value.statUpRecords[j].statType)
-                {
-                    default:
-                    case WorkoutEffect.Type.Aerobic: statText = runnerRows[i].aeroText; break;
-                    case WorkoutEffect.Type.Strength: statText = runnerRows[i].strengthText; break;
-                    case WorkoutEffect.Type.Form: statText = runnerRows[i].formText; break;
-                    case WorkoutEffect.Type.Grit: statText = runnerRows[i].gritText; break;
-                }
+                runnerRows[i].effectIndicators[j].gameObject.SetActive(true);
 
-                string statName = runnerUpdateRecords[i].Value.statUpRecords[j].statType.ToString().Substring(0, 4).ToLower();
-                string statIncrease = $"+{((runnerUpdateRecords[i].Value.statUpRecords[j].newValue - runnerUpdateRecords[i].Value.statUpRecords[j].oldValue) * 10).ToString("0")}";
-                statText.text = $"{statName}\t{statIncrease}";
+                StatUpRecord statUpRecord = runnerUpdateRecords[i].Value.statUpRecords[j];
+                runnerRows[i].effectIndicators[j].Setup(spriteLibraryAsset.GetSprite("Stats", statUpRecord.statType.ToString()), Mathf.CeilToInt((statUpRecord.newValue - statUpRecord.oldValue) / statUpRecord.oldValue), "");
+            }
+
+            for (int j = runnerUpdateRecords[i].Value.statUpRecords.Count; j < runnerRows[i].effectIndicators.Length; j++)
+            {
+                runnerRows[i].effectIndicators[j].gameObject.SetActive(false);
             }
         }
 

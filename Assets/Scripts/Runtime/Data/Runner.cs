@@ -240,7 +240,7 @@ public class Runner
         UpdateStatusPostRun(runState, runVDOT, groupTargetVDOT);
 
         // this gives the full effect of the workout the closer you are to the goal vo2 of the workout
-        float workoutEffectiveness = .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVDOT / GetCurrentVDOTMax()) - workout.GoalVDOT)), 32);
+        float workoutEffectiveness = .01f * Mathf.Pow(Mathf.Min(1, 1 - Mathf.Abs((runVDOT - groupTargetVDOT) / GetCurrentVDOTMax())), 9);
 
         for (int i = 0; i < workout.effects.Length; i++)
         {
@@ -405,13 +405,12 @@ public class Runner
     #endregion
 
     #region Calculation Methods
-
     /// <param name="runVDOT">The VO2 for a segment of running</param>
     /// <param name="timeInMinutes">The amount of time spent running for a segment</param>
     /// <returns>The amount of short term soreness for this run segment</returns>
     public float CalculateShortTermSoreness(float runVDOT, float timeInMinutes)
     {
-        float value = timeInMinutes * Mathf.Pow(runVDOT / (GetCurrentVDOTMax() * .65f), 4);
+        float value = (100f / GetCurrentVDOTMax()) * timeInMinutes * Mathf.Pow(runVDOT / (GetCurrentVDOTMax() * .65f), 4);
         return value;
     }
 

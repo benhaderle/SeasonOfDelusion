@@ -16,15 +16,15 @@ MonoBehaviour:
   displayName: 2 Mile Tempo
   workoutType: 0
   routeLineData: {fileID: 11400000, guid: 0db41355f49b54718a65d1489d150bc3, type: 2}
-  goalVO2: 0.75
+  goalVO2: 1
   intervals:
   - repeats: 1
     length: 2
     rest: 0
   effects:
   - type: 4
-    amount: 4
+    amount: 2
   - type: 0
-    amount: 2
+    amount: 1
   - type: 3
-    amount: 2
+    amount: 1

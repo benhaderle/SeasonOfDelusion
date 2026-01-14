@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using CreateNeptune;
 using TMPro;
 using System.Linq;
+using UnityEngine.U2D.Animation;
 
 /// <summary>
 /// The view for the workout simulation
@@ -15,6 +16,7 @@ public class WorkoutView : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private SpriteLibraryAsset iconLibrary;
     [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI workoutText;
     [Header("Map View")]
@@ -134,7 +136,7 @@ public class WorkoutView : MonoBehaviour
         // set up group objects
         for (int i = 0; i < Mathf.Min(context.groups.Count, workoutSummaryGroups.Length); i++)
         {
-            workoutSummaryGroups[i].Setup(context.groups[i], context.runnerUpdateDictionary.Where(kvp => context.groups[i].runners.Contains(kvp.Key)).ToList());
+            workoutSummaryGroups[i].Setup(context.groups[i], context.runnerUpdateDictionary.Where(kvp => context.groups[i].runners.Contains(kvp.Key)).ToList(), iconLibrary);
         }
 
         // turn off any unused group objects
